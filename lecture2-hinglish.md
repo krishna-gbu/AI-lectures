@@ -40,6 +40,9 @@ Matlab:
 - `its` ka connection `law` ya `application` jaise context words se samjha ja sakta hai
 - Attention heads pronouns ko unke referents se connect kar sakte hain
 
+![Lecture 2 attention map](assets/lecture2/slide-09-attention-map.png)
+*Visual reference: anaphora resolution wala attention map.*
+
 > **Example:** "Maine **usse** kaha ki **woh** aaye" — yahan attention mechanism samajhta hai ki "usse" aur "woh" kaun hai, based on context.
 
 **Slide 10:** Suggested reading: original Transformer paper **"Attention Is All You Need"** (Vaswani et al., 2017). Agar fundamentals aur deeply samajhne hain, toh source paper zaroor padhna chahiye.
@@ -57,6 +60,9 @@ Matlab:
 **Slide 12:** Motivation diya gaya ki direct attention links khud se position info preserve nahi karte. Agar model ko sirf tokens milen aur order na mile, toh "dog bites man" aur "man bites dog" same lag sakte hain. Isliye position information zaroori hai.
 
 > **Example:** "Kutte ne billi ko kaata" aur "Billi ne kutte ko kaata" — dono mein same words hain, but matlab bilkul alag hai! Agar model ko position nahi pata, toh dono sentences same lagenge.
+
+![Lecture 2 position information motivation](assets/lecture2/slide-12-position-info.png)
+*Visual reference: position information ki need ko explain karta slide.*
 
 **Reference:** "Super Study Guide: Transformers & Large Language Models", Amidi, 2024.
 
@@ -96,6 +102,9 @@ jahan omega_i = 10000^(-2i / d_model)
 > - Dim 1: cos(3) ≈ -0.99
 > - Dim 2: sin(0.03) ≈ 0.03
 > - Dim 3: cos(0.03) ≈ 0.99
+
+![Lecture 2 sinusoidal encoding](assets/lecture2/slide-16-sinusoidal-encoding.png)
+*Visual reference: sinusoidal positional encoding formula slide.*
 
 **Slide 17:** Do positions `m` aur `n` ko compare karke dikhaya ki same dimension pair `(2i, 2i+1)` par sin/cos values rotate ho jaati hain. Alag positions ke vectors related rehte hain, random nahi hote.
 
@@ -185,6 +194,9 @@ bias(m, n) = mu × (n - m)
 
 **Slide 29:** Aajkal ka default choice bataya gaya: **RoPE**. Idea: query aur key vectors ko **rotation matrix se rotate** karo. Position information token vector par add nahi hoti, balki query/key coordinate system ko rotate karke inject hoti hai.
 
+![Lecture 2 RoPE overview](assets/lecture2/slide-31-rope.png)
+*Visual reference: RoPE ka rotation-based intuition.*
+
 **Slide 30:** 2D rotation matrix formula diya gaya:
 ```
 R(theta, m) = [cos(m×theta)  -sin(m×theta)]
@@ -245,6 +257,9 @@ sigma^2 = (1/d) × sum((x_i - mu)^2)  -- variance
 > - Normalized = [-1.22, 0, 1.22]
 > - Phir gamma se multiply aur beta add karke final output
 
+![Lecture 2 layer normalization](assets/lecture2/slide-39-layer-normalization.png)
+*Visual reference: layer normalization formula and block.*
+
 **Slide 40:** Benefits explicit: LN **training stability aur convergence improve** karta hai. Agar kuch features bahut bade scale par aur kuch chhote par hain, LN unhe controlled range mein laata hai.
 
 **Reference:** Ba et al., 2016.
@@ -304,6 +319,9 @@ Standard self-attention = **O(n^2)** complexity. n = 10,000 toh 10 crore scores!
 
 **Slide 46:** **Sparse attention: Longformer** introduce hota hai. Token matrix dikhaya jahan har token ko har token dekhna zaroori nahi.
 
+![Lecture 2 Longformer sparse attention](assets/lecture2/slide-46-longformer.png)
+*Visual reference: Longformer ka sparse attention pattern.*
+
 **Slide 47:** Actual sparse pattern visible: local diagonal band + global row/column structure. Nearby tokens local attention lete hain, special global tokens (jaise [CLS]) sabse interact kar sakte hain.
 
 > **Example:** "[CLS] A cute teddy bear":
@@ -338,6 +356,9 @@ Standard self-attention = **O(n^2)** complexity. n = 10,000 toh 10 crore scores!
 ### 3.3 Sharing Attention Heads
 
 **Slide 51:** **Sharing attention heads** ka idea introduce hota hai: queries ke groups ke beech key/value heads share karo. Goal: memory aur KV cache cost reduce karna.
+
+![Lecture 2 sharing attention heads](assets/lecture2/slide-51-sharing-heads.png)
+*Visual reference: MHA, MQA, aur grouped sharing ka slide.*
 
 **Slide 52:** **MQA = Multi-Query Attention** dikhaya gaya (G = 1). Bahut saare query heads hain, lekin sirf **ek shared key head aur ek shared value head**.
 
@@ -459,6 +480,9 @@ Standard self-attention = **O(n^2)** complexity. n = 10,000 toh 10 crore scores!
 2. **Position Embedding** — Token ko position se jodta hai; learned ya fixed (cosines/sines)
 3. **(New!) Segment Embedding** — Ek segment ke liye shared embedding
 
+![Lecture 2 BERT input embedding](assets/lecture2/slide-77-bert-input-embedding.png)
+*Visual reference: BERT input embedding ka 3-part sum.*
+
 ```
 Final Input = Token Embedding + Position Embedding + Segment Embedding
 ```
@@ -478,6 +502,9 @@ Final Input = Token Embedding + Position Embedding + Segment Embedding
 - **80% masked** (`[MASK]`)
 - **10% random word** se replace
 - **10% unchanged**
+
+![Lecture 2 BERT masked language modeling](assets/lecture2/slide-79-bert-mlm.png)
+*Visual reference: MLM setup ko show karta slide.*
 
 > **Example:**
 > Original: "The cat sat on the mat"
@@ -555,6 +582,9 @@ Data choices: Language-specific vs multilingual, Cased vs Uncased.
 ### 5.8 Finetuning Example: Sentiment Extraction (Step-by-Step)
 
 **Slide 86:** Raw sentence: **"This teddy bear is SO CUTE!"** — uppercase emphasis emotion dikhata hai.
+
+![Lecture 2 BERT finetuning example](assets/lecture2/slide-86-bert-finetuning.png)
+*Visual reference: sentiment finetuning example ka starting slide.*
 
 **Slide 87:** Lowercase: **"this teddy bear is so cute!"** (uncased preprocessing).
 

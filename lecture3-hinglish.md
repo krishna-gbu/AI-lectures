@@ -28,6 +28,9 @@
 
 > **Example:** Prompt do: "Once upon a time..." -> model aage story likhega.
 
+![Lecture 3 transformer model categories](assets/lecture3/slide-03-model-categories.png)
+*Visual reference: encoder-decoder, encoder-only, aur decoder-only categories.*
+
 **Slide 6:** Recap ka key takeaway: aaj ke modern LLM wave ka center mostly **decoder-only transformers** hain.
 
 ---
@@ -84,6 +87,9 @@ Matlab model yeh estimate karta hai ki kaunsa token sequence natural ya likely h
 
 > **Example intuition:** In sab models ka core behavior similar family ka hota hai:
 > prompt lo -> next token predict karo -> token by token output build karo.
+
+![Lecture 3 decoder-only LLMs](assets/lecture3/slide-15-decoder-only-llms.png)
+*Visual reference: decoder-only LLM family ka slide.*
 
 ---
 
@@ -149,6 +155,9 @@ y = sum_{i in Top-k(x)} g_i E_i(x)
 
 **Benefit:** Parameter count huge ho sakta hai, but per-token compute relatively controlled rehta hai.
 
+![Lecture 3 sparse mixture of experts](assets/lecture3/slide-25-sparse-moe.png)
+*Visual reference: sparse MoE with top-k selection.*
+
 **Reference:** Shazeer et al., 2017 - "Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer"
 
 ---
@@ -170,6 +179,9 @@ Practical view:
 - Self-attention sab tokens ko mix karta hai
 - FFN/MoE block token-wise operate karta hai
 - Isliye routing naturally **per-token** ki ja sakti hai
+
+![Lecture 3 routing per token](assets/lecture3/slide-28-routing-per-token.png)
+*Visual reference: token-wise routing inside transformer MoE block.*
 
 ---
 
@@ -345,6 +357,9 @@ Yeh generation ko more flexible aur diverse banata hai.
 
 **Reference:** "Super Study Guide: Transformers and Large Language Models", Amidi et al., 2024.
 
+![Lecture 3 sampling strategies](assets/lecture3/slide-57-sampling-strategies.png)
+*Visual reference: top-k aur top-p sampling strategies ka slide.*
+
 ---
 
 ### 3.6 Probabilities Kaise Banti Hain?
@@ -412,6 +427,9 @@ Desired output shape:
 }
 ```
 
+![Lecture 3 guided decoding](assets/lecture3/slide-65-guided-decoding.png)
+*Visual reference: guided decoding ke through valid JSON output constrain karna.*
+
 **Slides 66-74:** Guided decoding ka core idea:
 > Har step par sirf **valid next tokens** ko allow karo.
 
@@ -474,6 +492,9 @@ Yani context badhane se hamesha performance better nahi hoti. Bahut lamba input 
 - **Instructions**
 - **Input**
 - **Constraints**
+
+![Lecture 3 prompt structure](assets/lecture3/slide-80-prompt-structure.png)
+*Visual reference: context, instructions, input, constraints wala prompt structure.*
 
 Illustration:
 - Context: teddy bear ko bedtime story chahiye
@@ -553,6 +574,9 @@ Benefits and trade-offs:
 > **Example:**  
 > Direct answer: `5`  
 > CoT answer: "Is saal 4 hai, next year ek saal aur add hoga, isliye 5."
+
+![Lecture 3 chain of thought](assets/lecture3/slide-84-chain-of-thought.png)
+*Visual reference: chain-of-thought reasoning example.*
 
 **Reference:** Wei et al., 2022 - "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models"
 
@@ -644,6 +668,9 @@ Benefit:
 Trade-off:
 - memory cost badh jaati hai, kyunki KV cache store karna padta hai
 
+![Lecture 3 KV caching](assets/lecture3/slide-99-kv-caching.png)
+*Visual reference: previous keys and values ko cache karne ka diagram.*
+
 ---
 
 ### 5.3 Sharing Attention Heads
@@ -686,6 +713,9 @@ Isse KV cache memory reduce hoti hai.
 > **Example:** `h = 32`, `G = 8` ho toh 32 query heads ke liye sirf 8 K heads aur 8 V heads rakhe jaayenge.
 
 > **Analogy:** 32 employees hain, par 32 alag secretaries ke bajay 8 shared secretaries use kar rahe ho.
+
+![Lecture 3 attention head sharing](assets/lecture3/slide-105-head-sharing.png)
+*Visual reference: MHA, MQA, aur GQA comparison.*
 
 ---
 
@@ -784,6 +814,9 @@ Benefit:
 - decoding speed up ho sakti hai
 - quality target model se anchored rehti hai
 
+![Lecture 3 speculative decoding](assets/lecture3/slide-117-speculative-decoding.png)
+*Visual reference: draft model aur target model wala speculative decoding flow.*
+
 **Reference:** Chen et al., 2023 - "Accelerating Large Language Model Decoding with Speculative Sampling"
 
 ---
@@ -802,6 +835,9 @@ model ek baar mein sirf next token nahi, balki multiple future tokens predict ka
 > `k` prediction heads train karo jo `t+1, t+2, ..., t+k` positions predict karein.
 
 Yeh decoding ko accelerate karne ki direction mein ek aur idea hai.
+
+![Lecture 3 multi-token prediction](assets/lecture3/slide-121-mtp.png)
+*Visual reference: multi-token prediction with several future-token heads.*
 
 **Reference:** Gloeckle et al., 2024 - "Better & Faster Large Language Models via Multi-token Prediction"
 

@@ -37,6 +37,9 @@
 - **Question Answering** — sawaal ka jawab dhundhna
 - **Text Generation** — naya text likhna
 
+![Lecture 1 NLP task example](assets/lecture1/slide-20-nlp-task-sentiment.png)
+*Visual reference: lecture slide ka sentiment extraction example.*
+
 > **Example:** "Ye movie bekar thi" → Sentiment = Negative. "Narendra Modi ne Delhi mein speech di" → NER: Person = Narendra Modi, Location = Delhi.
 
 **Slide 6:** NLP ka evolution dikhaya gaya — rule-based systems se statistical methods, phir deep learning tak ka safar.
@@ -60,6 +63,9 @@
 **Slide 10:** Text ko chhote pieces (tokens) mein todna = **Tokenization**. Ye NLP pipeline ka pehla step hai.
 
 > **Example:** "A cute teddy bear is reading" → ["A", "cute", "teddy bear", "is", "reading"]
+
+![Lecture 1 tokenization example](assets/lecture1/slide-28-tokenization.png)
+*Visual reference: tokenization ko sentence example ke saath dikhaya gaya hai.*
 
 **Slide 11:** Different tokenization strategies:
 - **Word-level:** Har word ek token
@@ -139,6 +145,9 @@
 - Neural network with a **proxy task** over billions of words
 - Learns an **embedding layer**
 - Proxy tasks: **CBOW** aur **Skip-gram**
+
+![Lecture 1 Word2vec architecture](assets/lecture1/slide-38-word2vec-architecture.png)
+*Visual reference: Word2vec architecture aur embedding flow ka slide.*
 
 **Slide 22:** **Proxy Tasks:**
 - **CBOW (Continuous Bag of Words):** Surrounding words se center word predict karo
@@ -220,6 +229,9 @@
 - Pehli baar 1980s mein introduce hui
 - Neural networks ka ek class jahan connections **temporal sequence** banate hain
 - General form: input `x<t>` aata hai, hidden state `a<t>` update hota hai, output `y<t>` nikalta hai
+
+![Lecture 1 RNN overview](assets/lecture1/slide-51-rnn-overview.png)
+*Visual reference: RNN overview slide with sequence flow.*
 
 > **Example:** Socho ek conveyor belt par ek-ek karke words aa rahe hain. Har word par machine apni "memory" (hidden state) update karti hai aur prediction deti hai.
 
@@ -325,6 +337,9 @@ Har cell same weights share karta hai, lekin hidden state carry forward hota hai
 - Translation tasks mein **long-term dependencies** ka real issue tha
 - Seq2seq models lambi sequences "remember" nahi kar paate the
 
+![Lecture 1 history of attention](assets/lecture1/slide-65-history-of-attention.png)
+*Visual reference: attention ke origin aur motivation ko summarize karta slide.*
+
 > **Example:** "A cute teddy bear is reading" ko French mein translate karna hai: "Un ours en peluche mignon lit"
 
 **Slide 53:** Seq2seq model dikhaya gaya — encoder (green) English words process karta hai, decoder (blue) French words generate karta hai. Problem: encoder ka last hidden state mein poori sentence ki information compress karni padti hai!
@@ -370,6 +385,9 @@ Har cell same weights share karta hai, lekin hidden state carry forward hota hai
 - **Query (Q):** "Main kya dhundh raha hoon?" — current token ka sawaal
 - **Key (K):** "Mere paas kya hai?" — har token ka label/tag
 - **Value (V):** "Mere paas actual information kya hai?" — har token ka content
+
+![Lecture 1 query key value diagram](assets/lecture1/slide-73-attention-qkv.png)
+*Visual reference: self-attention mein Q, K, V ka diagram.*
 
 **Slide 63:** `teddy bear` token ka query `q_teddy bear` banta hai.
 
@@ -419,6 +437,9 @@ Attention(Q, K, V) = softmax(QK^T / sqrt(d_k)) × V
 **Feed Forward Neural Network (FFNN)**
 
 **Positional Encoding (PE)**
+
+![Lecture 1 transformer architecture](assets/lecture1/slide-80-transformer-architecture.png)
+*Visual reference: full transformer architecture slide.*
 
 > **Example:** Transformer = ek factory. Raw materials (tokens) aate hain → Encoding section (encoder) mein process hote hain → Manufacturing section (decoder) mein final product banta hai.
 
@@ -526,6 +547,9 @@ q(k|x) = delta_{k,y}  →  q'(k|x) = (1 - epsilon) × delta_{k,y} + epsilon × u
 ## PART 8: End-to-End Example — Translation (Slides 82-135)
 
 **Slide 82:** Section divider. Topic: **End-to-end example** (bold).
+
+![Lecture 1 end-to-end translation example](assets/lecture1/slide-90-end-to-end-example.png)
+*Visual reference: end-to-end translation walkthrough ka opening slide.*
 
 ---
 
