@@ -127,6 +127,9 @@ Yehi core autoregressive pretraining objective hota hai.
 
 > **Example intuition:** Yeh normal ML dataset scale se orders of magnitude bada hota hai. Yahan "dataset" literally internet-scale hota hai.
 
+![Lecture 4 pretraining overview](assets/lecture4/slide-14-pretraining-overview.png)
+*Visual reference: pretraining data mixture with English, multilingual text, and code examples.*
+
 ---
 
 ### 1.3 FLOPs, FLOPS, Scaling, and Chinchilla
@@ -296,6 +299,9 @@ Core idea:
 
 > **Example intuition:** Har GPU ko poora warehouse dene ke bajay, alag-alag shelves divide kar do.
 
+![Lecture 4 ZeRO-3 sharding](assets/lecture4/slide-43-zero-3.png)
+*Visual reference: ZeRO-3 me optimizer state, gradients, aur parameters ko devices ke across shard kiya gaya hai.*
+
 **Reference:** Rajbhandari et al., 2019 - "ZeRO: Memory Optimizations Toward Training Trillion Parameter Models"
 
 ---
@@ -414,6 +420,9 @@ Yeh approximate trick nahi, efficient exact implementation hai.
 
 > **Example analogy:** Agar kitchen shelf bahut slow ho aur counter bahut fast, toh saari cheezein baar-baar shelf se lane ke bajay counter par small batches mein kaam karo.
 
+![Lecture 4 FlashAttention in action](assets/lecture4/slide-63-flashattention.png)
+*Visual reference: FlashAttention SRAM tiling ke saath Q, K, V blocks process karke output write karta hai.*
+
 **Reference:** Dao et al., 2022 - "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness"
 
 ---
@@ -446,6 +455,9 @@ Trade-off:
 - speed up
 - lower memory use
 - but numerical stability risk
+
+![Lecture 4 float format comparison](assets/lecture4/slide-75-float-formats.png)
+*Visual reference: FP16, FP32, FP64, aur BFLOAT16 ke sign/exponent/mantissa splits.*
 
 ---
 
@@ -574,6 +586,9 @@ Data human-written bhi ho sakta hai aur synthetic bhi.
 
 > **Observation:** Pretraining tokens trillions mein the, but instruction tuning examples usse kaafi kam hote hain.
 
+![Lecture 4 instruction tuning overview](assets/lecture4/slide-90-instruction-tuning-overview.png)
+*Visual reference: instruction tuning model ko story, list, poem, aur explanation jaise assistant-style tasks par adapt karta hai.*
+
 ---
 
 ### 3.5 Behavior After Instruction Tuning
@@ -587,6 +602,9 @@ Point:
 - assistant-style helpfulness improve hoti hai
 - concise actionable answer milta hai
 - raw knowledge se behavior-level refinement hoti hai
+
+![Lecture 4 instruction-tuned behavior](assets/lecture4/slide-95-instruction-tuned-behavior.png)
+*Visual reference: instruction-tuned model washer prompt par direct helpful answer deta hai.*
 
 ---
 
@@ -714,6 +732,9 @@ Practical consequence:
 - trainable parameters dramatically kam
 - memory and optimizer cost kam
 
+![Lecture 4 LoRA finetuning](assets/lecture4/slide-109-lora-finetuning.png)
+*Visual reference: frozen base matrix ke upar low-rank matrices `A` aur `B` optimize hote hain.*
+
 ---
 
 ### 4.3 Swap Matrices = Swap Tasks
@@ -779,6 +800,9 @@ Practical message:
 Point:
 memory बचती hai without giving up trainable adapter flexibility.
 
+![Lecture 4 QLoRA structure](assets/lecture4/slide-119-qlora.png)
+*Visual reference: QLoRA me frozen base weights quantized store hote hain, jabki LoRA adapters full precision me rehte hain.*
+
 **Reference:** Dettmers et al., 2023 - "QLoRA: Efficient Finetuning of Quantized LLMs"
 
 ---
@@ -805,6 +829,9 @@ Concept:
 > Double quantization = quantization ... **done two times**
 
 > **Example analogy:** Pehle kapde compress karo, phir compression settings file ko bhi compress kar do.
+
+![Lecture 4 quantization comparison](assets/lecture4/slide-123-quantization-comparison.png)
+*Visual reference: no quantization, single quantization, aur double quantization ka comparison.*
 
 ---
 
