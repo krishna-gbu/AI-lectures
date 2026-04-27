@@ -462,6 +462,17 @@ Interpretation:
 7. ReLU aur sigmoid ka best use case kya hai?
 8. Agar saari layers linear hon to problem kya hai?
 
+### Short Answer Key
+
+1. Traditional AI me rules manually likhe jaate the; ML me model examples se pattern seekhta hai.
+2. Structured data predefined columns/features hota hai; unstructured data raw image, audio, ya text hota hai jise representation learning chahiye.
+3. Human bottleneck ka matlab tha ki raw unstructured data ke liye features manually engineer karne padte the.
+4. Logistic regression ko ek single neuron ki tarah dekh sakte ho: weighted sum plus sigmoid output.
+5. Hidden layer ka kaam intermediate useful features ya representations learn karna hai.
+6. Activation function nonlinearity laati hai; bina iske deep network expressive nahi banta.
+7. ReLU usually hidden layers me strong default hai; sigmoid binary classification output ke liye useful hai.
+8. Saari linear layers compose hoke ek hi linear transformation ban jaati hain, to depth ka real benefit khatam ho jata hai.
+
 ---
 
 ## Lecture 2: Training Deep Neural Networks
@@ -952,6 +963,19 @@ Clarification:
 9. Minibatch SGD full GD se practical kyun hai?
 10. Adam ko strong default kyun maana jata hai?
 
+### Short Answer Key
+
+1. Original 13 variables me categorical columns ko one-hot encode karne ke baad total 29 input features bane.
+2. `29*16 + 16 + 16*1 + 1 = 497`, yani inter-layer weights plus receiving-layer biases.
+3. Sigmoid output ko `0` aur `1` ke beech probability me map karta hai, jo yes/no target ke liye natural hai.
+4. BCE confident galat predictions par bahut bada penalty deta hai, isliye wrong certainty ko strongly punish karta hai.
+5. Update rule hai `w <- w - alpha * grad`.
+6. Learning rate bahut bada ho to optimization overshoot, oscillate, ya diverge kar sakti hai.
+7. Derivative ek variable ke respect me slope batata hai; gradient sab partial derivatives ka vector hota hai.
+8. Backprop gradients efficiently compute karta hai; gradient descent ya Adam un gradients se weights update karte hain.
+9. Minibatch SGD compute aur memory me cheaper hota hai, aur large datasets par frequent practical updates deta hai.
+10. Adam adaptive learning rates aur past-gradient information use karta hai, isliye usually stable aur strong default hota hai.
+
 ---
 
 ## Lecture 3A: Keras-TensorFlow and Structured Data Training
@@ -1335,6 +1359,18 @@ Checklist:
 7. Split before standardization kyu?
 8. Heart-disease notebook ka baseline accuracy kya tha?
 9. Neural model ki test accuracy approx kitni thi?
+
+### Short Answer Key
+
+1. Epoch poore training data par ek full pass hai; batch us data ka mini chunk hai; iteration ek parameter update step hai.
+2. `ceil(194/32) = 7` batches.
+3. Underfitting me train aur validation dono weak rehte hain; overfitting me training improve hoti rehti hai but validation deteriorate hoti hai.
+4. Early stopping ka rule hota hai: validation metric jab kuch epochs tak improve na kare to training stop kar do.
+5. Dropout training ke time kuch neurons randomly off karta hai taaki model over-rely na kare aur robust features seekhe.
+6. TensorFlow backend/autodiff/hardware support deta hai; Keras uske upar high-level user-friendly API hai.
+7. Split before standardization data leakage avoid karne ke liye zaroori hai.
+8. Baseline accuracy roughly `72.6%` thi.
+9. Neural model ki test accuracy roughly `83.61%` thi.
 
 ---
 
@@ -1751,6 +1787,18 @@ Fashion MNIST notebook ne teen key ideas solidify kiye:
 8. Dense image model CNN se conceptually weaker kyu hai?
 9. Notebook ki test accuracy roughly kitni thi?
 
+### Short Answer Key
+
+1. Grayscale image ek single intensity channel hoti hai; RGB image me red, green, blue ke teen channels hote hain.
+2. Image classification poori image ko ek label deta hai; object detection multiple objects ke labels plus bounding boxes deta hai.
+3. Semantic segmentation har pixel ko class deta hai; instance segmentation same class ke alag objects ko bhi separate karta hai.
+4. Fashion MNIST me `10` classes hain.
+5. Softmax raw scores ko probability distribution me convert karta hai jiska sum `1` hota hai.
+6. `sparse_categorical_crossentropy` tab use karte hain jab labels one-hot nahi, integer encoded hon.
+7. Flatten `28 x 28` jaise matrix ko `784`-length vector me convert karti hai.
+8. Dense model spatial locality ignore karta hai aur zyada parameters leta hai; CNN local patterns aur parameter sharing naturally handle karta hai.
+9. Notebook ki test accuracy roughly `88.45%` thi.
+
 ---
 
 ## Lecture 4: CNNs and Transfer Learning
@@ -2040,6 +2088,17 @@ Analogy:
 7. Fashion MNIST CNN notebook ki test accuracy roughly kitni thi?
 8. Handbags/shoes notebook me pretrained model ka benefit kya tha?
 
+### Short Answer Key
+
+1. High-dimensional image ko dense layer se connect karne par `input_size * hidden_size` bahut huge ho jata hai.
+2. Convolutional filter feature map produce karta hai jo dikhata hai pattern kaha activate ho raha hai.
+3. Max pooling local window me strongest feature evidence ko preserve karti hai, isliye OR-like detector lagti hai.
+4. Early CNN layers edges/textures seekhti hain; deeper layers parts aur object-level concepts seekhti hain.
+5. Pretrained model large dataset se useful visual features pehle hi seekh chuka hota hai, isliye small dataset par data need kam ho jati hai.
+6. ResNet ka original head ImageNet ke 1000 classes ke liye hota hai, isliye new task ke liye uska output head replace karna padta hai.
+7. Fashion MNIST CNN notebook ki test accuracy roughly `0.9058` ya `90.58%` thi.
+8. Pretrained model ne tiny handbags/shoes dataset par strong feature reuse diya aur performance ko roughly `0.8684` se `1.0000` tak push kiya.
+
 ---
 
 ## Lecture 5: Text Vectorization and Bag-of-Words
@@ -2269,6 +2328,16 @@ But limitation still hai:
 6. Music-genre notebook ka simple bag-of-words baseline roughly kitna tha?
 7. Bigrams add karne se result kyu improve hua?
 
+### Short Answer Key
+
+1. STIE = Standardize, Tokenize, Index, Encode.
+2. Standardization text ko clean/normalize karti hai; tokenization text ko pieces ya tokens me todti hai.
+3. One-hot ek single token ki identity vector hai; multi-hot sentence/document level par batata hai kaunse tokens present hain.
+4. Bag-of-words order, syntax, aur long-range context lose karta hai.
+5. Dono sentences same words rakhte hain but meaning order se change hota hai; bag-of-words order ko ignore karke unhe similar treat kar sakta hai.
+6. Simple bag-of-words model ki test accuracy roughly `0.7203` ya `72.03%` thi.
+7. Bigrams local phrase context capture karte hain, jaise `not good`, isliye representation richer ho jati hai.
+
 ---
 
 ## Lecture 6: Embeddings
@@ -2478,6 +2547,16 @@ Analogy:
 6. Frozen GloVe aur fine-tuned GloVe me difference kya hai?
 7. Notebook me scratch-learned embeddings kyu better nikli hongi?
 
+### Short Answer Key
+
+1. One-hot vectors sparse hote hain aur do words ke beech meaning-based closeness encode nahi karte.
+2. Embedding ka goal related words ko nearby dense vectors me place karna hai.
+3. Distributional hypothesis kehti hai ki word ka meaning uske surrounding context se samjha ja sakta hai.
+4. `Embedding` layer ek lookup table hai jo token IDs ko dense vectors me map karti hai.
+5. `GlobalAveragePooling1D` token embeddings ko average karke fixed-length sentence vector banati hai.
+6. Frozen GloVe me pretrained vectors update nahi hote; fine-tuned GloVe me task training ke dauran vectors adjust hote hain.
+7. Likely dataset/task specific signal kaafi tha, isliye model ne scratch se zyada suitable task-specific embeddings seekh li.
+
 ---
 
 ## Lecture 7: Transformers I
@@ -2670,6 +2749,16 @@ If input me `10` words hain, output me bhi `10` slot labels hone chahiye. Transf
 6. ATIS notebook me overall test accuracy aur slot-only accuracy me kya difference tha?
 7. Business setting me slot-only accuracy kyu more meaningful ho sakti hai?
 
+### Short Answer Key
+
+1. Output same-length token-label sequence hota hai, yani har input word ke liye ek slot label.
+2. Context use ho, order preserve ho, aur output input ke same length ka ho.
+3. Self-attention har token ko relevant dusre tokens se learned weighted information lene deta hai.
+4. Positional information ke bina model ko token order ka reliable signal nahi milta.
+5. Multi-head attention ka intuition hai ki alag heads alag relation patterns parallel me seekhte hain.
+6. Overall test accuracy roughly `98.64%` thi, jabki slot-only accuracy roughly `91.3%` thi.
+7. Real applications me ek important entity galat nikalna overall accuracy ke high hone ke baad bhi system ko practically fail kar sakta hai.
+
 ---
 
 ## Lecture 8: Transformers II and Hugging Face Pipelines
@@ -2838,6 +2927,15 @@ Lecture ka meta-point:
 4. Residual connection training me kya help karti hai?
 5. Layer normalization ka broad purpose kya hai?
 6. Hugging Face notebook me kaun-kaunse NLP tasks shown the?
+
+### Short Answer Key
+
+1. Positional embedding order information inject karti hai, jo self-attention alone se naturally nahi milta.
+2. Query poochta hai kya chahiye, Key batata hai mere paas kya signal hai, Value actual content information carry karta hai.
+3. Multi-head attention alag-alag subspaces aur relation types ko parallel me model kar sakti hai.
+4. Residual connection gradients ko flow karne aur old useful signal ko preserve karne me help karti hai.
+5. Layer normalization internal scale ko stabilize karke deep training ko easier banati hai.
+6. Notebook me text classification, NER, question answering, summarization, aur text generation shown the.
 
 ---
 
@@ -3014,6 +3112,15 @@ But objective aur downstream expectation identical nahi hote. Isi se hallucinati
 4. Greedy aur top-p decoding me conceptual difference kya hai?
 5. BPE full-word tokenization se better compromise kyu hai?
 6. LLM ka base training objective kya hota hai?
+
+### Short Answer Key
+
+1. Plain self-attention future tokens dekh sakti hai, to model target next word ko effectively copy kar sakta hai.
+2. Causal mask future positions par attention ko block karta hai.
+3. GPT-style model decoder-only causal transformer hota hai jo next-token generation ke liye built hota hai, unlike full bidirectional encoder-style visibility.
+4. Greedy decoding har step par highest-probability token leti hai; top-p decoding probable token set se sampling karke more diverse output deti hai.
+5. BPE subword pieces use karke rare words handle karta hai aur full-word vocabulary explosion se bachta hai.
+6. LLM ka base objective next-token prediction hota hai.
 
 ---
 
@@ -3199,6 +3306,15 @@ If problem hai:
 5. RAG pipeline ke main steps kya hain?
 6. New factual context ke liye RAG fine-tuning se zyada suitable kab hota hai?
 
+### Short Answer Key
+
+1. GPT-3 fluent completions de sakta tha but user instructions ko reliably follow nahi karta tha.
+2. SFT me human-written high-quality instruction-answer pairs hote hain.
+3. Reward model ka input instruction-answer pair hota hai aur output scalar quality score hota hai.
+4. RLHF broad terms me model ko human-preferred, helpful responses ki taraf nudge karta hai.
+5. Docs chunk karo, chunk embeddings banao, query embed karo, similarity se retrieve karo, phir retrieved context prompt me add karke LLM ko bhejo.
+6. Jab problem fresh external ya private factual knowledge inject karna ho, tab RAG fine-tuning se zyada suitable hota hai.
+
 ---
 
 ## Lecture 10.5: Fine-Tuning and LoRA
@@ -3349,6 +3465,14 @@ If need is:
 3. LoRA ka main mathematical intuition kya hai?
 4. Attention matrices LoRA ke common target kyu hote hain?
 5. RAG aur LoRA me decision kaise loge?
+
+### Short Answer Key
+
+1. Full fine-tuning me giant model ke bahut saare parameters, gradients, aur optimizer states handle karne padte hain.
+2. Teen big components hain model parameters, gradients, aur optimizer state.
+3. LoRA ka intuition hai full update matrix ki jagah low-rank update `BA` learn karo.
+4. Attention matrices bade aur behaviorally important hote hain, isliye unhe adapt karke model behavior ko cheaply shift kiya ja sakta hai.
+5. Fresh facts chahiye to RAG choose karo; style, formatting, ya domain behavior adaptation chahiye to LoRA useful hai.
 
 ---
 
@@ -3537,6 +3661,15 @@ Engineering takeaway:
 4. CLIP kya learn karta hai?
 5. Prompt-conditioned diffusion me text embedding ka role kya hai?
 6. Stable Diffusion pixel-space ke bajay latent-space use karke kya benefit leta hai?
+
+### Short Answer Key
+
+1. Diffusion ka core intuition hai noise add karna easy hai, to generation ko reverse denoising problem ki tarah solve karo.
+2. Pure one-shot image synthesis se better hai many small denoising steps learn karna, kyunki noisy-to-less-noisy mapping easier hoti hai.
+3. U-Net ka left half compress aur feature extract karta hai; right half upsample aur reconstruct karta hai; skip connections detail preserve karti hain.
+4. CLIP text aur image embeddings ko shared semantic space me align karna seekhta hai.
+5. Text embedding denoising process ko prompt ke semantic direction me guide karti hai.
+6. Latent-space diffusion speed aur memory efficiency improve karta hai kyunki compressed representation par kaam hota hai.
 
 ---
 
@@ -3736,3 +3869,40 @@ Reason:
 32. U-Net architecture diffusion models ke liye natural fit kyu hai?
 33. CLIP text aur image ko same semantic space me kaise laata hai?
 34. Stable Diffusion latent-space use karke kya practical benefit leta hai?
+
+## Final Revision Answer Key
+
+1. Neural network ko logistic regression plus hidden layers plus nonlinear activations ki tarah derive kar sakte ho.
+2. Deep Learning ne manual feature engineering ya representation design ko largely automate kiya.
+3. Hidden layer patterns, combinations, aur intermediate abstract features capture kar sakti hai.
+4. Activations nonlinearity laati hain; bina unke depth useful expressive power nahi deti.
+5. MSE regression ke liye aur binary cross-entropy binary classification ke liye natural choice hoti hai.
+6. Backprop gradients compute karta hai; gradient descent un gradients se weights update karta hai.
+7. Learning rate tuning practical hai kyunki bahut small rate slow hota hai aur bahut large rate unstable hota hai.
+8. Overfitting ka cleanest signal usually validation performance ka worsen hona hai while training still improves.
+9. Train learning ke liye, validation tuning/early stopping ke liye, aur test final unbiased evaluation ke liye hota hai.
+10. One-hot encoding categorical columns ko numeric banata hai aur standardization numerical scales ko comparable banati hai.
+11. Flatten image matrix ko dense layer ke liye vector me convert karta hai.
+12. Softmax multi-class probabilities deta hai aur sparse categorical cross-entropy integer class labels par kaam karti hai.
+13. CNN locality preserve karta hai, parameter sharing use karta hai, aur image patterns ko reusable way me seekhta hai.
+14. Transfer learning useful hai kyunki pretrained network already strong generic visual features learn kar chuka hota hai.
+15. STIE = Standardize, Tokenize, Index, Encode; vocabulary indexing stage ke around build hoti hai after standardization/tokenization on training data.
+16. Bag-of-words token presence/count dekhta hai; bigrams adjacent token-pair context bhi add karte hain.
+17. Embeddings sparse identity-only representation aur semantic similarity ki kami dono solve karti hain.
+18. `GlobalAveragePooling1D` token embeddings ko average karke fixed-size sentence representation banati hai.
+19. Slot filling me har token ke liye label chahiye, isliye output same length ka token-wise label sequence hota hai.
+20. Position information isliye chahiye kyunki self-attention alone token order ko reliably encode nahi karti.
+21. Q asks, K advertises, aur V content carry karta hai.
+22. Residual gradient flow aur signal preservation me help karta hai; layer norm activation scale stabilize karti hai.
+23. Bina causal mask model future token dekh kar target next word copy kar sakta hai.
+24. BPE rare words handle karta hai aur vocabulary ko manageable size me rakhta hai by using subwords.
+25. Pretraining language/statistical structure sikhata hai; alignment desired assistant-like behavior sikhata hai.
+26. Reward model human preference ke hisab se answer quality ka scalar score learn karta hai.
+27. RAG relevant external context retrieve karke prompt me inject karta hai, jisse hallucination pressure kam hota hai.
+28. Decision criterion ye hai: fresh knowledge chahiye ya behavior/style adaptation; pehle case me RAG, dusre me fine-tuning.
+29. Full fine-tuning memory cost parameters, gradients, aur optimizer states se aati hai.
+30. LoRA full delta ki jagah low-rank update learn karke trainable parameters drastically reduce karta hai.
+31. Forward process me noise add hota hai; reverse process me model step-by-step denoise karta hai.
+32. U-Net natural fit hai kyunki wo coarse-to-fine reconstruction ke saath fine details ko skip connections se preserve kar sakta hai.
+33. CLIP matching text-image pairs ko close aur mismatched pairs ko far karke shared semantic space banata hai.
+34. Latent-space use karne se generation faster aur more memory-efficient ho jati hai.
