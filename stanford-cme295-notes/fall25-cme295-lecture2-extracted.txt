@@ -1,0 +1,941 @@
+
+
+===== PAGE 1 =====
+CME 295: Transformers &
+Large Language Models
+Afshine Amidi & Shervine Amidi
+Lecture 2
+
+===== PAGE 2 =====
+Recap of last episode…
+
+===== PAGE 3 =====
+Recap of last episode…
+“Attention Is All Y ou Need”, Vaswani et al., 2017.
+
+
+===== PAGE 4 =====
+Recap of last episode…
+“Attention Is All Y ou Need”, Vaswani et al., 2017.
+
+
+===== PAGE 5 =====
+Recap of last episode…
+“Attention Is All Y ou Need”, Vaswani et al., 2017.
+
+
+===== PAGE 6 =====
+Recap of last episode…
+“Attention Is All Y ou Need”, Vaswani et al., 2017.
+
+
+===== PAGE 7 =====
+Recap of last episode…
+“Attention Is All Y ou Need”, Vaswani et al., 2017.
+
+
+===== PAGE 8 =====
+Recap of last episode…
+“Attention Is All Y ou Need”, Vaswani et al., 2017.
+
+
+===== PAGE 9 =====
+Recap of last episode…
+“Attention Is All Y ou Need”, Vaswani et al., 2017.
+"Two attention heads, also in layer 5 of 6, apparently 
+involved in anaphora resolution. [...] Isolated attentions 
+from just the word ‘its’ for attention heads 5 and 6."
+Attention map
+
+
+===== PAGE 10 =====
+Suggested reading: original Transformer paper
+“Attention Is All Y ou Need”, Vaswani et al., 2017.
+
+===== PAGE 11 =====
+Transformers & 
+Large Language 
+Models
+Position embeddings
+Layer normalization
+Attention approximation
+Transformer-based models
+BERT deep dive
+
+===== PAGE 12 =====
+Need for position information
+Motivation. Direct links "lose" position info
+"Super Study Guide: Transformers & Large Language Models", by Amidi, 2024.
+
+===== PAGE 13 =====
+Need for position information
+Idea. Add learned position-speciﬁc embedding 
+to token vector
+Motivation. Direct links "lose" position info
+“Attention Is All Y ou Need”, Vaswani et al., 2017.
+
+===== PAGE 14 =====
+Need for position information
+Idea. Add learned position-speciﬁc embedding 
+to token vector
+Motivation. Direct links "lose" position info
+Limitations. Need to retrain for longer sequences
+
+===== PAGE 15 =====
+Hardcoded position embeddings
+Idea. Hardcode values of position embedding
+“Attention Is All Y ou Need”, Vaswani et al., 2017.
+2i
+2i+1
+. . . . . .
+Position
+
+
+===== PAGE 16 =====
+Hardcoded position embeddings
+Idea. Hardcode values of position embedding
+“Attention Is All Y ou Need”, Vaswani et al., 2017.
+2i
+2i+1
+. . . . . .
+Position
+with
+
+
+===== PAGE 17 =====
+Hardcoded position embeddings
+Idea. Hardcode values of position embedding
+“Attention Is All Y ou Need”, Vaswani et al., 2017, "Transformer Architecture: The Positional Encoding", by Kazemnejad, 2019.
+2i
+2i+1
+. . . . . .
+Position
+2i
+2i+1
+. . . . . .
+Position
+
+
+===== PAGE 18 =====
+Hardcoded position embeddings
+Idea. Hardcode values of position embedding
+
+
+===== PAGE 19 =====
+Hardcoded position embeddings
+Idea. Hardcode values of position embedding
+
+
+===== PAGE 20 =====
+Hardcoded position embeddings
+Idea. Hardcode values of position embedding
+
+
+===== PAGE 21 =====
+Hardcoded position embeddings
+Idea. Hardcode values of position embedding
+
+
+===== PAGE 22 =====
+Hardcoded position embeddings
+Idea. Hardcode values of position embedding
+“Attention Is All Y ou Need”, Vaswani et al., 2017, "Transformer Architecture: The Positional Encoding", by Kazemnejad, 2019.
+Similarity between positionsValue of embeddings
+
+===== PAGE 23 =====
+Hardcoded position embeddings
+Idea. Hardcode values of position embedding
+“Attention Is All Y ou Need”, Vaswani et al., 2017, "Transformer Architecture: The Positional Encoding", by Kazemnejad, 2019.
+Similarity between positionsValue of embeddings
+Beneﬁts. Can extend to any sequence length
+
+===== PAGE 24 =====
+From absolute to relative position info
+Motivation. Actually, we really care about relative position with attention layer
+"Super Study Guide: Transformers & Large Language Models", by Amidi, 2024.
+
+===== PAGE 25 =====
+From absolute to relative position info
+Motivation. Actually, we really care about relative position with attention layer
+Idea. Let's change the attention layer instead
+“Attention Is All Y ou Need”, Vaswani et al., 2017.
+
+===== PAGE 26 =====
+Linear bias in attention layer
+Idea. Add bias to query-key scores
+"Super Study Guide: Transformers & Large Language Models", by Amidi, 2024.
+
+
+===== PAGE 27 =====
+Linear bias in attention layer
+"Super Study Guide: Transformers & Large Language Models", by Amidi, 2024.
+"Exploring the Limits of Transfer Learning with a Uniﬁed Text-to-Text Transformer", Raﬀel et al., 2023.
+Idea. Add bias to query-key scores
+T5 bias. Bias is learned per head
+
+
+===== PAGE 28 =====
+Linear bias in attention layer
+"Super Study Guide: Transformers & Large Language Models", by Amidi, 2024.
+"Train Short, Test Long: Attention with Linear Biases Enables Input Length Extrapolation", Press et al., 2021.
+Idea. Add bias to query-key scores
+T5 bias. Bias is learned per head
+ALiBi. Bias is linear, deterministic, not bounded
+
+
+===== PAGE 29 =====
+Default choice nowadays: rotations in attention layer
+Idea. Rotate query and key vectors with rotation matrix
+"RoFormer: Enhanced Transformer with Rotary Position Embeddings", Su et al., 2021.
+Figure from "Super Study Guide: Transformers & Large Language Models", Amidi et al., 2024.
+
+
+===== PAGE 30 =====
+Default choice nowadays: rotations in attention layer
+Idea. Rotate query and key vectors with rotation matrix
+Formula. Use rotation matrix:
+"RoFormer: Enhanced Transformer with Rotary Position Embeddings", Su et al., 2021.
+Figure from "Super Study Guide: Transformers & Large Language Models", Amidi et al., 2024.
+
+
+===== PAGE 31 =====
+Default choice nowadays: rotations in attention layer
+Idea. Rotate query and key vectors with rotation matrix
+Formula. Use rotation matrix:
+RoPE = Rotary Position Embeddings
+"RoFormer: Enhanced Transformer with Rotary Position Embeddings", Su et al., 2021.
+Figure from "Super Study Guide: Transformers & Large Language Models", Amidi et al., 2024.
+
+
+===== PAGE 32 =====
+Extension to dimension d > 2. Rotate every block of dimension 2
+Default choice nowadays: rotations in attention layer
+"RoFormer: Enhanced Transformer with Rotary Position Embeddings", Su et al., 2021.
+
+
+===== PAGE 33 =====
+Extension to dimension d > 2. Rotate every block of dimension 2
+Default choice nowadays: rotations in attention layer
+Beneﬁts. Relative distance nicely captured:
+"RoFormer: Enhanced Transformer with Rotary Position Embeddings", Su et al., 2021.
+
+
+===== PAGE 34 =====
+Extension to dimension d > 2. Rotate every block of dimension 2
+Default choice nowadays: rotations in attention layer
+Beneﬁts. Relative distance nicely captured:
+"RoFormer: Enhanced Transformer with Rotary Position Embeddings", Su et al., 2021.
+
+
+===== PAGE 35 =====
+Attention weight has a long-term decay
+Figure from "Super Study Guide: Transformers & Large Language Models", Amidi et al., 2024.
+Relative upper 
+bound of
+
+===== PAGE 36 =====
+Transformers & 
+Large Language 
+Models
+Position embeddings
+Layer normalization
+Attention approximation
+Transformer-based models
+BERT deep dive
+
+===== PAGE 37 =====
+Layer normalization
+“Attention Is All Y ou Need”, Vaswani et al., 2017.
+
+
+===== PAGE 38 =====
+Layer normalization
+“Attention Is All Y ou Need”, Vaswani et al., 2017.
+LN = Layer Normalization
+
+
+===== PAGE 39 =====
+Layer normalization
+“Attention Is All Y ou Need”, Vaswani et al., 2017.
+LN = Layer Normalization
+and
+with
+where
+
+===== PAGE 40 =====
+Layer normalization
+“Attention Is All Y ou Need”, Vaswani et al., 2017. "Layer Normalization", Ba et al., 2016.
+LN = Layer Normalization
+and
+with
+where
+Beneﬁts. Helps with training stability and convergence.
+
+===== PAGE 41 =====
+Diﬀerent kinds of layer normalization
+Post-Norm
+After
+residual connection
+“On Layer Normalization in the Transformer Architecture", Xiong et al., 2020.
+
+===== PAGE 42 =====
+Diﬀerent kinds of layer normalization
+Pre-Norm
+After
+residual connection
+Before
+residual connection
+“On Layer Normalization in the Transformer Architecture", Xiong et al., 2020.
+Post-Norm
+
+===== PAGE 43 =====
+Diﬀerent kinds of layer normalization
+Post-LN Pre-LN
+After
+residual connection
+Before
+residual connection
+“On Layer Normalization in the Transformer Architecture", Xiong et al., 2020.
+Nowadays:
+Pre-Norm
+
+===== PAGE 44 =====
+Diﬀerent kinds of layer normalization
+Post-LN Pre-LN
+After
+residual connection
+Before
+residual connection
+“On Layer Normalization in the Transformer Architecture", Xiong et al., 2020. "Root Mean Square Layer Normalization", Zhang et al., 2019.
+Nowadays:
+Pre-Norm +
+RMSNorm
+
+
+===== PAGE 45 =====
+Transformers & 
+Large Language 
+Models
+Position embeddings
+Layer normalization
+Attention approximation
+Transformer-based models
+BERT deep dive
+
+===== PAGE 46 =====
+Sparse attention: Longformer
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+[CLS]
+A
+cute
+teddy bear
+[CLS]
+A
+cute
+teddy bear
+. . . . .
+. . . . .
+"Longformer: The Long-document Transformer", Beltagy et al., 2020.
+
+===== PAGE 47 =====
+Sparse attention: Longformer
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+[CLS]
+A
+cute
+teddy bear
+[CLS]
+A
+cute
+teddy bear
+. . . . .
+. . . . .
+"Longformer: The Long-document Transformer", Beltagy et al., 2020.
+
+===== PAGE 48 =====
+Leveraging local and global attention
+SWA = Sliding Window Attention
+ 
+ 
+ 
+ 
+ 
+[CLS]
+A
+cute
+teddy bear
+[CLS]
+A
+cute
+teddy bear
+. . .
+. . .
+Variations include interleaving local and 
+global attention layers
+
+===== PAGE 49 =====
+Leveraging local and global attention
+SWA = Sliding Window Attention
+ 
+ 
+ 
+ 
+ 
+[CLS]
+A
+cute
+teddy bear
+[CLS]
+A
+cute
+teddy bear
+. . .
+. . .
+Right ﬁgure from Mistral 7B announcement, 2023.
+Mistral 7B
+
+===== PAGE 50 =====
+Leveraging local and global attention
+SWA = Sliding Window Attention
+ 
+ 
+ 
+ 
+ 
+[CLS]
+A
+cute
+teddy bear
+[CLS]
+A
+cute
+teddy bear
+. . .
+. . .
+Mistral 7B
+Similar to "receptive ﬁeld" in 
+computer vision
+"VIP Cheatsheet: Convolutional Neural Networks", Amidi, 2018.
+
+===== PAGE 51 =====
+Sharing attention heads
+Idea. Share key/value attention heads within groups of queries
+Figure from "Super Study Guide: Transformers & Large Language Models", Amidi et al., 2024.
+
+===== PAGE 52 =====
+Sharing attention heads
+Figure from "Super Study Guide: Transformers & Large Language Models", Amidi et al., 2024.
+Multi-Query Attention 
+(MQA)
+
+
+===== PAGE 53 =====
+Sharing attention heads
+Figure from "Super Study Guide: Transformers & Large Language Models", Amidi et al., 2024.
+Multi-Head Attention 
+(MHA)
+Group-Query Attention 
+(GQA)
+Multi-Query Attention 
+(MQA)
+
+
+===== PAGE 54 =====
+Sharing attention heads
+Figure from "Super Study Guide: Transformers & Large Language Models", Amidi et al., 2024.
+Multi-Head Attention 
+(MHA)
+Group-Query Attention 
+(GQA)
+Multi-Query Attention 
+(MQA)
+
+
+===== PAGE 55 =====
+Transformers & 
+Large Language 
+Models
+Attention approximation
+Position embeddings
+Layer normalization
+Transformer-based models
+BERT deep dive
+
+===== PAGE 56 =====
+Overview of Transformer-based models
+3 categories of Transformer-based models:
+Encoder-
+decoder Text to text T5, mT5, ByT5
+Figure adapted from "Attention is All Y ou Need", Vaswani et al., 2017.
+
+===== PAGE 57 =====
+Overview of Transformer-based models
+3 categories of Transformer-based models:
+Encoder-
+decoder Text to text T5, mT5, ByT5
+Encoder-
+only
+Projection of embedding 
+for class prediction (e.g. 
+sentiment extraction)
+BERT, DistilBERT, 
+RoBERTa
+Figure adapted from "Attention is All Y ou Need", Vaswani et al., 2017.
+
+===== PAGE 58 =====
+Overview of Transformer-based models
+3 categories of Transformer-based models:
+Encoder-
+decoder Text to text T5, mT5, ByT5
+Encoder-
+only
+Projection of embedding 
+for class prediction (e.g. 
+sentiment extraction)
+BERT, DistilBERT, 
+RoBERTa
+Decoder-
+only Text to text GPT series
+Figure adapted from "Attention is All Y ou Need", Vaswani et al., 2017.
+
+===== PAGE 59 =====
+Overview of Transformer-based models
+3 categories of Transformer-based models:
+Encoder-
+decoder Text to text T5, mT5, ByT5
+Encoder-
+only
+Projection of embedding 
+for class prediction (e.g. 
+sentiment extraction)
+BERT, DistilBERT, 
+RoBERTa
+Decoder-
+only Text to text GPT series
+Popular in 
+~2018-2022
+
+===== PAGE 60 =====
+Overview of Transformer-based models
+3 categories of Transformer-based models:
+Encoder-
+decoder Text to text T5, mT5, ByT5
+Encoder-
+only
+Projection of embedding 
+for class prediction (e.g. 
+sentiment extraction)
+BERT, DistilBERT, 
+RoBERTa
+Decoder-
+only Text to text GPT series Popular now!
+
+===== PAGE 61 =====
+Transformers & 
+Large Language 
+Models
+Attention approximation
+Position embeddings
+Layer normalization
+Transformer-based models
+BERT deep dive
+
+===== PAGE 62 =====
+Why "BERT"?
+BERT = Bidirectional Encoder Representations from Transformers
+"BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding", Devlin et al., 2018. 
+
+===== PAGE 63 =====
+Why "BERT"?
+BERT = Bidirectional Encoder Representations from Transformers
+Figure adapted from "Attention is All Y ou Need", Vaswani et al., 2017.
+
+===== PAGE 64 =====
+Why "BERT"?
+BERT = Bidirectional Encoder Representations from Transformers
+Figure adapted from "Attention is All Y ou Need", Vaswani et al., 2017.
+
+
+===== PAGE 65 =====
+Why "BERT"?
+BERT = Bidirectional Encoder Representations from Transformers
+Figure adapted from "Attention is All Y ou Need", Vaswani et al., 2017.
+
+===== PAGE 66 =====
+Why "BERT"?
+BERT = Bidirectional Encoder Representations from Transformers
+Figure adapted from "Attention is All Y ou Need", Vaswani et al., 2017.
+Bidirectional
+
+===== PAGE 67 =====
+Why "BERT"?
+BERT = Bidirectional Encoder Representations from Transformers
+Figure adapted from "Attention is All Y ou Need", Vaswani et al., 2017.
+Not bidirectional
+⚠
+ 
+
+===== PAGE 68 =====
+Why "BERT"?
+"BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding", Devlin et al., 2018. [BERT paper]
+"Deep contextualized word representations", Peters et al., 2018 [ELMo paper]
+BERT paper
+[submitted in Oct 2018]
+ELMo paper
+[submitted in Feb 2018]
+
+
+===== PAGE 69 =====
+Why "BERT"?
+BertElmo
+For more background: Sesame Street, Wikipedia.
+
+===== PAGE 70 =====
+BERT and encoder-only models
+Idea. Keep only encoders + leverage encoded embeddings to make predictions.
+ENCODER
+A cute teddy bear is reading .[CLS] [SEP]
+encoded 
+embedding Project embedding
+"BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding", Devlin et al., 2018.
+
+===== PAGE 71 =====
+BERT and encoder-only models
+Strategy.
+● Step 1: Pretraining with proxy tasks (MLM and NSP)
+● Step 2: Finetuning for given end task
+"BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding", Devlin et al., 2018.
+
+===== PAGE 72 =====
+BERT and encoder-only models
+Strategy.
+● Step 1: Pretraining with proxy tasks (MLM and NSP)
+● Step 2: Finetuning for given end task
+Discussion.
+Pros Cons
+● Finetuning does not need a lot of data
+● Good performance
+● Not suited for a range of tasks (e.g. text 
+generation)
+● Finetuning is a required step
+"BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding", Devlin et al., 2018.
+
+===== PAGE 73 =====
+BERT and encoder-only models
+Strategy.
+● Step 1: Pretraining with proxy tasks (MLM and NSP)
+● Step 2: Finetuning for given end task
+Discussion.
+Pros Cons
+● Finetuning does not need a lot of data
+● Good performance
+● Not suited for a range of tasks (e.g. text 
+generation)
+● Finetuning is a required step
+"BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding", Devlin et al., 2018.
+Variants. RoBERTa, DistilBERT, ALBERT
+
+===== PAGE 74 =====
+BERT architecture
+      Original transformer (2017)
+Figure adapted from “Attention Is All Y ou Need”, Vaswani et al., 2017.
+
+===== PAGE 75 =====
+BERT architecture
+Figure adapted from “Attention Is All Y ou Need”, Vaswani et al., 2017.
+BERT (2018)      Original transformer (2017)
+
+===== PAGE 76 =====
+Input processing
+WordPiece algorithm
+● Tokenizer trained on a training set beforehand
+● Vocabulary size: ~30,000
+● Great at detecting common particles
+NSP / MLM task processing
+● Add [CLS] token at the beginning of the input
+● Separate consecutive segments with the 
+[SEP] token and put another one at the end
+● Use [MASK] to mask inputs
+Figure adapted from “Attention Is All Y ou Need”, Vaswani et al., 2017.
+
+===== PAGE 77 =====
+Input embedding
+Input embeddings
+● Gigantic lookup table
+● Learns an embedding for each word of the 
+vocabulary
+Positional encoding
+● Helps the network associate tokens with a position
+● Encoding either learnt or ﬁxed with cosines and sines
+(new!) Segment encoding
+● Shared embedding for a segment
+Figure adapted from “Attention Is All Y ou Need”, Vaswani et al., 2017.
+
+===== PAGE 78 =====
+Encoder-only model
+Model
+Encoder part of the original transformers paper
+Goal
+● Represent input data with features (hopefully) 
+needed for NLP tasks
+● Leverage the Transformer’s self-attention 
+mechanism 
+● Use learned embedding towards 
+classiﬁcation-oriented tasks 
+Figure adapted from “Attention Is All Y ou Need”, Vaswani et al., 2017.
+
+===== PAGE 79 =====
+Proxy task: Masked Language Modeling
+Idea. 15% of input tokens are set up for prediction where:
+● 80% are masked
+● 10% are changed to a random word
+● 10% are unchanged
+Beneﬁts
+● Network learns language modeling based on 
+contextual information
+● Regularization reﬂects probabilistic nature of 
+language
+Figure adapted from “Attention Is All Y ou Need”, Vaswani et al., 2017.
+
+===== PAGE 80 =====
+Proxy task: Next Sentence Prediction
+Idea. Pick two sentences from the corpus, where:
+● 50% of the time, they follow each other
+● 50% of the time, they do not follow each other
+Task. Predict if they actually follow each other.
+Beneﬁts
+● Network implicitly learns to detect useful contextual 
+information
+● Easy classiﬁcation task that does not require any 
+labels
+Figure adapted from “Attention Is All Y ou Need”, Vaswani et al., 2017.
+
+===== PAGE 81 =====
+Hyperparameters
+Model.
+● L Layers.
+● H Hidden layer size aka dimension of embeddings.
+● A Attention heads operating in parallel.
+Data.
+● Language-speciﬁc / multilingual. Languages on which 
+the model has been trained on.
+● Cased / uncased. Whether inputs are converted to 
+lowercase or not.
+A
+H
+L
+Figure adapted from “Attention Is All Y ou Need”, Vaswani et al., 2017.
+
+===== PAGE 82 =====
+Some numbers
+Left ﬁgure adapted from “Attention Is All Y ou Need”, Vaswani et al., 2017. Parameters in the right table were computed in this paper.
+ L H A Parameters
+BERT-Tiny 2 128 2 4M
+BERT-Mini 4 256 4 11M
+BERT-Small 4 512 8 30M
+BERT-Medium 8 512 8 42M
+BERT-Base 12 768 12 110M
+BERT-Large 24 1024 16 340M
+A
+H
+L
+
+===== PAGE 83 =====
+Overview of BERT ﬁnetuning
+Goal. Leverage embeddings learned by BERT for a “sister” task
+
+
+===== PAGE 84 =====
+Overview of BERT ﬁnetuning
+Goal. Leverage embeddings learned by BERT for a “sister” task
+Tricks
+● Use weights from already massively pretrained model
+● Freezing early layers: sometimes better trade-oﬀ complexity/performance
+● Great results possible with minimal labeled data (depending on 
+complexity/proximity to pretrained data distribution + objectives)
+
+
+===== PAGE 85 =====
+Overview of BERT ﬁnetuning
+Goal. Leverage embeddings learned by BERT for a “sister” task
+Tricks
+● Use weights from already massively pretrained model
+● Freezing early layers: sometimes better trade-oﬀ complexity/performance
+● Great results possible with minimal labeled data (depending on 
+complexity/proximity to pretrained data distribution + objectives)
+Use cases
+● Sequence classiﬁcation: e.g. sentiment extraction
+● Token classiﬁcation: e.g. question answering
+
+===== PAGE 86 =====
+Finetuning: sentiment extraction
+This teddy bear is SO CUTE!
+
+===== PAGE 87 =====
+Finetuning: sentiment extraction
+this teddy bear is so cute!
+
+===== PAGE 88 =====
+Finetuning: sentiment extraction
+this teddy is so cutebear !
+
+===== PAGE 89 =====
+this teddy is so cutebear ![CLS]
+Finetuning: sentiment extraction
+Add [CLS] token as a placeholder for sentiment.
+
+===== PAGE 90 =====
+Finetuning: sentiment extraction
+this teddy is so cutebear ![CLS] [SEP] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD]
+
+===== PAGE 91 =====
+Finetuning: sentiment extraction
+this teddy is so cutebear ![CLS] [SEP] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD]
+embedding
+
+===== PAGE 92 =====
+this teddy is so cutebear ![CLS] [SEP] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD]
+embedding
+position embedding
+         0           1             2             3          4        5         6          7          8           9          10         11           12         13         14   
+ 
+Finetuning: sentiment extraction
+
+===== PAGE 93 =====
+this teddy is so cutebear ![CLS] [SEP] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD]
+embedding
+position embedding
+segment embedding
+         A          A             A            A          A       A         A          A          A          B           B           B           B          B          B
+Finetuning: sentiment extraction
+
+===== PAGE 94 =====
+this teddy is so cutebear ![CLS] [SEP] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD]
+position- and segment-aware embedding
+Finetuning: sentiment extraction
+
+===== PAGE 95 =====
+this teddy is so cutebear ![CLS] [SEP] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD]
+Finetuning: sentiment extraction
+
+===== PAGE 96 =====
+this teddy is so cutebear ![CLS] [SEP] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD]
+ENCODER Pretrained BERT architecture
+Finetuning: sentiment extraction
+
+===== PAGE 97 =====
+this teddy is so cutebear ![CLS] [SEP] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD]
+ENCODER
+FFN
+SE
+1 Sentiment extraction task
+Pretrained BERT architecture
+Finetuning: sentiment extraction
+
+===== PAGE 98 =====
+Takeaways and shortcomings
+Beneﬁts.
+● State of the art results
+● ~True contextual representation of words
+● Adaptable to many classiﬁcation tasks
+
+
+===== PAGE 99 =====
+Takeaways and shortcomings
+Beneﬁts.
+● State of the art results
+● ~True contextual representation of words
+● Adaptable to many classiﬁcation tasks
+Applications. Widely used in the industry for anything related to encoding
+
+
+===== PAGE 100 =====
+Takeaways and shortcomings
+Beneﬁts.
+● State of the art results
+● ~True contextual representation of words
+● Adaptable to many classiﬁcation tasks
+Applications. Widely used in the industry for anything related to encoding
+Limitations.
+● Context window size is limited
+● Computationally expensive: hard sell for low-latency/cost-sensitive applications
+● Training paradigm is complex: MLM/NSP + ﬁnetuning
+
+===== PAGE 101 =====
+Trick: distillation
+"The soft targets contain 
+almost all the knowledge."
+“Dark knowledge”, Hinton et al., 2014.
+
+===== PAGE 102 =====
+Trick: distillation
+Figures from "Super Study Guide: Transformers & Large Language Models", Amidi et al., 2024.
+
+===== PAGE 103 =====
+Trick: distillation
+Figures from "Super Study Guide: Transformers & Large Language Models", Amidi et al., 2024.
+
+
+===== PAGE 104 =====
+Variant for eﬃciency: DistilBERT
+BERT Base
+N=12 layers
+"DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter", Sanh et al., 2019.
+DistilBERT
+N=6 layers
+~1.6x faster
+~97% performance
+
+===== PAGE 105 =====
+Variant for performance: RoBERTa
+"RoBERTa: A Robustly Optimized BERT Pretraining Approach", Liu et al., 2019.
+Goal. Thorough analysis of directions of optimization 
+
+===== PAGE 106 =====
+Variant for performance: RoBERTa
+"RoBERTa: A Robustly Optimized BERT Pretraining Approach", Liu et al., 2019.
+Goal. Thorough analysis of directions of optimization 
+Modeling
+● Removing NSP/segment encodings: ~no eﬀect!*
+● Static → dynamic masking across epochs
+*DistilBERT had also removed it
+
+===== PAGE 107 =====
+Variant for performance: RoBERTa
+"RoBERTa: A Robustly Optimized BERT Pretraining Approach", Liu et al., 2019.
+Goal. Thorough analysis of directions of optimization 
+Modeling
+● Removing NSP/segment encodings: ~no eﬀect!
+● Static → dynamic masking across epochs
+Data
+● Richer: 16 GB → 160 GB of pretraining corpus size
+● For longer: 1M steps of batch size 256 vs. 500k of batch size 8k 
+
+===== PAGE 108 =====
+Variant for performance: RoBERTa
+"RoBERTa: A Robustly Optimized BERT Pretraining Approach", Liu et al., 2019.
+Goal. Thorough analysis of directions of optimization 
+Modeling
+● Removing NSP/segment encodings: ~no eﬀect!
+● Static → dynamic masking across epochs
+Data
+● Richer: 16 GB → 160 GB of pretraining corpus size
+● For longer: 1M steps of batch size 256 vs. 500k of batch size 8k 
+Result. +4% across benchmarks with same architecture
+
+===== PAGE 109 =====
+Thank you for your attention!
