@@ -30,6 +30,7 @@ Is README me:
 - [Lecture 11: Diffusion Models for Image Generation](#lecture-11-diffusion-models-for-image-generation)
 - [Course-Wide Quick Revision](#course-wide-quick-revision)
 - [Formula Sheet](#formula-sheet)
+- [Lecture-Wise External Links](#lecture-wise-external-links)
 
 ---
 
@@ -3906,3 +3907,133 @@ Reason:
 32. U-Net natural fit hai kyunki wo coarse-to-fine reconstruction ke saath fine details ko skip connections se preserve kar sakta hai.
 33. CLIP matching text-image pairs ko close aur mismatched pairs ko far karke shared semantic space banata hai.
 34. Latent-space use karne se generation faster aur more memory-efficient ho jati hai.
+
+## Lecture-Wise External Links
+
+### Common MIT OCW Links
+
+- `https://ocw.mit.edu`
+- `https://ocw.mit.edu/help/faq-fair-use`
+- `https://ocw.mit.edu/terms`
+
+### Lecture 1 Links
+
+- `https://arxiv.org/pdf/1512.03385.pdf`
+- `https://dwfritz.com/smart-cosmetic-defect-detection-increases-productivity/`
+- `https://en.wikipedia.org/wiki/Artificial_neural_network`
+- `https://google-research.github.io/seanet/musiclm/examples/`
+- `https://huggingface.co/spaces/nielsr/comparing-captioning-models`
+- `https://magazine.sebastianraschka.com/p/ai-and-open-source-in-2023`
+- `https://mpost.io/best-100-stable-diffusion-prompts-the-most-beautiful-ai-text-to-image-prompts/`
+- `https://spectrum.ieee.org/dartmouth-ai-workshop`
+- `https://twitter.com/petergyang/status/1707169696049668472`
+- `https://www.swarovskioptik.com/us/en/hunting/products/binoculars/ax-visio`
+
+### Lecture 2 Links
+
+- `https://arxiv.org/pdf/1712.09913.pdf`
+- `https://en.wikipedia.org/wiki/Augustin-Louis_Cauchy`
+- `https://kenndanielso.github.io/mlrefined/blog_posts/6_First_order_methods/6_4_Gradient_descent.html`
+
+### Lecture 3A Links
+
+- common MIT OCW links only
+
+### Lecture 3B Links
+
+- `https://www.kaggle.com/datasets/zalando-research/fashionmnist`
+
+### Lecture 4 Links
+
+- `https://arxiv.org/abs/1512.03385`
+- `https://cs.nyu.edu/~fergus/papers/zeilerECCV2014.pdf`
+- `https://cs231n.github.io/convolutional-networks/#conv`
+- `https://huggingface.co/models`
+- `https://pytorch.org/hub/`
+- `https://setosa.io/ev/image-kernels/`
+- `https://towardsdatascience.com/a-comprehensive-guide-to-convolutional-neural-networks-the-eli5-way-3bd2b1164a53`
+- `https://www.amazon.com/Hands-Machine-Learning-Scikit-Learn-TensorFlow/dp/1492032646`
+- `https://www.kaggle.com/datasets/zalando-research/fashionmnist`
+- `https://www.slideshare.net/xavigiro/image-classification-on-imagenet-d1l4-2017-upc-deep-learningfor-computer-vision/`
+- `https://www.tensorflow.org/hub`
+
+### Lecture 5 Links
+
+- `https://huggingface.co/spaces/lmsys/chatbot-arena-leaderboard`
+- `https://www.anthropic.com/index/introducing-claude`
+- `https://www.salesforce.com/news/press-releases/2023/03/07/einstein-generative-ai/`
+
+### Lecture 6 Links
+
+- `https://nlp.stanford.edu/pubs/glove.pdf`
+- `https://txt.cohere.com/sentence-word-embeddings/`
+
+### Lecture 7 Links
+
+- `https://aclanthology.org/H90-1021/`
+- `https://arxiv.org/abs/1706.03762`
+- `https://blog.google/products/search/search-language-understanding-bert/`
+
+### Lecture 8 Links
+
+- `http://arxiv.org/abs/2002.05709`
+- `http://arxiv.org/abs/2012.06678`
+- `https://arxiv.org/abs/1512.03385`
+- `https://arxiv.org/abs/1706.03762`
+- `https://arxiv.org/pdf/1706.03762.pdf`
+- `https://arxiv.org/pdf/1810.04805.pdf`
+- `https://arxiv.org/pdf/2010.11929.pdf`
+- `https://cs.nyu.edu/~fergus/papers/zeilerECCV2014.pdf`
+- `https://huggingface.co/models`
+- `https://jalammar.github.io/illustrated-bert/`
+- `https://keras.io/api/layers/normalization_layers/layer_normalization/`
+- `https://www.sbert.net/index.html`
+
+### Lecture 9 Links
+
+- `http://arxiv.org/abs/2005.14165`
+- `https://arxiv.org/abs/1706.03762`
+- `https://jaykmody.com/blog/gpt-from-scratch/`
+- `https://observablehq.com/@simonw/gpt-tokenizer`
+- `https://platform.openai.com/playground?mode=complete`
+- `https://www.borealisai.com/research-blogs/tutorial6-neural-natural-language-generation-decoding-algorithms/`
+- `https://www.youtube.com/watch?v=kCc8FmEb1nY`
+
+### Lecture 10 Links
+
+- `http://arxiv.org/abs/2005.14165`
+- `http://arxiv.org/abs/2009.01325`
+- `http://arxiv.org/abs/2203.02155`
+- `http://arxiv.org/abs/2205.11916`
+- `https://arxiv.org/abs/2401.14423`
+- `https://arxiv.org/pdf/2309.03409.pdf`
+- `https://llama.meta.com/llama2`
+- `https://magazine.sebastianraschka.com/p/finetuning-large-language-models`
+- `https://openai.com/blog/ChatGPT/`
+- `https://openai.com/blog/instruction-following/`
+- `https://twitter.com/benjedwards/status/1644032568772161545?s=20`
+- `https://twitter.com/karpathy/status/1655994367033884672?s=20`
+- `https://twitter.com/quasimondo/status/1284509525500989445`
+- `https://www.linkedin.com/feed/update/urn:li:activity:7150937271251136514/`
+- `https://www.technologyreview.com/2023/02/08/1068068/ChatGPT-is-everywhere-heres-where-it-came-from/`
+- `https://www.wayfair.com/furniture/pdp/latitude-run-alori-task-chair-w005270016.html`
+
+### Lecture 10.5 Links
+
+- `https://llama.meta.com/llama2`
+- `https://twitter.com/karpathy/status/1655994367033884672?s=20`
+
+### Lecture 11 Links
+
+- `https://arxiv.org/abs/2006.11239`
+- `https://arxiv.org/abs/2112.10752`
+- `https://arxiv.org/pdf/1503.03585.pdf`
+- `https://arxiv.org/pdf/2103.00020.pdf`
+- `https://en.wikipedia.org/wiki/Rotunda_%28architecture%29`
+- `https://huggingface.co/docs/diffusers/index`
+- `https://lexica.art/`
+- `https://lmb.informatik.uni-freiburg.de/people/ronneber/u-net`
+- `https://mspoweruser.com/best-midjourney-prompts/`
+- `https://openai.com/research/video-generation-models-as-world-simulators`
+- `https://openai.com/sora`
+- `https://www.nytimes.com/2023/01/09/science/artificial-intelligence-proteins.html`
