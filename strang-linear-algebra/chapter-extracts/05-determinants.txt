@@ -1,0 +1,2027 @@
+     Chapter 5
+
+     Determinants
+1 The determinant of A = [ � �] is ad - be. Singular matrix A = [ � :�] has det = 0.
+
+    Row exch�nge p       0            1    a b        e d
+2                  A = [                         = [               has det p A = be - ad = - det A.
+    reverses signs         1          0] [ e d ]     a b]
+
+            .         xa + yA          xb + yB .                          Det is linear in
+3 The determmant of [
+                          e               d   ] 1s x(ad - be)+ y(Ad- Be). row 1 by I·tseIf.
+
+
+4 Elimination EA= [ �             b           det EA= a ( d - � b) = product of pivots= det A.
+                             d_         ]
+                                      �b
+5 If A is n by n then 1, 2, 3, 4 remain true: det = 0 when A is singular, det reverses sign
+  when rows are exchanged, det is linear in row 1 by itself, <let = product of the pivots.
+  Always det BA = ( det B)( det A) and det AT = det A. This is an amazing number.
+
+
+
+     5.1     The Properties of Determinants
+     The determinant of a square matrix is a single number. That number contains an amazing
+     amount of information about the matrix. It tells immediately whether the matrix is invert­
+     ible. The determinant is zero when the matrix has no inverse. When A is invertible, the
+     determinant of A-1 is 1 / ( <let A). If det A = 2 then det A - I =    ½.
+                                                                            In fact the determinant
+     leads to a formula for every entry in A- 1.
+         This is one use for determinants-to find formulas for inverse matrices and pivots and
+     solutions A- I b. For a large matrix we seldom use those formulas, because elimination is
+     faster. For a 2 by 2 matrix with entries a , b, e,d, its determinant ad - be shows how A- 1
+     changes as A changes. Notice the division by the determinant!
+
+                                                                     1      d -b
+                                           has inverse    A_ 1 _          [       .             (1)
+                    A=[� !]                                        ad- be -e   a]
+
+                                                         247
+248                                                                     Chapter 5. Determinants
+
+Multiply those matrices to get I. When the determinant is ad - be = 0, we are asked to
+divide by zero and we can't-then A has no inverse. (The rows are parallel when a/ e =
+b / d. This gives ad = be and det A = 0.) Dependent rows always lead to det A = 0.
+     The determinant is also connected to the pivots. For a 2 by 2 matrix the pivots are a
+and d - (e/ a)b. The product of the pivots is the determinant:
+
+Product of pivots            a ( d - ;;b) = ad - be which is          det A.
+
+After a row exchange the pivots change to e and b - (a/ e)d.Those new pivots multiply to
+give be - ad. The row exchange to [ � �] reversed the sign of the determinant.
+
+   Looking ahead The determinant of an n by n matrix can be found in three ways:
+1 Multiply the n pivots (times 1 or -1)                 This is the pivot formula.
+2 Add up n! terms (times 1 or -1)                       This is the "big" formula.
+3 Combine n smaller determinants (times 1 or -1)        This is the cofactor formula.
+You see that plus or minus signs-the decisions between 1 and -1-play a big part in
+determinants.That comes from the following rule for n by n matrices:
+
+    The determinant changes sign when two rows (or two columns) are exchanged.
+
+The identity matrix has determinant + 1. Exchange two rows and det P = -1. Exchange
+two more rows and the new permutation has det P = + 1. Half of all permutations are
+even ( det P = 1) and half are odd ( det P = -1).Starting from I, half of the P's involve
+an even number of exchanges and half require an odd number.In the 2 by 2 case, ad has a
+plus sign and be has minus-coming from the row exchange:
+
+                       det [ � �] = 1 and         det [ � �] = -1.
+
+     The other essential rule is linearity-but a warning comes first.Linearity does not mean
+that det(A + B) = det A+ det B. This is absolutely false. That kind of linearity is not
+even true when A= I and B =I.The false rule would say that det(J + I) = 1 + 1 = 2.
+The true rule is det 2J = 2 n . Determinants are multiplied by 2 n (not just by 2) when
+matrices are multiplied by 2.
+     We don't intend to define the determinant by its formulas. It is better to start with
+its properties-sign reversal and linearity. The properties are simple (Section 5.1). They
+prepare for the formulas (Section 5.2).Then come the applications, including these three:
+
+  (1) Determinants give A- 1 and A- 1 b (this formula is called Cramer's Rule).
+
+  (2) When the edges of a box are the rows of A, the volume is I det Al.
+
+  (3) For n special numbers .\, called eigenvalues, the determinant of A - >-I is zero.
+      This is a truly important application and it fills Chapter 6.
+5.1. The Properties of Determinants                                                                               249
+
+                                                       The Properties of the Determinant
+Determinants have three basic properties (rules 1, 2, 3). By using those rules we can
+compute the determinant of any square matrix A. This number is written in two ways,
+<let A and IAI. Notice: Brackets for the matrix, straight bars for its determinant. When
+A is a 2 by 2 matrix, the rules 1, 2, 3 lead to the answer we expect:
+
+                   The determinant of       [:        !]       is
+                                                                      I:   !   I
+                                                                                   = ad - be.
+
+From rules 1-3 we will reach rules 4-10. The last two are det( AB) = ( det A) ( det B) and
+det AT = det A. We will check all rules with the 2 by 2 formula, but do not forget: The
+rules apply to any n by n matrix A.
+    Rule 1 (the easiest) matches det I= l with volume= 1 for a unit cube.
+1   The determinant of the n by n identity matrix is 1.
+                                                               1
+                                   =1           and
+                            I�   �I
+                                                                                   = l.
+                                                                           1
+2   The determinant changes sign when two rows are exchanged (sign reversal):
+                               e d          a     b
+                  Check·.
+                             Ia b    1- - I e d I (both s1·ctes equa1 be - ad).
+Because of this rule, we can find det P for any permutation matrix. Just exchange rows
+of I until you reach P. Then det P = +l for an even number of row exchanges and
+det P= -l for an odd number.
+    The third rule has to make the big jump to the determinants of all matrices.
+3 The determinant is a linear function of each row separately (all other rows stay fixed).
+If the first row is multiplied by t, the determinant is multiplied by t. If first rows are added,
+determinants are added. This rule only applies when the other rows do not change! Notice
+how e and d stay the same:
+
+    multiply row 1 by any number t
+         <let is multiplied by t                       I t;         t I= I           :I
+                                                                     :  t :
+
+                                                                       b : b' = :                                 .
+                                                       I :
+     add row 1 of A to row 1 of A':
+                                                                             I I              : I + I�
+                                                        a a'
+         then determinants add                                                                               �I
+
+In the first case, both sides are ad - be. Then t factors out. In the second case, both sides
+are ad + a 'd - be - b' e. Thesetrules tstill apply when A is n by n, and one row changes . .
+       4      8    8    1        2    2                    4   8     8   4                0       0      8    8
+    A= 0      1    1 =4 0        1    1    and             0   1     1 = 0            1   1    + 0       1    1
+                                                                                      0
+
+       0      0    1    0        0    1                    0   0     1   0            0   1       0      0    1
+By itself, rule 3 does not say what those determinants are (det A is 4).
+250                                                                        Chapter 5. Determinants
+
+   Combining multiplication and addition, we get any linear combination in one row.
+Rule 2 for row exchanges can put that row into the first row and back again.
+   This rule does not mean that det 21 = 2 det l. To obtain 21 we have to multiply both
+rows by 2, and the factor 2 comes out both times:
+
+                                              and
+
+This is just like area and volume. Expand a rectangle by 2 and its area increases by 4.
+Expand an n-dimensional box by t and its volume increases by t n . The connection is no
+accident-we will see how determinants equal volumes.
+    Pay special attention to rules 1-3. They completely determine the number det A. We
+could stop here to find a formula for n by n determinants (a little complicated). We prefer
+to go gradually, because rules 4 - 10 make determinants much easier to work with.
+4 If two rows of A are equal, then <let A = 0.
+
+Equal rows                        Check 2 by 2 :
+                                                    I
+                                                        :   t   I
+                                                                    = 0.
+
+Rule 4 follows from rule 2. (Remember we must use the rules and not the 2 by 2 formula.)
+Exchange the two equal rows. The determinant Dis supposed to change sign. But also D
+has to stay the same, because the matrix is not changed. The only number with - D = D
+is D = 0-this must be the determinant. (Note: In Boolean algebra the reasoning fails,
+because -1 = 1. Then Dis defined by rules 1, 3, 4.)
+    A matrix with two equal rows has no inverse. Rule 4 makes det A = 0. But matrices
+can be singular and determinants can be zero without having equal rows! Rule 5 will be
+the key. We can do row operations (like elimination) without changing det A.
+5   Subtracting a multiple of one row from another row leaves det A unchanged.
+
+£ times row 1
+from row 2
+
+Rule 3 (linearity) splits the left side into the right side plus another term -£1 ! I­        g
+This extra term is zero by rule 4: equal rows. Therefore rule 5 is correct (not just 2 by 2).
+Conclusion The determinant is not changed by the usual elimination steps from A to U.
+Thus det A equals det U. If we can find determinants of triangular matrices U, we can
+find determinants of all matrices A. Every row exchange reverses the sign, so always
+det A= ± det U. Rule 5 has narrowed the problem to triangular matrices.
+
+6 A matrix with a row of zeros has det A = 0.
+
+Row of zeros                         = 0     and             = 0
+                             I�   �I                  I� �I      ·
+For an easy proof, add some other row to the zero row. The determinant is not changed
+(rule 5). But the matrix now has two equal rows. So det A = 0 by rule 4.
+5.1. The Properties of Determinants                                                     251
+
+7 If A is triangular then det A = a11 a 22 • • • ann = product of diagonal entries.
+
+Triangular                                                      = ad.
+                                                           1: �I
+                                              and also
+
+Suppose all diagonal entries are nonzero. Remove the off-diagonal entries by elimination!
+(If A is lower triangular, subtract multiples of each row from lower rows. If A is upper
+triangular, subtract from higher rows.) By rule 5 the determinant is not changed-and now
+the matrix is diagonal:
+
+                                                    0
+
+Diagonal matrix             det                          = (an)(a22) · · · (ann )-
+                                    0
+
+Factor an from the first row by rule 3. Then factor a22 from the second row. Eventually
+factor ann from the last row. The determinant is an times a22 times · · · times ann times
+det I. Then rule 1 (used at last!) is det I = 1.
+    What if a diagonal entry aii is zero? Then the triangular A is singular. Elimination
+produces a zero row. By rule 5 the determinant is unchanged, and by rule 6 a zero row
+means det A= 0. We reach the great test for singular or invertible matrices.
+8 If A is singular then det A = 0. If A is invertible then det A =I- 0.
+
+                              b
+Singular                            is singular if and only if ad - be= 0.
+                      [ac    d]
+
+Proof Elimination goes from A to U. If A is singular then Uhas a zero row. The rules
+give det A = det U = 0. If A is invertible then U has the pivots along its diagonal. The
+product of nonzero pivots (using rule 7) gives a nonzero determinant:
+
+
+ Multiply pivots            det A= ± det U = ± (product of the pivots).                  (2)
+
+
+The pivots of a 2 by 2 matrix (if a =/- 0) are a and d - ( c/a)b:
+
+                                               b  a        b
+            The determinant is          lac   dl=l o d - (c/a)b I
+                                                                  = ad - be.
+
+    This is the first formula for the determinant. MATLAB multiplies the pivots to find
+det A. The sign in ± det U depends on whether the number of row exchanges is even or
+odd: + 1 or -1 is the determinant of the permutation P that exchanges rows.
+    With no row exchanges, P = I and det A = det U = product of pivots. And det L = 1:
+
+   If PA = LU         then        det P det A = det L det U    and   det A = ± det U.    (3)
+252                                                                             Chapter 5. Determinants
+
+
+
+
+                                                                           I·
+      The determinant of AB is det A times det B: I AB I = I A11BI,
+
+
+                             I 11 I I
+9
+
+Product rule                  a         b     p q
+                                                  = eap + d br eaq + dsb
+                              e     d        r s      p + r q + s
+
+When the matrix B is A-1, this rule says that the determinant of A- 1 is 1 / det A:
+
+
+A times A- 1       AA- 1 = I so                 ( det A)( det A - l) = det I = l.
+
+
+This product rule is the most intricate so far. Even the 2 by 2 case needs some algebra:
+
+     IAI IBI = (ad - bc)(ps - qr)= (ap + br)(eq + ds) - (aq + sb )(ep + dr) = IABI.
+
+For then by n case, here is a snappy proof that IABI = IAI IBI. When IBI is not zero,
+consider the ratio D(A) = IABI/IBI. Check that this ratio D(A) has properties 1,2,3.
+Then D (A) has to be the determinant and we have IABI/IBI = IA 1- Good.
+Property 1     (Determinant of I)           If A= I then the ratio D(A) becomes IBI/IBI = 1.
+Property 2 (Sign reversal) When two rows of A are exchanged, so are the same two
+   rows of AB. Therefore IABI changes sign and so does the ratio IABI/IBI.
+Property 3 (Linearity) When row 1 of A is multiplied by t, so is row 1 of AB. This
+   multiplies the determinant IABI by t. So the ratio IABI/IBI is multiplied by t.
+     Add row 1 of A to row 1 of A'. Then row 1 of AB adds to row 1 of A'B.
+     By rule 3, determinants add. After dividing by IBI, the ratios add-as desired.
+
+Conclusion This ratio IABI/IBI has the same three properties that define IAI. Therefore
+it equals IAI. This proves the product rule IABI = IAI IBI. The case IBI = 0 is separate
+and easy, because AB is singular when Bis singular. Then IABI = IAI IBI is O = 0.
+10     The transpose AT has the same determinant as A.
+
+             Transpose    I 11- I
+                           a b
+                           e d
+                                              a e
+                                               b d
+                                                      since both sides equal       ad - be.
+
+The equation IAT I = IAI becomes O = 0 when A is singular (we know that AT is also
+singular). Otherwise A has the usual factorization PA = LU. Transposing both sides
+gives AT pT = UT LT _ The proof of IAI = IAT I comes by using rule 9 for products:
+
+     Compare     det P det A = det L det U with             det AT det p T = det UT det LT .
+
+First, det L = det LT = 1 (both have 1 's on the diagonal). Second, det U = det UT (those
+triangular matrices have the same diagonal). Third, det P = det p T (permutations have
+p T P = I, so IPT I IPI = 1 by rule 9; thus IPI and IPT I both equal 1 or both equal -1).
+So L, U, P have the same determinants as LT , UT , p T and this leaves det A = det AT .
+5 .1. The Properties of Determinants                                                                    253.
+
+Important comment on columns Every rule for the rows can apply to the columns (just
+by transposing, since IAI = IAT I)- The determinant changes sign when two columns are
+exchanged. A zero column or two equal columns will make the determinant zero. If a
+column is multiplied by t, so is the determinant. The determinant is a linear function of
+each column separately.
+    It is time to stop. The list of properties is long enough. Next we find and use an explicit
+formula for the determinant.
+
+
+
+                         •     REVIEW OF THE KEY IDEAS                                   •
+
+   1. The determinant is defined by det I = 1, sign reversal, and linearity in each row.
+   2. After elimination det A is ± (product of the pivots).
+   3. The determinant is zero exactly when A is not invertible.
+   4. Two remarkable properties are det AB= (detA)(det B) and det AT = det A.
+
+
+                               • WORKED EXAMPLES                                    •
+
+
+5.1 A   Apply these operations to A and find the determinants of M1, M2, M3, M4:
+  In M1 , multiplying each aij by (-l)i+j gives a checkerboard sign pattern.
+  In M2 , rows 1, 2, 3 of A are subtracted from rows 2, 3, 1.
+  In M3, rows 1, 2, 3 of A are added to rows 2, 3, 1.
+How are the determinants of M1, M2, M3 related to the determinant of A?
+             au -a12   a13                       row 1 -row 3                        row 1 + row 3
+           [-a21  a22 -a23]                     [row 2 -row 1]                      [row 2 + row 1]
+             a 1 -a32
+              3        a33                       row 3 -row 2                        row 3 + row 2
+
+Solution      The three determinants are det A, 0, and 2 det A. Here are reasons:
+
+
+M1 = [
+         l
+             -1
+                    1
+                        l [:�� :� :�:]
+                             a31       a32   a33
+                                                       [
+                                                           l
+                                                               -1
+                                                                    1
+                                                                        l    so det M1 = (-l )(detA)(-1).
+
+M2 is singular because its rows add to the zero row. Its determinant is zero.
+M3 can be split into eight matrices by Rule 3 (linearity in each row separately):
+           row 1 + row3                 row 1              row3             row 1               row3
+           row2 + row 1            =    row2       +       row2     +       row 1       +···+   row 1
+           row3 + row3                  row3               row3             row3                row2
+All but the first and last have repeated rows and zero determinant. The first is A and the
+last has two row exchanges. So det M3 = det A+ det A. (Try A= I.)
+254                                                                         Chapter 5. Determinants
+
+
+
+
+                                                        l
+5.1 B      Explain how to reach this determinant by row operations:
+
+                             1- a  1   1
+                        det [ 1   1-a  1                    =a2 (3-a).                          (4)
+                              1    1  1-a
+
+Solution Subtract row 3 from row 1 and then from row 2 . This leaves
+                                          a
+                                  det [ �   �a  : ]
+                                         1  1 1- a
+
+    Now add column 1 to column 3, and also column 2 to column 3. This leaves a lower
+triangular matrix with -a, -a, 3 - a on the diagonal: det = (-a)(-a)(3 - a).
+    The determinant is zero if a = 0 or a = 3. For a = 0 we have the all-ones matrix­
+certainly singular. For a = 3, each row adds to zero-again singular. Those numbers 0
+and 3 are the eigenvalues of the all-ones matrix. This example is revealing and important,
+leading toward Chapter 6.
+
+
+Problem Set 5.1
+Questions 1-12 are about the rules for determinants.
+1       If a 4 by 4 matrix has detA =       ½, find det(2A) and det(-A) and det(A2) and
+        det(A-1 ).
+2       If a 3 by 3 matrix has detA = - 1, find det(½A) and det(- A) and det(A2 ) and
+        det(A-1 ).
+3       True or false, with a reason if true or a counterexample if false:
+         (a) The determinant of I+ A is 1 + detA.
+         (b) The determinant of ABC is IAI IBI ICI .
+         (c) The determinant of 4A is 4IAI.
+
+         (d) The determinant of AB - BA is zero. Try an example with A= [ �                 � ] .
+
+4       Which row exchanges show that these "reverse identity matrices" J3 and J4 have
+        IJ3I = -1 but IJ4I = +1?
+
+                        o o
+                  det [ O 1 0
+                                1]   = -1      but       det   r 0Oo 10o 10o 0011 = +1.
+                       1 0 0
+                                                               1 0      0     0
+
+5       For n = 5, 6, 7, count the row exchanges to permute the reverse identity Jn to the
+        identity matrix In . Propose a rule for every size n and predict whether J101 has
+        determinant +1 or - 1.
+5.1. The Properties of Determinants                                                    255
+
+6     Show how Rule 6 (determinant= 0 if a row is all zero) comes from Rule 3.
+7     Find the determinants of rotations and reflections:
+                  c�s0 -sin0                            1- 2cos2 0 -2cos0sin0
+              Q= [          ]                 and Q = [                       ]
+                   sm0 cos0                           -2cos0sin0    1- 2sin2 0 ·
+
+8     Prove that every orthogonal matrix (Q T Q = I) has determinant 1 or-1.
+        (a) Use the product rule IABI = IAI IBI and the transpose rule IQI = IQ T I.
+        (b) Use only the product rule. If I detQI > 1 then detQn = (detQr blows up.
+            How do you know this can't happen to Qn ?
+9     Do these matrices have determinant 0, 1, 2, or 3?
+
+
+
+
+10    If the entries in every row of A add to zero, solve Ax = 0 to prove detA = 0. If
+      those entries add to one, show that det(A- I) = 0. Does this mean detA= 1?
+11    Suppose that CD =- DC and find the flaw in this reasoning: Taking determinants
+      gives ICI IDI = -IDI ICI- Therefore ICI = 0 or IDI = 0. One or both of the
+      matrices must be singular. (That is not true.)
+12    The inverse of a 2 by 2 matrix seems to have determinant = 1:
+
+                                                1      d -b = ad- be =
+                       detA-l=det                    [     ]          l.
+                                              ad- be -e a     ad- be
+
+      What is wrong with this calculation? What is the correct detA- I?
+
+Questions 13-27 use the rules to compute specific determinants.
+
+13    Reduce A to U and find detA = product of the pivots:
+
+
+
+
+                       r1 2
+14    By applying row operations to produce an upper triangular U, compute
+
+
+
+                                                                   -
+                                                              r-�0 �0 -1-� 2
+                                                                           �1
+                        2     6       6   1
+                 det                              and   det                   .
+                       _1         0     0 3                     0 -1     2 -1
+                            0 2       03 ol
+                                          7
+256                                                                  Chapter 5. Determinants
+
+15    Use row operations to simplify and compute these determinants:
+
+                        101 201 301
+                   det [102 202 302]               and
+                        103 203 303
+
+16    Find the determinants of a rank one matrix and a skew-symmetric matrix :
+
+                                                            [ 0  1
+                                                and      A= -1   0
+                                                             -3 -4
+
+17    A skew-symmetric matrix has AT = -A. Insert a, b, e for 1, 3, 4 in Question 16 and
+      show that [Al = 0. Write down a 4 by 4 example with \A\ = 1.
+18    Use row operations to show that the 3 by 3 "Vandermonde determinant" is
+
+                                    a   a2   ] = (b - a)(e - a)(e - b).
+                                    b   b2
+                                    e   e2
+
+19    Find the determinants of U and u- 1 and U 2 :
+
+
+                                                  and
+                                                          U=[�       !]-
+20    Suppose you do two row operations at once, going from
+
+                                                    a - Le b- Ld
+                                         to        [ e - la d - lb ] .
+
+      Find the second determinant. Does it equal ad - be?
+21    Row exchange: Add row 1 of A to row 2, then subtract row 2 from row 1. Then add
+      row 1 to row 2 and multiply row 1 by -1 to reach B. Which rules show
+
+                    det B =   I� !I       equals      - det A = -   I : ! I?
+      Those rules could replace Rule 2 in the definition of the determinant.
+22    From ad - be, find the determinants of A and A- 1 and A - >-.I:
+
+
+
+
+      Which two numbers>-. lead to det(A - >-.I)= 0? Write down the matrix A- >-.I for
+      each of those numbers>-.-it should not be invertible.
+5.1. The Properties of Determinants                                                       257
+
+23                  i
+      From A = [ ! ] find A2 and A- 1 and A - )J and their determinants. Which two
+      numbers,\ lead to det(A - ,\I) = 0 ?
+24    Elimination reduces A to U. Then A= LU:
+
+               A=
+                        [J j]
+                            3
+                            8
+                            5 [ l �rn t]    0
+                                            1
+                                            4
+                                                                          3
+                                                                          2
+                                                                          0 -1
+                                                                                 = LU.
+
+      Find the determinants of L, U, A, u- 1 L- 1, and u- 1 L- 1 A.
+25    If the i,j entry of A is i times j, show that det A = 0. (Exception when A = [ 1 ] .)
+26    If the i,j entry of A is i + j, show that det A = 0. (Exception when n = 1 or 2.)
+27    Compute the determinants of these matrices by row operations:
+
+
+
+          A�[! �]                           [ ]                                  [; �]
+                                                  a 0
+                        a                                                           a
+                                                  0 b
+                        0       and   B=                           and     C=       b
+                                                  0 0
+                        0                                                           b
+                                                  0 0
+28    True or false (give a reason if true or a 2 by 2 example if false):
+        (a) If A is not invertible then AB is not invertible.
+        (b) The determinant of A is always the product of its pivots.
+        (c) The determinant of A - B equals det A - det B.
+        (d) AB and BA have the same determinant.
+29    What is wrong with this proof that projection matrices have det P = 1?
+
+                   p = A(AT A)-lAT           so     IPI = IAI         IA = l.
+                                                                        T
+                                                             IA/IIAI      /
+30    (Calculus question) Show that the partial derivatives of ln( det A) give A- 1 !
+                                                                8f /8a     8f /8c _ _ 1
+            f(a, b, c, d) = ln(ad - be)      leads to       [                     ]  A
+                                                                a JI ob    a JI od -
+31    (MATLAB) The Hilbert matrix hilb(n) has i,j entry equal to 1/(i + j - 1). Print
+      the determinants ofhilb(l), hilb(2), ..., hilb(lO). Hilbert matrices are hard to work
+      with! What are the pivots ofhilb ( 5)?
+32    (MATLAB) What is a typical determinant (experimentally) ofrand(n) and randn(n)
+      for n = 50,100,200,400? (And what does "Inf" mean in MATLAB?)
+33    (MATLAB) Find the largest determinant of a 6 by 6 matrix of 1 's and -1 's.
+34    If you know that det A = 6, what is the determinant of B?
+                           row 1                            row 3 + row 2 + row I
+              From det A = row 2       = 6 find det B =         row 2 + row I
+                           row 3                                    row I
+     258                                                                    Chapter 5. Determinants
+
+
+     5.2     Permutations and Cofactors
+
+1 2 by 2 : ad - be has 2 ! terms with ± signs.      n by n : det A adds n! terms with ± signs.
+2 For n = 3, det A adds 3! = 6 terms. Two terms are +a12a23a31 and -a13a22a31.
+  Rows 1, 2, 3 and columns 1, 2, 3 appear once in each term.
+
+3 That minus sign came because the column order 3, 2, 1 needs one exchange to recover 1, 2, 3.
+
+4 The six terms include +a11a22a33 -a11a23a32 = a11 (a22a33 -a23a32) = a11 (cofactor C11).
+5 Always detA = a11C11 + a12C12 + · · · + a1n C1n - Cofactors are determinants of size n - l.
+
+
+         A computer finds the determinant from the pivots. This section explains two other ways
+     to do it. There is a "big formula" using all n! permutations. There is a "cofactor formula"
+     using determinants of size n - l. The best example is my favorite 4 by 4 matrix:
+
+                               2 -1  0  0
+                              -l  2 -1  0
+                          A= [            1                 has   detA = 5.
+                               0 -1  2 -1
+                               0  0 -1  2
+
+     We can find this determinant in all three ways: pivots, big formula, cofactors.
+
+        1. The product of the pivots is 2 ·   ! · ½ · ¾. Cancellation produces 5.
+        2. The "big formula" in equation (8) has 4! = 24 terms. Only five terms are nonzero:
+
+                                     det A = 16 - 4 - 4 - 4 + 1 = 5.
+
+           The 16 comes from 2 · 2 · 2 · 2 on the diagonal of A. Where do -4 and +1 come
+           from? When you can find those five terms, you have understood formula (8).
+
+        3. The numbers 2, -1, 0, 0 in the first row multiply their cofactors 4, 3, 2, 1 from the
+           other rows. That gives 2 · 4 - 1 · 3 = 5. Those cofactors are 3 by 3 determinants.
+           Cofactors use the rows and columns that are not used by the entry in the first row.
+           Every term in a determinant uses each row and column once!
+
+                                                                          The Pivot Formula
+     When elimination leads to A = LU, the pivots d 1 , . . . , dn are on the diagonal of the
+     upper triangular U. If no row exchanges are involved, multiply those pivots to find the
+     determinant:
+
+
+     This formula for det A appeared in Section 5.1, with the further possibility of row
+                                                                                               (1)
+
+
+     exchanges. Then a permutation enters PA= L U. The determinant of P is -1 or + 1.
+5.2. Permutations and Cofactors                                                             259
+
+
+
+       (det P)(det A) = (det L )(det U) gives               <letA= ±(d 1 d2 · · · dn )-      (2)
+
+Example 1      A row exchange produces pivots 4, 2, 1 and that important minus sign:
+
+
+                                                           detA= -(4)(2)(1)= -8.
+
+
+The odd number of row exchanges (namely one exchange) means that <let P= -l.
+    The next example has no row exchanges. It may be the first matrix we factored into
+LU (when it was 3 by 3). What is remarkable is that we can go directly ton byn. Pivots
+give the determinant. We will also see how determinants give the pivots.
+Example 2     The first pivots of this tridiagonal matrix A are 2, ! , ½. The next are ¾ and
+i and eventually �- Factoring thisn byn matrix reveals its determinant:
+  2    -1                            1                                    2 -1
+                                     1                                       3
+                                                                                  -1
+ -1     2 -1                       -2     1                                  2
+                                          2                                        4
+       -1  2                             -3    1                                   3   -J
+                         -1
+                   -1     2                        _n-1
+                                                       n        1
+                                                                              !
+The pivots are on the diagonal of U (the last matrix). When 2 and and ½ and ¾ are
+multiplied, the fractions cancel. The determinant of the 4 by 4 matrix is 5. The 3 by 3
+determinant is 4. Then byn determinant isn + l:
+            -1, 2, -1 matrix                                         !
+                                     detA= (2) (!) (1) · · · ( 0 1 ) = n + 1.
+   Important point: The first pivots depend only on the upper left corner of the original
+matrix A. This is a rule for all matrices without row exchanges.
+      The first k pivots come from the k by k matrix Ak in the top left corner of A.
+      The determinant of that corner submatrix Ak is d1d2 · · · dk (first k pivots).
+The 1 by 1 matrix A1 contains the very first pivot d1. This is detA1. The 2 by 2 matrix in
+the corner has <letA2 = d1d 2. Eventually then byn determinant multiplies alln pivots.
+    Elimination deals with the matrix Ak in the upper left corner while starting on the whole
+matrix. We assume no row exchanges-then A = LU and Ak = LkUk. Dividing one
+determinant by the previous determinant (<letAk divided by <letA k -l) cancels everything
+but the latest pivot dk. Each pivot is a ratio of determinants:
+
+       Pivots from                                     d1d2 · · -dk           detAk
+                              The kth pivot is dk =                                    .     (3)
+       determinants                                   d1d2 • . • d k -1      detA k -1
+
+We don't need row exchanges when all the upper left submatrices have <letAk -:/- 0.
+260                                                                  Chapter 5. Determinants
+
+                                               The Big Formula for Determinants
+Pivots are good for computing. They concentrate a lot of information-enough to find the
+determinant. But it is hard to connect them to the original aij. That part will be clearer if
+we go back to rules 1-2-3, linearity and sign reversal and det I = l. We want to derive a
+single explicit formula for the determinant, directly from the entries aij.
+    The formula has n! terms. Its size grows fast because n! = 1, 2, 6, 24, 120, .... For
+n = 11 there are about forty million terms. For n = 2, the two terms are ad and be. Half
+the terms have minus signs (as in -be). The other half have plus signs (as in ad). For n = 3
+there are 3! = (3)(2)(1) terms. Here are those six terms:
+
+                        a11   a12   a13
+      3 by 3                                  +a11a22a33 + a12a23a31 +a13a21a32
+                        a21   a22   a23
+      determinant                             -a11a23a32 - a12a21a33 - a13a22a31.
+                        a31   a32   a33
+
+
+                                                      � ________..._,                    (4)
+Notice the pattern. Each product like a11a23a32 has one entry from each rollf. It also has
+one entry from each column. The column order 1,3, 2 means that this particular term
+comes with a minus sign. The column order 3, 1, 2 in a13a21a32 has a plus sign (boldface).
+It will be "permutations" that tell us the sign.
+    The next step (n = 4) brings 4! = 24 terms. There are 24 ways to choose one entry
+from each row and column. Down the main diagonal, a11a22a33a44 with column order
+1, 2, 3, 4 always has a plus sign. That is the "identity permutation".
+    To derive the big formula I start with n = 2. The goal is to reach ad- be in a systematic
+way. Break each row into two simpler rows:
+
+          [a b]=[a o]+[o b]                  and     [e d]=[e o]+[o d].
+Now apply linearity, first in row 1 (with row 2 fixed) and then in row 2 (with row 1 fixed):
+
+
+          I: !l I: �l+I� !I
+                    =                                           (break up row 1)
+                                                                                         (5)
+
+                    =I: �l+I� �l+I� �l+I� ! I
+                                                                (break up row 2).
+
+The last line has 22 = 4 determinants. The first and fourth are zero because one row is a
+multiple of the other row. We are left with 2! = 2 determinants to compute:
+
+
+                    1� �I+I� �I             I� �I+ I� �I
+                                     = ad         be     = ad - be.
+
+
+The splitting led to permutation matrices. Their determinants give a plus or minus sign.
+The permutation tells the column sequence. In this case the column order is (1, 2) or (2, 1).
+    Now try n = 3. Each row splits into 3 simpler rows like [ a11 0 0]. Using linearity in
+each row, det A splits into 33 = 27 simple determinants. If a column choice is repeated­
+for example if we also choose the row [ a21 0 0]-then the simple determinant is zero.
+5.2. Permutations and Cofactors                                                                                      261
+
+We pay attention only when the entries aij come from different columns, like (3, 1, 2):
+
+   au a12 a13               au                                     a12                                       a13
+   a21 a22 a23                              a22          +                   a23 + a21
+   a31 a32 a33                                     a33       a31                                 a32
+
+                                au                                     a12                                   a13
+       Six terms         +                          a23 + a21                          +         a22
+                                             a32                                 a33       a31
+
+    There are 3 ! = 6 ways to order the columns, so six determinants. The six permutations
+of (1, 2, 3) include the identity permutation (1, 2, 3) from P = I.
+
+       Column numbers = (1, 2, 3), (2, 3, 1), (3, 1, 2), (1, 3, 2), (2, 1, 3), (3, 2, 1).                             (6)
+The last three are odd permutations (one exchange).The first three are even permutations
+(0 or 2 exchanges). When the column sequence is (3, 1, 2), we have chosen the entries
+a13a21a32-that particular column sequence comes with a plus sign (2 exchanges). The
+determinant of A is now split into six simple terms.Factor out the aij:
+                        1                                          1                                         1
+                                1
+                                        1                     1                                      1
+                                                                                                                      (7)
+                            1                                          1                                         1
+                                                                                                         1
+                                    1                                        1                   1
+The first three (even) permutations have det P        +l, the last three (odd) permutations
+have det P = -l.We have proved the 3 by 3 formula in a systematic way.
+    Now you can see the n by n formula. There are n! orderings of the columns. The
+columns (1, 2, ..., n) go in each possible order ( a, fJ, ..., w). Taking a1 a. from row 1
+and a2(3 from row 2 and eventually anw from row n, the determinant contains the product
+a1a.a2(3 · · · anw times + 1 or -1. Half the column orderings have sign -1.
+    The determinant of A is the sum of these n! simple determinants, times 1 or -1.
+The simple determinants a1a.a2(3 · · · anw choose one entry from every row and column.
+For 5 by 5, the term a15a22a33a44a51 would have det P = -l from exchanging 5 and 1.
+
+             det A = sum over all n! column permutations P = ( a, fJ, ... , w)
+
+                    =   L (det P)a1a.a2(3 · · · a            nw    = BIG FORMULA.
+                                                                                                                     (8)
+
+
+
+
+The 2 by 2 case is +a11a22 - a12a21 (which is ad - be). Here P is (1, 2) or (2, 1).
+262                                                                  Chapter 5. Determinants
+
+    The 3 by 3 case has three products "down to the right" (see Problem 28) and three
+products "down to the left". Warning: Many people believe they should follow this pattern
+in the 4 by 4 case. They only take 8 products-but we need 24.
+Example 3 (Determinant of U) When U is upper triangular, only one of the n! products
+can be nonzero. This one term comes from the diagonal: det U = +u11 u22 · · · Unn· All
+other column orderings pick at least one entry below the diagonal, where U has zeros. As
+soon as we pick a number like u21 = 0, that term in equation (8) is sure to be zero.
+    Of course det I= 1. The only nonzero term is +(1)(1) · · · (1) from the diagonal.
+Example 4      Suppose Z is the identity matrix except for column 3. Then
+
+                                                 1   0   a 0
+                                                 0   1   b 0
+                      The determinant of Z =                     IS C.                    (9)
+                                                 0   0   C 0
+                                                 0   0   d 1
+
+The term (l)(l)(c)(l) comes from the main diagonal with a plus sign. There are 4! = 24
+products (choosing one factor from each row and column) but the other 23 products are
+zero. Reason: If we pick a, b, or d from column 3, that column is used up. Then the only
+available choice from row 3 is zero.
+    Here is a different reason for the same answer. If c = 0, then Z has a row of zeros and
+det Z = c = 0 is correct. If c is not zero, use elimination. Subtract multiples of row 3 from
+the other rows, to knock out a, b, d. That leaves a diagonal matrix and det Z = c.
+    This example will soon be used for "Cramer's Rule". If we move a, b, c, d into the first
+column of Z, the determinant is det Z = a. (Why?) Changing one column of I leaves Z
+with an easy determinant, coming from its main diagonal only.
+Example 5      Suppose A has l's just above and below the main diagonal. Here n = 4:
+
+
+                              and                                   have determinant 1.
+
+
+The only nonzero choice in the first row is column 2. The only nonzero choice in row 4 is
+column 3. Then rows 2 and 3 must choose columns 1 and 4. In other words det P = det A.
+The determinant of Pis +1 (two exchanges to reach 2, 1, 4, 3). Therefore det A = +1.
+
+
+
+                                                          Determinant by Cofactors
+Formula (8) is a direct definition of the determinant. It gives you everything at once­
+but you have to digest it. Somehow this sum of n! terms must satisfy rules 1-2-3 (then
+all the other properties 4-10 will follow). The easiest is detJ = 1, already checked.
+5.2. Permutations and Cofactors                                                                       263
+
+   When you separate out the factor a11 or a12 or a1°' that comes from the first row,
+you see linearity. For 3 by 3, separate the usual 6 terms of the determinant into 3 pairs:
+
+
+
+
+Those three quantities in parentheses are called "cofactors". They are 2 by 2 determi­
+nants, from rows 2 and 3. The first row contributes the factors a11 , a1 2, a1 3. The lower
+rows contribute the cofactors C11 , C1 2, C1 3. Certainly the determinant a11C11 +a12C12 +
+a13C13 depends linearly on a1 1, a12, a13-this is Rule 3.
+   The cofactor of a11 is C11 = a22a33 - a23a32. You can see it in this splitting:
+
+      a11    a1 2 a1 3       a1 1                      a1 2                                     a13
+      a2 1   a22 a23                a22 a23    + a21          a23       +       a21 a22
+      a31    a32 a33                a32 a33      a31          a33               a31 a32
+
+We are still choosing one entry from each row and column. Since a11 uses up row 1 and
+column 1, that leaves a 2 by 2 determinant as its cofactor.
+    As always, we have to watch signs. The 2 by 2 determinant that goes with a12 looks
+like a21a33 - a23a31 . But in the cofactor C1 2, its sign is reversed. Then a12C1 2 is the
+correct 3 by 3 determinant. The sign pattern for cofactors along the first row is plus-minus­
+plus-minus. You cross out row 1 and column j to get a submatrix M1j of size n - 1.
+                                             j
+Multiply its determinant by the sign ( -1)H to get the cofactor:
+
+                                                             j
+                  The cofactors along row 1 are C1 j = ( -1)H det M1j .
+    ThecofactorexpansionisdetA = a11C11 + a12C12 + · · · + a1nC1n-                                    (11)
+
+In the big formula (8), the terms that multiply a11 combine to give C11 = det M11 . The
+sign is ( -1)1 +1, meaning plus. Equation (11) is another form of equation (8) and also
+equation (10), with factors from row 1 multiplying cofactors that use only the other rows.
+
+Note Whatever is possible for row 1 is possible for row i. The entries ai j in that row also
+                                                                                    j
+have cofactors Ci j. Those are determinants of order n - 1, multiplied by ( -1)i + . Since
+ai j accounts for row i and column j, the submatrix Mi j throws out row i and column j.
+The display shows a 43 and M43 (with row 4 and column 3 removed). The sign ( -1)4+3
+multiplies the determinant of M43 to give C43. The sign matrix shows the± pattern:
+
+                         •
+
+                                    :1
+                                                                                   +
+                         •
+                                                               +
+                                                                    _       +             +
+                         •               signs (-l)i+j =
+                                                              [ +                  +   -]-
+                                                                _           +               +
+264                                                                   Chapter 5. Determinants
+
+
+ The determinant is the dot product of any row i of A with its cofactors using other rows:
+    COFACTOR FORMULA                                                                     (12)
+
+ Each cofactor Cij (order n - l, without row i and column j) includes its correct sign:
+
+                            Cofactor
+
+
+
+A determinant of order n is a combination of determinants of order n - l. A recursive
+person would keep going. Each subdeterminant breaks into determinants of order n - 2.
+We could define all determinants via equation (12). This rule goes from order n ton - l
+ton - 2 and eventually to order 1. Define the 1 by 1 determinant !al to be the number a.
+Then the cofactor method is complete.
+    We preferred to construct det A from its properties (linearity, sign reversal, det I = l).
+The big formula (8) and the cofactor formulas (10)-(12) follow from those rules.
+One last formula comes from the rule that det A = det A T . We can expand in cofactors,
+down a column instead of across a row. Down column j the entries are a 1j to anj. The
+cofactors are C1j to Cnj . The determinant is the dot product:
+
+    Cofactors down column j                                                              (13)
+
+Cofactors are useful when matrices have many zeros-as in the next examples.
+Example 6      The -1, 2, -1 matrix has only two nonzeros in its first row. So only two
+cofactors C1 1 and C12 are involved in the determinant. I will highlight C12 :
+
+            2    -1
+                                      2      -1           -1            -1
+           -1     2    -1
+                                  =2 -1       2 -1 - (-1)                2    -1         (14)
+                 -1     2    -1
+                                             -1  2                      -1     2
+                       -1     2
+
+You see 2 times C11 first on the right, from crossing out row 1 and column 1. This cofactor
+C1 1 has exactly the same -1, 2, -1 pattern as the original A-but one size smaller.
+    To compute the boldface C12 , use cofactors down its first column. The only nonzero
+is at the top. That contributes another -1 (so we are back to minus). Its cofactor is the
+-1, 2, -1 determinant which is 2 by 2, two sizes smaller than the original A.
+Summary Each determinant D n of order n comes from Dn -l and Dn - 2 :
+
+                                   and generally                                         (15)
+
+Direct calculation gives D 2 = 3 and D 3 = 4. Equation (14) has D 4 = 2(4) - 3 = 5.
+These determinants 3, 4, 5 fit the formula Dn = n + 1. Then Dn equals 2n - (n - 1).
+That "special tridiagonal answer" also came from the product of pivots in Example 2.
+5.2. Permutations and Cofactors                                                         265
+
+Example 7      This is the same matrix, except the first entry (upper left) is now 1:
+
+                                              -
+                                        -              1
+                                               �
+                                              -1        2 -1
+                                        [ �           -1
+                                                      -    2l
+
+All pivots of this matrix turn out to be 1. So its determinant is 1. How does that come
+from cofactors? Expanding on row 1, the cofactors all agree with Example 6. Just change
+an = 2 to b11 = 1:
+
+                                         instead of
+
+The determinant of B4 is 4 - 3 = 1. The determinant of every Bn is n - ( n - 1) = 1.
+   If you also change the last 2 into 1, why is det = 0?
+
+
+
+                      •    REVIEW OF THE KEY IDEAS                   •
+
+   1. With no row exchanges, det A = (product of pivots). In the upper left corner of A,
+      det Ak = (product of the first k pivots).
+
+   2. Every term in the big formula (8) uses each row and column once. Half of the
+      n! terms have plus signs (when det P = +1) and half have minus signs.
+                                    j
+   3. The cofactor Cij is ( -1) i+ times the smaller determinant that omits row i and
+      column j (because aij uses that row and column).
+
+   4. The determinant is the dot product of any row of A with its row of cofactors.
+      When a row of A has a lot of zeros, we only need a few cofactors.
+
+
+
+
+                           • WORKED EXAMPLES                    •
+
+
+5.2 A    A Hessenberg matrix is a triangular matrix with one extra diagonal. Use cofactors
+of row 1 to show that the 4 by 4 determinant satisfies Fibonacci's rule IH4I = IH3I + IH2I­
+The same rule will continue for all sizes, IHn l = IHn -11 + IHn -21- Which Fibonacci
+number is IHnl?
+
+
+
+          H2 = [�      ]
+                      �
+266                                                                     Chapter 5. Determinants
+
+Solution The cofactor C11 for H4 is the determinant IH3 1. We also need C12 (in boldface):
+                             1      1   0         2 1 0   1 0 0
+                    C 12 = - 1      2   1   =- 1    2 1 + 1 2 1
+                             1      1   2         1 1 2   1 1 2
+Rows 2 and 3 stayed the same and we used linearity in row 1. The two determinants on the
+right are -IH3I and +IH2I- Then the 4 by 4 determinant is
+               IH4I= 2Cn + lC12= 2IH3I - IH3I + IH2I= IH3I + IH2I-
+The actual numbers are IH2I = 3 and IH3I = 5 (and of course IH1I = 2). Since
+IHn I= 2, 3, 5, 8, ... follows Fibonacci's rule IHn-1I+ IHn -2I, it must be IHn I= Fn +2 .
+
+5.2 B     These questions use the± signs (even and odd P's) in the big formula for detA:
+    1. If A is the 10 by 10 all-ones matrix, how does the big formula give detA = 0?
+    2. If you multiply all n! permutations together into a single P, is P odd or even?
+    3. If you multiply each% by the fraction i/j, why is detA unchanged?
+
+Solution      In Question 1, with all aij = l, all the products in the big formula (8) will
+be 1. Half of them come with a plus sign, and half with minus. So they cancel to leave
+detA= 0. (Of course the all-ones matrix is singular. I am assuming n > 1.)
+     In Question 2, multiplying [ � �] [ � �] gives an odd permutation. Also for 3 by 3, the
+three odd permutations multiply (in any order) to give odd. But for n > 3 the product of
+all permutations will be even. There are n!/2 odd permutations and that is an even number
+as soon as n! includes the factor 4.
+     In Question 3, each aij is multiplied by i/j. So each product a1 °'a213 · • · anw in the big
+formula is multiplied by all the row numbers i = 1, 2, ..., n and divided by all the column
+numbers j = 1, 2, ..., n. (The columns come in some permuted order!) Then each product
+is unchanged and detA stays the same.
+     Another approach to Question 3: We are multiplying the matrix A by the diagonal
+matrix D = diag(l : n) when row i is multiplied by i. And we are postmultiplying by
+v- when column j is divided by j. The determinant of DAD-1 is the same as detA
+    1
+
+by the product rule.
+
+
+Problem Set 5.2
+Problems 1-10 use the big formula with n! terms: IAI = L ±a1aa2,a • • • U nw ·
+Every term uses each row and each column once.
+1       Compute the determinants of A, B, C from six terms. Are their rows independent?
+                     1 2 3                                            1 1 l
+                 A= [ 3 1 2]                                      C= [1 1 0l .
+                      3 2 1                                           1 0 0
+5.2. Permutations and Cofactors                                                                 267
+
+2     Compute the determinants of A, B, C, D. Are their columns independent?
+
+                            1                 1 2     3
+                 [o�    0              B= 4                     =                 =
+                                �ll      [7       �       �]   C [�     1]    D    [i     �]-
+                            1
+           A=
+
+
+3     Show that det A = 0, regardless of the five nonzeros marked by x's:
+
+                                 X     X]             What are the cofactors of row 1?
+                                                      What is the rank of A?
+                                                      What are the 6 terms in det A?
+                                 0     X
+                                 0     X
+
+
+4     Find two ways to choose nonzeros from four different rows and columns:
+
+                       0 0                            0 0
+                         1 1                          3 4
+                                                                    (B has the same zeros as A).
+
+               ri                 11             ri            �1
+                        1 0                           4 0
+         A=                                 B=
+                       0 0                            0 0
+
+      Is det A equal to 1 + 1 or 1 - 1 or -1 - 1? What is det B?
+
+5     Place the smallest number of zeros in a 4 by 4 matrix that will guarantee det A = 0.
+      Place as many zeros as possible while still allowing det A# 0.
+
+6       (a) If an =a22 = a33 = 0, how many of the six terms in det A will be zero?
+       (b) If au = a22 = a33 = a44 = 0, how many of the 24 products a1ja2ka3za4m
+           are sure to be zero?
+
+7     How many 5 by 5 permutation matrices have det P = + l? Those are even permuta­
+      tions. Find one that needs four exchanges to reach the identity matrix.
+
+8     If det A is not zero, at least one of the n! terms in formula (8) is not zero. Deduce
+      from the big formula that some ordering of the rows of A leaves no zeros on the
+      diagonal. (Don't use P from elimination; that PA can have zeros on the diagonal.)
+
+9     Show that 4 is the largest determinant for a 3 by 3 matrix of 1's and -1's.
+
+10    How many permutations of (1, 2, 3, 4) are even and what are they? Extra credit:
+      What are all the possible 4 by 4 determinants of I + Peven?
+
+Problems 11-22 use cofactors Cij = (-l) i +j <let Mij · Remove row i and columnj.
+
+11    Find all cofactors and put them into cofactor matrices C, D. Find AC and det B.
+
+
+                                      A=[� !]
+268                                                                   Chapter 5. Determinants
+
+
+
+
+                            [-� -� -�]
+12    Find the cofactor matrix C and multiply A times C T . Compare AC T with A- 1:
+
+
+                       A=
+                               0 -1       2
+
+13    Then byn determinant C n has 1's above and below the main diagonal:
+
+
+
+                               I� �I
+                                                                      0 1 0 0
+                                                0 1 0
+                                                                      1 0 1 0
+            C1 = IOI    C2 =               C3 = 1 0 1            C4 =
+                                                                      0 1 0 1
+                                                0 1 0
+                                                                      0 0 1 0
+
+       (a) What are these determinants C1, C2, C3, C4?
+       (b) By cofactors find the relation between Cn and Cn -1 and C n-2· Find C10.
+
+14    The matrices in Problem 13 have 1's just above and below the main diagonal. Going
+      down the matrix, which order of columns (if any) gives all l's? Explain why that
+      permutation is even forn = 4, 8, 12, ... and odd forn = 2,6, 10, .... Then
+
+          Cn = 0 (oddn)         Cn = 1 (n = 4, 8, · · ·)      Cn = -1 (n = 2,6, · · · ).
+
+15    The tridiagonal 1, 1, 1 matrix of ordern has determinant En :
+
+
+
+                               I� �I
+                                                                      1 1 0 0
+                                                1 1 0
+                                                                      1 1 1 0
+            E1 = Ill    E2 =               E3 = 1 1 1            E4 =
+                                                                      0 1 1 1
+                                                0 1 1
+                                                                      0 0 1 1
+
+       (a) By cofactors show that En = En -1 - En -2·
+       (b) Starting from E1 = 1 and E 2 = 0 find E3, E4, ..., Es.
+       (c) By noticing how these numbers eventually repeat, find E100.
+
+16    Fn is the determinant of the 1, 1, -1 tridiagonal matrix of ordern:
+
+                                                                 1 -1
+                                    1 -1  0
+                                                                 1  1 -1
+              11 -11
+       F2
+            = l   l
+                       =2      F3 = 1  1 -1 =3              F4 =
+                                                                    1  1 -1            #4.
+                                    0  1  1
+                                                                       1  1
+
+      Expand in cofactors to show that Fn = Fn -l + Fn _ 2. These determinants are
+      Fibonacci numbers 1, 2, 3, 5, 8, 13, . . .. The sequence usually starts 1, 1, 2, 3 (with
+      two l's) so our Fn is the usual Fn +l·
+5.2. Permutations and Cofactors                                                                     269
+
+17    The matrix Bn is the -1, 2, -1 matrix An except that bu = 1 instead of au = 2.
+      Using cofactors of the last row of B4 show that IB4I = 2IB3I - IB2J = 1.
+
+
+
+
+                  r-� -�
+                              -1
+                                                                               B2 =
+                                                                                        [ 1 -lJ .
+                        -1     2 -1                                                     -1      2
+                              -1  2l
+
+      The recursion IBnl = 2IBn-1I - JBn-21 is satisfied when every IBnl = 1. This
+      recursion is the same as for the A's in Example 6. The difference is in the starting
+      values 1, 1, 1 for the determinants of sizes n = l, 2, 3.
+i8    Go back to Bn in Problem 17. It is the same as An except for bu = 1. So use
+      linearity in the first row, where [ 1 -1 0] equals [ 2 -1 0] minus [ 1 0 0]:
+
+                 1    -1               0     2       -1                    0        1   0           0
+                -1                          -1                                     -1
+       JBnJ =
+                             An -1                        An -1                             An -1
+                  0                             0                                   0
+
+      Linearity gives IBnJ = IAnl - JAn-11 = ��·
+
+
+                                                rl a a
+19    Explain why the 4 by 4 Vandermonde determinant contains x 3 but not x4 or x 5 :
+                                                              2
+                                                                   a3 ]
+                                                              2        3
+                                                 l   b    b        b
+                                     Vi= <let    1   c      2      c3
+                                                          c
+                                                 l   X    X
+                                                              2
+                                                                   x3
+
+      The determinant is zero at x = __ , __ , and __ . The cofactor of x 3 is
+      V3 = (b- a)(c - a)(c - b). Then Vi= (b- a)(c - a)(c - b)(x - a)(x - b)(x - c).
+20    Find G 2 and G3 and then by row operations G4. Can you predict Gn ?
+
+                                                                               0    1   1   1
+                                                0 1 1
+                       0 1                                                     1    0   1   1
+                                                1 0 1
+                       1 0                                                     1    1   0   1
+                                                1 1 0
+                                                                               1    1   1   0
+
+21    Compute S 1 , S2 , S3 for these 1, 3, 1 matrices. By Fibonacci guess and check S4 .
+
+                                                                       3 1 0
+                                                                  S3 = 1 3 1
+                                                                       0 1 3
+
+22    Change 3 to 2 in the upper left comer of the matrices in Problem 21. Why does
+      that subtract Sn -l from the determinant Sn ? Show that the determinants of the new
+      matrices become the Fibonacci numbers 2, 5, 13 (always F2n+1).
+270                                                                   Chapter 5. Determinants
+
+Problems 23-26 are about block matrices and block determinants.
+
+23    With 2 by 2 blocks in 4 by 4 matrices, you cannot always use block determinants:
+
+
+                I� �I= IAI IDI               but
+
+       (a) Why is the first statement true? Somehow B doesn't enter.
+       (b) Show by example that equality fails (as shown) whenCenters.
+       (c) Show by example that the answer det(AD-CB) is also wrong.
+
+24    With block multiplication, A= LU has Ak= LkUk in the top left corner:
+
+
+
+
+       (a) Suppose the first three pivots of A are 2, 3,-1. What are the determinants of
+           L 1 , L 2 , L 3 (with diagonal l's) andU 1 , U2, U 3 and A 1 ,A 2 ,A 3 ?
+       (b) IfA 1 , A 2 ,A 3 have determinants 5, 6, 7 find the three pivots from equation (3).
+
+25    Block elimination subtracts CA- l times the first row [ A B] from the second row
+      [ C D]. This leaves the Schur complement D-CA -l B in the corner:
+
+
+
+
+      Take determinants of these block matrices to prove correct rules if A- 1 exists:
+
+           1i �I= IAI ID-cA- BI = IAD- CBI providedAC= CA.
+                                         1
+
+
+
+
+26    If A is m by n and B is n by m, block multiplication gives det M = det AB:
+
+
+
+
+      IfA is a single row and B is a single column what is det M? IfA is a column and
+      B is a row what is det M? Do a 3 by 3 example of each.
+27    (A calculus question) Show that the derivative of detA with respect to au is the
+      cofactorCu. The other entries are fixed-we are only changing au.
+5.2. Pennutations and Cofactors                                                               271
+
+28    A 3 by 3 determinant has three products "down to the right" and three "down to the
+      left" with minus signs. Compute the six terms like (1)(5)(9) = 45 to find D.
+
+                                                Explain without determinants
+                                                why this particular matrix
+                                                is or is not invertible.
+
+
+                                    + + +
+29    For E4 in Problem 15, five of the 4! = 24 terms in the big formula (8) are nonzero.
+      Find those five terms to show that E4 = -1.
+30    For the 4 by 4 tridiagonal second difference matrix (entries -1, 2, -1) find the five
+      terms in the big formula that give det A= 16 - 4 - 4 - 4 + 1.
+31    Find the determinant of this cyclic P by cofactors of row 1 and then the "big for­
+      mula". How many exchanges reorder 4, 1, 2, 3 into 1, 2, 3, 4? Is IP 2 1 = 1 or -1?
+
+
+
+                                                                          [   �   �   ]   .
+
+
+
+
+                                      Challenge Problems
+
+32    Cofactors of the 1, 3, 1 matrices in Problem 21 give a recursion Sn = 3Sn -l -Sn -2·
+      Amazingly that recursion produces every second Fibonacci number. Here is the chal­
+      lenge.
+      Show that Sn is the Fibonacci number F2 n +2 by proving F2 n +2 = 3F2n - F2 n -2·
+      Keep using Fibonacci's rule Fk = Fk-l + Fk-2 starting with k = 2n + 2.
+33    The symmetric Pascal matrices have determinant 1. If I subtract 1 from the n, n
+
+
+
+
+                  � L�]
+      entry, why does the determinant become zero? (Use rule 3 or cofactors.)
+
+
+
+                                                         [i
+                                                                  1
+      <let   [1                   = 1 (known)      det
+                                                              l
+                                                                  3
+                                                                  6   1
+                                                                       �
+                                                                         ] = 0 (to explain).
+                  4 10 20                                 1 4 10      19
+272                                                                Chapter 5. Determinants
+
+34    This problem shows in two ways that det A= 0 (the x's are any numbers):
+
+                                         X   X   X   X   X
+                                         X   X   X   X   X
+                                  A=     0   0   0   x   x
+                                         0   Q   O   X   X
+                                         Q   O   O   X   X
+
+
+       (a) How do you know that the rows are linearly dependent?
+       (b) Explain why all 120 terms are zero in the big formula for det A.
+
+35    If ldet(A)I > 1, prove that the powers An cannot stay bounded. But if ldet(A)I :S 1,
+      show that some entries of An might still grow large. Eigenvalues will give the right
+      test for stability, determinants tell us only one number.
+     5.3. Cramer's Rule, Inverses, and Volumes                                                  273
+
+     5.3      Cramer's Rule, Inverses, and Volumes
+
+1 A- 1 equals C T / det A. Then (A- 1 )ij = cofactor Cji divided by the determinant of A.
+2 Cramer's Rule computes x = A-lb from xj = <let (A with column j changed to b) / <let A.
+3 Area of parallelogram= lad-bcl if the four corners are (0, 0), (a, b), (c, d), and (a+c, b+d).
+4 Volume of box= ldetAl if the rows of A (or the columns of A) give the sides of the box.
+                                                                    Notice v x u = -(u xv).
+S The cross product w = u x v is det [ :1                           w1, w2, W3 are cofactors of row 1.
+                                       V1                           Notice w T u = 0 and w T v = 0.
+
+
+         This section solves Ax = band also finds A- 1 -by algebra and not by elimination.
+     In all formulas you will see a division by <let A. Each entry in A -l and A- 1bis a determi­
+     nant divided by the determinant of A. Let me start with Cramer's Rule.
+         Cramer's Rule solves Ax = b. A neat idea gives the first component x 1 . Replacing
+     the first column of I by x gives a matrix with determinant x 1 . When you multiply it by A,
+     the first column becomes Ax which is b. The other columns of B 1 are copied from A:
+
+
+                                                 o o     b1
+           Key idea
+                            [     A              1 0l = [b2
+                                                 0   1         b3
+
+     We multiplied a column at a time. Take determinants of the three matrices to find x 1 :
+                                                                                                  (1)
+
+
+
+
+                                                                            detB 1
+                                                          or         xi =
+                                                                            detA ·
+           Product rule                                                                           (2)
+
+         This is the first component of x in Cramer's Rule! Changing a column of A gave B 1 .
+         To find x2 and B2 , put the vectors x and b into the second columns of I and A:
+
+
+           Same idea                                                                              (3)
+
+
+     Take determinants to find ( <let A)(x 2) = <let B 2. This gives x2 = (detB 2) / (det A).
+     Example 1        Solving 3x 1 + 4x 2 = 2 and 5x 1 + 6x 2 = 4 needs three determinants:
+274                                                                  Chapter 5. Determinants
+
+Those determinants of A, B1, B2 are -2 and -4 and 2. All ratios divide by det A= -2:
+
+                            -4                 2
+                      X1 = - = 2       X2 = - = -1
+                            -2                -2
+
+ CRAMER'S RULE If det A is not zero, Ax = b is solved by determinants:
+
+                        detB 1                                       detBn
+                 xi =                                         Xn =                          (4)
+                        detA                                          detA
+
+ The matrix Bj has the jth column of A replaced by the vector b.
+
+
+    To solve an n by n system, Cramer's Rule evaluates n + l determinants (of A and the
+n different B's). When each one is the sum of n! terms-applying the "big formula" with
+all permutations-this makes a total of (n + l) ! terms. It would be crazy to solve equations
+that way. But we do finally have an explicit formula for the solution.x.
+Example 2 Cramer's Rule is inefficient for numbers but it is well suited to letters. For
+n = 2, find the columns of A-1 = [x y] by solving AA- 1 = I:
+
+   Columns of A-     1[   a b
+                              ] [
+                                  x  1] [     1]
+   are x and y            c d     x2          0
+
+Those share the same matrix A. We need IAI and four determinants for x1, x2, YI, Y2:
+
+
+
+
+The last four determinants are d, -c, -b, and a. (They are the cofactors!) Here is A-1:
+
+         d        -c          -b         a            _       1     d                -b
+   x1 = TAT' x2 =     , y 1 = TAT, Y2 =     and then A 1 =        [                     ]
+                  TAT                   TAT                ad _ be -c                 a .
+
+I chose 2 by 2 so that the main points could come through clearly. The new idea is :
+A- 1 involves the cofactors. When the right side is a column of the identity matrix I,
+as in AA- 1 = I, the determinant of each Bj in Cramer's Rule is a cofactor of A.
+   You can see those cofactors for n = 3. Solve Ax = (l, 0, 0) to find column 1 of A- 1 :
+
+                             1   a1 2 a13        a11   1   a13       a11 a12     1
+  Determinants of B's
+                             0   a22 a23         a21   0   a23       a21 a22     0
+  = Cofactors of A           0   a32 a33         a31   0   a33       a31 a32     0
+                                                                                            (5)
+
+
+That first determinant IB1 I is the cofactor C11 = a22a33 -a23a32. Then IB2I is the cofactor
+C 1 2- Notice that the correct minus sign appears in -(a21 a33 - a23a31). This cofactor C 1 2
+goes into column 1 of A- I. When we divide by det A, we have the inverse matrix !
+5.3. Cramer's Rule, Inverses, and Volumes                                               275
+
+
+  The i, j entry of A- 1 is the cofactor Cji (not Cij) divided by det A:
+
+
+                                                                                 CT
+     FORMULA FOR A- 1                                       and        A -1 =           (6)
+                                                                                detA.
+
+
+The cofactors Cij go into the "cofactor matrix" C. The transpose of C leads to A- 1.
+To compute the i, j entry of A- 1, cross out row j and column i of A. Multiply the
+determinant by ( -1 )i+j to get the cofactor Cji , and divide by det A.
+    Check this rule for the 3, 1 entry of A- 1. For column 1 we solve Ax = (l, 0, 0).
+The third component x 3 needs the third determinant in equation (5), divided by det A.
+That determinant is exactly the cofactor C13 = a21a32-a22a31. So (A- h1 = C13/ det A.
+                                                                        1
+
+
+Summary In solving AA- 1 = I, each column of I leads to a column of A- 1. Every
+entry of A-1 is a ratio: determinant of size n - l / determinant of size n.
+
+Direct proof of the formula A- 1 = C T/ det A This means AC T = ( det A)I:
+
+
+                                                     detA         0             0   j
+                                               = l     0       detA             0
+                                        c31
+                                                                                         (7)
+                                                                  0          detA
+                                        C32]
+                                        C33
+                                                       0
+
+
+(Row 1 of A) times (column 1 of C T ) yields the first det A on the right:
+
+         an Cn + a12C12 + a13C13 = det A This is exactly the cofactor rule!
+
+Similarly row 2 of A times column 2 of C T (notice the transpose) also yields det A.
+The entries a 2j are multiplying cofactors C2j as they should, to give the determinant.
+
+   How to explain the zeros off the main diagonal in equation (7)? The rows of A are
+multiplying cofactors from different rows. Why is the answer zero?
+
+  Row2 of A
+                                                                                         (8)
+  Row 1 ofC
+
+Answer: This is the cofactor rule for a new matrix, when the second row of A is copied into
+its first row. The new matrix A* has two equal rows, so det A* = 0 in equation (8). Notice
+that A* has the same cofactors C11, C12, C13 as A-because all rows agree after the first
+row. Thus the remarkable multiplication (7) is correct:
+
+                                                               CT
+                       ACT = (detA)I           or     A-1 =        .
+                                                              detA
+276                                                                   Chapter 5. Determinants
+
+Example 3     The "sum matrix" A has determinant 1. Then A- 1 contains cofactors:
+
+
+                                                        C: � [-l
+                     0   0                                            0  0
+
+
+            [1                �1                                                  �1
+       A=
+                     1
+                     1
+                         0
+                         1
+                                   has inverse   r' �                 1
+                                                                     -1
+                                                                         0
+                                                                         1
+                     1   1                                            0 -1
+
+Cross out row 1 and column 1 of A to see the 3 by 3 cofactor C11 = 1. Now cross out row
+1 and column 2 for C12 . The 3 by 3 submatrix is still triangular with determinant 1. But
+the cofactor C12 is -1 because of the sign ( -1)1+ 2 . This number -1 goes into the (2, 1)
+entry of A- 1 -don't forget to transpose C.
+    The inverse of a triangular matrix is triangular. Cofactors give a reason why.
+Example 4     If all cofactors are nonzero, is A sure to be invertible? No way.
+
+                                                                     Area of a Triangle
+Everybody knows the area of a rectangle-base times height. The area of a triangle is half
+the base times the height. But here is a question that those formulas don't answer. If we
+know the corners (x1, Y1) and (x2, Y2) and (x3, y3) of a triangle, what is the area?
+Using the corners to find the base and height is not a good way to compute area.
+    Determinants are the best way to find area. The area of a triangle is half of a 3 by 3
+determinant. The square roots in the base and height cancel out in the good formula. If
+one corner is at the origin, say (x 3, y3) = (0, 0), the determinant is only 2 by 2.
+
+
+
+
+  Figure 5 .1: General triangle; special triangle from (0, 0); general from three specials.
+
+
+       .         .                                                         determinant
+ The tnangle with corners (x1, y1) and (x2, Y2) and (x3, y3) has area=                 :
+                                                                                2
+
+                                     1
+                             1 X1 Yl
+   Area of triangle          - X2 Y2 1
+                             2
+                                             Area= ! 1x1 Yi
+                                                   2 X2 Y2
+                                                               I when (x3, y3) = (0, 0).
+                                     1
+5.3. Cramer's Rule, Inverses, and Volumes                                                 277
+
+When you set x 3 = y3 = 0 in the 3 by 3 determinant,you get the 2 by 2 determinant. These
+formulas have no square roots-they are reasonable to memorize. The 3 by 3 determinant
+breaks into a sum of three 2 by 2's (cofactors),just as the third triangle in Figure 5.1 breaks
+into three special triangles from (0, 0):
+
+                                            1   +½(x1Y2 - X2Y1)
+                 Area                       1   +½(x2y3 - X3y2)                            ( 9)
+                                            1   +½(x3y1 - X1Y3).
+
+If (0, 0) is outside the triangle,two of the special areas can be negative-but the sum is still
+correct. The real problem is to explain the area of a triangle with comer (0, 0).
+    Why is lx1y2 - x 2 y 1 I the area of this triangle? We can remove the factor for
+               ½                                                                        ½
+a parallelogram (twice as big, because the parallelogram contains two equal triangles).
+We now prove that the parallelogram area is the determinant x1y 2 - x 2 y1. This area in
+Figure 5.2 is 11,and therefore the triangle has area 121•
+
+                                                                          Parallelogram
+
+                                                                     Area=          = 11
+                                                                               I� !I
+                                                                                      11
+                                                                      Triangle: Area=
+                                                                                          2
+                                  (0, 0)
+
+      Figure 5.2: A triangle is half of a parallelogram. Area is half of a determinant.
+
+    Proof that a parallelogram starting from ( O, 0) has area = 2 by 2 determinant.
+
+There are many proofs but this one fits with the book. We show that the area has the same
+properties 1-2-3 as the determinant. Then area= determinant! Remember that those three
+rules defined the determinant and led to all its other properties.
+1 When A= I, the parallelogram becomes the unit square. Its area is <let I= 1.
+
+2 When rows are exchanged, the determinant reverses sign. The absolute value (positive
+area) stays the same-it is the same parallelogram.
+
+3 If row 1 is multiplied by t, Figure 5.3a shows that the area is also multiplied by t. Sup­
+pose a new row (x�, YD is added to (x 1, y 1) (keeping row 2 fixed). Figure 5.3b shows
+that the solid parallelogram areas add to the dotted parallelogram area (because the two
+triangles completed by dotted lines are the same).
+    That is an exotic proof, when we could use plane geometry. But the proof has a major
+attraction-it applies in n dimensions. The n edges going out from the origin are given by
+the rows of an n by n matrix. The box is completed by more edges,like the parallelogram.
+278                                                                    Chapter 5. Determinants
+
+                                                    Dotted area = Solid area = A + A'
+
+                Full area = tA
+
+
+
+
+(0,0)                                           (0, 0)
+Figure 5.3: Areas obey the rule of linearity in side 1 (keeping the side (x 2, y2) constant).
+
+    Figure 5.4 shows a three-dimensional box-whose edges are not at right angles. The
+volume equals the absolute value of <let A. Our proof checks again that rules 1-3 for
+determinants are also obeyed by volumes. When an edge is stretched by a factor t, the
+volume is multiplied by t. When edge 1 is added to edge l', the volume is the sum of the
+two original volumes. This is Figure 5.3b lifted into three dimensions or n dimensions. I
+would draw the boxes but this paper is only two-dimensional.
+
+                                            z
+
+
+                                                                volume of box
+                                                                =ldeterminantl
+
+
+
+
+                         X
+
+          Figure 5.4: Three-dimensional box formed from the three rows of A.
+
+    The unit cube has volume= 1, which is det I. Row exchanges or edge exchanges leave
+the same box and the same absolute volume. The determinant changes sign, to indicate
+whether the edges are a right-handed triple (det A > 0) or a left-handed triple (det A< 0).
+The box volume follows the rules for determinants, so volume of det A = absolute value.
+Example 5      Suppose a rectangular box (90 ° angles) has side lengths r, s, and t. Its
+volume is r times s times t. The diagonal matrix A with entries r, s, and t produces those
+three sides. Then det A also equals the volume rs t.
+5.3. Cramer's Rule, Inverses, and Volumes                                               279
+
+Example 6      In calculus, the box is infinitesimally small! To integrate over a circle, we
+might change x and y to r and 0. Those are polar coordinates: x= r cos 0 and y= r sin 0.
+The area of a "polar box" is a determinant J times dr d0:
+                                            ox/or ox/80         cos0 -rsin0
+    Area r dr d0 in calculus          J= l                 1= l               1 =r
+                                            oy /or oy / ae      sin e r cos e
+This determinant is the r in the small area dA= r dr d0. The stretching factor J goes into
+                                                                J        J
+double integrals just as dx /du goes into an ordinary integral dx = (dx/du) du. For
+triple integrals the Jacobian matrix J with nine derivatives will be 3 by 3.
+
+                                                                    The Cross Product
+The cross product is an extra (and optional) application, special for three dimensions. Start
+with vectors u = (u 1, u 2, u 3) and v = (v 1, v 2, v 3). Unlike the dot product, which is a
+number, the cross product is a vector-also in three dimensions. It is written u x v and
+pronounced "u cross v." The components of this cross product are 2 by 2 cofactors. We
+will explain the properties that make u x v useful in geometry and physics.
+    This time we bite the bullet, and write down the formula before the properties.
+
+
+ DEFINITION The cross product of u= (u 1, u2, u3) and v= (v1, v2, v3) is a vector
+
+                  i j  k
+   ux v          U1 U2 U3        = (u2V3 - U3V2)i + (u3V1 - u1v3)j + (u1V2 - u2v1)k.
+                 V1 V2 V3
+                                                                                        (10)
+
+ This vector u x v is perpendicular to u and v. The cross product v x u is -(u x v).
+
+
+Comment The 3 by 3 determinant is the easiest way to remember uxv. It is not especially
+legal, because the first row contains vectors i, j, k and the other rows contain numbers.
+In the determinant, the vector i = (1, 0, 0) multiplies u2v3 and -u3v2. The result is
+(u 2v3 - u 3v 2, 0, 0), which displays the first component of the cross product.
+    Notice the cyclic pattern of the subscripts: 2 and 3 give component 1 of u x v, then 3
+and 1 give component 2, then 1 and 2 give component 3. This completes the definition of
+u x v. Now we list the properties of the cross product:
+
+Property 1 v x u reverses rows 2 and 3 in the determinant so it equals -(u x v).
+
+Property 2 The cross product u x v is perpendicular to u (and also to v). The direct proof
+is to watch terms cancel, producing a zero dot product:
+    u. (u Xv)= u1(u2V3 - U3V2) + u2(u3V1 - U1v3) + U3(U1V2 - U2V1) = 0.                 (11)
+The determinant for u·( u x v) has rows u, u and v (2 equal rows) so it is zero.
+280                                                                      Chapter 5. Determinants
+
+Property 3 The cross product of any vector with itself (two equal rows) is u x u= 0.
+
+
+When u and v are parallel, the cross product is zero. When u and v are perpendicular, the
+dot product is zero. One involves sin0 and the other involves cos 0:
+
+              llu xvii= llull llvll I sin01      and     lu ·vi= !lull !Iv!! I cos 01.     (12)
+
+Example 7       u= (3, 2, 0) and v= (1, 4, 0) are in the xy plane, u xv goes up the z axis:
+
+                i J              k
+         u x v= 3 2              0 = 10k.     The cross product is u x v= (0, 0, 10).
+                1 4              0
+The length of u X v equals the area of the parallelogram with sides u and v. This will
+be important: In this example the area is 10.
+Example 8        The cross product of u= (1, 1, 1) and v= (1, 1, 2) is (1, -1, 0):
+
+                     i
+                                    · 1 1     · 1 1   1 1
+                             k
+                                 =          -             = -
+                         j
+                     �   �   �    'I, 1 2 J 11 21 + 11 11 'I,. J. .
+                                     1    1
+                                                    k
+
+
+This vector ( 1, -1, 0) is perpendicular to ( 1, 1, 1) and (1, 1, 2) as predicted. Area= )2.
+Example 9 The cross product of i= (1, 0, 0) and j= (0, 1, 0) obeys the right hand rule.
+That cross product k= i x j goes up not down:
+
+                                        i Xj =k
+
+
+
+
+                                     vl-
+          i     j    k                                    Rule u x v points along
+          1      0   0 =k                                 your right thumb when the
+          0      1   0                                    fingers curl from u to v.
+                                  u=l              =J
+
+Thus i x j=k. The right hand rule also gives j x k= i and k x i= j. Note the cyclic
+order. In the opposite order (anti-cyclic) the thumb is reversed and the cross product goes
+the other way: k x j= -i and i x k= -j and j x i= -k. You see the three plus signs
+and three minus signs from a 3 by 3 determinant.
+    The definition of u x v can be based on vectors instead of their components:
+
+
+ DEFINITION The cross product is a vector with length !lull !!vii I sin01. Its direction
+ is perpendicular to u and v. It points "up" or "down" by the right hand rule.
+
+
+This definition appeals to physicists, who hate to choose axes and coordinates. They see
+( u 1, u2, u3) as the position of a mass and (Fx , Fy , Fz ) as a force acting on it. If F is
+5.3. Cramer's Rule, Inverses, and Volumes                                                  281
+
+parallel to u, then u x F = 0-there is no turning. The cross product u x F is the turning
+force or torque. It points along the turning axis (perpendicular to u and F). Its length
+llull llFII sin 0 measures the "moment" that produces turning.
+
+
+                                        Triple Product = Determinant = Volume
+Since u x vis a vector, we can take its dot product with a third vector w. That produces
+the triple product ( u x v) · w. It is called a "scalar" triple product, because it is a number.
+In fact it is a determinant-it gives the volume of the u, v, w box:
+
+                                            W1   Wz   W3       U1    Uz    U3
+Triple product          (uxv)·w             U1   Uz    U3       V1   Vz    V3              (13)
+                                            V1   Vz    V3      W1    Wz    W3
+
+
+We can put w in the top or bottom row. The two determinants are the same because __
+row exchanges go from one to the other. Notice when this determinant is zero:
+
+        (u x v) · w = 0 exactly when the vectors u, v, w lie in the same plane.
+
+First reason u x v is perpendicular to that plane so its dot product with w is zero.
+
+Second reason Three vectors in a plane are dependent. The matrix is singular (<let= 0).
+
+Third reason Zero volume when the u, v, w box is squashed onto a plane.
+
+   It is remarkable that (u x v) · w equals the volume of the box with sides u, v, w. This
+3 by 3 determinant carries tremendous information. Like ad - be for a 2 by 2 matrix, it
+separates invertible from singular. Chapter 6 will be looking for singular.
+
+
+                       •   REVIEW OF THE KEY IDEAS                    •
+
+   1. Cramer's Rule solves Ax= b by ratios like X1 = IB1I/IAI = lba2 · · · an l/lAI.
+
+   2. When C is the cofactor matrix for A, the inverse is A- 1 = CT / det A.
+
+   3. The volume of a box is I det Al, when the box edges are the rows of A.
+
+   4. Area and volume are needed to change variables in double and triple integrals.
+
+   5. In R3, the cross product u x v is perpendicular to u and v. Notice i x j = k.
+282                                                                     Chapter 5. Determinants
+
+                            • WORKED EXAMPLES                    •
+
+
+5.3 A    If A is singular, the equation AC T = ( det A)I becomes AC T = zero matrix.
+Then each column of C T is in the nullspace of A. Those columns contain cofactors along
+rows of A. So the cofactors quickly find the nullspace for a 3 by 3 matrix of rank 2. My
+
+   Solve Ax= 0 by x = cofactors along a row, for these singular matrices of rank 2:
+apologies that this comes so late!
+
+
+  Cofactors
+    give
+  nullspace
+
+
+Solution       The first matrix has these cofactors along its top row (note each minus sign):
+
+                                                                              = 2
+                                                                 I ; � I       -
+Then x = (6, 2, -2) solves Ax= 0. The cofactors along the second row are (-18, -6, 6)
+which is just -3x. This is also in the one-dimensional nullspace of A.
+    The second matrix has zero cofactors along its first row. The nullvector x = (0, 0, 0) is
+not interesting. The cofactors of row 2 give x = (l, -1, 0) which solves Ax= 0.
+
+But for rank n - 2, all cofactors are zero and we only find x = 0.
+    Every n by n matrix of rank n - l has at least one nonzero cofactor by Problem 3.3.12.
+
+
+5.3 B Use Cramer's Rule with ratios det BJ/ det A to solve Ax = b. Also find the
+inverse matrix A- 1 = C T / det A. For this b = (0, 0, 1) the solution xis column 3 of
+A- 1! Which cofactors are involved in computing that column x = (x, y, z)?
+
+
+                    Column 3 of A- 1
+
+
+Find the volumes of two boxes : edges are columns of A and edges are rows of A- 1.
+
+Solution       The determinants of the BJ (with right side b placed in column j) are
+
+
+                                                                     JB3J =              = 2.
+           0 6 2                           2 0 2                              2 6 0
+ IB1l =    0    4    2   =4      IB2l =    1 0 2       = -2                   1 4 0
+           1    9    0                     5 1 0                              5 9 1
+Those are cofactors C31, C32, C33 of row 3. Their dot product with row 3 is det A = 2:
+
+
+
+
+third column of A- l because b = ( 0, 0, 1) is the third column of I.
+The three ratios det BJ/ det A give the three components of x = (2, -1, 1). This x is the
+5.3. Cramer's Rule, Inverses, and Volumes                                                        283
+
+
+
+                                                  l
+The cofactors along the other rows of A, divided by det A, give the other columns of A- 1:
+
+                CT     l   -18         18  4
+      A- 1 =         =      10        -10 -2          .   Multiply to check AA- 1 = I
+               det A   2 [
+                       -
+                           -11         12  2
+
+The box from the columns of A has volume= det A = 2. The box from the rows also has
+volume 2, since IAT I = IAI. The box from the rows of A- 1 has volume 1/IAI = ½-
+
+                                                                                                       "1 \
+Problem Set 5.3                                                       C °'\01.1\ 0,1..,
+                                                                                  '0 ,)
+                                                                                    1   \ ( \0          \)
+
+                                                                                                               >
+                                                                                 ( O �\               ( lA,(\
+Problems 1-5 are about Cramer's Rule for x = A- 1 b.
+                                                                               I Lo 1- , � ::- L(/-.1,\
+                                                                                                                         () --\ 0 'v
+1     Solve these linear equations by Cramer's Rule x1 = det B1 / det A:                 0 ,1        \ 0 ,1.   _
+                                                                                                                   111
+                                                                                                                          ·"\   0
+                                                                                 (\ri( O-        -'\lo-1.L_-i/1\0 1.� 1.1--
+              2x1 + 5x2 = 1
+                                                2X1 + x2        =1                      L v _,
+        (a)                               (b)    X1 + 2x2 + X3 = 0                                   0 '\       ""CA\,-\ 0,�
+               X1 + 4X2 = 2                                                                     (
+                                                       X2 + 2X3 = 0.
+                                                                                                                '11 cJ.1_.\"'°o"'� ,,,
+2     Use Cramer's Rule to solve for y (only). Call the 3 by 3 determinant D:
+                                                                                                     0'
+                                            ax+ by+ cz= 1                         q ,,   C{h / \
+        (a)
+            ax+ by = 1
+            ex+ dy = 0
+                                    (b)     dx + ey + f z= 0
+                                                                           (
+                                                                                  '-', \ Q n
+                                                                                                 }
+                                                                                             '- "'-'  ) ::::-
+                                            gx + hy + iz= 0.
+                                                                                           ( (). \ \ .,,p, \'lfl
+3     Cramer's Rule breaks down when det A = 0. Example (a) has no solution while o.._
+      (b) has infinitely many. What are the ratios x1 = det B1 / det A in these two cases?       -i\ \-1"10,H
+                                                                                           '
+            2x1 + 3x2= 1                                    2x1 + 3x2= 1              .
+        (a)                   (parallel lmes)          (b)                     (same lme)
+            4X1 + 6 X2= 1                                   4X1 + 6 X2= 2
+4     Quick proof of Cramer's rule. The determinant is a linear function of column 1. It is
+      zero if two columns are equal. When b= Ax = x1 a1 + x2a2 + x3a3 goes into the \.­
+      first column of A, the determinant of this matrix B 1 is
+
+
+
+        (a) What formula for x 1 comes from left side= right side?
+        (b) What steps lead to the middle equation?
+
+5     If the right side b is the first column of A, solve the 3 by 3 system Ax = b. How
+      does each determinant in Cramer's Rule lead to this solution x?
+284                                                                 Chapter 5. Determinants
+
+Problems 6-15 are about A- 1 = C T / det A. Remember to transpose C.
+6     Find A- 1 from the cofactor formula CT / <let A. Use symmetry in part (b).
+
+
+
+
+7     If all the cofactors are zero, how do you know that A has no inverse? If none of the
+      cofactors are zero, is A sure to be invertible?
+8     Find the cofactors of A and multiply ACT to find <let A:
+
+
+                                and                                and ACT =
+
+
+      If you change that 4 to 100, why is <let A unchanged?
+9     Suppose <let A= 1 and you know all the cofactors in C. How can you find A?
+10    From the formula ACT = (<let A)I show that <let C = (<let A     r-   1
+                                                                            .
+
+11    If all entries of A are integers, and det A = 1 or -1, prove that all entries of A- 1
+      are integers. Give a 2 by 2 example with no zero entries.
+12    If all entries of A and A- 1 are integers, prove that <let A = 1 or -1. Hint: What is
+      det A times <let A- 1?
+13    Complete the calculation of A- 1 by cofactors that was started in Example 5.
+14    L is lower triangular and S is symmetric. Assume they are invertible:
+              To invert
+              triangular L                                 S=
+                                                                 [a
+                                                                  b
+                                                                      b
+                                                                      C
+                                                                            d
+                                                                            el
+              symmetric S                                         d   e     f
+       (a) Which three cofactors of L are zero? Then L- 1 is also lower triangular.
+       (b) Which three pairs of cofactors of Sare equal? Then s- 1 is also symmetric.
+       (c) The cofactor matrix C of an orthogonal Q will be __ . Why?
+15    For n = 5 the matrix C contains __ cofactors. Each 4 by 4 cofactor contains
+      __ terms and each term needs __ multiplications. Compare with 5 3 = 125
+      for the Gauss-Jordan computation of A- 1 in Section 2.4.
+Problems 16-26 are about area and volume by determinants.
+16     (a) Find the area of the parallelogram with edges v = (3, 2) and w = (1, 4).
+       (b) Find the area of the triangle with sides v, w, and v + w. Draw it.
+       (c) Find the area of the triangle with sides v, w, and w - v. Draw it.
+5.3. Cramer's Rule, Inverses, and Volumes                                                 285
+
+17    A box has edges from (0,0,0) to (3,1,1) and (1,3,1) and (1,1,3). Find its volume.
+      Also find the area of each parallelogram face using llu x vll-
+18      (a) The corners of a triangle are (2,1) and (3,4) and (0, 5). What is the area?
+        (b) Add a comer at ( -1,0) to make a lopsided region (four sides). Find the area.
+19    The parallelogram with sides (2,1) and (2,3) has the same area as the parallelogram
+      with sides (2,2) and (1,3). Find those areas from 2 by 2 determinants and say why
+      they must be equal. (I can't see why from a picture. Please write to me if you do.)
+20    The Hadamard matrix H has orthogonal rows. The box is a hypercube!
+
+                             1  1  1  1
+                             1  1 -1 -1
+             What is    IHI= 1 -1 -1  1
+                                                       volume of a hypercube in R4 ?
+                             1 -1  1 -1
+
+21    If the columns of a 4 by 4 matrix have lengths L 1, L 2, L 3, L 4, what is the largest
+      possible value for the determinant (based on volume)? If all entries of the matrix are
+      1 or -1, what are those lengths and the maximum determinant?
+22    Show by a picture how a rectangle with area x 1 y2 minus a rectangle with area x 2 y 1
+      produces the same area as our parallelogram.
+23    When the edge vectors a, b, care perpendicular, the volume of the box is llall times
+      llbll times llcll- The matrix AT A is _ _ . Find det A T A and det A.
+24    The box with edges i and j and w = 2i + 3j + 4k has height_ _. What is the
+      volume? What is the matrix with this determinant? What is i x j and what is its dot
+      product with w?
+25    An n-dimensional cube has how many corners? How many edges? How many
+      (n - 1)-dimensional faces? The cube in Rn whose edges are the rows of 2I has
+      volume _ _ . A hypercube computer has parallel processors at the corners with
+      connections along the edges.
+26    The triangle with corners (0,0), (1,0), (0,1) has area ½- The pyramid in R3 with
+      four corners (0,0,0), (1,0,0), (0,1,0), (0,0,1) has volume __ . What is the vol­
+      ume of a pyramid in R4 with five corners at (0,0,0,0) and the rows of I?
+
+Problems 27-30 are about areas dA and volumes dV in calculus.
+
+27    Polar coordinates satisfy x = r cos 0 and y = r sin 0. Polar area is J dr d0:
+
+                                  8x / 8r   8x / 80 = cos 0 -r sin 0
+                           J= I                     1 I              1
+                                  8y / 8r   8y / 80     sin 0 r cos 0 ·
+
+      The two columns are orthogonal. Their lengths are __ . Thus J = __ .
+286                                                                   Chapter 5. Determinants
+
+28    Spherical coordinates P, cp, 0 satisfy x = p s in¢ co s 0 and y = p s in¢ s in 0 and
+      z = p co s ¢. Find the 3 by 3 matrix of partial derivatives: ax/ 8P, ax/ acp, ax/ 80 in
+      row 1. Simplify its determinant to 1= p2 s in¢. Then dV in spherical coordinates is
+      p s in ¢ d p dcpd0, the volume of an infinitesimal "coordinate box".
+       2
+
+
+
+
+29    The matrix that connects r, 0 to x, y is in Problem 27. Invert that 2 by 2 matrix:
+
+                                     orI ax orI ay        co s e   ?
+                          1- 1 = I                   I= I            I =?·
+                                     ae / ax ae / ay        ?      ?
+
+      It is surprising that or/ ax= ax/ or (Calculus, Gilbert Strang, p. 501). Multiplying
+      the matrices 1 and 1- 1 gives the chain rule ax   ax Br     ax ae
+                                                   ax = or ax + 80 OX = .
+                                                                           l
+
+30    The triangle with corners (0, 0), (6, 0), and (1, 4) has area ___. When you rotate
+      it by 0 = 60° the area is ___. The determinant of the rotation matrix is
+
+                                  c s 0 - s in 0      ½       ?
+                              1= I ?             1= I           I=?
+                                   s m0  co s 0       ?       ?
+
+Problems 31-38 are about the triple product (u x v) · win three dimensions.
+
+31    A box has base area llu xvii- Its perpendicular height is llwll co s 0. Base area times
+      height= volume= llu xvii llwll co s 0 which is (u xv) · w. Compute base area,
+      height, and volume for u= (2, 4, 0), v= (-1, 3, 0), w= (1, 2, 2).
+32    The volume of the same box is given more directly by a 3 by 3 determinant. Evaluate
+      that determinant.
+
+33    Expand the 3 by 3 determinant in equation (13) in cofactors of its row u 1, u 2, u 3.
+      This expansion is the dot product of u with the vector __ .
+34    Which of the triple products (u x w) · v and (w x u) · v and (v x w) · u are the
+      same as (u xv)· w? Which orders of the rows u, v, w give the correct determinant?
+
+35    Let P = (1, 0, -1) and Q = (1, 1, 1) and R = (2, 2, 1). Choose S so that PQRS
+      is a parallelogram and compute its area. Choose T, U, V so that OPQRSTUV is a
+      tilted box and compute its volume.
+36    Suppose (x, y, z) and (1, 1, 0) and (1, 2, 1) lie on a plane through the origin. What
+      determinant is zero? What equation does this give for the plane?
+37    Suppose (x, y, z) is a linear combination of (2, 3, 1) and (1, 2, 3). What determinant
+      is zero? What equation does this give for the plane of all combinations?
+
+38     (a) Explain from volumes why det 2A= 2n det A for n by n matrices.
+       (b) For what size matrix is the false statement det A + det A= det (A + A) true?
+5.3. Cramer's Rule, Inverses, and Volumes                                               287
+
+                                     Challenge Problems
+
+39    If you know all 16 cofactors of a 4 by 4 invertible matrix A, how would you find A?
+
+40    Suppose A is a 5 by 5 matrix. Its entries in row 1 multiply determinants (cofactors)
+      in rows 2-5 to give the determinant. Can you guess a "Jacobi formula" for det A
+      using 2 by 2 determinants from rows 1-2 times 3 by 3 determinants from rows 3-5?
+      Test your formula on the -1, 2, -1 tridiagonal matrix that has determinant= 6.
+41    The 2 by 2 matrix AB =(2 by 3)(3 by 2) has a "Cauchy-Binet formula" for det AB:
+
+            det AB = sum of (2 by 2 determinants in A) (2 by 2 determinants in B)
+
+        (a) Guess which 2 by 2 determinants to use from A and B.
+       (b) Test your formula when the rows of A are 1, 2, 3 and 1, 4, 7 with B = AT .
+
+42    The big formula has n! terms. But if an entry of A is zero, ( n - l) ! terms disappear.
+      If A has only three diagonals, how many terms are left?
+      For n = l, 2, 3, 4 the tridiagonal determinant has 1, 2, 3, 5 terms. Those are
+      Fibonacci numbers in Section 6.2 ! Show why a tridiagonal 5 by 5 determinant has
+      5 + 3 = 8 nonzero terms (Fibonacci again). Use the cofactors of a11 and a 12.
+

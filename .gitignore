@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+*.egg-info/
+.ipynb_checkpoints/
+
+# macOS
+.DS_Store
+
+# Rendered images (auto-generated PNGs)
+stanford-cme295-notes/rendered/
+
+# Claude settings
+.claude/

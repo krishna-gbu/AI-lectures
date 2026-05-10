@@ -1,0 +1,1399 @@
+Chapter 8
+
+Linear Transformations
+
+8.1     The Idea of a Linear Transformation
+
+1 A linear transformation T takes vectors v to vectors T(v). Linearity requires
+  I T(c v + dw) = c T(v) + dT(w) I Note T(O) = 0 so T(v) = v + u0 is not linear.
+
+2 The input vectors v and outputs T( v) can be in Rn or matrix space or function space.
+3 If A ism by n, T(x) =Axis linear from the input space Rn to the output space Rm .
+                                                                x
+4 The derivative T(f) = :: is linear. The integral T+ (J) = 1 j(t) dt is its pseudoinverse.
+
+5 The product ST of two linear transformations is still linear : I ( ST) ( v) = S(T ( v)).1
+
+
+    W hen a matrix A multiplies a vector v, it "transforms" v into another vector Av.
+In goes v, out comes T(v) = Av. A transformation T follows the same idea as a function.
+In goes a number x, out comes f(x). For one vector v or one number x, we multiply
+by the matrix or we evaluate the function. The deeper goal is to see all vectors v at once.
+We are transforming the whole space V when we multiply every v by A.
+    Start again with a matrix A. It transforms v to Av. It transforms w to Aw. Then we
+know what happens to u = v + w. There is no doubt about Au, it has to equal Av+ Aw.
+Matrix multiplication T(v) = Av gives a linear transformation:
+
+        A transformation T assigns an output T(v) to each input vector v in V.
+        The transformation is linear if it meets these requirements for all v and w:
+
+          (a) T(v + w) = T(v) + T(w)               (b) T(cv) = cT(v) for allc.
+
+
+
+
+                                            401
+402                                                           Chapter 8. Linear Transformations
+
+If the input is v = 0, the output must be T(v) = 0. We combine rules (a) and (b) into one:
+
+      Linear transformation           T(cv + dw) must equal cT(v) + dT(w).
+
+
+Again I can test matrix multiplication for linearity: A(cv + dw) = cAv + dAw is true.
+   A linear transformation is highly restricted. Suppose T adds u 0 to every vector.
+Then T(v) = v + u 0 and T(w) = w + u 0. This isn't good, or at least it isn't linear.
+Applying T to v + w produces v + w + u 0. That is not the same as T(v) + T(w):
+
+ Shift is not linear      v + w + uo is not T(v) + T(w) = (v + uo) + (w + ua).
+
+The exception is when u 0 = 0. The transformation reduces to T(v) = v. This is the
+identity transformation (nothing moves, as in multiplication by the identity matrix).
+That is certainly linear. In this case the input space Vis the same as the output space W.
+    The linear-plus-shift transformation T(v) = Av + u 0 is called "affine". Straight lines
+stay straight although T is not linear. Computer graphics works with affine transformations
+in Section 10.6, because we must be able to move images.
+
+Example 1     Choose a fixed vector a = ( 1, 3, 4), and let T ( v) be the dot product a · v:
+
+                                        The output is T(v) =a· v = v 1 + 3v2 + 4v3.
+
+   Dot products are linear. The inputs v come from three-dimensional space, so V = R 3.
+The outputs are just numbers, so the output space is W = R 1. We are multiplying by the
+row matrix A = [ 1 3 4]. Then T ( v) = Av.
+   You will get good at recognizing which transformations are linear. If the output involves
+squares or products or lengths, vf or v 1 v2 or llv II, then Tis not linear.
+
+Example 2 The length T( v) = llvll is not linear. Requirement (a) for linearity would be
+llv + wll = llvll + llwll- Requirement (b) would be llcvll = cllvll- Both are false!
+   Not (a): The sides of a triangle satisfy an inequality llv + wll ::; llvll + llwll­
+   Not (b): The length II - vii is llvll and not -llvll- For negative c, linearity fails.
+
+Example 3       (Rotation) T is the transformation that rotates every vector by 30 ° . The
+"domain" of Tis the xy plane (all input vectors v). The "range" of Tis also the xy plane
+(all rotated vectors T ( v) ). We described T without a matrix: rotate the plane by 30 ° .
+    Is rotation linear? Yes it is. We can rotate two vectors and add the results. The sum of
+rotations T(v) + T(w) is the same as the rotation T(v + w) of the sum. The whole plane
+is turning together, in this linear transformation.
+8.1. The Idea of a Linear Transformation                                               403
+
+                         Lines to Lines, Triangles to Triangles, Basis Tells All
+Figure 8.1 shows the line from v tow in the input space. It also shows the line from T( v)
+to T( w) in the output space. Linearity tells us: Every point on the input line goes onto
+the output line. And more than that: Equally spaced points go to equally spaced points.
+The middle point u = ½v + ½w goes to the middle point T(u) = ½T(v) + ½T(w).
+    The second figure moves up a dimension. Now we have three corners v 1, v 2, v3.
+Those inputs have three outputs T(v 1), T(v2), T(v3). The input triangle goes onto the
+output triangle. Equally spaced points stay equally spaced (along the edges, and then
+between the edges). The middle point u = ½(v 1 + v 2 + v3) goes to the middle point
+T(u) = ½(T(v1) + T(v2) + T(v3)).
+
+
+
+
+      Figure 8.1: Lines to lines, equal spacing to equal spacing, u = 0 to T(u) = 0.
+    The rule of linearity extends to combinations of three vectors or n vectors:
+
+
+         Linearity
+                                                                                         (1)
+
+
+
+
+The 2-vector rule starts the 3-vector proof: T(cu + dv + ew) = T(cu) + T( dv + ew).
+Then linearity applies to both of those parts, to give cT(u) + dT(v) + eT(w).
+   Then-vector rule (1) leads to the most important fact about linear transformations:
+
+           Suppose you know T ( v) for all vectors v 1, • • • , Vn in a basis
+           Then you know T ( u) for every vector u in the space.
+
+You see the reason: Every u in the space is a combination of the basis vectors Vj.
+Then linearity tells us that T (u) is the same combination of the outputs T ( vj).
+404                                                           Chapter 8. Linear Transformations
+
+Example 4       The transformation T takes the derivative of the input: T(u) = du/ dx.
+How do you find the derivative of u = 6 - 4x + 3x2 ? You start with the derivatives of
+1, x, and x2 • Those are the basis vectors. Their derivatives are 0, 1, and 2x. Then you
+use linearity for the derivative of any combination:
+
+      du
+         = 6 ( derivative of 1) - 4 ( derivative of x) + 3 ( derivative of x2 ) = -4 + 6x.
+      dx
+All of calculus depends on linearity! Precalculus finds a few key derivatives, for x n and
+sin x and cos x and e x . Then linearity applies to all their combinations.
+    I would say that the only rule special to calculus is the chain rule. That produces the
+derivative of a chain of functions f (g(x) ).
+Nullspace of T(u) = du/dx. For the nullspace we solve T(u) = 0. The derivative is
+zero when u is a constant function. So the one-dimensional nullspace is a line in function
+space-all multiples of the special solution u = 1.
+Column space of T ( u) = du/dx. In our example the input space contains all quadratics
+a+ bx+ cx2 . The outputs (the column space) are all linear functions b + 2cx. Notice that
+the Counting Theorem is still true : r + ( n - r) = n.
+
+dimension ( column space) +dimension ( nullspace) = 2+ 1 = 3 = dimension (input space)
+
+What is the matrix for d/dx? I can't leave derivatives without asking for a matrix.
+We have a linear transformation T = d/dx. We know what T does to the basis functions:
+
+                                 dv1
+                                 -   =0
+                                 dx
+The 3-dimensional input space V ( = quadratics) transforms to the 2-dimensional output
+space W (= linear functions). If v 1, v 2, v 3 were vectors, I would know the matrix.
+
+
+               A= [ �       � � ] = matrix form of the derivative T =       !.               (3)
+
+The linear transformation du/dx is perfectly copied by the matrix multiplication Au.
+
+                                                                               du
+Input u
+a+ bx+ cx2
+                  Multiplication Au= [ � � �] [       �c ] = [ ;c ]   Output
+                                                                               dx
+                                                                                  = b + 2cx.
+
+
+The connection from T to A (we will connect every transformation to a matrix) depended
+on choosing an input basis 1, x, x2 and an output basis 1, x.
+    Next we look at integrals. They give the pseudoinverse r + of the derivative!
+I can't write r- 1 and I can't say "inverse of T" when the derivative of 1 is 0.
+8.1. The Idea of a Linear Transformation                                                 405
+
+Example 5        Integration T + is also linear: fox ( D + Ex) dx = Dx + ½ Ex2.
+The input basis is now 1, x. The output basis is 1, x, x 2. The matrix A + for r + is 3 by 2:
+
+
+                                                                   Output = Integral of v
+                                                                    r + (v) = Dx + ½Ex2
+
+The Fundamental Theorem of Calculus says that integration is the (pseudo)inverse of
+differentiation. For linear algebra, the matrix A + is the (pseudo)inverse of the matrix A:
+
+
+           A + A= [�
+                   Q2
+                     l
+                          �i       0
+                                O 1 ] = [� �
+                               [002
+                                         001
+                                                  �i                                       (4)
+
+The derivative of a constant function is zero. That zero is on the diagonal of A + A.
+Calculus wouldn't be calculus without that 1-dimensional nullspace of T = d/ dx.
+
+
+                                   Examples of Transformations (mostly linear)
+Example 6      Project every 3-dimensional vector onto the horizontal plane z = 1. The
+vector v = ( x, y, z) is transformed to T ( v) = ( x, y, 1). This transformation is not linear.
+Why not? It doesn't even transform v = 0 into T( v) = 0.
+Example 7       Suppose A is an invertible matrix. Certainly T(v + w) = Av + Aw =
+T ( v) + T ( w). Another linear transformation is multiplication by A - 1. This produces the
+inverse transformation r- 1, which brings every vector T ( v) back to v:
+
+          r- 1 (T(v))=v matches the matrix multiplication A- 1 (Av)=v.
+If T(v) = Av and S(u) = Bu, then the product T(S(u)) matches the product ABu.
+   We are reaching an unavoidable question.Are all linear transformations from V = Rn
+to W = Rm produced by matrices? When a linear T is described as a "rotation" or
+"projection" or"...", is there always a matrix A hiding behind T? Is T(v) always Av?
+    The answer is yes! This is an approach to linear algebra that doesn't start with
+matrices.We still end up with matrices-after we choose an input basis and output basis.
+Note Transformations have a language of their own. For a matrix, the column space
+contains all outputs Av. The nullspace contains all inputs for which Av = 0. Translate
+those words into "range" and "kernel":
+    Range of T = set of all outputs T ( v). Range corresponds to column space.
+    Kernel of T = set of all inputs for which T( v) = 0.Kernel corresponds to nullspace.
+The range is in the output space W. The kernel is in the input space V. When T is
+multiplication by a matrix, T(v) = Av, range is column space and kernel is nulls pace.
+406                                                        Chapter 8. Linear Transformations
+
+                                             Linear Transformations of the Plane
+It is more interesting to see a transformation than to define it. When a 2 by 2 matrix A
+multiplies all vectors in R2, we can watch how it acts. Start with a "house" that has eleven
+endpoints. Those eleven vectors v are transformed into eleven vectors Av. Straight lines
+between v's become straight lines between the transformed vectors Av. (The transfor­
+mation from house to house is linear!) Applying A to a standard house produces a new
+house-possibly stretched or rotated or otherwise unlivable.
+     This part of the book is visual, not theoretical. We will show four houses and the
+matrices that produce them. The columns of H are the eleven comers of the first house. (H
+is 2 by 12, so plot2d in Problem 25 will connect the 11th comer to the first.) A multiplies
+the 11 points in the house matrix H to produce the comers AH of the other houses.
+      House          -6 -6 -7            0     7    6  6 -3 -3  0  0 -6
+                H= [
+      matrix        -7 2 1               8     1    2 -7 -7 -2 -2 -7 -7 ] .
+
+
+
+                                   �]
+                                                           A = [cos 35°    -sin 35
+                                                                       °
+
+                          A = [�                                                   �
+                                                                sin 35      cos 35°
+
+
+
+
+                                                                           .3
+                                                                  A= 10.7 0 1
+                           A = [� �]                                   Lo.3 o.1J
+
+
+
+         Figure 8.2: Linear transformations of a house drawn by plot2d(A * H).
+
+                      •   REVIEW OF THE KEY IDEAS                  •
+
+   1. A transformation T takes each v in the input space to T( v) in the output space.
+   2. Tis linear ifT(v + w) = T(v) + T(w) and T(cv) = cT(v): lines to lines.
+   3. Combinations to combinations: T (c 1 v 1 + · · · +c n vn ) = c 1 T(vi)+···+en T(v n )-
+   4. T = derivative and r + = integral are linear. So is T(v) = Av from Rn to Rm .
+8.1. The Idea of a Linear Transformation                                                       407
+
+                           •    WORKED EXAMPLES                   •
+
+
+8.1 A The elimination matrix [½ �] gives a shearing transformation from (x,y) to
+T (x, y) = (x, x + y). If the inputs fill a square, draw the transformed square.
+
+               The points ( 1,0) and (2,0) on the x axis transform by T to ( 1,1) and ( 2, 2) on
+the 45 ° line. Points on they axis are not moved: T(0,y) = (0,y) =eigenvectors with.\= 1.
+Solution
+
+
+                                                                                      (1, 2)
+                                            0               (l, l)
+                                                                                 5
+                                              ]
+                                                  D                         r:       l, l )
+Vertical lines slide up         1
+                           A= [ 1
+                                                            (1, 0)
+This is the shearing                        1         v
+Squares go to parallelograms
+
+
+8.1 B A nonlinear transformation T is invertible if every b in the output space comes
+from exactly one x in the input space: T(x) = b always has exactly one solution.
+Which of these transformations (on real numbers x) is invertible and what is T- 1 ?
+None are linear, not even T3 • When you solve T(x) = b, you are inverting T:
+
+T1 (x) =x2      T2 (x) =x3      T3 (x) =x + 9                         T5 (x) = - for nonzero x's
+                                                                               1
+                                                   T4 (x) =e "'
+
+             T1 is not invertible: x = 1 has two solutions and x = -1 has no solution.
+                                                                                 X
+
+
+             T4 is not invertible because ex = -1 has no solution. (If the output space
+                                    2                                 2
+Solution
+
+                  changes to positive b's then the inverse of ex =bis x = ln b.)
+             Notice Tf = identity.But Tj(x) = x + 18. What are T}(x) and T;(x)?
+T2 , T3 , T5 are invertible: x 3 =band x + 9 =band¾ = b have one solution x.
+
+                                   x = T; 1 (b) = b - 9
+
+
+
+Problem Set 8.1
+      A linear transformation must leave the zero vector fixed: T(O) = 0. Prove this from
+      T(v + w) = T(v) + T(w) by choosing w = __ (and finish the proof). Prove it
+1
+
+      also from T(cv) = cT(v) by choosing c = __ .
+2     Requirement (b) gives T ( cv) = cT ( v) and also T ( dw) = dT ( w). Then by addition,
+      requirement (a) gives T( ) = ( ). What is T(cv + dw + eu)?
+
+3     Which of these transformations are not linear? The input is v = ( v1,v2):
+
+        (a) T(v) = (v2,v1)         (b)     T(v) = (v1,v1)       (c)       T(v) = (0,v1)
+        (d) T(v) = (0,1)           (e)     T(v)=v1-v2           (f)       T(v) = v1v2.
+408                                                      Chapter 8. Linear Transformations
+
+4     If Sand Tare linear transformations, is T(S(v)) linear or quadratic?
+       (a) (Special case) If S(v) =v and T(v) =v, then T(S(v)) =v or v 2 ?
+       (b) (General case) S(V1+v2 )=S(v1)+ S(v 2 ) and T(V1+v 2 ) =T(v1)+ T(v2 )
+           combine into
+                         T(S(v1 + v 2 )) = T( __ ) = __ + __ .
+
+5     Suppose T ( v) = v except that T (0,v2) = (0,0). Show that this transformation
+      satisfies T(cv) =cT(v) but does not satisfy T(v+ w)=T(v)+ T(w).
+6     Which of these transformations satisfy T ( v+ w) =T ( v)+ T ( w) and which satisfy
+      T(cv) = cT(v)?
+
+       (a) T(v) = v/llvll
+       (d) T( v) =largest component of v.
+7     For these transformations ofV = R 2 to W = R 2 , find T(T(v)). Show that when
+      T ( v) is linear, then also T ( T ( v)) is linear.
+
+       (a) T(v) = -v        (b)    T(v) = v + (l, 1)
+       (c) T( v) =90 rotation= (-v2 ,v1)
+                      °
+
+
+       (d) T(v) =projection= ½(vi+v2 , v1+v2 )-
+8     Find the range and kernel (like the column space and nullspace) of T:
+
+       (a) T(v1,v2 ) = (v1- v2 ,0)          (b) T(v1,v2 ,v3)= (v1,v2 )
+       (c) T(v1,v2 ) = (0,0)                (d) T(v1,v2 )= (v1,vi).
+9     The "cyclic" transformation T is defined by T(v1,v2 ,v3) = (v2 , v3 ,vi). What is
+      T(T(v))? What is T3 (v)? What is T100 ( v)? Apply Ta hundred times to v.
+10    A linear transformation fromV to W has an inverse from W toV when the range is
+      all of W and the kernel contains only v =0. Then T(v) =w has one solution v for
+      each w in W. Why are these T's not invertible?
+       (a) T(v1,v2 ) = (v2 ,v2 )             W=R2
+       (b) T(v1,v2 ) = (v1,v2 ,v1+v2 )       W=R3
+       (c) T(v1,v2) = v1                     W=R 1
+11    If T( v) =Av and A is m by n, then Tis "multiplication by A."
+       (a) What are the input and output spacesV and W?
+       (b) Why is range of T = column space of A?
+       (c) Why is kernel of T = null space of A?
+8.1. The Idea of a Linear Transformation                                                 409
+
+12    Suppose a linear T transforms (1,1) to (2,2) and (2,0) to (0,0). Find T( v):
+
+        (a) V = (2,2)        (b)   v=(3,l)        (c)    V   = (-l,1)    (d)    V   = (a, b).
+Problems 13-19 may be harder. The input space V contains all 2 by 2 matrices M.
+
+13    M is any 2 by 2 matrix and A = [ ½          z] .
+                                                The transformation T is defined by
+      T( M) =AM. What rules of matrix multiplication show that T is linear?
+14    Suppose A = [ ½ � ] . Show that the range of T is the whole matrix space V and the
+      kernel is the zero matrix:
+
+        (1) If AM= 0 prove that M must be the zero matrix.
+        (2) Find a solution to AM= B for any 2 by 2 matrix B.
+
+15    Suppose A = [ ½ � ] . Show that the identity matrix I is not in the range of T. Find a
+      nonzero matrix M such that T(M) =AM is zero.
+16    Suppose T transposes every 2 by 2 matrix M. Try to find a matrix A which gives
+      AM = MT. Show that no matrix A will do it. To professors: Is this a linear
+      transformation that doesn't come from a matrix? The matrix should be 4 by 4!
+
+17    The transformation T that transposes every 2 by 2 matrix is definitely linear. Which
+      of these extra properties are true?
+
+        (a) T 2 =identity transformation.
+        (b) The kernel of T is the zero matrix.
+        (c) Every 2 by 2 matrix is in the range of T.
+        (d) T(M) =-M is impossible.
+
+18    Suppose T(M) = [6 8] [ M] [g �]- Find a matrix with T(M) cf= 0. Describe all
+      matrices with T(M) =0 (the kernel) and all output matrices T(M) (the range).
+
+19    If A and Bare invertible and T(M) =AMB, find r- 1 (M) in the form (            )M( ).
+
+Questions 20-26 are about house transformations. The output is T(H) = AH.
+
+20    How can you tell from the picture of T (house) that A is
+
+        (a) a diagonal matrix?
+        (b) a rank-one matrix?
+        (c) a lower triangular matrix?
+
+21    Draw a picture of T (house) for these matrices:
+
+
+                   D = [� �]        and A= [:; :;]            and   U = [�     n·
+410                                                                 Chapter 8. Linear Transformations
+
+22    What are the conditions on A = [ � �] to ensure that T (house) will
+        (a) sit straight up?
+       (b) expand the house by 3 in all directions?
+        (c) rotate the house with no change in its shape?
+
+23    Describe T (house) when T(v) = -v + (1, 0). This Tis "affine".
+24    Change the house matrix H to add a chimney.
+
+25    The standard house is drawn by plot2d(H). Circles from o and lines from -:
+                                     x = H(l, :)';y = H(2, :)';
+                                     axis([-1010-1010]), axis('square')
+                                     plot(x,y, / o / ,x,y, / - ').,
+      Test plot2d(A '* H) and pfot2d(A 1 * A * H) with the matrices in Figure 8.1.
+
+26    Without a computer sketch the houses A * H for these matrices A:
+
+
+                                       [ .5.5 .5.5]          [-.5.5 .5.5]          [�
+                               and                    and                   and         �] .
+
+27    This code creates a vector theta of 50 angles. It draws the unit circle and then
+      it draws T (circle) = ellipse. T ( v) = Av takes circles to ellipses.
+      A= [2 1;1 2] % You can change A
+      theta= [0:2 * pi/50:2 * pi];
+      circle= [cos(theta); sin(theta)];
+      ellipse= A * circle;
+      axis([-4 4 -4 4]); axis('square')
+      plot(circle(1,:), circle(2,:), ellipse(1,:), ellipse(2,:))
+28    Add two eyes and a smile to the circle in Problem 27. (If one eye is dark and the
+      other is light, you can tell when the face is reflected across the y axis.) Multiply by
+      matrices A to get new faces.
+
+29    What conditions on det A = ad - be ensure that the output house AH will
+       (a) be squashed onto a line?
+       (b) keep its endpoints in clockwise order (not reflected)?
+        (c) have the same area as the original house?
+
+30    Why does every linear transformation T from R2 to R 2 take squares to parallelo­
+      grams? Rectangles also go to parallelograms (squashed if T is not invertible).
+     8.2. The Matrix of a Linear Transformation                                            411
+
+     8.2     The Matrix of a Linear Transformation
+
+1 We know all T(v) ifwe know T(v1), ... , T(vn ) for an input basisv1, ... , Vn : use linearity.
+
+2 Column j in the "matrix for T" comesfrom applying T to the input basis vector vj.
+3 Write T( Vj)=a 1 jw1 + · · · + a m jWm in the output basis of w's. Those aijgo into column j.
+4 The matrix for T(x)=Axis A , if the input and output bases=columns ofInxn and Imxm ·
+
+5 When the bases change tov's and w's, the matrix for the same Tchangesfrom A to w- 1 AV.
+6 Best bases: V =W = eigenvectors and V, W = singular vectors give diagonal A and :B.
+
+
+     The next pages assign a matrix A to every linear transformation T. For ordinary column
+     vectors, the input v is in V =Rn and the output T ( v) is in W =Rm. The matrix A for
+     this transformation will be m by n. Our choice ofbases in V and W will decide A.
+         The standard basis vectors for Rn andRm are the columns ofI. That choice leads to
+     a standard matrix. Then T(v)= Avin the normal way. But these spaces also have other
+     bases, so the same transformation T is represented by other matrices. A main theme of
+     linear algebra is to choose the bases that give the best matrix (a diagonal matrix) for T.
+         All vector spaces V and W have bases. Each choice ofthose bases leads to a matrix
+     for T. When the input basis is differentfrom the output basis, the matrix for T( v) =v will
+     not be the identity I. It will be the "change ofbasis matrix". Here is the key idea:
+
+           Suppose we know T(v) for the input basis vectors v 1 to Vn .
+           Columns 1 ton of the matrix will contain those outputs T(v1) to T(vn )­
+           A times c = matrix times vector = combination of those n columns.
+           Acis thecorrect combination c 1 T(v1) + · · · + cn T(vn ) = T(v).
+
+     Reason Every vis a unique combination c 1v1 + · · · + CnVn of the basis vectors Vj.
+     Since T is a linear transformation (here is the moment for linearity), T( v) must be
+     the same combination c 1T(v1) + · · · + cnT(v n ) of the outputs T(vj) in the columns.
+
+
+     Our first example gives the matrix A for the standard basis vectors in R 2 and R 3.
+
+     Example 1 Suppose T transformsv1 = (1,0) to T( vi) = (2, 3, 4). Suppose the second
+                                                                             2    3
+     basis vectorv2 = (0,l) goes to T(v  2) = (5,5,5). IfTis linearfromR toR then its
+     "standard matrix" is 3 by2. Those outputs T(v1) and T(v2) go into the columns of A :
+412                                                              Chapter 8. Linear Transformations
+
+                                                                            Change of Basis
+Example 2       Suppose the input space V = R2 is also the output space W = R 2 .
+Suppose that T( v) = v is the identity transformation. You might expect its matrix
+to be I, but that only happens when the input basis is the same as the output basis.
+I will choose different bases to see how the matrix is constructed.
+    For this special case T( v) = v, I will call the matrix B instead of A. We are just
+changing basis from the v's to thew's. Each vis a combination ofw1 andw2.
+
+                                 Output [      ] [3              0] Change v1 = lw1 + lw2
+                                          W1 W2 =
+                                 basis            1              2  of basis v2 = 2w1 + 3w2
+
+Please notice! I wrote the input basis v1, v2 in terms of the output basis w 1,w2.
+That is because of our key rule. We apply the identity transformation T to each input
+basis vector: T(v1) = v1 and T(v2) = v2. Then we write those outputs v1 and v2
+in the output basis w1 and w2. Those bold numbers 1, 1 and 2, 3 tell us column 1 and
+column 2 of the matrix B (the change of basis matrix): W B = V so B = w- 1 V.
+
+
+Matrix B for
+                                                                                               (1)
+change of basis
+
+
+      When the input basis is in the columns of a matrix V, and the output basis
+      is in the columns of W, the change of basis matrix for T = I is B = w- 1 V.
+
+
+    The key I see a clear way to understand that rule B = w- 1 V. Suppose the same vec­
+tor u is written in the input basis of v's and the output basis of w's. I will do that three ways:
+
+
+
+
+                                 [ l[ l [ l[ l
+                                                      1                          1
+U =   1V 1 + · · · + CnVn 1s
+                           .
+                             V1 · · · Vn          .
+                                                          = W1 · · · Wn      .
+                                                                                     and V c = W d.
+           +       +                             C
+    C 1 W1 · · ·
+                                                  -                          .
+U -
+  _ d                 dnWn                        ·
+                                                 Cn                         dn
+                                                                            d
+
+  The coefficients din the new basis of w's are d = w- 1 Vc. Then Bis w- 1 V.                  (2)
+
+    This formula B = w- 1 V produces one of the world 's greatest mysteries: When the
+standard basis V = I is changed to a different basis W, the change of basis matrix is
+not W but B = w- 1. Larger basis vectors have smaller coefficients!
+
+
+   [:] in the standard basis has coefficients [W1           W2 ]-l [:]               1,
+                                                                          in thew w2 basis.
+8.2. The Matrix of a Linear Transformation                                                    413
+
+                                                             Construction of the Matrix
+Now we construct a matrix for any linear transformation. Suppose Ttransforms the space
+V (n-dimensional) to the space W (m-dimensional). We choose a basis v 1, ... , Vn for V
+and we choose a basis w 1, ... , W m for W. The matrix A will be m by n. To find the first
+column of A, apply T to the first basis vector Vi. The output T (v 1) is in W.
+
+
+  T(v1)      is a combination        a11 w 1 + · · · + a rn 1W rn       ofthe outputbasisforW.
+
+ These numbers an, . .. ,am 1 go into the first column of A. Transforming Vi to T(v 1)
+matches multiplying (1, 0, ..., 0) by A. It yields that first column of the matrix.
+When Tis the derivative and the first basis vector is 1, its derivative is T(v 1) = 0.
+So for the derivative matrix below, the first column of A is all zero.
+Example 3   The input basis of v's is 1, x, x2 , x3 . The output basis of w's is 1, x, x 2 .
+                                              dv
+Then T takes the derivative: T( v) = - and A                       "derivative matrix".
+                                              dx
+
+      lfv = C1 + C X + C3X
+                    2
+                              2
+                                  + C4X   3
+
+
+           dv
+      then    = lc + 2c3 x + 3c4 x            2
+
+           dx       2
+
+
+
+
+  Key rule: The jth column of A is found by applying T to the jth basis vector v1
+
+
+          T(v1)= combination of output basis vectors= a11w 1 + · · · + amjW m .                   (3)
+
+
+These numbers aij go into A. The matrix is constructed to get the basis vectors right.
+Then linearity gets all other vectors right. Every vis a combination c 1v 1 + · · · + CnVn,
+and T ( v) is a combination of the w 's. When A multiplies the vector c = (c 1, . . ., Cn)
+in the v combination, Ac produces the coefficients in the T( v) combination. This is
+because matrix multiplication (combining columns) is linear like T.
+    The matrix A tells us what T does. Every linear transformation from V to W can be
+converted to a matrix. This matrix depends on the bases.
+Example 4       For the integral r + (v ), the first basis function is again 1. Its integral is the
+second basis function x. So the first column of the "integral matrix" A + is (0, 1, 0, 0).
+
+
+                                                             0      0   0                   0
+
+
+                                                                             [ ;: l
+ The integral of d1 + d2 x + d3 x 2                         1       0   0                  d1
+                1       2     1                   A + d=            1
+ is      d1x + -d2 x        + -d3x 3                         0          0                  ½d 2
+                2             3
+                                                             0      0   1
+                                                                        3                  !.d
+                                                                                           3 3
+414                                                         Chapter 8. Linear Transformations
+
+   If you integrate a function and then differentiate, you get back to the start. So AA+ = I.
+But if you differentiate before integrating, the constant term is lost. So A+ A is not I.
+The integral of the derivative of l is zero:
+                         T + T(l) = integral of zero function = 0.
+This matches A + A, whose first column is all zero. The derivative T has a kernel (the
+constant functions). Its matrix A has a nullspace. Main idea again: Av copies T(v ).
+    The examples of the derivative and integral made three points. First, linear trans­
+formations T are everywhere-in calculus and differential equations and linear algebra.
+Second, spaces other than Rn are important-we had functions in V and W. Third,
+if we differentiate and then integrate, we can multiply their matrices A+ A.
+
+                           Matrix Products AB Match Transformations TS
+We have come to something important-the real reason for the rule to multiply matrices.
+At last we discover why! Two linear transformations T and S are represented by two
+matrices A and B. Now compare TS with the multiplication AB:
+   When we apply the transformation T to the output from S, we get TS by this rule:
+   (TS)(u) is defined to be T(S(u)). The output S(u) becomes the input to T.
+   When we apply the matrix A to the output from B, we multiply AB by this rule:
+   (AB)(x) is defined to be A(Bx). The output Bx becomes the input to A.
+   Matrix multiplication gives the correct matrix AB to represent TS.
+    The transformation S is from a space U to V. Its matrix B uses a basis u 1, ... , up
+for U and a basis v 1, ... , Vn for V. That matrix is n by p. The transformation T is from
+V to W as before. Its matrix A must use the same basis v 1, ... , Vn for V-this is the
+output space for S and the input space for T. Then the matrix AB matches TS.
+
+
+ Multiplication The linear transformation TS starts with any vector u in U, goes
+ to S(u) in V and then to T(S(u)) in W. The matrix AB starts with any x in RP,
+ goes to Bx in Rn and then to ABx in R m . The matrix AB correctly represents TS:
+
+          TS:      U-+ V-+ W              AB:      (m by n)(n by p) = (m by p).
+
+
+The input is u = x 1 u 1 + · · · + XpUp. The output T(S(u)) matches the output ABx.
+Product of transformations TS matches product of matrices AB.
+    The most important cases are when the spaces U, V, W are the same and their bases
+are the same. With m = n = p we have square matrices that we can multiply.
+Example 5 S rotates the plane by 0 and T also rotates by 0. Then TS rotates by 20.
+This transformation T2 corresponds to the rotation matrix A2 through 20 :
+                                                                   cos 20 - sin 20]
+       T=S         A= B         T2 = rotation by 20       A2 = [                          (4)
+                                                                   sin 20  cos 20 ·
+8.2. The Matrix of a Linear Transformation                                              415
+
+By matching (transformation) 2 with (matrix) 2 , we pick up the formulas for co s 20
+and sin 20 . Multiply A times A:
+
+            co s0 - sin 0 co s0 - sin 0         co s2 0 - sin2 0 -2 sin 0 cos 0
+        [                 ] [              ]= [                                  ]        (5)
+            sin 0  co s 0     sin 0 co s 0       2 sin 0 co s 0  cos2 0 - sin2 0
+
+
+Comparing (4) with (5) produces co s 20 = co s2 0 - sin2 0 and sin 20          2 sin 0 co s 0.
+Trigonometry (the double angle rule) comes from linear algebra.
+
+Example 6        S rotates by the angle 0 and T rotates by -0. Then TS = I leads to AB = I.
+In this case T(S(u)) is u. We rotate forward and back. For the matrices to match,
+ABx must be x. The two matrices are inverses. Check this by putting co s(-0) = co s 0
+and sin( -0) = - sin 0 into the backward rotation matrix A:
+
+        c s0 sin 0 co s 0 - sin 0 = co s2 0 + sin2 0
+  AB= [ �            ] [              ] [                            ] = I.
+       - sm 0 co s 0     sin 0 co s 0       0        co s2 0 � sin2 0
+
+
+
+                                                            Choosing the Best Bases
+
+Now comes the final step in this section of the book. Choose bases that diagonalize the
+matrix. With the standard basis (the columns of J) our transformation T produces some
+matrix A-probably not diagonal. That same T is represented by different matrices when
+we choose different bases. The two great choices are eigenvectors and singular vectors:
+
+     Eigenvectors If T transforms Rn to Rn , its matrix A is square. But using the
+     standard basis, that matrix A is probably not diagonal. If there are n indepen­
+     dent eigenvectors, choose those as the input and output basis. In this good basis,
+     the matrix for T is the diagonal eigenvalue matrix A.
+
+
+Example 7       The projection matrix T projects every v = (x, y) in R2 onto the
+line y = -x. Using the standard basis, v 1 = (1,0) projects to T(v 1) = (½,-½)­
+For v2 = (0,1) the projection is T(v2) = (-½,½)-Those are the columns of A:
+
+
+             Projection matrix
+             Standard bases
+             Not diagonal
+                                   A= [      -! -: l   has AT = A and A2 = A.
+
+
+
+Now comes the main point of eigenvectors. Make them the basis vectors ! Diagonalize !
+416                                                             Chapter 8. Linear Transformations
+
+    When the basis vectors are eigenvectors, the matrix becomes diagonal.
+            v1 = w 1 = (1, -1) projects to itself: T(vi) = v 1 and .\ 1 = 1
+
+            v2 = w2 = (1, 1) projects to zero : T(v2) = 0 and .\2 = 0
+         Eigenvector bases
+         Diagonal matrix
+                                   The new matrix is [� �] = [ �1              �J
+                                                                            = A.                (6)
+
+Eigenvectors are the perfect basis vectors. They produce the eigenvalue matrix A.
+    What about other choices of input basis = output basis? Put those basis vectors into
+the columns of B. We saw above that the change of basis matrices (between standard basis
+and new basis) are Bin = B and Bout = B- 1. The new matrix for T is similar to A:
+
+    A new = B- 1 AB in the new basis of b's is similar to A in the standard basis:
+                            1
+        Ab's to b's = B- standard to b's          Astandard          B b's to standard          (7)
+
+
+I used the multiplication rule for the transformation IT I. The matrices for I, T, I were
+B- 1 , A, B.   The matrix B contains the input vectors b in the standard basis.
+    Finally we allow different spaces V and W, and different bases v's and w's. When
+we know T and we choose bases, we get a matrix A. Probably A is not symmetric or even
+square. But we can always choose v's and w's that produce a diagonal matrix. This will
+be the singular value matrix l"; = diag ( o- 1, • . . , ar) in the decomposition A = U�VT .
+      Singular vectors The SVD says that u- 1 AV = �- The right singular vectors
+      v 1, ... , Vn will be the input basis. The left singular vectors u 1, ... , Um will be
+      the output basis. By the rule for matrix multiplication, the matrix for the same
+      transformation in these new bases is B;;u�AB;n = u- 1AV=�-
+I can't say that� is "similar" to A. We are working now with two bases, input and output.
+But those are orthonormal bases and they preserve the lengths of vectors. Following a good
+suggestion by David Vogan, I propose that we say: 1": is "isometric" to A.
+                        C = Q1 AQ 2 is isometric to A if Q 1 and Q2 are orthogonal.
+                                1
+      Definition
+
+Example 8         To construct the matrix A for the transformation T = ix, we chose the
+input basis 1, x, x2 , x3 and the output basis 1, x, x2 . The matrix A was simple but unfortu­
+nately it wasn't diagonal. But we can take each basis in the opposite order.
+    Now the input basis is x3 , x2 , x, 1 and the output basis is x2 , x, 1. The change of basis
+matrices B;n and Bout are permutations. The matrix for T(u) = du/dx with the new
+bases is the diagonal singular value matrix B;;u�ABin = 1": with cr's = 3, 2, 1:
+
+                                                                                    o o
+                                                                           !
+                                                                 1
+
+
+                            'W
+                                     1 0                                       0
+
+                                             �l [ 1                                       l
+                                                            1
+ B;;.�AB,.              1            0 2                                       2    0 0       . (8)
+               -[                                       1             -[
+                    1                0 0                             ]         0    1 0
+
+Well, this was a tough section. We found that x3 , x2 , x, 1 have derivatives 3x2 , 2x, 1, 0.
+8.2. The Matrix of a Linear Transformation                                                              417
+
+                        • REVIEW OF THE KEY IDEAS                           •
+
+   1. If we know T(v1), ... , T(vn ) for a basis, linearity will determine all other T(v).
+
+        Linear transformation T           Matrix A (m by n)
+   2. { Input basis v 1, . . . , Vn  } -t   represents T
+        Output basis w 1, . . . , Wm       in these bases
+
+   3. The change of basis matrix B= w- 1 V= B;;u\Bin represents the identity T(v)=v.
+   4. If A and B represent T and S, and the output basis for Sis the input basis for T,
+      then the matrix AB represents the transformation T ( S ( u)).
+   5. The best input-output bases are eigenvectors and/or singular vectors of A. Then
+              B- 1AB= A= eigenvalues            B;;u\ABin =�=singular values.
+
+
+
+                            • WORKED EXAMPLES                       •
+
+8.2 A      The space of 2 by 2 matrices has these four "vectors" as a basis:
+
+                          Vz = [ �      � ]
+
+T is the linear transformation that transposes every 2 by 2 matrix. What is the matrix A that
+represents Tin this basis (output basis= input basis )? What is the inverse matrix A- 1 7
+What is the transformation y- 1 that inverts the transpose operation?
+
+Solution      Transposing those four "basis matrices" just reverses v 2 and v 3:
+
+            T(vi) = V1                                                          �               �
+                                                                                        0
+            T(vz) = V3                                         --
+                              gives the four columns of    A        [ 0�                            l
+                                                                        1
+
+
+            T(v3) = vz                                                                      �   �
+                                                                                        1
+
+
+            T(v4) = V4                                                              �
+
+The inverse matrix A - 1 is the same as A. The inverse transformation y- 1 is the same as T.
+If we transpose and transpose again, the final matrix equals the original matrix.
+    Notice that the space of 2 by 2 matrices is 4-dimensional. So the matrix A (for the
+transpose T) is 4 by 4. The nullspace of A is Z and the kernel of Tis the zero matrix-the
+only matrix that transposes to zero. The eigenvalues of A are 1 , 1 , 1 , -1.
+    Which line of matrices has T(A) = AT = -A with that eigenvalue .\ = - 1 ?
+418                                                         Chapter 8. Linear Transformations
+
+
+Problem Set 8.2
+Questions 1-4 extend the first derivative example to higher derivatives.
+1     The transformation S takes the second derivative. Keep 1, x, x2 , x3 as the input
+      basis vi, v2 , V3, V4 and also as output basis w1, w2 , W3, W4. Write S(v1), S(v2),
+      S(v3), S(v4) in terms of thew's. Find the 4 by 4 matrix A2 for S.
+2     What functions have S( v) = O? They are in the kernel of the second derivative S.
+      What vectors are in the nullspace of its matrix A2 in Problem 1?
+
+
+
+                                            �i
+3     The second derivative A2 is not the square of a rectangular first derivative matrix A1:
+
+                        A1 = [�     � �          does not allow Ai = A2 .
+                                0   0 0     3
+      Add a zero row 4 to A 1 so that output space= input space. Compare        Ar with A .2
+      Conclusion: We want output basis = __ basis. Then m = n.
+4      (a) The product TS of first and second derivatives produces the third derivative.
+           Add zeros to make 4 by 4 matrices, then compute A1A2 = A3.
+       (b) The matrix A� corresponds to S2 = fourth derivative. Why is this zero?
+Questions 5-9 are about a particular transformation T and its matrix A.
+5     With bases V1, V2 , V3 andw1, w2 , W3, supposeT(v1) = w2 andT(v2) = T(v3) =
+      w1 + w3 . T is a linear transformation. Find the matrix A and multiply by the
+      vector (1, 1, 1). What is the output from T when the input is v1 + v2 + v3?
+6     Since T(v2 ) = T(v3), the solutions to T(v) = 0 are v = __ . What vectors are
+      in the nullspace of A? Find all solutions to T( v) = w2 .
+7     Find a vector that is not in the column space of A. Find a combination of w's that is
+      not in the range of the transformation T.
+8     You don't have enough information to determine T2 . Why is its matrix not necessar­
+      ily A2 ? What more information do you need?
+9     Find the rank of A. The rank is not the dimension of the whole output space W.
+      It is the dimension of the     of T.
+Questions 10-13 are about invertible linear transformations.
+10    Suppose T(v1) = w1 + w2 + W3 and T(v2) = w2 + w3 and T(v3) = W3. Find
+      the matrix A for T using these basis vectors. What input vector v gives T( v) = w1?
+11    Invert the matrix A in Problem 10. Also invert the transformation T-what are
+      r- 1 (wi) and r- 1(w2 ) and r- 1(w3)?
+12    Which of these are true and why is the other one ridiculous?
+       (a) r- 1 r = I      (b) r- 1 (T(v 1 )) = v 1       (c) r- 1(T(w1)) = w1.
+8.2. The Matrix of a Linear Transformation                                                419
+
+13    Suppose the spaces V and W have the same basis v1, v 2 .
+        (a) Describe a transformation T (not I) that is its own inverse.
+        (b) Describe a transformation T (not I) that equals T 2 .
+        (c) Why can't the same T be used for both (a) and (b)?
+
+Questions 14-19 are about changing the basis.
+14      (a) What matrix B transforms (1, 0) into (2, 5) and transforms (0, 1) to (1, 3)?
+        (b) What matrix C transforms (2, 5) to (1, 0) and (1, 3) to (0, 1)?
+        (c) Why does no matrix transform (2, 6) to (1, 0) and (1, 3) to (0, 1)?
+15      (a) What matrix Mtransforms (1, 0) and (0, 1) to (r, t) and (s, u)?
+        (b) What matrix N transforms (a, c) and (b, d) to (1, 0) and (0, 1)?
+        (c) What condition on a, b, c, d will make part (b) impossible?
+16      (a) How do Mand Nin Problem 15 yield the matrix that transforms (a, c) to (r, t)
+            and (b, d) to (s, u)?
+        (b) What matrix transforms (2, 5) to (1, 1) and (1, 3) to (0, 2)?
+17    If you keep the same basis vectors but put them in a different order, the change of
+      basis matrix B is a __ matrix. If you keep the basis vectors in order but change
+      their lengths, B is a __ matrix.
+18    The matrix that rotates the axis vectors (1, 0) and (0, 1) through an angle 0 is Q.
+      What are the coordinates ( a, b) of the original (1, 0) using the new (rotated) axes?
+      This inverse can be tricky. Draw a figure or solve for a and b:
+
+                   Q=
+                         [c?s 0 - s in0]
+                          sm0      cos0
+                                               [ 1]
+                                                 0
+                                                         [
+                                                       c s 0] b [- s in0] .
+                                                    =a ?
+                                                       sm0
+                                                             +     cos0
+
+19    The matrix that transforms (1, 0) and (0, 1) to (1, 4) and (1, 5) is B =
+      The combination a(l, 4) + b(l, 5) that equals (1, 0) has (a, b) = (             ,    ).
+      How are those new coordinates of (1, 0) related to B or B-17
+Questions 20-23 are about the space of quadratic polynomials y = A + Bx + Cx 2•
+20    The parabolaw1 = ½(x 2 + x) equals one at x = 1, and zero at x = 0 and x = -1.
+      Find the parabolasw2,w3, and then find y(x) by linearity.
+        (a) w 2 equals one at x = 0 and zero at x = 1 and x = -1.
+        (b) w3 equals one at x = -1 and zero at x = 0 and x = 1.
+        (c) y(x) equals 4 at x = 1 and 5 at x = 0 and 6 at x = -1. Usew1,w 2 , W3.
+
+21    One basis for second-degree polynomials is v1 = 1 and v 2 = x and v3 = x 2 .
+      Another basis is w1,w 2 ,w3 from Problem 20. Find two change of basis matrices,
+      from thew's to the v's and from the v's to thew's.
+420                                                              Chapter 8. Linear Transformations
+
+22    What are the three equations for A, B, C if the parabola y =A+ Bx+ Cx2 equals
+      4 at x = a and 5 at x = b and 6 at x = c? Find the determinant of the 3 by 3 matrix.
+      That matrix transforms values like 4, 5, 6 to parabolas y-or is it the other way?
+23    Under what condition on the numbers m 1 , m 2 , ..., m 9 do these three parabolas give
+      a basis for the space of all parabolas a + bx + cx 2 ?
+       V 1 = m1 + m 2 x + m3x 2, v 2 = m4 + m5x + m5x 2, V3 = m7 + msx + mgx 2 .
+24    The Gram-Schmidt process changes a basis a 1 , a 2 , a3 to an orthonormal basis
+      q 1 , q 2 , q3 . These are columns in A = QR. Show that R is the change of basis
+      matrix from the a's to the q's (a 2 is what combination of q's when A= QR?).
+25    Elimination changes the rows of A to the rows of U with A = LU. Row 2 of A is
+      what combination of the rows of U? Writing AT = UT LT to work with columns,
+      the change of basis matrix is B = LT . We have bases if the matrices are __ .
+26    Suppose v 1 , v2 , v3 are eigenvectors for T. This means T( vi) = Ai Vi for i = 1, 2, 3.
+      What is the matrix for T when the input and output bases are the v's?
+27    Every invertible linear transformation can have I as its matrix! Choose any input
+      basis v 1 , ..., Vn. For output basis choose Wi = T(vi)- Why must T be invertible?
+28    Using v 1 = w 1 and v 2 = w 2 find the standard matrix for these T's:
+       (a) T(vi) = 0 and T(v2 ) = 3v 1          (b)        T(v 1 ) = v 1 and T(v 1 + v 2 ) = v 1 .
+
+29    Suppose T reflects the xy plane across the x axis and S is reflection across the y
+      axis. If v = (x, y) what is S(T(v))? Find a simpler description of the product ST.
+30    Suppose Tis reflection across the 45 ° line, and S is reflection across the y axis. If
+      v = (2, 1) then T(v) = (1, 2). Find S(T(v)) and T(S(v)). Usually ST# TS.
+31    The product of two reflections is a rotation. Multiply these reflection matrices to
+      find the rotation angle:
+                            cos 20    sin 20              cos 2a   sin 2a
+                           [                ]         [                  ]
+                             sin 20 - cos 20              sin 2a - cos 2a
+
+32    Suppose A is a 3 by 4 matrix of rank r = 2, and T(v) = Av. Choose input basis
+      vectors v 1 , v 2 from the row space of A and v3, v4 from the nullspace. Choose
+      output basis vectors w 1 = Av 1, w 2 = Av2 in the column space and w 3 from the
+      nullspace of AT . What specially simple matrix represents Tin these special bases?
+33    The space M of 2 by 2 matrices has the basis v 1 , v 2 , v 3, v4 in Worked
+      Example 8.2 A. Suppose T multiplies each matrix by [ � �] . With w 's equal to
+      v's, what 4 by 4 matrix A represents this transformation Ton matrix space?
+34    True or False: If we know T(v) for n different nonzero vectors in Rn , then we
+      know T (v) for every vector v in Rn .
+ 8.3. The Search for a Good Basis                                                      421
+
+ 8.3 The Search for a Good Basis
+
+1 With a new input basis Bin and output basis Bout , every matrix A becomes B�t AB;0.
+
+2 Bin   =   Bout= "generalized eigenvectors of A" produces the Jordan form J= B- 1 AB.
+3 The Fourier matrix F= Bin= Bout diagonalizes every circulant matrix (use the FFT).
+4 Sines and cosines, Legendre and Chebyshev: those are great bases for function space.
+
+     This is an important section of the book. I am afraid that most readers will skip it-or
+ won't get this far. The first chapters prepared the way by explaining the idea of a basis.
+ Chapter 6 introduced the eigenvectors x and Chapter 7 found singular vectors v and u.
+ Those are two winners but many other choices are very valuable.
+     First comes the pure algebra from Section 8.2 and then come good bases. The input
+ basis vectors will be the columns of B;0• The output basis vectors will be the columns of
+ Bout · Always B;0 and Bout are invertible-basis vectors are independent!
+     Pure algebra If A is the matrix for a transformation T in the standard basis, then
+                         B;;:} AB; is the matrix in the new bases.
+                                    0                                                    (1)
+ The standard basis vectors are the columns of the identity: B;n= Inxn and Bout= Im x m ·
+ Now we are choosing special bases to make the matrix clearer and simpler than A.
+ When Bin Bout= B, the square matrix B- 1AB is similar to A.
+              =
+
+
+
+    Applied algebra Applications are all about choosing good bases. Here are four
+ important choices for vectors and three choices for functions. Eigenvectors and singular
+ vectors led to A and I: in Section 8.2. The Jordan form is new.
+  1 B;0 =Bout= eigenvector matrix X.              Then x- 1 AX = eigenvalues in A.
+    This choice requires A to be a square matrix with n independent eigenvectors.
+    "A must be diagonalizable." We get A when B;0 = Bout is the eigenvector matrix X.
+ 2 B;0 =V and Bout= U: singular vectors of A. Then u- 1 AV= diagonal :E.
+    I: is the singular value matrix (with u 1, ... , O"r on its diagonal) when Bin and Bout
+    are the singular vector matrices V and U. Recall that those columns of Bin and Bout
+    are orthonormal eigenvectors ofA TA andAA T . ThenA= UI:VT gives I:= u- 1AV.
+  3 B;0= B out= generalized eigenvectors of A. Then B- 1 AB= Jordan form J.
+    A is a square matrix but it may only have s independent eigenvectors. (If s= n then
+    B is X and J is A.) In all cases Jordan constructed n - s additional " generalized"
+    eigenvectors, aiming to make the Jordan form J as diagonal as possible:
+         i) There ares square blocks along the diagonal of J.
+        ii) Each block has one eigenvalue >., one eigenvector, and 1 's above the diagonal.
+
+    The good case has n l x 1 blocks, each containing an eigenvalue. Then J is A (diagonal).
+422                                                           Chapter 8. Linear Transformations
+
+  Example 1       This Jordan matrix J has eigenvalues>,. = 2, 2, 3, 3 (two double eigen­
+  values). Those eigenvalues lie along the diagonal because J is triangular. There are two
+  independent eigenvectors for>-. = 2, but there is only one line of eigenvectors for >-. = 3.
+  This will be true for every matrix C = BJB- 1 that is similar to J.
+
+
+           Jonlanmatrix J �
+                                    l
+                                        2
+                                            2            lj   Two 1 by 1 blocks
+                                                              One 2 by 2 block
+                                                              Three eigenvectors
+                                                [�   �        Eigenvalues 2, 2, 3, 3
+
+  Two eigenvectors for>-. = 2 are x1 = (1, 0, 0, 0) and x2 = (0, 1, 0, 0). One eigenvector
+  for>,. = 3 is x 3 = (0, 0, 1, 0). The "generalized eigenvector" for this Jordan matrix is
+  the fourth standard basis vector x4 = (0, 0, 0, 1). The eigenvectors for J (normal and
+  generalized) are just the columns x 1, x2, X3, x4 of the identity matrix I.
+      Notice ( J - 3I)x 4 = x 3. The generalized eigenvector X4 connects to the true
+  eigenvector x 3. A true x4 would have (J - 3I)x4 = 0, but that doesn't happen here.
+         Every matrix C = BJB- 1 that is similar to this J will have true eigenvectors
+  b 1 , b 2 , b3 in the first three columns of B. The fourth column of B will be a generalized
+  eigenvector b4 of C, tied to the true b 3 . Here is a quick proof that uses Bx3 = b 3
+  and Bx4 = b4 to show: The fourth column b4 is tied to b 3 by ( C - 3I)b4 = b 3 .
+
+
+
+ The point of Jordan's theorem is that every square matrix A has a complete set of
+ eigenvectors and generalized eigenvectors. When those go into the columns of B, the
+ matrix B- 1 AB = J is in Jordan form. Based on Example 1, here is a description of J.
+
+
+                                                                       The Jordan Form
+  For every A, we want to choose B so that B- 1 AB is as nearly diagonal as possi­
+  ble. When A has a full set of n eigenvectors, they go into the columns of B. Then
+  B = X. The matrixX- 1AX is diagonal, period. This is the Jordan form of A-when A
+  can be diagonalized. In the general case, eigenvectors are missing and A can't be reached.
+     Suppose A has s independent eigenvectors. Then it is similar to a Jordan matrix
+  with s blocks. Each block has an eigenvalue on the diagonal with 1's just above it.
+  This block accounts for exactly one eigenvector of A. Then B contains generalized
+  eigenvectors as well as ordinary eigenvectors.
+      When there are n eigenvectors, all n blocks will be 1 by 1. In that case J = A.
+    The Jordan form solves the differential equation du/ dt = Au for any square matrix
+  A = BJ B- 1. The solution e At u(0) becomes u(t) = Be Jt B- 1 u(0). J is triangular
+  and its matrix exponential e Jt involves e >-t times powers 1, t, ... , t s -l _
+8.3. The Search for a Good Basis                                                        423
+
+
+    (Jordan form) If A has s independent eigenvectors, it is similar to a matrix J that has
+    s Jordan blocks J1 ... , J5 on its diagonal. Some matrix B puts A into Jordan form :
+
+
+
+              Jordan form                                                                       (3)
+
+
+
+    Each block Ji has one eigenvalue Ai, one eigenvector, and 1's just above the diagonal:
+
+
+
+              Jordan block                                                                      (4)
+
+
+
+    Matrices are similar if they share the same Jordan form J-not otherwise.
+
+
+   The Jordan form J has an off-diagonal 1 for each missing eigenvector (and the l's
+   are next to the eigenvalues). In every family of similar matrices, we are picking one
+   outstanding member called J. It is nearly diagonal (or if possible completely diagonal).
+   We can quickly solve du/ dt = Ju and take powers Jk . Every other matrix in the
+   family has the form BJB- 1 .
+   Jordan's Theorem is proved in my textbook Linear Algebra and Its Applications.
+   Please refer to that book (or more advanced books) for the proof. The reasoning is
+   rather intricate and in actual computations the Jordan form is not at all popular-its cal­
+   culation is not stable. A slight change in A will separate the repeated eigenvalues and
+   remove the off-diagonal 1 's-switching Jordan to a diagonal A.
+   Proved or not, you have caught the central idea of similarity-to make A as simple as
+   possible while preserving its essential properties. The best basis B gives B- 1 AB = J.
+
+Question Find the eigenvalues and all possible Jordan forms if A 2 = zero matrix.
+Answer The eigenvalues must all be zero, because Ax = AX leads to A 2 x = A2 x = Ox.
+The Jordan form of A has J2 = 0 because J2 = (B- 1 AB)(B- 1 AB) = B- 1 A 2 B = 0.
+Every block in J has A= 0 on the diagonal. Look at Jf for block sizes 1, 2, 3 :
+
+        2
+                                                        [o 1 0
+                                                                      2
+
+  [0] =[0]                                               0 0 1]
+                                                         0 0 0
+Conclusion: If J2 = 0 then all block sizes must be 1 or 2. J2 is not zero for 3 by 3.
+   The rank of J (and A) will be the total number of 1's. The maximum rank is n/2.
+This happens when there are n/2 blocks, each of size 2 and rank 1.
+424                                                            Chapter 8. Linear Transformations
+
+    Now come the great bases of applied mathematics. Their discrete forms are vectors
+in Rn . Their continuous forms are functions in a function space. Since they are chosen
+once and for all, without knowing the matrix A, these bases Bin = Bout probably don't
+diagonalize A. But for many important matrices A in applied mathematics, the matrices
+B� 1 AB are close to diagonal.
+4 B;n = Bout = Fourier matrix F             Then Fx is a Disc.rete Fourier Transform of x.
+   Those words are telling us : The Fourier matrix with columns ( 1, .\,.,\,2, .,\, 3) in equation
+   (6) is important. Those are good basis vectors to work with.
+   We ask: Which matrices are diagonalized by F? This time we are starting with the
+   eigenvectors ( 1, >-, ), 2 , .,\, 3 ) and finding the matrices that have those eigenvectors :
+
+                                             1 0
+                                             0 1
+          If .\4 = 1 then                                                                         (5)
+                                             0 0
+                                             0 0
+   P is a permutation matrix. The equation Px            >-x says that x is an eigenvector
+   and .,\, is an eigenvalue of P. Notice how the fourth row of this vector equation is
+   1 = .,\,4. That rule for ), makes everything work.
+   Does this give four different eigenvalues.,\,? Yes. The four numbers.,\,= 1, i, -1, -i
+   all satisfy .,\,4 = 1. (You lmow i 2 = -1. Squaring both sides gives i4 = 1.) So those
+   four numbers are the eigenvalues of P, each with its eigenvector x = (1, >-, ), 2 , .,\, 3 ).
+   The eigenvector matrix F diagonalizes the permutation matrix P :
+
+
+
+
+                                                                                              l
+                                                  Ei.genvector          1     1
+
+
+                                                                   r1
+      Eigenvalue                                  matrix is             i    -1      -i
+                                                                                                  (6 )
+      matrix A                                    Fourier               i2    1     (-i)2
+                                                  matrix F              i3   -1     (-i1 )3
+
+   Those columns of Fare orthogonal because they are eigenvectors of P (an orthogonal
+   matrix). Unfortunately this Fourier matrix F is complex (it is the most important
+   complex matrix in the world). Multiplications Fx are done millions of times very
+   quickly, by the Fast Fourier Transform. The FFT comes in Section 9.3.
+        Key question : What other matrices beyond P have this same eigenvector matrix F ?
+We know that P 2 and P3 and P4 have the same eigenvectors as P. The same matrix F
+diagonalizes all powers of P. And the eigenvalues of P2 and P 3 and P4 are the numbers
+.,\, 2 and.,\,3 and.,\, . For example P x = >- x:
+                      4                2      2
+
+
+
+
+                        0 1
+                        0 0
+                        0 0
+                        1 0
+8.3. The Search for a Good Basis                                                        425
+
+    The fourth power is special because P 4 = I. W hen we do the "cyclic permutation"
+four times, P 4 x is the same vector x that we started with. The eigenvalues ofP 4 = 1 are
+just1,1,1,1. And that number1 agrees with the fourth power ofall the eigenvalues ofP :
+14 = 1 andi4 = 1 and (-1)4 = 1 and (-i)4 = 1.
+    One more step brings in many more matrices. IfP and P 2 and P 3 and P 4 = 1 have
+the same eigenvector matrix F, so does any combination C = c1P + c2 P 2 + c3 P 3 + c0 1:
+
+                       co c1 c 2 C 3 has eigenvectors in the Fourier matrix F
+                       C co c1 c 2 has four eigenvalues c0 + c1>. + c2>.2 + c3 >.3
+              r1x C = [ 3
+C.ircu1ant mat .                    l
+                       c 2 c3 co c1      from the four numbers>-= 1, i, -1, -i
+                                                                        .      .
+                       c1 c 2 c 3 co The eigenvalue from>-= 1 is co + c1 + c 2 + c3
+
+    That was a big step. We have found all the matrices (circulant matrices C) whose
+eigenvectors are the Fourier vectors in F. We also know the four eigenvalues of C, but
+we haven't given them a good formula or a name until now:
+
+                                                                      Co + C1 + C 2 + C 3
+The four eigenvalues of C
+                                                                      co + ic1 - c 2 - ic3
+
+                                         [� � -� -�1 r:�1
+                                         1 -1 1 -1           C2       Co - C1 + C 2 - C 3
+     are given by the              Fe=
+                                         1 -i -1 i           C3       co - ic1 - c 2 + ic3
+ Fourier transform Fe
+
+Example 2 The same ideas work for a Fourier matrix F and a circulant matrix C of
+any size. Two by two matrices look trivial but they are very useful. Now eigenvalues
+ofP have >-2 = 1 instead of>.4 = 1 and the complex number i is not needed: A = ±1.
+ Fourier matrix F from                                        Circulant      co c1
+                                                                        C= [       ] .
+ eigenvectors ofP and C              1 -1            1 0      col+ c1P       c1 co
+                             F=[l         1]    = Ol]
+                                               P [
+
+The eigenvalues ofC are c0 + c1 and c0 - c1. Those are given by the Fourier transform Fc
+when the vector c is (co, c1). This transform Fe gives the eigenvalues ofC for any size n.
+     Notice that circulant matrices have constant diagonals. The same number c0 goes
+down the main diagonal. The number c1 is on the diagonal above, and that diagonal
+"wraps around" or "circles around" to the southwest corner ofC. This explains the name
+circulant and it indicates that these matrices are periodic or cyclic. Even the powers of>.
+cycle around because >.4 = 1 leads to >. 5 , ,>. 6 , >.7, ,>. 8 = >., ,>. 2 , ,>. 3 , ,>. 4
+     Constancy down the diagonals is a crucial property of C. It corresponds to constant
+                                                                                            •
+
+
+coefficients in a differential equation. This is exactly when Fourier works perfectly!
+
+          The equation           = -u is solved by u = co cost + c1 sin t.
+                            d2 u
+                            dt2
+
+          The equation           = tu cannot be solved by elementary functions.
+                            d2 u
+
+     These equations are linear. The first is the oscillation equation for a simple spring.
+                            dt2
+
+It is Newton's Law f = ma with mass m = 1, a = d2 u/dt2 , and force f = -u.
+Constant coefficients produce the differential equations that you can really solve.
+426                                                           Chapter 8. Linear Transformations
+
+     The equation u 11 = tu has a variable coefficient t. This is Airy's equation in physics
+and optics (it was derived to explain a rainbow). The solutions change completely when t
+passes through zero, and those solutions require infinite series. We won't go there.
+     The point is that equations with constant coefficients have simple solutions like e >-t .
+You discover ,\ by substituting e >-t into the differential equation. That number ,\ is like
+an eigenvalue. For u = cost and u = sin t the number is ,\ = i. Euler's great formula
+e it = cost+ i sin t introduces complex numbers as we saw in the eigenvalues of P and C.
+
+
+                                                              Bases for Function Space
+For functions of x, the first basis I would think of contains the powers 1, x, x 2 , x3 , ...
+Unfortunately this is a terrible basis. Those functions x n are just barely independent.
+x 10 is almost a combination of other basis vectors 1, x, ... , x9 . It is virtually impossible
+to compute with this poor "ill-conditioned" basis.
+    If we had vectors instead of functions, the test for a good basis would look at BT B.
+This matrix contains all inner products between the basis vectors (columns of B).
+The basis is orthonormal when BT B = I. That is best possible. But the basis 1, x, x 2 , ...
+produces the evil Hilbert matrix : BT B has an enormous ratio between its largest and
+smallest eigenvalues. A large condition number signals an unhappy choice of basis.
+    Note Now the columns of B are functions instead of vectors. We still use BT B to
+test for independence. So we need to know the dot product (inner product is a better name)
+of twofunctions-those are the numbers in BT B.
+    The dot product of vectors is just x T y = x 1 y + · · · + X n Yn · The inner product of
+                                                      1
+
+functions will integrate instead of adding, but the idea is completely parallel :
+                 Inner product (f, g)          J f(x)g(x)dx
+        Complex inner product (f, g)           J f(x) g(x)dx, f = complex conjugate
+      Weighted inner product (f, g ) w         fw(x)f(x) g(x)dx, w= weightfunction
+When the integrals go from x = 0 to x = 1, the inner product of xi with xj is
+
+       1  1 . .        xi +j +l x=l
+           x'x1 dx = ---- ]
+                                             1
+                                                          entries of Hilbert matrix BT B
+        o            i + j + 1 x=O        i+ j + 1
+
+    By changing to the symmetric interval from x = -1 to x = 1, we immediately have
+orthogonality between all even functions and all odd functions:
+
+                                   1                           1
+
+      Interval [ -1, 1]          [ x2 x5 dx = 0             [       even(x) odd(x) dx = 0.
+                                1-1                             1
+
+This change makes half of the basis functions orthogonal to the other half. It is so simple
+that we continue using the symmetric interval -1 to 1 (or -1r to 1r). But we want a better
+basis than the powers x n -hopefully an orthogonal basis.
+8.3. The Search for a Good Basis                                                          427
+
+                                           Orthogonal Bases for Function Space
+Here are the three leading even-odd bases for theoretical and numerical computations:
+
+
+               5. The Fourier basis        1, sin x, cos x, sin 2x, cos 2x, ...
+
+               6. The Legendre basis       1, X, X2 -
+                                                        1
+                                                         ,  3 3
+                                                           X - x, ...
+                                                        3     5
+               7. The Chebyshev basis      1, x, 2x 2 - 1, 4x3 - 3x, .. .
+
+
+     The Fourier basis functions (sines and cosines) are all periodic. They repeat over every
+21r interval because cos(x+21r) = cos x and sin(x+21r) = sin x. So this basis is especially
+good for functions f (x) that are themselves periodic: f (x + 21r) = f (x).
+     This basis is also orthogonal. Every sine and cosine is orthogonal to every other sine
+and cosine. Of course we don't expect the basis function cos nx to be orthogonal to itself.
+   Most important, the sine-cosine basis is also excellent for approximation. If we have
+a smooth periodic function f (x), then a few sines and cosines (low frequencies) are all
+we need. Jumps in f(x) and noise in the signal are seen in higher frequencies (larger n).
+We hope and expect that the signal is not drowned by the noise.
+   The Fourier transform connects f (x) to the coefficients ak and bk in its Fourier series:
+
+    Fourier series     f (x) = ao + b 1 sinx + a 1 cosx + b2 sin 2x + a2 cos 2x + · · ·
+
+
+    We see that function space is infinite-dimensional. It takes infinitely many basis func­
+tions to capture perfectly a typical f (x). But the formula for each coefficient (for example
+a3) is just like the formula bT a/ aT a for projecting a vector b onto the line through a.
+    Here we are projecting the function f (x) onto the line in function space through cos 3x:
+
+              ·
+          Fourier coeffi .
+                                      (f(x) , cos 3x)
+                        c1ent a 3 = ------ = �------.
+                                                              J
+                                                       f (x) cos 3x dx
+                                                                                           (7)
+                                    ( cos 3x, cos 3x)        J
+                                                      cos 3x cos 3x dx
+Example 3     The double angle formula in trigonometry is cos 2x = 2 cos2 x -1. This tells
+us that cos x = ½ + ½ cos 2x. A very short Fourier series. So is sin2 x = ½ - ½ cos 2x.
+           2
+
+
+   Fourier series is just linear algebra in function space. Let me explain that properly
+as a highlight of Chapter 10 about applications.
+428                                                           Chapter 8. Linear Transformations
+
+                              Legendre Polynomials and Chebyshev Polynomials
+The Legendre polynomials are the result of applying the Gram-Schmidt idea (Section 4.4).
+The plan is to orthogonalize the powers 1, x, x2 , . . . To start, the odd function x is already
+orthogonal to the even function 1 over the interval from -1 to 1. Their product ( x) ( 1) = x
+                                                                J
+integrates to zero. But the inner product between x 2 and 1 is x2 dx = 2/3:
+
+      (x 2 ,l)     J x dx
+                      2
+                               2/3   1                               1
+                                            Gram-Schmidt gives x 2 - - = Legendre
+       (1, 1)      J ldx        2    3                               3
+
+Similarly the odd power x 3 has a component 3x / 5 in the direction of the odd function x :
+
+    (x 3 ,x) fx 4 dx  2/5 3                                         3
+                                           Gram-Schmidt gives x 3 - -x = Legendre
+                  J
+     (x,x) - x 2 dx - 2/3 - 5                                       5
+
+Continuing Gram-Schmidt for x 4 , x 5 , . . . produces every Legendre function-a good basis.
+    Finally we turn to the Chebyshev polynomials 1, x, 2x 2 - 1, 4x 3 - 3x. They don't
+come from Gram-Schmidt. Instead they are connected to 1, cos0, cos20, cos30. This
+gives a giant computational advantage-we can use the Fast Fourier Transform.
+The connection of Chebyshev to Fourier appears when we set x = cos 0 :
+
+                 Chebyshev        2x2 - 1 = 2(cos0) 2 - 1 = cos 20
+                 to Fourier       4x 3 - 3x = 4(cos0) 3 - 3(cos0) = cos30
+
+
+The n th degree Chebyshev polynomial Tn (x) converts to Fourier's cos n0 = Tn ( cos 0).
+Note These polynomials are the basis for a big software project called "chebfun".
+Every function f(x) is replaced by a super-accurate Chebyshev approximation. Then you
+can integrate f(x), and solve f(x) = 0, and find its maximum or minimum. More than
+that, you can solve differential equations involving f ( x)-fast and to high accuracy.
+    When chebfun replaces f(x) by a polynomial, you are ready to solve problems.
+
+
+
+                          •   REVIEW OF THE KEY IDEAS                 •
+
+   1. A basis is good if its matrix B is well-conditioned. Orthogonal bases are best.
+   2. Also good if A= B- 1 AB is diagonal. But the Jordan form J can be very unstable.
+   3. The Fourier matrix diagonalizes constant-coefficient periodic equations: perfection.
+   4. The basis 1, x, x 2 , . . . leads to B T B = Hillbert matrix: Terrible for computations.
+   5. Legendre and Chebyshev polynomials are excellent bases for function space.
+8.3. The Search for a Good Basis                                                           429
+
+Problem Set 8.3
+1     In Example 1, what is the rank of J - 31? What is the dimension of its nullspace?
+      This dimension gives the number of independent eigenvectors for ,,\ = 3.
+      The algebraic multiplicity is 2, because det (J - H) has the repeated factor (,,\ -3) 2 .
+      The geometric multiplicity is 1, because there is only 1 independent eigenvector.
+2     These matrices A 1 and A 2 are similar to J. Solve A 1 B1 = B1 J and A2 B2 = B2 J
+      to find the basis matrices B1 and B2 with J = B1 1 A 1 B1 and J = R2 1 A2 B2 .
+
+                         J= [ � � ]       A1 = [ � � ]          A2 = [ ;   =� ]
+3     This transpose block JT has the same triple eigenvalue 2 (with only one eigenvector)
+
+
+                                                                             l
+      as J. Find the basis change B so that J = B- 1 JT B (which means BJ= JT B):
+
+                                                             2        0 0
+                                                      JT = [ 1        2 0
+                                                                  0   1 2
+4     J and K are Jordan forms with the same zero eigenvalues and the same rank 2 . But
+      show that no invertible B solves BK = JB, so K is not similar to J:
+
+
+
+
+5     If A 3 = 0 show that all ,,\ = 0, and all Jordan blocks with J3 = 0 have size 1, 2, or
+      3. It follows that rank (A) ::; 2n/3. If An = 0 why is rank (A) < n?
+                        t t
+6     Show that u(t) = [ ::t ] solves �: = Ju with J = [ �                 �] and u(O) = [ �].
+
+      J is not diagonalizable so te >--t enters the solution.
+7     Show that the difference equation Vk+ 2 - 2,,\vk+l + ,,\ 2 vk = 0 is solved by
+      Vk = ,,\ and also by vk = k,,\ . Those correspond to e
+                                                             >--t
+                                                                  and te >--t in Problem 6.
+              k                     k
+
+
+8     What are the 3 solutions to,,\ 3 = 1 ? They are complex numbers,,\ = cos 0+i sin 0 =
+      e i0 . Then,,\ 3 = e 3i0 = 1 when the angle 30 is O or 21r or 41r. Write the 3 by 3Fourier
+      matrix F with columns (1, ,,\, ,,\ 2 ).
+9     Check that any 3 by 3 circulant C has eigenvectors (1, >-, >- 2 ) from Problem 8.
+      If the diagonals of your matrix C contain c0, c 1, c 2 then its eigenvalues are in Fe.
+
+10    Using formula(7)finda 3 cos3xin theFourier series off(x)             ={ � ;�;-f ! l: ! 2�
+                                                                                           I
+

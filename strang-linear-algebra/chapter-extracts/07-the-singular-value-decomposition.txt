@@ -1,0 +1,1751 @@
+Chapter 7
+
+The Singular Value Decomposition (SVD)
+
+7 .1    Image Processing by Linear Algebra
+
+   1 An image is a large matrix of grayscale values, one for each pixel and color.
+   2 When nearby pixels are correlated (not random) the image can be compressed.
+
+   3 The SVD separates any matrix A into rank one pieces uv T = (column)(row).
+   4 The columns and rows are eigenvectors of symmetric matrices AAT and AT A.
+
+    The singular value theorem for A is the eigenvalue theorem for A T A and AAT.
+That is a quick preview of what you will see in this chapter. A has two sets of singular
+vectors (the eigenvectors of AT A and AAT ). There is one set of positive singular values
+(because AT A has the same positive eigenvalues as AAT ). A is often rectangular, but
+AT A and AAT are square, symmetric, and positive semidefinite.
+    The Singular Value Decomposition (SVD) separates any matrix into simple pieces.
+Each piece is a column vector times a row vector. An m by n matrix has m times n en­
+tries (a big number when the matrix represents an image). But a column and a row only
+have m + n components, far less than m times n. Those (column)(row) pieces are full
+size matrices that can be processed with extreme speed-they need only m plus n numbers.
+
+     Unusually, this image processing application of the SVD is coming before the ma­
+trix algebra it depends on. I will start with simple images that only involve one or two
+pieces. Right now I am thinking of an image as a large rectangular matrix. The entries aij
+tell the grayscales of all the pixels in the image. Think of a pixel as a small square, i steps
+across and j steps up from the lower left corner. Its grayscale is a number (often a whole
+number in the range O::; aij < 256 = 2 8 ). An all-white pixel has aij = 255 = 11111111.
+That number has eight 1's when the computer writes 255 in binary notation.
+
+                                             364
+7 .1. Image Processing by Linear Algebra                                                   365
+
+     You see how an image that has m times n pixels, with each pixel using 8 bits (0 or1)
+for its grayscale, becomes an m by n matrix with 256 possible values for each entry aij.
+     In short, an image is a large matrix. To copy it perfectly, we need 8 ( m) ( n) bits of
+information. High definition television typically has m = 1080 and n = 1920. Often
+there are 24 frames each second and you probably like to watch in color (3 color scales).
+This requires transmitting ( 3) ( 8) ( 48, 4 70, 400) bits per second. That is too expensive and
+it is not done. The transmitter can't keep up with the show.
+     When compression is well done, you can't see the difference from the original.
+Edges in the image (sudden changes in the grayscale) are the hard parts to compress.
+     Major success in compression will be impossible if every aij is an independent random
+number. We totally depend on the fact that nearby pixels generally have similar grayscales.
+An edge produces a sudden jump when you cross over it. Cartoons are more compressible
+than real-world images, with edges everywhere.
+     For a video, the numbers aij don't change much between frames. We only transmit
+the small changes. This is difference coding in the H.264 video compression standard (on
+this book's website). We compress each change matrix by linear algebra (and by nonlinear
+"quantization" for an efficient step to integers in the computer).
+     The natural images that we see every day are absolutely ready and open for
+compression-but that doesn't make it easy to do.
+
+
+                                                       Low Rank Images (Examples)
+The easiest images to compress are all black or all white or all a constant grayscale g.
+The matrix A has the same number g in every entry : aij = g. When g =1 and m = n = 6,
+here is an extreme example of the central SVD dogma of image processing :
+
+
+                            111 111                                 1
+                            111111                                  1
+                            111111                                  1
+Example 1     Don't send A=                            Send this A=            [111111]
+                            111111                                  1
+                            111111                                  1
+                            1 11 1 1 1                               1
+
+36 numbers become12 numbers. With 300 by 300 pixels, 90,000 numbers become 600.
+And if we define the all-ones vector x in advance, we only have to send one number.
+That number would be the constant grayscale g that multiplies xxT to produce the matrix.
+    Of course this first example is extreme. But it makes an important point. If there
+are special vectors like x = ones that can usefully be defined in advance, then image
+processing can be extremely fast. The battle is between preselected bases (the Fourier
+basis allows speed-up from the FFT) and adaptive bases determined by the image. The
+SVD produces bases from the image itself-this is adaptive and it can be expensive.
+    I am not saying that the SVD always or usually gives the most effective algorithm in
+practice. The purpose of these next examples is instruction and not production.
+366                                          Chapter 7. The Singular Value Decomposition (SVD)
+
+
+
+
+                                          aaccee                              1
+Example2
+                                          aaccee                              1
+"ace flag"
+                                          aaccee                              1
+French flag A        Don't send A =                            Send A=             [aaccee]
+                                          aaccee                              1
+Italian flag A
+                                          aaccee                              1
+German flag AT
+                                          aaccee                              1
+
+   This flag has 3 colors but it still has rank 1. We still have one column times one row.
+The 36 entries could even be all different, provided they keep that rank 1 pattern A = u 1 vI.
+But when the rank moves up tor = 2, we need u 1 Vf + u2v'.f. Here is one choice :
+
+
+Example3
+                          A = [ � � ] is equal to A = [ � ] [ 1 1 ] - [ � ] [ 0 1 ]
+Embedded square
+
+
+   The l's and the O in A could be blocks of l's and a block of O's. We would still
+have rank 2. We would still only need two terms u 1 vI and u2 v'.f. A 6 by 6 image
+would be compressed into 24 numbers. An N by N image (N 2 numbers) would be
+compressed into 4N numbers from the four vectors u 1, v 1, u 2, v 2.
+    Have I made the best choice for the u's and v's? This is not the choice from the SVD!
+I notice that u 1 = ( 1, 1) is not orthogonal to u 2 = ( 1, 0). And v 1 = ( 1, 1) is not orthogonal
+to v 2 = ( 0, 1). The theory says that orthogonality will produce a smaller second piece
+c2u2v'.f. (The SVD chooses rank one pieces in order of importance.)
+    If the rank of A is much higher than 2, as we expect for real images, then A will
+add up many rank one pieces. We want the small ones to be really small-they can be
+discarded with no loss to visual quality. Image compression becomes lossy, but good
+image compression is virtually undetectable by the human visual system.
+    The question becomes: What are the orthogonal choices from the SVD?
+
+
+                                                               Eigenvectors for the SVD
+I want to introduce the use of eigenvectors. But the eigenvectors of most images are not
+orthogonal. Furthermore the eigenvectors x 1, x 2 give only one set of vectors, and we want
+two sets (u's and v's). The answer to both of those difficulties is the SVD idea:
+    Use the eigenvectors u of AAT and the eigenvectors v of AT A.
+Since AAT and AT A are automatically symmetric (but not usually equal!) the u's will be
+one orthogonal set and the eigenvectors v will be another orthogonal set. We can and will
+make them all unit vectors : I lui 11 = 1 and I lvi I I = 1. Then our rank 2 matrix will be
+A = <T1 u1 vI + <T2u2v'.f. The size of those numbers <T1 and CJ2 will decide whether they
+can be ignored in compression. We keep larger CJ's, we discard small <T's.
+7 .1. Image Processing by Linear Algebra                                                367
+
+    The u's from the SYD are called left singular vectors (unit eigenvectors of AAT ).
+The v's are right singular vectors (unit eigenvectors of AT A). The cr's are singular
+values, square roots of the equal eigenvalues of AAT and AT A:
+
+
+
+
+In Example 3 (the embedded square), here are the symmetric matrices AAT and AT A:
+                                                             ll    lO              21
+                                                  AT A=[        ][   ]            [   ]
+                                                             01   11               11.
+Their determinants are1, so .>- 1 .>- 2 =1. Their traces (diagonal sums) are 3:
+      1- .>-       1                      .            3+v15            3- v15
+ det [             _ ] =.>- 2 - 3.>-+1=0 gives .>- 1 = -- - and .>- 2 = -- -.
+       1          2 A                                    2                 2
+                                              v15+1          v15- 1 .
+ The square roots of .>- 1 and >- 2 are cr1 = -- - and cr2 = -- - with cr1 cr2 =1.
+                                                 2              2
+
+ The nearest rank1 matrix to A will be cr1 u1 vI. The error is only cr2 ,:::: 0.6=best possible.
+
+ The orthonormal eigenvectors of AAT and AT A are
+
+  u1=[ : ] u2=[ ��] v1= [ �1 ] v2=[ � ] all divided by V
+                                                       1+err. (2)
+                                   - i
+   Every reader understands that in real life those calculations are done by computers!
+        1
+
+
+
+(Certainly not by unreliable professors. I corrected myself using svd (A) in MATLAB.)
+And we can check that the matrix A is correctly recovered from cr1 u1 vI + cr2 u2 vJ:
+
+
+
+
+Important The key point is not that images tend to have low rank. No: Images mostly
+have full rank. But they do have low effective rank. This means: Many singular values
+are small and can be set to zero. We transmit a low rank approximation.
+
+Example 4 Suppose the flag has two triangles of different colors. The lower left triangle
+has1 's and the upper right triangle hasO's. The main diagonal is included with the1 's.
+Here is the image matrix when n=4. It has full rank r=4 so it is invertible:
+
+                                   0 0                                1       0    0  0
+                                   1 0                               -1      1
+                                   1 1 0                               0    -1      1 0 l
+    Triangular                                                                      0 0
+
+                                   1 1 1                               0      0   -1 1
+    flag matrix
+368                                                 Chapter 7. The Singular Value Decomposition (SVD)
+
+
+
+                                 r
+With full rank, A has a full set of n singular values u (all positive). The SVD will
+produce n pieces (]"i U; V of rank one. Perfect reproduction needs all n pieces.
+   In compression small u's can be discarded with no serious loss in image quality. We
+want to understand and plot the u's for n = 4 and also for large n. Notice that Example 3
+was the special case n = 2 of this triangular Example 4.
+   Working by hand, we begin with AAT (a computer would proceed differently):
+
+
+
+
+                                                                                                                   -]
+                   1 1                                                 -1
+
+
+             [1             !1
+                                                                           0
+                   2 2                                                  2 -1
+AAT =                                and (AAT ) _, "" (A-')'"A ' � [-�                                                   . (4)
+                   2 3                                                 -1  2
+                   2 3                                                  0 -1
+
+That -1, 2,-1 inverse matrix is included because its eigenvalues all have the form
+2- 2cos0. So we know the .\'s for AAT and the u's for A:
+
+                  >-=      1    _      1                                                            --- 1
+                                      2                  gives         0"=�=                                               (5)
+                        2-2cos0   4sin (0/2)                                                        2sin(0/2)
+The n different angles 0 are equally spaced, which makes this example so exceptional:
+
+                                      (2n - l)
+ 0 = _1r_ �
+    2n + 1 ' 2n + 1 ' · · · '           2n + 1
+                                               7f
+                                                                       3
+                                                     (n =4 includes 0 = 1r with 2sin � =
+                                                                         9            2
+                                                                                                                        1) .
+That special case gives >- = l as an eigenvalue of AAT when n = 4. So u = � = 1
+is a singular value of A. You can check that the vector u = ( 1, 1, 0,-1) has AAT u = u
+(a truly special case).
+     The important point is to graph the n singular values of A. Those numbers drop off
+(unlike the eigenvalues of A, which are all 1). But the dropoff is not steep. So the SVD
+gives only moderate compression of this triangular flag. Great compression for Hilbert.
+
+
+           Singular values of tril( ones ( 40 ) )                            Singular values of hilb( 40 )
+   G
+                                                        100 ••   •   .• •
+       C
+                                                                            ••
+                                                                                 .• •
+                                                                                        e
+                                                                                            •
+                                                                                                •
+                                                                                                    ••••
+                                                                                                         ••••••••••
+                                                                                                                   ••••••••e
+
+
+
+
+Figure 7.1: Singular values of the triangle of l's in Examples 3-4 (not compressible) and
+the evil Hilbert matrix H (i, j) = (i + j- 1)- 1 in Section 8.3 : compress it to work with it.
+7.1. Image Processing by Linear Algebra                                                369
+
+Your faithful author has continued research on the ranks of flags. Quite a few are based on
+horizontal or vertical stripes. Those have rank one-all rows or all columns are multiples
+of the ones vector (1, 1, ..., 1). Armenia, Austria, Belgium, Bulgaria, Chad, Colombia,
+Ireland, Madagascar, Mali, Netherlands, Nigeria, Romania, Russia (and more) have three
+stripes. Indonesia and Poland have two ! Libya was the extreme case in the Gadaffi years
+1977 to 2011 (the whole flag was green).
+    At the other extreme, many flags include diagonal lines. Those could be long diagonals
+as in the British flag. Or they could be short diagonals corning from the edges of a star­
+as in the US flag. The text example of a triangle of ones shows how those flag matrices
+will have large rank. The rank increases to infinity as the pixel sizes get small.
+    Other flags have circles or crescents or various curved shapes. Their ranks are large and
+also increasing to infinity. These are still compressible! The compressed image won't be
+perfect but our eyes won't see the difference (with enough terms CTiUiV{ from the SVD).
+Those examples actually bring out the main purpose of image compression:
+         Visual quality can be preserved even with a big reduction in the rank.
+    For fun I looked back at the flags with finite rank. They can have stripes and they can
+also have crosses-provided the edges of the cross are horizontal or vertical. Some flags
+have a thin outline around the cross. This artistic touch will increase the rank. Right now
+my champion is the flag of Greece shown below, with a cross and also stripes. Its rank
+is three by my counting (three different columns). I see no US State Flags of finite rank !
+    The reader could google "national flags" to see the variety of designs and colors. I
+would be glad to know any finite rank examples with rank > 3. Good examples of all kinds
+will go on the book's website math.mit.edu/linearalgebra (and flags in full color).
+                                                   * • * * • •
+                                                    • * * * *
+                                                   * * * * * *
+                                                    • • * * *
+                                                   * * * * * *
+                                                    • * * * *
+                                                   • * * * * *
+                                                    * * • * "'
+                                                   • • * * * •
+
+
+
+
+                                    =
+370                                          Chapter 7. The Singular Value Decomposition (SVD)
+
+
+Problem Set 7 .1
+1     What are the ranks r for these matrices with entries i times j and i plus j ? Write A
+      and B as the sum of r pieces uvT of rank one. Not requiring uT u 2 = Vf v 2 = 0.
+
+
+
+
+                                                                                      !1
+                       2            3                                     3 4
+
+
+                                        j]
+                       4            6                                     4 5
+                                                              B=
+                                                                    [
+                       6            9                                     5 6
+                  A�[l 8           12   16                              � 6 7
+2     We usually think that the identity matrix I is as simple as possible. But why is I
+      completely incompressible? Draw a rank 5 flag with a cross.
+3
+
+
+                                         !                l
+      These flags have rank 2. Write A and B in any way as u 1Vf + u2vI.
+
+
+          Asweden � AF>nland � [
+                                               2 1 1
+                                               2 2 2                BB en in =            i   2 2
+                                                                                              3 3
+                                               2 1 1
+                                                                                  [                 ]
+4     Now find the trace and determinant of                              BE   T
+                                                                                  and          B B
+                                                                                                T
+                                                                                                        in
+      Problem 3. The singular values of B are close to         ar = 28 - / and a�     4
+                                                                                                        1
+                                                                                                        14"
+      Is B compressible or not?
+5     Use [U, S, V] = svd (A) to find two orthogonal pieces auvT of As wed en ·
+6     Find the eigenvalues and the singular values of this 2 by 2 matrix A.
+
+        A=[��]             with                                    and    AAT =
+                                                                                               5 10
+                                                                                              10 20
+                                                                        [         ]
+      The eigenvectors (1, 2) and (1, -2) of A are not orthogonal. How do you know the
+      eigenvectors v 1, v2 of AT A are orthogonal? Notice that AT A and AAT have the
+      same eigenvalues (25 and 0).
+7     How does the second form AV = U� in equation (3) follow from the first form
+      A = U�V T ? That is the most famous form of the SVD.
+8     The two columns of AV = UY:, are Av 1 = a1 u1 and Av2 = a2u2. So we hope that
+
+                                                    and
+                                                              [i �][
+      The first needs a1 + 1 =    ar and the second needs 1 - a1 = -a2. Are those true?
+9     The MATLAB commands A = rand (20, 40) and B = randn (20, 40) produce 20 by
+      40 random matrices. The entries of A are between O and 1 with uniform probability.
+      The entries of B have a normal "bell-shaped" probability distribution. Using an svd
+      command, find and graph their singular values a 1 to a 20. Why do they have 20 a's ?
+  7.2. Bases and Matrices in the SYD                                                      371
+
+   7 .2 Bases and Matrices in the SVD
+
+1 The SVD produces orthonormal basis of v's and u's for the four fundamental subspaces.
+2 Using those bases, A becomes a diagonal matrix I; and Avi = uiui : ui = singular value.
+3 The two-bases diagonalization A = U:E V T often has more information than A = X Ax-1.
+
+4 UI;V T separates A into rank-1 matrices CT1u1 Vf + · · · + CTr U r v;.   CT1u1vT is the largest!
+
+      The Singular Value Decomposition is a highlight of linear algebra. A is any m by n
+  matrix, square or rectangular. Its rank is r. We will diagonalize this A, but not by x- 1 AX.
+  The eigenvectors in X have three big problems: They are usually not orthogonal, there are
+  not always enough eigenvectors, and Ax = >.x requires A to be a square matrix. The
+  singular vectors of A solve all those problems in a perfect way.
+      Let me describe what we want from the SVD: the right bases for the four subspaces.
+  Then I will write about the steps to find those basis vectors in order of importance.
+     The price we pay is to have two sets of singular vectors, u's and v's. The u's are in
+  Rm and the v's are in Rn . They will be the columns of an m by m matrix U and an n by
+  n matrix V. I will first describe the SVD in terms of those basis vectors. Then I can also
+  describe the SVD in terms of the orthogonal matrices U and V.
+     (using vectors) The u's and v's give bases for the four fundamental subspaces:
+
+
+             u1, ..., Ur       is an orthonormal basis for the column space
+             U r + 1, ..., U m is an orthonormal basis for the left nullspace N (AT )
+             v1, ..., Vr       is an orthonormal basis for the row space
+             Vr+l, ... , Vn is an orthonormal basis for the nullspace N(A).
+
+
+
+
+      More than just orthogonality, these basis vectors diagonalize the matrix A:
+
+       "A is diagonalized"                                                                 (1)
+
+  Those singular values u 1 to Ur will be positive numbers: CTi is the length of Avi.
+  The CT's go into a diagonal matrix that is otherwise zero. That matrix is I;.
+      (using matrices) Since the u's are orthonormal, the matrix Ur with those r columns
+  has U;Ur = I. Since the v's are orthonormal, the matrix Vr has V?Vr = I. Then the
+  equations Avi = CTiUi tell us column by column that AVr = Ur :E r:
+
+        (m by n)(n by r)
+         AVr = Ur :E r                                                                      (2)
+        (m by r)(r by r)
+372                                          Chapter 7. The Singular Value Decomposition (SVD)
+
+     This is the heart of the SVD, but there is more. Those v's and u's account for the row
+space and column space of A. We haven - r more v's and m - r more u's, from the
+nullspace N(A) and the left nullspace N(AT ). They are automatically orthogonal to the
+first v's and u's (because the whole nullspaces are orthogonal). We now include all the
+v's and u's in V and U, so these matrices become square. We still have AV = U:E.
+
+
+
+
+The new I; is m byn. It is just the r by r matrix in equation (2) with m - r extra zero
+rows andn - r new zero columns. The real change is in the shapes of U and V. Those
+are square matrices and v- 1 = VT . So AV= UI; becomes A= U:EV T . This is the
+Singular Value Decomposition. I can multiply columns Ui/Ji from UI; by rows of VT :
+
+
+             SVD                                                                               (4)
+
+    Equation (2) was a "reduced SVD" with bases for the row space and column space.
+Equation (3) is the full SVD with nullspaces included. They both split up A into the same
+
+                             /Jr
+r matrices Ui!JiV[ of rank one. Column times row is the fourth way to multiply matrices.
+    We will see that each     is an eigenvalue of AT A and also AAT. When we put the
+singular values in descending order, 1J1 ;:::: 1J2 ;:::: •.. /Jr > 0, the splitting in equation (4)
+gives the r rank-one pieces of A in order of importance. This is crucial.
+Example 1      When is A= UI;VT (singular values) the same as XAx- 1 (eigenvalues) ?
+Solution A needs orthonormal eigenvectors to allow X = U = V. A also needs
+eigenvalues>-;:::: 0 if A= I;. So A must be a positive semidefinite (or definite) symmetric
+matrix. Only then will A= XAx- 1 which is also QAQ T coincide with A= UI;VT .
+
+Example 2      If A= xyT (rank 1) with unit vectors x and y, what is the SVD of A?
+Solution The reduced SVD in (2) is exactly xyT, with rank r = 1. It has u1 = x and
+v1 = y and 1J1 = 1. For the full SVD, complete u1 = x to an orthonormal basis
+of u's, and complete v 1 = y to an orthonormal basis of v's. No new /J's, only 1J 1 = 1.
+
+
+                                                                           Proof of the SVD
+We need to show how those amazing u's and v's can be constructed. The v's will be
+orthonormal eigenvectors of AT A. This must be true because we are aiming for
+
+             AT A= (UI;VT )T (UI;VT )= VI;T UT UI;VT = V:ET :EVT .                             ( 5)
+On the right you see the eigenvector matrix V for the symmetric positive (semi) definite
+matrix AT A. And (I;T I;) must be the eigenvalue matrix of (AT A): Each 1J is >-(AT A)!
+                                                                                   2
+7.2. Bases and Matrices in the SYD                                                        373
+
+   Now Avi = CTiUi tells us the unit vectors u1 to Ur . This is the key equation (1).
+The essential point-the whole reason that the SVD succeeds-is that those unit vectors
+u1 to Ur are automatically orthogonal to each other (because the v's are orthogonal):
+
+   Key step
+    i =I= j
+
+The v's are eigenvectors of AT A (symmetric). They are orthogonal and now the u's are
+also orthogonal. Actually those u's will be eigenvectors of AAT .
+    Finally we complete the v's and u's ton v's and m u's with any orthonormal bases
+for the nullspaces N(A) and N(AT ). We have found V and� and U in A          U�V T .  =
+                                                            An Example of the SVD
+Here is an example to show the computation of all three matrices in A = U�V T .
+
+Example 3      Find the matrices U,�, V for A= [     ! � ].     The rank is r    =   2.
+
+With rank 2, this A has positive singular values cr1 and cr2. We will see that cr1 is larger
+than Amax = 5, and cr2 is smaller than Amin = 3. Begin with AT A and AAT :
+                               25 20                             9 12
+                   AT A= [           ]             AAT = [            ]
+                               20 25                            12 41
+                                                          err
+Those have the same trace (50) and the same eigenvalues = 45 and er� = 5. The square
+roots are cr1 =v'45    and cr2 = ,v5. Then cr1cr2 = 15 and this is the determinant of A.
+    A key step is to find the eigenvectors of AT A (with eigenvalues 45 and 5):
+
+
+                                                [ �� �� ] [ -� ] = 5 [ -� ]
+Then v1 and v2 are those orthogonal eigenvectors rescaled to length 1. Divide by ../2.
+
+                            1 1                1 -1                              Avi
+R.1ght .
+      smgular vectors v1 = ../2 [ ]       v2= ../2 [ ] L eft .
+                                                            smgular vectors ui =
+                                 1                   1                           ----;:
+
+
+
+
+                                              J5-1 [ -31 ]
+                                                  vio
+    The division by   V:Wmakes u1 and u2 orthonormal. Then cr1 =         -./45
+                                                                        and cr2 =         v15
+as expected. The Singular Value Decomposition of A is U times� times V T .
+374                                       Chapter 7. The Singular Value Decomposition (SYD)
+
+
+                                                                               -1
+                                                                                    ]
+                1
+      U __l_ [         -3 ]                                                                  (7)
+        - v'10 3         1                                                      1
+
+U and V contain orthonormal bases for the column space and the row space (both spaces
+are just R2 ). The real achievement is that those two bases diagonalize A: AV equals UY:,.
+The matrix A splits into a combination of two rank-one matrices, columns times rows:
+
+                                                              -3 ] = [ 3
+                                                                               50 ] =
+                                                                                        A.
+                                                                 1         4
+
+
+                                                                     An Extreme Matrix
+Here is a larger example, when the u's and the v's are just columns of the identity matrix.
+So the computations are easy, but keep your eye on the order of the columns. The matrix
+A is badly lopsided (strictly triangular). All its eigenvalues are zero. AAT is not close to
+AT A. The matrices U and V will be permutations that fix these problems properly.
+
+                   0 1 0 0              eigenvalues>. = 0, 0, 0, 0 all zero!
+                   0 0 2 0              only one eigenvector (1, 0, 0, 0)
+              A= [         l
+                   0 0 0 3              singular values c, = 3, 2, 1
+                   0 0 0 0              singular vectors are columns of I
+AT A and AAT are diagonal (with easy eigenvectors, but in different orders):
+
+
+
+
+Their eigenvectors (u's for AAT and v's for AT A) go in decreasing order d > c,§ > c,�
+of the eigenvalues. Those eigenvalues are c, 2 = 9, 4, 1.
+
+
+
+
+Those first columns u1 and v1 have l's in positions 3 and 4. Then u1c,1 vI picks out the
+biggest number A34 = 3 in the original matrix A. The three rank-one matrices in the SVD
+come (for this extreme example) exactly from the numbers 3, 2, 1 in A.
+
+                      A= U:EVT       = 3u1Vf + 2u2v'.f + lu3V§-
+ Note Suppose I remove the last row of A (all zeros). Then A is a 3 by 4 matrix and
+ AAT is 3 by 3-its fourth row and column will disappear. We still have eigenvalues
+>. = 1, 4, 9 in AT A and AAT , producing the same singular values c, = 3, 2, 1 in I:,.
+7.2. Bases and Matrices in the SVD                                                      375
+
+     Removing the zero row of A (now 3 x 4) just removes the last row of I; and also
+the last row and column of U. Then (3 x 4)= UI;V T =(3 x 3)(3 x 4)(4 x 4). The SVD
+is totally adapted to rectangular matrices.
+     A good thing, because the rows and columns of a data matrix A often have completely
+different meanings (like a spreadsheet). If we have the grades for all courses, there would
+be a column for each student and a row for each course: The entry aij would be the grade.
+Then 0'1u1vI could have u1 = combination course and v1 = combination student.
+And 0' 1 would be the grade for those combinations: the highest grade.
+     The matrix A could count the frequency of key words in a journal: A different article
+for each column of A and a different word for each row. The whole journal is indexed
+by the matrix A and the most important information is in 0'1u1vI. Then 0' 1 is the largest
+frequency for a hyperword (the word combination u1) in the hyperarticle v1.
+     Section 7.3 will apply the SVD to finance and genetics and search engines.
+
+                       Singular Value Stability versus Eigenvalue Instability
+The 4 by 4 example A provides an example (an extreme case) of the instability of eigen­
+values.Suppose the 4,1 entry barely changes from zero to 1/60,000.The rank is now 4.
+
+
+                0
+
+
+
+                         � � �j
+                                        That change by only 1/60,000 produces a
+                0
+                                        much bigger jump in the eigenvalues of A
+      A=        0        0 0     3                            1    i -1 -i
+                 1                      >-=0,0,0,0 to A=-,-,-, -
+                         0 0 0                               10 10 10 10
+              60,000
+
+The four eigenvalues moved from zero onto a circle around zero. The circle has radius /0
+when the new entry is only 1/60,000. This shows serious instability of eigenvalues when
+AAT is far from A T A. At the other extreme, if AT A = AAT (a "normal matrix")
+the eigenvectors of A are orthogonal and the eigenvalues of A are totally stable.
+     By contrast, the singular values of any matrix are stable. They don't change more
+
+                                                                                   r,
+than the change in A. In this example, the new singular values are 3, 2, 1, and 1/60, 000.
+The matrices U and V stay the same. The new fourth piece of A is O'4 U4 V with
+fifteen zeros and that small entry 0'4= 1/60,000.
+
+                       Singular Vectors of A and Eigenvectors of S = A T A
+Equations (5-6) "proved" the SVD all at once. The singular vectors v i are the eigenvectors
+q i of S=AT A. The eigenvalues A i of Sare the same as O'f for A. The rank r of Sequals
+the rank of A. The expansions in eigenvectors and singular vectors are perfectly parallel.
+
+     Symmetric S              S=QAQT = >-1q 1 qt+ A 2 q 2 qi + ...+ A r q r q'f
+     Any matrix A             A= UI;V T = 0'1U 1 vI + 0'2U 2 Vi + · · · + O'r U r v'f
+376                                        Chapter 7. The Singular Value Decomposition (SVD)
+
+The q's are orthonormal, the u's are orthonormal, the v's are orthonormal.Beautiful.
+    But I want to look again, for two good reasons. One is to fix a weak point in the
+eigenvalue part, where Chapter 6 was not complete. If A is a double eigenvalue of S, we
+can and must find two orthonormal eigenvectors.The other reason is to see how the SVD
+picks off the largest term er 1 u 1 vT before er2 u 2 vJ. We want to understand the eigenvalues
+A (of S) and the singular values er (of A) one at a time instead of an at once.
+ Start with the largest eigenvalue >- 1 of S. It solves this problem:
+
+ ,         ·           x Sx
+ Al   = maximum rat·IO T
+                      -T-. The · · vector ·1s x = q 1 wit· h Sq 1 = '/\ 1 q 1 . (8)
+                              wmnmg
+                        X X
+
+Compare with the largest singular value er 1 of A. It solves this problem:
+
+           .       '    A                 . .                    .
+ o- 1 = maximum ratIO II xll       . The wmnmg vector .1s x = v with Av =er u . (9)
+                           W                                       1           1    1   1
+
+
+
+
+This "one at a time approach" applies also to >-2 and er2. But not all x's are allowed:
+
+                           xT Sx
+ A 2 = maximum ratio       -T-     among all x's with qf x = 0. x = q2 will win. (10)
+                            X X
+
+
+                       A
+ a 2 = maximum ratio II xll among all x's with v T1 x = 0 ·            x = v 2 will win. (11)
+                      llxll
+
+When S = AT A we find >-1 =errand >-2 =er�.Why does this approach succeed?
+    Start with the ratio r(x) = xT Sx/xT x. This is called the Rayleigh quotient. To
+maximize r(x), set its partial derivatives to zero: ar/axi = 0 for i = 1, ..., n. Those
+derivatives are messy and here is the result: one vector equation for the winning x:
+                                   xT Sx
+         The derivatives of r(x) = --    are zero when                  Sx = r(x)x.         (12)
+                                    xT x
+So the winning x is an eigenvector of S.The maximum ratio r ( x) is the largest eigenvalue
+,\, 1 of S.All good.Now tum to A-and notice the connection to S = A A!
+                                                                       T
+
+
+
+                     Ax                     Ax
+        Maximizing II II also maximizes ( 11 11 )
+                                                          2
+
+
+                    llxll                  llxll
+So the winning x = v 1 in (9) is the same as the top eigenvector q 1 of S = A T A in (8).
+    Now I have to explain why q 2 and v 2 are the winning vectors in (10) and (11). We
+know they are orthogonal to q 1 and v 1 , so they are allowed in those competitions. These
+paragraphs can be optional for readers who aim to see the SVD in action (Section 7.3).
+7.2. Bases and Matrices in the SYD                                                        377
+
+    Start with any orthogonal matrix Q 1 that has q 1 in its first column. The other n - l
+orthonormal columns just have to be orthogonal to q 1 . Then use Sq 1 = A 1 q 1 :
+
+
+
+
+Multiply by QT, remember QT Q 1 = I, and recognize that QT SQ 1 is symmetric like S:
+
+                                            WT    ]
+     The symmetry of Q{ SQ 1 = [ �1                   forces w = 0 and SnT-l = Sn - 1 -
+                                           Sn-1
+
+The requirement qTx = 0 has reduced the maximum problem (10) to size n - l. The
+largest eigenvalue of Sn -l will be the second largest for S. It is A2 . The winning vector
+in (10) will be the eigenvector q 2 with Sq2 = A 2 q 2 .
+      We just keep going-or use the magic word induction-to produce all the eigenvectors
+q 1 , ... , qn and their eigenvalues A 1 , ... , An . The Spectral Theorem S = QAQT is proved
+even with repeated eigenvalues. All symmetric matrices can be diagonalized.
+    Similarly the SVD is found one step at a time from (9) and (11) and onwards. Section
+7.4 will show the geometry-we are finding the axes of an ellipse. Here I ask a different
+question: How are the A's and u's actually computed?
+
+                Computing the Eigenvalues of S and Singular Values of A
+The singular values ui of A are the square roots of the eigenvalues Ai of S = AT A.
+This connects the SVD to a symmetric eigenvalue problem (good). But in the end we don't
+want to multiply A T times A (squaring is time-consuming: not good).
+    The first idea is to produce zeros in A and S without changing any u's and A's.
+Singular vectors and eigenvectors will change-no problem. The similar matrix Q- 1 SQ
+has the same A's as S. If Q is orthogonal, this matrix is QT SQ and still symmetric.
+    Section 11.3 will show how to build Q from 2 by 2 rotations so that QT SQ is
+symmetric and tridiagonal (many zeros). But rotations can't get all the way to a
+diagonal matrix. To show all the eigenvalues of S needs a new idea and more work.
+    For the SVD, what is the parallel to QT SQ? Now we don't want to change any singular
+values of A. Natural answer: You can multiply A by two different orthogonal matrices Q 1
+and Q2. Use them to produce zeros in QTAQ2 . The u's don't change :
+
+
+
+The freedom of two Q's allows us to reach QTAQ2 = bidiagonal matrix (2 diagonals).
+This compares perfectly to QT SQ = 3 diagonals. It is nice to notice the connection
+between them: (bidiagonal) T (bidiagonal) = tridiagonal.
+    The final steps to a diagonal A and a diagonal� need more ideas. This problem can't
+be easy, because underneath we are solving det(S - AI) = 0 for polynomials of degree
+n = 100 or 1000 or more. We certainly don't use those polynomials !
+378                                         Chapter 7. The Singular Value Decomposition (SYD)
+
+   The favorite way to find ,\'s and O"'s in LAPACK uses simple orthogonal matrices to
+approach Q T SQ= A and UT AV= I;, We stop when very close to A and I;,
+   This 2-step approach (zeros first) is built into the commands eig(S) and svd(A).
+
+
+                       •    REVIEW OF THE KEY IDEAS                    •
+
+   1. The SVD factors A into UI;V T , with r singular values 0"1 2". ... 2". O"r > 0.
+   2. The numbers O"f, ..., O"; are the nonzero eigenvalues of AA T and A T A.
+   3. The orthonormal columns of U and V are eigenvectors of AA T and A T A.
+   4. Those columns hold orthonormal bases for the four fundamental subspaces of A.
+   5. Those bases diagonalize the matrix: Avi= O"iUi for i � r. This is AV = U"E.
+   6. A= 0"1 u1 Vf + · · · + O"r Ur v; and 0"1 is the maximum of the ratio I IAx I I/ I lxl 1-
+
+
+                           • WORKED EXAMPLES                       •
+
+7.2 A Identify by name these decompositions of A into a sum of columns times rows:
+   l. Orthogonalcolumns       U10"1, ...,ur O"r times orthonormalrows vT, ...,v;.
+   2. Orthonormal columns q 1 , . . . ,q r       times triangularrows        rT, ... ,r;.
+   3. Triangular columns       l 1, ... , l r    times triangular rows       uT, ..., u;.
+   Where do the rank and the pivots and the singular values of A come into this picture?
+
+Solution     These three factorizations are basic to linear algebra, pure or applied:
+   1. Singular Value Decomposition A = U"EV T
+   2. Gram-Schmidt Orthogonalization A= QR
+   3. Gaussian Elimination A = LU
+You might prefer to separate out singular values CTi and heights hi and pivots di :
+
+   1. A= UI;V T with unit vectors in U and V. The r singular values CTi are in 'E.
+   2. A= Q HR with unit vectors in Q and diagonal l's in R. The r heights hi are in H.
+   3. A= LDU with diagonal l's in Land U. The r pivots di are in D.
+
+Each hi tells the height of column i above the plane of columns 1 to i - 1. The volume
+of the full n-dimensional box (r = m = n) comes from A = UI;V T = LDU= QH R:
+
+        I det A I = I product of u's I = I product of d's I = I product of h's 1-
+7.2. Bases and Matrices in the SYD                                                         379
+
+7.2 B Show that o- 1 2': 1-Xl max · The largest singular value dominates all eigenvalues.
+
+Solution Start from A = U�V T . Remember that multiplying by an orthogonal matrix
+does not change length: IIQxll = llxll because 11Qxll 2 = xTQ T Qx = xTx = llxll 2 .
+This applies to Q = U and Q = V T . In between is the diagonal matrix �-
+
+                                                                                           (14)
+
+An eigenvector has IIAxll = l>-lllxll- So (14) says that l>-l llxll::; u1llxll- Then I.XI � 0-1.
+   Apply also to the unit vector x = (1, 0, ... , 0). Now Ax is the first column of A.
+Then by inequality (14), this column has length::; u 1. Every entry must have laijl ::; u 1.
+
+    Equation (14) shows again that the maximum value of I I Ax 11 / 11x I I equals 0-1.
+Section 11.2 will explain how the ratio umax/umi n governs the roundoff error in solving
+Ax = b. MATLAB warns you if this "condition number" is large. Then x is unreliable.
+
+
+
+Problem Set 7 .2
+1     Find the eigenvalues of these matrices. Then find singular values from A TA:
+
+
+                                                     A=[� i]
+      For each A, construct V from the eigenvectors of A TA and U from the eigenvectors
+      of AA T . Check that A = U�V T .
+2     Find A TA and V and � and ui = Avi/ui and the full SYD:
+
+                                     A=   [ -i i ] = u�v _        T
+
+
+3     In Problem 2, show that AA T is diagonal. Its eigenvectors u1, u2 are __ . Its
+      eigenvalues uf, U§ are __ . The rows of A are orthogonal but they are not __ .
+      So the columns of A are not orthogonal.
+4     Compute A TA and AA T and their eigenvalues and unit eigenvectors for V and U.
+
+                                                              1       1   0
+                          Rectangular matrix          A= [ 0 1 1 ] .
+
+      Check AV = U� (this decides± signs in U). � has the same shape as A: 2 x 3.
+
+5     (a) The row space of A=        [! ! ]   is 1-dimensional. Find v 1 in the row space and
+           u1 in the column space. What is u1? Why is there no u2?
+380                                          Chapter 7. The Singular Value Decomposition (SVD)
+
+      (b) Choose v2 and u2 in U and V. Then A            =   UI;VT = u1a1 vT (one term only).
+6     Substitute the SVD for A and AT to show that AT A has its eigenvalues in I; T I; and
+      AAT has its eigenvalues in I:I:T . Since a diagonal I:T I: has the same nonzeros as
+      I:I:T , we see again that AT A and AAT have the same nonzero eigenvalues.
+7     If(AT A)v =a2 v,multiply by A. Movetheparenthesestoget (AAT )Av = a 2 (Av).
+      If v is an eigenvector of AT A, then __ is an eigenvector of AAT.
+8     Find the eigenvalues and unit eigenvectors v1, v2 of AT A. Then find u1 = Av1/a1:
+
+                            1 2                      10 20                5 15
+                A   =   [       ] and AT A   =   [         ] and AAT = [       ] .
+                            3 6                      20 40               15 45
+
+      Verify that u1 is a unit eigenvector of AAT . Complete the matrices U, I:, V.
+
+
+
+
+9     Write down orthonormal bases for the four fundamental subspaces of this A.
+10    (a) Why is the trace of AT A equal to the sum of all a;j ? In Example 3 it is 50.
+      (b) For every rank-one matrix, why is      ar = sum of all a; ?j
+
+11    Find the eigenvalues and unit eigenvectors of AT A and AAT . Keep each Av =au.
+      Then construct the singular value decomposition and verify that A equals UI:VT .
+
+                                 Fibonacci matrix
+
+12    Use the svd part of the MATLAB demo eigshow to find those v's graphically.
+13    If A = UI:VT is a square invertible matrix then A- 1 = ____ __ .
+      Check A- 1 A. This shows that the singular values of A- 1 are 1/ai.
+      Note: The largest singular value of A- 1 is therefore 1/ amin (A). The largest eigen­
+      value !>.(A- 1) I max is 1/l>.(A) I min· Then equation (14) says that amin (A) :S: !>.(A) I min·
+
+14    Suppose u1, ... , Un and v1, ... , Vn are orthonormal bases for Rn . Construct the
+      matrix A=UI:VT that transforms each Vj into uj to give Av1 =u1, ... , Avn U n .       =
+
+
+
+
+15    Construct the matrix with rank one that has Av = 12u for v = ½(1, 1, 1, 1) and
+      u = ½(2, 2, 1). Its only singular value is a1 =__ .
+16    Suppose A has orthogonal columns w 1 ,w 2, ... ,w n of lengths a1 ,a2, ... ,an ,
+      What are U, I:, and Vin the SYD?
+17    Suppose A is a 2 by 2 symmetric matrix with unit eigenvectors u1 and u2. If its
+      eigenvalues are >. 1 = 3 and >. 2 = -2, what are the matrices U, I:, VT in its SYD?
+7.2. Bases and Matrices in the SVD                                                                381
+
+18    If A = QR with an orthogonal matrix Q, the SVD of A is almost the same as the
+      SVD of R. Which of the three matrices U, I;, V is changed because of Q?
+19   Suppose A is invertible (with 0"1 > 0"2 > 0).Change A by as small a matrix as
+     possible to produce a singular matrix Ao .Hint: U and V do not change:
+
+         From       A= [ U1      U2 ] [ O"l              ] [ V
+                                                               1       V2 r    find the nearest Ao ,
+                                                   0"2
+
+20    Find the singular values of A from the command svd (A) or by hand.
+
+                      A=[ l� � ] .Why is 0"2 = : for this matrix?
+                            O                   1
+
+21    Why doesn't the SVD for A+ I just use I;+ I?
+22    If A= UI;VT then Q 1 AQJ = (Q1 U)I;(Q2 V)T .Why will any orthogonal matrices
+       Q1 and Q 2 leave Q1 U = orthogonal matrix and Q 2 V = orthogonal matrix? Then I;
+      sees no change in the singular values: Q 1 AQ;f has the same o-'s as A.
+23    If Q is an orthogonal matrix, why do all its singular values equal 1 ?
+           .         .       x T Sx              3xi+2x1x2+3x�                          ..
+24    (a) Fmd the maximum of -T-                                          . What matnx 1s S?.
+                                     X   X               X1
+                                                           2
+                                                               + X22
+
+
+           .         .       (x1 + 4x 2 ) 2               . .            Ax 2
+      (b) Fmd the maximum of                .For what matnx A1s th'1s II ll2 ?.
+
+                                                                          ,��r
+                                2     2
+                               X1 + X        2                         - 1-1X- 1 1-      -
+
+
+
+
+25    What are the minimum values of the ratios x::: and 11                      ? We should take X
+      to be which eigenvectors of S? Should x always be an eigenvector of A?
+26    Every matrix A = UI;VT takes circles to ellipses.AV = UI;says that the radius
+      vectors Vi and v2 of the circle go to the semi-axes 0"1 u1 and 0"2u2 of the ellipse.
+      Draw the circle and the ellipse for 0 = 30 ° :
+
+              V=[� �]                U =[
+                                                 c� s0
+                                                 sm 0
+                                                            sin0
+                                                          - co s0 ]           I;=[ �
+                                                                                  � ]-
+      Section 7.4will start with an important SVD picture for 2 by 2 matrices:
+      A = (rotate) (stretch) (rotate). With symmetry S = (rotate) (stretch) (rotate back).
+27    This problem looks for all matrices A with a given column space in Rm and a given
+      row space in Rn .Suppose c1, ... , Cr and b1, ... , b r are bases for those two spaces.
+      Make them columns of C and B. The goal is to show that A has this form :
+        A= CMB T for an r by r invertible matrix M.Hint: Start from A= UI;VT .
+      The first r columns of U and V must be connected to C and B by invertible matrices,
+      because they contain bases for the same column space (in U) and row space (in V).
+382                                        Chapter 7. The Singular Value Decomposition (SVD)
+
+
+7.3 Principal Component Analysis (PCA by the SVD)
+ 1 Data often comes in a matrix: n samples and m measurements per sample.
+ 2 Center each row of the matrix A by subtracting the mean from each measurement.
+ 3 The SVD finds combinations of the data that contain the most information.
+
+ 4 Largest singular value a 1     +-+   greatest variance   +-+   most information in u 1.
+
+
+     This section explains a major application of the SVD to statistics and data analysis.
+Our examples will come from human genetics and face recognition and finance. The prob­
+lem is to understand a large matrix of data(= measurements). For each ofn samples we
+are measuring m variables. The data matrix Ao has n columns and m rows.
+     Graphically, the columns of Ao are n points in Rm . After we subtract the average of
+each row to reach A, the n points are often clustered along a line or close to a plane(or
+other low-dimensional subspace of Rm ). What is that line or plane or subspace?
+     Let me start with a picture instead of numbers. Form = 2 variables like age and height,
+the n points lie in the plane R2 . Subtract the average age and height to center the data.
+If then recentered points cluster along a line, how will linear algebra find that line?
+
+                                          A is 2 x n(large nullspace)
+                                          AAT is 2 x 2(small matrix)
+
+                                          AT A is n x n(large matrix)
+
+                                          Two singular values a1 > a2 > 0
+
+
+      Figure 7 .2: Data points in A are often close to a line in R2 or a subspace in Rm .
+    Let me go more carefully in constructing the data matrix. Start with the measurements
+in Ao: the sample data. Find the average(the mean) µ 1, µ 2, •.• , µm of each row. Subtract
+each mean µifrom row i to center the data. The average along each row is now zero, for the
+centered matrix A. So the point (0, 0) in Figure 7.2 is now the true center of then points.
+                                                                      AAT
+              The "sample covariance matrix" is defined by S = --- .
+                                                                      n-l
+    A shows the distance aij - µi from each measurement to the row average µi.
+    (AAT ) 11 and (AAT )2 2 showthesum ofsquareddistances(samplevariancess�, s�).
+    (AAT ) i2 shows the sample covariance s 12 = (row 1 of A)·(row 2 of A).
+     The variance is a key number throughout statistics. An average exam score µ = 85
+tells you it was a decent exam. A variance of s2 = 25 (standard deviation s = 5)
+means that most grades were in the SO's: closely packed. A sample variance s2 = 225
+(s = 15) means that grades were widely scattered. Chapter 12 explains variances.
+7.3. Principal Component Analysis (PCA by the SYD)                                        383
+
+       The covariance of a math exam and a history exam is a dot product of those rows of
+A, with average grades subtracted out. Covariance below zero means: One subject strong
+when the other is weak. High covariance means: Both strong or both weak.
+    We divide by n - 1 instead of n for reasons known best to statisticians. They tell me
+that one degree of freedom was used by the mean, leaving n - 1. (I think the best plan is
+to agree with them.) In any case n should be a big number to count on reliable statistics.
+Since the rows of A have n entries, the numbers in AAT have size growing like n and the
+division by n - 1 keeps them steady.
+Example 1           Six math and history scores (notice the zero mean in each row)
+
+  A=          [ � -4
+                   -6
+                        7
+                        8
+                              1
+                             -1
+                                    -4
+                                    -1    -3]
+                                          -7
+                                                                          AAT
+                                                has sample covariance S = - - = [
+                                                                           5
+                                                                                  20 25
+                                                                                  25 40
+                                                                                        ]
+
+    The two rows of A are highly correlated : s 1 = 25. Above average math went with
+                                                        2
+
+above average history. Changing all the signs in row 2 would produce negative covariance
+s 12 = -25. Notice that S has positive trace and determinant; AAT is positive definite.
+    The eigenvalues of Sare near 57 and 3. So the first rank one piece     v57u 1 Vf is much
+larger than the second piece        v'3
+                                 u2 v'.f. The leading eigenvector u1 shows the direction
+that you see in the scatter graph of Figure 7.2. That eigenvector is close to u1 = (.6, .8)
+and the direction in the graph nearly gives a 6 - 8 - 10 or 3 - 4 - 5 right triangle.
+   The SVD of A (centered data) shows the dominant direction in the scatter plot.
+    The second singular vector u2 is perpendicular to u 1. The second singular value
+CJ 2 ::::;   v'3
+           measures the spread across the dominant line. If the data points in A fell exactly
+on a line (u 1 direction), then CJ2 would be zero. Actually there would only be CJ 1.
+
+                            The Essentials of Principal Component Analysis (PCA)
+PCA gives a way to understand a data plot in dimension m = the number of measured
+variables (here age and height). Subtract average age and height (m = 2 for n samples)
+to center the m by n data matrix A. The crucial connection to linear algebra is in the
+singular values and singular vectors of A. Those come from the eigenvalues ,\ = CJ and   2
+
+
+the eigenvectors u of the sample covariance matrix S = AAT / (n - 1).
+   • The total variance in the data is the sum of all eigenvalues and of sample variances s 2 :
+       Total variance T =         o-i + · · · + o-� = Si + · · · + s� = trace (diagonal sum).
+   • The first eigenvector u 1 of S points in the most significant direction of the data.
+     That direction accounts for (or explains) a fraction e7i/T of the total variance.
+   • The next eigenvector u2 (orthogonal to u1) accounts for a smaller fraction d/T.
+   • Stop when those fractions are small. You have the R directions that explain most of
+     the data. The n data points are very near an R-dimensional subspace with basis
+     u 1 to UR- These u's are the principal components in m-dimensional space.
+   • R is the "effective rank" of A. The true rank r is probably m or n : full rank matrix.
+384                                         Chapter 7. The Singular Value Decomposition (SYD)
+
+                                                        Perpendicular Least Squares
+It may not be widely recognized that the best line in Figure 7.2 (the line in the u 1 direction)
+also solves a problem of perpendicular least squares ( = orthogonal regression) :
+        The sum of squared distances from the points to the line is a minimum.
+Proof Separate each column aj into its components along the u 1 line and u 2 line:
+                             n               n                 n
+         Right triangles         L      2
+                                 llaJll =         L
+                                                la;u11 +
+                                                        2
+                                                                     L
+                                                                    la;u2 1
+                                                                            2
+                                                                                            (1)
+                                j=l              j =l            j=l
+The sum on the left is fixed by the data points aj (columns of A). The first sum on the right
+is Uf AAT u 1. So when we maximize that sum in PCA by choosing the eigenvector u 1,
+we minimize the second sum. That second sum (squared distances from the data points
+to the best line) is a minimum for perpendicular least squares.
+    Ordinary least squares in Chapter 4 reached a linear equation AT Ax = AT b by using
+vertical distances to the best line. PCA produces an eigenvalue problem for u 1 by using
+perpendicular distances. "Total least squares" will allow for errors in A as well as b.
+                                                    The Sample Correlation Matrix
+Data analysis works mostly with A (centered data). But the measurements in A might have
+different units like inches and pounds and years and dollars. Changing one set of units
+(inches to meters or years to seconds) would have a big effect on that row of A and S.
+If scaling is a problem, we change from covariance matrix S to correlation matrix C :
+      A diagonal matrix D rescales A. Each row of DA has length�-
+      The sample correlation matrix C = D AATD/ ( n - 1) has 1 's on its diagonal.
+    Chapter 12 on Probability and Statistics will introduce the expected covariance
+matrix V and the expected correlation matrix (with diagonal 1's). Those use probabili­
+ties instead of actual measurements. The covariance matrix predicts the spread of future
+measurements around their mean, while A and the sample covariances S and the scaled
+correlation matrix C = DSD use real data. All are highly important-a big connection
+between statistics and the linear algebra of positive definite matrices and the SYD.
+
+                                                         Genetic Variation in Europe
+We can follow changes in human populations by looking at genomes. To manage the huge
+amount of data, one good way to see genetic variation is from SNP's. The uncommon
+alleles (bases A/Cff/G in a pair from father and mother) are counted by the SNP :
+   SNP = 0 No change from the common base in that population : normal genotype
+   SNP = 1 The base pair shows one change from the usual pair
+   SNP = 2 Both bases are the less common allele
+The uncentered matrix Ao has a column for every person and a row for every base pair.
+The entries are mostly 0, quite a few 1, not so many 2. We don't test all 3 billion pairs.
+After subtracting row averages from Ao , the eigenvectors of AAT are extremely revealing.
+In Figure 7.4 the first singular vectors of A almost reproduce a map of Europe.
+7.3. Principal Component Analysis (PCA by the SVD)                                        385
+
+    This means: The SNP's from France and Germany and Italy are quite different. Even
+from the French and German and Italian parts of Switzerland those "snips" are different!
+Only Spain and Portugal are surprisingly confounded and harder to separate. More often
+than not, the DNA of an individual reveals his birthplace within 300 kilometers or 200
+miles. A mixture of grandparents usually places the grandchild between their origins.
+
+
+
+
+                                                                          Countries are
+                                                                          identified by
+                    :1   !T
+                          IT iT
+                                                  CY                      small circles
+
+
+Figure 7.3: Nature (2008) Novembre et al: vol. 456 pp.98-101/doc:10.1038/nature07331.
+    What is the significant message? If we test genomes to understand how they correlate
+with diseases, we must not forget their spatial variation. Without correcting for geography,
+what looks medically significant can be very misleading. Confounding is a serious problem
+in medical genetics that PCA and population genetics can help to solve-to remove effects
+due to geography that don't have medical importance.
+    In fact "spatial statistics" is a tricky world. Example: Every matrix with three diagonals
+of 1, C, 1 shows a not surprising influence of next door neighbors (from the l's). But its
+singular vectors have sine and cosine oscillations going across the map, independent of C.
+You might think those are true wave-like variations but they can be meaningless.
+    Maybe statistics produces more arguments than mathematics does? Reducing big data
+to a single small "P-value" can be instructive or it can be extremely deceptive. The ex­
+pression P-value appears in many articles. P stands for the probability that an observation
+is consistent with the null hypothesis(= pure chance). If you see 5 heads in a row, the
+probability is P = 1/32 that this came by chance from a fair coin (or P = 2/32 if your
+observation is taken to be 5 heads or 5 tails in a row). Often a P-value below 0.05 makes
+the null hypothesis doubtful-maybe a crook is flipping the coin. As here, P-values are
+not the most reliable guides in statistics-but they are extremely convenient.
+386                                       Chapter 7. The Singular Value Decomposition (SYD)
+
+                                                                              Eigenfaces
+Recognizing faces would not seem to depend-at first glance-on linear algebra. But an
+early and well publicized application of the SYD was to face recognition. We are not
+compressing an image, we are identifying it.
+    The plan is to start with a "training set" A o of n images of a wide variety of faces.
+Each image becomes a very long vector by stacking all pixel grayscales into a column.
+Then A o must be centered : subtract the average of every column of A o to reach A.
+    The singular vector v 1 of this A tells us the combination of known faces that best
+identifies a new face. Then v2 tells us the next best combination.
+    Probably we will use the R best vectors v 1, ... , vR with largest singular values
+0"1 2 · · · 2 O"R of A.       Those identify new faces more accurately than any other
+R vectors. Perhaps R = 100 of those eigenfaces Av will capture nearly all the variance in
+the training set. Those R eigenfaces span "face space".
+    This plan of attack was suggested by Matthew Turk and Alex Pentland. It developed
+the suggestion by Sirovich and Kirby to use PCA in compressing images of faces. I learned
+a lot from Jeff Jauregui's description on the Web. His summary is this: PCA provides a
+mechanism to recognize geometric/photometric similarity through algebraic means.
+He assembled the first principal component (first singular vector) into the first eigenface.
+Of course the average of each column was added back or you wouldn't see a face!
+    Note PCA is compared to NMF in a fascinating letter to Nature (Lee and Seung,
+vol. 401, 21 Oct. 1999). Nonnegative Matrix Factorization does not allow the negative
+entries that always appear in the singular vectors v. So everything adds-which needs
+more vectors but they are often more meaningful.
+
+
+
+
+         Figure 7.4: Eigenfaces pick out hairline and mouth and eyes and shape.
+7.3. Principal Component Analysis (PCA by the SVD)                                      387
+
+                                                          Applications of Eigenfaces
+The first commercial use of PCA face recognition was for law enforcement and security.
+An early test at Super Bowl 35 in Tampa produced a very negative reaction from the crowd!
+The test was without the knowledge of the fans. Newspapers began calling it the "Snooper
+Bowl". I don't think the original eigenface idea is still used commercially (even in secret).
+    New applications of the SVD approach have come for other identification problems :
+Eigenvoices, Eigengaits, Eigeneyes, Eigenexpressions. I learned this from Matthew Turk
+(now in Santa Barbara, originally an MIT grad student. He told me he was in my class).
+The original eigenfaces in his thesis had problems accounting for rotation and scaling and
+lighting in the facial images. But the key ideas live on.
+    In the end, face space is nonlinear. So eventually we want nonlinear PCA.
+
+                                                             Model Order Reduction
+For a large-scale dynamic problem, the computational cost can become unmanageable.
+"Dynamic" means that the solution u(t) evolves as time goes forward. Fluid flow,
+chemical reactions, wave propagation, biological growth, electronic systems, these prob­
+lems are everywhere. A reduced model tries to identify important states of the system.
+From a reduced problem we compute the needed information at much lower cost.
+    Model reduction is a truly important computational approach. Many good ideas have
+been proposed to reduce the original large problem. One simple and often useful idea is
+to take "snapshots" of the flow, put them in a matrix A, find the principal components
+(the left singular vectors of A), and work in their much smaller subspace:
+   A snapshot is a column vector that describes the state of the system
+   It can be an approximation to a typical true state u( t*)
+   From n snapshots, build a matrix A whose columns span a useful range of states
+   Now find the first R left singular vectors u 1 to UR of A. They are a basis for a Proper
+Orthogonal Decomposition (POD basis). In practice we choose R so that
+      Variance � Energy
+These vectors are an optimal basis for reconstructing the snapshots in A. If those snapshots
+are well chosen, then combinations of u 1 to UR will be close to the exact solution u(t) for
+desired times t and parameters p.
+    So much depends on the snapshots! SIAM Review 2015 includes an excellent survey
+by Beiner, Gugercin, and Willcox. The SVD compresses data as well as images.
+
+                                                                    Searching the Web
+We believe that Google creates rankings by a walk that follows web links. When this
+walk goes often to a site, the ranking is high. The frequency of visits gives the leading
+eigenvector(>-= 1) of the "Web matrix"-the largest eigenvalue problem ever solved.
+That Markov matrix has more than 3 billion rows and columns, from 3 billion web sites.
+388                                         Chapter 7. The Singular Value Decomposition (SYD)
+
+    Many of the important techniques are well-kept secrets of Google. Probably they
+start with an earlier eigenvector as a first approximation, and they run the random
+walk very fast. To get a high ranking, you want a lot of links from important sites.
+    Here is an application of the SVD to web search engines. When you google a word,
+you get a list of web sites in order of importance. You could try typing "four subspaces".
+    The HITS algorithm was an early proposal to produce that ranked list.
+It begins with about 200 sites found from an index of key words. After that we look
+only at links between pages. Search engines are link-based more than content-based.
+    Start with the 200 sites and all sites that link to them and all sites they link to. That is
+our list, to be put in order. Importance can be measured by links out and links in.
+
+   1. The site may be an authority: Links come in from many sites. Especially from hubs.
+   2. The site may be a hub: Links go out to many sites in the list. Especially to authorities.
+
+We want numbers x 1 , ... , x N to rank the authorities and y 1 , ••• , YN to rank the hubs.
+Start with a simple count: x? and Y? count the links into and out of site i.
+    Here is the point: A good authority has links from important sites (like hubs). Links
+from universities count more heavily than links from friends. A good hub is linked to
+important sites (like authorities). A link to amazon.com unfortunately means more than
+a link to wellesleycambridge.com. The raw counts x 0 and y 0 are updated to x 1 and y 1
+by taking account of good links (measuring their quality by x 0 and y 0 ):
+
+    Authority /Hub      xf / Yi = Add up yJ / xJ for all links into i / out from i          (2)
+
+In matrix language those are x 1 = AT y 0 and y 1 = Ax 0 . The matrix A contains 1's and
+O's, with aij = 1 when i links to j. In the language of graphs, A is an "adjacency matrix"
+for the Web (an enormous matrix). The new x 1 and y 1 give better rankings, but not the
+best. Take another step like (2), to reach x 2 and y 2 from AT Ax 0 and AAT y 0 :
+
+      Authority     x 2 = AT y 1 = AT Ax 0
+
+In two steps we are multiplying by AT A and AAT . Twenty steps will multiply by ( AT A) 10
+and ( AAT) 10. When we take powers, the largest eigenvalue ui begins to dominate.
+The vectors x and y line up with the leading eigenvectors v 1 and u 1 of AT A and AAT .
+We are computing the top terms in the SVD, by the power method that is discussed in
+Section 11.3. It is wonderful that linear algebra helps to understand the Web.
+   This HITS algorithm is described in the 1999 Scientific American (June 16). But I
+don't think the SVD is mentioned there. . . The excellent book by Langville and Meyer,
+Google's PageRank and Beyond, explains in detail the science of search engines.
+7.3. Principal Component Analysis (PCA by the SVD)                                      389
+
+                            PCA in Finance: The Dynamics of Interest Rates
+The mathematics of finance constantly applies linear algebra and PCA. We choose one
+application: the yield curve for Treasury securities. The "yield" is the interest rate paid
+on the bonds or notes or bills. That rate depends on time to maturity. For longer bonds
+(3 years to 20 years) the rate increases with length. The Federal Reserve adjusts short term
+yields to slow or stimulate the economy. This is the yield curve, used by risk managers and
+traders and investors.
+    Here is data for the first 6 business days of 2001-each column is a yield curve for
+investments on a particular day. The time to maturity is the "tenor". The six columns at
+the left are the interest rates, changing from day to day. The five columns at the right are
+interest rate differences between days, with the mean difference subtracted from each row.
+This is the centered matrix A with its rows adding to zero. A real world application
+might start with 252 business days instead of 5 or 6 (a year instead of a week).
+
+Table 1. U.S. Treasury Yields : 6 Days and 5 Centered Daily Differences
+               US Treasury Yields in 2001        Matrix A in Basis Points (0.01 %)
+  Tenor Jan 3 Jan 4 Jan 5 Jan 6 Jan 7 Jan 10 Jan 4 Jan 5 Jan 6 Jan 7 Jan 10
+  3MO 5.87 5.69 5.37 5.12 5.19 5.24 -5.4 -19.4 -12.4 19.6 17.6
+  6MO 5.58 5.44 5.20 4.98 5.03 5.11 -4.6 -14.6 -12.6 14.4 17.4
+  1YR 5.11 5.04 4.82 4.60 4.61 4.71 1.0 -14.0 -14.0 9.0 18.0
+  2YR 4.87 4.92 4.77 4.56 4.54 4.64 9.6 -10.4 -16.4 2.6 14.0
+  3YR 4.82 4.92 4.78 4.57 4.55 4.65 13.4 -10.6 -17.6 1.4 13.4
+  5YR 4.76 4.94 4.82 4.66 4.65 4.73 18.6 -11.4 -15.4 -0.4                       8.6
+  7YR 4.97 5.18 5.07 4.93 4.94 4.98 20.8 -11.2 -14.2 0.8                        3.8
+ lOYR 4.92 5.14 5.03 4.93 4.94 4.98 20.8 -12.2 -11.2 -0.2                       2.8
+ 20YR 5.46 5.62 5.56 5.50 5.52 5.53 14.6 -7.4 -7.4 0.6 -0.4
+
+With five columns we might expect five singular values. But the five column vectors add to
+the zero vector (since every row of A adds to zero after centering). So S = AAT /(5 - 1)
+has four nonzero eigenvalues CJf > CJ� > CJ� > d- Here are the singular values CJi and
+their squares CJ; and the fractions of the total variance T = CJf + · · · + CJl = trace of S
+that are "explained" by each principal component (each eigenvector ui of S).
+                                                             (]"2
+                                             Ui                i
+                                                                       u:JT
+              Principal component u 1     36.39          1323.9         .7536
+              Principal component u2      19.93           397.2         .2261
+              Principal component u3       5.85            34.2         .0195
+              Principal component u4       1.19             1.4         .0008
+              Principal component u5       0.00             0.0         .0000
+                                                     T = 1756.7        1.0000
+
+A "scree plot" graphs those fractions CJ; /T dropping quickly to zero. In a larger problem
+you often see fast dropoff followed by a flatter part at the bottom (near CJ 2 = 0). Locating
+the elbow between those two parts (significant and insignificant PC's) is important.
+390                                     Chapter 7. The Singular Value Decomposition (SVD)
+
+    We also aim to understand each principal component. Those singular vectors u; of A
+are eigenvectors of S. The entries in those vectors are the "loadings". Here are u1 to u5
+for this yield curve example (with Su5 = 0).
+                             U1        U2          U3       U4         U5
+                3MO       0.383    0.529 -0.478          0.060      0.084
+                6MO       0.336    0.436 -0.046          0.210 -0.263
+                1 YR      0.358    0.263       0.225 -0.491         0.237
+                2 YR      0.352 -0.028         0.460     0.096      0.242
+                3 YR      0.371 -0.131         0.430     0.258 -0.555
+                5 YR      0.349 -0.293         0.117 -0.188         0.446
+                7 YR      0.323 -0.365 -0.228            0.459      0.081
+               lOYR       0.297 -0.378 -0.351 -0.579 -0.470
+               20YR       0.184 -0.280 -0.361            0.227      0.268
+Those five u's are orthonormal. They give bases for the four-dimensional column space
+of A and the one-dimensional nullspace of AT . What financial meaning do they have ?
+   u 1 measures a weighted average of the daily changes in the 9 yields
+   u2 gauges the daily change in the yield spread between long and short bonds
+   u3 shows daily changes in the curvature (short and long bonds versus medium)
+These graphs show the nine loadings on u1, u2, u3 above from 3 months to 20 years.
+
+
+
+
+    The output from a typical code (written in R) will include two more tables-which are
+going on the book's website. One will show the right singular vectors v; of A. These are
+eigenvectors of AT A. They are proportional to the vectors AT u. They have 5 components
+
+                                             err
+and they show the movement of yields and short-long spreads during the week.
+    The total variance T = 1756.7 (the trace     + er� + er� + er� of S) is also the sum of
+the diagonal entries of S. Those are the sample variances of the rows of A. Here they are :
+Si+·· +s� = 313.3+225.8+199.5+172.3+195.8+196.8+193.7+178.7+80.8 = 1756. 7.
+Every s2 is below err.  And 1756.7 is also the trace of AT A/ ( n - 1): column variances.
+    Note that this PCA section 7.3 is working with centered rows in A. In some applica­
+tions (like finance), the matrix is usually transposed and the columns are centered. Then
+the sample covariance matrix S uses AT A, and the v's are the more important principal
+components. Linear algebra with practical interpretations tells us so much.
+7.3. Principal Component Analysis (PCA by the SYD)                                      391
+
+Problem Set 7 .3
+1     Suppose Ao holds these2measurements of 5 samples:
+                                            5 4 3 2 1
+                                  Ao= [              ]
+                                          -1101-1
+      Find the average of each row and subtract it to produce the centered matrix A. Com­
+      pute the sample covariance matrix S = AAT / ( n - 1) and find its eigenvalues >. 1
+      and >. 2 . What line through the origin is closest to the 5 samples in columns of A?
+2     Take the steps of Problem1for this2by 6 matrix Ao :
+                                        101010
+                                Ao= [          ]
+                                        123321
+
+3     The sample variances Bi, s� and the sample covariance s12 are the entries of S.
+      What is S (after subtracting means) when Ao= [         ! � �]   ? What is a 1 ?
+
+4     From the eigenvectors of S = AAT , find the line (the u 1 direction through the
+
+
+
+                                                             l
+      center point) and then the plane (u 1, u 2 directions) closest to these four points in
+      three-dimensional space
+                                           1 -1 0        0
+                                   A= [ 0 0 2-2 .
+                                        1 1-1-1
+
+5     From this sample covariance matrix S, find the correlation matrix DSD with l's
+      down its main diagonal. D is a positive diagonal matrix that produces those1's.
+
+
+
+                                      s�    [ H :l
+                     � [ :! ::n                         � [ :'.: ::: �: l
+6     Choose the diagonal matrix D that produces DSD and find the correlations Cij:
+
+
+                 S       ::l:                    DSD
+
+
+7     Suppose Ao is a 5 by1 0matrix with average grades for 5 courses over1
+                                                                          0years. How
+      would you create the centered matrix A and the sample covariance matrix S ? When
+      you find the leading eigenvector of S, what does it tell you ?
+     392                                        Chapter 7. The Singular Value Decomposition (SYD)
+
+
+     7 .4       The Geometry of the SVD
+
+1 A typical square matrix A = UI:VT factors into (rotation) (stretching) (rotation).
+2 The geometry shows how A transforms vectors x on a circle to vectors Ax on an ellipse.
+
+3 The norm of A is 11A11 = o- 1. This singular value is its maximum growth factor 11Ax11 / 11x11-
+
+4 Polar decomposition factors A into QS: rotation Q = UVT times stretching S= VI:VT .
+5 The pseudoinverse A + = VI; + UT brings Ax in the column space back to x in the row space.
+
+     The SYD separates a matrix into three steps: (orthogonal) x (diagonal) x (orthogonal).
+     Ordinary words can express the geometry behind it: (rotation) x (stretching) x (rotation).
+     UI:VT x starts with the rotation to VT x. Then I: stretches that vector to I:VT x, and U
+     rotates to Ax = UI:VT x. Here is the picture.
+                                              A
+
+                                                                              ....
+
+
+
+
+       Figure 7.5: U and V are rotations and possible reflections. I: stretches circle to ellipse.
+
+        Admittedly, this picture applies to a 2 by 2 matrix. And not every 2 by 2 matrix,
+     because U and V didn't allow for a reflection-all three matrices have determinant> 0.
+     This A would have to be invertible because the three steps are shown as invertible:
+                a b    c? s0        - sin 0     0-1               c? s <f> sin</>
+            [       ]=[                     ] [             ][                    ] = UI:VT .   (1)
+                c d     sm 0         co s0            0-2          m </> co s <f>
+                                                                 - s
+
+
+     The four numbers a, b, c, d in the matrix A led to four numbers 0, o-1, 0-2, </> in its SYD.
+         This picture will guide us to three neat ideas in the algebra of matrices:
+         1 The norm 11 A11 of a matrix-its maximum growth factor.
+         2 The polar decomposition A = QB-orthogonal Q times positive definite S.
+         3 The pseudoinverse A+ -the best inverse when the matrix A is not invertible.
+7.4. The Geometry of the SVD                                                                         393
+
+                                                                          The Norm of a Matrix
+If I choose one crucial number in the picture it is a-1. That number is the largest growth
+factor of any vector x. If you follow the vector v 1 on the left, you see it rotate to (1, 0)
+and stretch to ( cr1, 0) and finally rotate to cr 1 u 1 . The statement Av1 = cr 1 u 1 is exactly the
+SVD equation. This largest singular value cr 1 is the "norm" of the matrix A.
+
+
+
+      The norm IIAII is the largest ratio
+                                               Il       !�i'   I
+                                                                   IIAII= max
+                                                                              IIAxll = a-1
+                                                                                                     (2)
+                                                    1                     x#O llxll
+
+
+MATLAB uses norm (x) for vector lengths and the same word norm (A) for matrix norms.
+The math symbols have double bars: llxll and IIAII- Here llxll means the standard length
+of a vector with llxll2 = lx112 + · · · + lxn l2 . The matrix norm comes from this vector
+norm when x = V 1 and Ax = cr1u1 and IIAxll/ llxll = cr1 = largest ratio = IIAII-
+    Two valuable properties of that number norm (A) come directly from its definition:
+
+
+ Triangle                                                 Product
+ inequality      IIA + BIi::; IIAII + IIBII               inequality     IIABII::; IIAII IIBII       (3)
+
+
+The definition (2) says that I IAxlI :S IIAII I lxl I for every vector x. That is what we
+know! Then the triangle inequality for vectors leads to the triangle inequality for matrices:
+        For vectors        ll(A + B)xll::; IIAxll + IIBxll::; IIAll llxll + IIBll llxll-
+Divide this by Ilxl1- Take the maximum over all x. Then IIA+ BlI::; IIAII + IIBII-
+   The product inequality comes quickly from IIAB xi I::; IIAII IIBxlI::; IIAII IIBI1 1lxlI­
+Again divide by 11x11- Take the maximum over all x. The result is 11 AB 11::; 11 A11 11BII,
+Example 1        A rank-one matrix A = uvT is as basic as we can get. It has one nonzero
+eigenvalue ,\ 1 and one nonzero singular value cr 1 . Neatly, its eigenvector is u and its
+singular vectors (left and right) are u and v.
+                   Au= (uv )u = u(v u) = ,\ 1 u                              So ,\ 1 = v u
+                                 T            T
+Eigenvector                                                                                      T
+
+
+Singular vector A Av= (vu )(uv )v = v(u u)(v v) = crfv So cr 1 = llull llvll­
+                    T               T        T            T   T
+
+It makes you feel good that l>- 1 1::; cr 1 is exactly theSchwarz inequality lv T ul::; llull llvll-
+    How do we know that l>-11 ::; cr 1 ? The eigenvector for Ax = ,\ 1 x will give the ratio
+IIAxlI/ IlxlI = Il>-1xlI/ IlxlI which is l>- 1 1- The maximum ratio cr 1 can't be less than l>-1I­
+    Is it also true that l>- 2 I ::; cr2 ? No. That is completely wrong. In fact a 2 by 2 matrix
+will have I det Al = l>- 1 >- 2 I = cricr2 . In this case l>-1I::; cr 1 will force l>- 2 I � cr2 .
+394                                        Chapter 7. The Singular Value Decomposition (SYD)
+
+            The closest rank k matrix to A is Ak = CJ1U1v'[ + · · · + CTkUkVf
+This is the key fact in matrix approximation : The Eckart-Young-Mirsky Theorem says that
+            IIA - Bl I � IIA - Aki I= o-k+1 for all matrices B of rank k.
+To me this completes the Fundamental Theorem of Linear Algebra. The v's and u's give
+orthonormal bases for the four fundamental subspaces, and the first k v 'sand u 'sand CJ's
+give the best matrix approximation to A.
+
+                                                     Polar Decomposition A = Q S
+Every complex number x + i y has the polar form re i0 . A number r 2 0 multi­
+plies a number e i0 on the unit circle. We have x + iy = r cos 0 + ir sin 0 = r ( cos 0 +
+i sin 0) = re i0 . Think of these numbers as 1 by 1 matrices. Then e i0 is an orthogonal ma­
+trix Q and r 2 0 is a positive sem idefin ite matrix (call it S). The polar decomposition ex­
+tends the same idea ton byn matrices: orthogonal times positive semidefinite, A = QB.
+ Every real square matrix can be factored into A = Q S, where Q is orthogonal
+ and S is symmetric positive semidefinite. If A is invertible, S is positive definite.
+   For the proof we just insert VT V = I into the middle of the SYD:
+      Polar decomposition
+The first factor UVT is Q. The product of orthogonal matrices is orthogonal. The second
+factor VI;VT is S. It is positive semidefinite because its eigenvalues are in I;.
+     If A is invertible then I; and S are also invertible. S is the symmetric positive
+de.finite square root of AT A, because S2 = VI;2 VT = AT A. So the eigenvalues of
+S are the singular values of A. The eigenvectors of S are the singular vectors v of A.
+     There is also a polar decomposition A = K Q in the reverse order. Q is the same but
+now K = UI;UT . Then K is the symmetric positive definite square root of AAT.
+
+Example 2      The SYD example in Section 7 .2 was A = [        ! �]    = UI;VT . Find the
+factors Q and S (rotation and stretch) in the polar decomposition A= QS.
+Solution    I will just copy the matrices U and I; and V from Section 7 .2:
+                 1   1          -3     1        -1 __  1    4 -2 __ 1 2
+                                     [                          4- y's [ l
+           uvT __  [                              ]-      [     ]
+                -           3     1] _ 1         l   v'25 2
+  Q
+                     y'20
+
+
+  s = VI;VT = vs
+               2
+                 [11            -n [ 3 [-i 1J
+In mechanics, the polar decomposition separates the rotation (in Q) from the stretching
+(in S). The eigenvalues of S give the stretching factors as in Figure 7 .5. The eigenvectors
+of S give the stretching directions (the principal axes of the ellipse). The orthogonal matrix
+Q includes both rotations U and VT .
+     Here is a fact about rotations. Q = UVT is the nearest orthogonal matrix to A.
+This Q makes the norm I IQ - Al I as small as possible. That corresponds to the fact that
+e i0 is the nearest number on the unit circle to re i0 .
+7.4. The Geometry of the SYD                                                            395
+
+   The SVD tells us an even more important fact about nearest singular matrices:
+ The nearest singular matrix A o to A comes by changing the smallest u mi n to zero.
+So O"min is measuring the distance from A to singularity. For the matrix in Example 2
+that distance is O"min = y5. If I change O"min to zero, this knocks out the last (smallest)
+piece in A = a-1 u1 Vf + a-2u2vI. Then only the rank-one (singular!) matrix a-1 u1 Vf
+will be left: the closest to A. The smallest change had norm a-2 =    v5
+                                                                      (smaller than 3 ).
+    In computational practice we often do knock out a very small a-.Working with singular
+matrices is better than coming too close to zero and not noticing.
+
+                                                               The Pseudoinverse A +
+By choosing good bases, A multiplies Vi in the row space to give O"iUi in the column space.
+A- 1 must do the opposite! If Av = a-u then A- 1u = v/a-. The singular values of A- 1
+are 1/ a-, just as the eigenvalues of A- 1 are 1/ .\.The bases are reversed.The u's are in the
+row space of A- 1, the v 's are in the column space.
+
+
+
+
+                                                                      l[
+    Until this moment we would have added "if A- l exists."                  Now we don't.
+A matrix that multiplies ui to produce vda-i does exist. It is the pseudoinverse A+:
+                                                     -1                                     T
+Pseudoinverse of A                                 (T1
+
+
+                           [ v,    v,      Vn]                             u,   U,     Um
+ A+= v1:+uT                                                   O"r
+                                                                 -1
+
+
+
+                                  n byn                   nbym                  mbym
+                                                          1
+ The pseudoinverse A+ is an n by m matrix.If A- exists (we said it again), then A+ is
+the same as A- 1. In that case m = n = r and we are inverting U�V T to get        v�-
+                                                                                1 T
+                                                                                 U .
+The new symbol A is needed when r < m or r < n.Then A has no two-sided inverse,
+                    +
+
+but it has a pseudoinverse A+ with that same rank r:
+                         1
+                A+ ui = -vi       fori :S: r     and
+                        O"i
+The vectors u1, ... , Ur in the column space of A go back to v1, ... , Vr in the row space.
+The other vectors Ur+ l, ..., Um are in the left nullspace, and A+ sends them to zero.
+When we know what happens to all those basis vectors, we know A+ .
+    Notice the pseudoinverse of the diagonal matrix �- Each a- in � is replaced by a-- 1 in
+� . The product �+ � is as near to the identity as we can get. It is a projection matrix,
+  +
+
+�+ � is partly I and otherwise zero.We can invert the a-'s, but we can't do anything about
+the zero rows and columns.This example has a-1 = 2 and a-2 = 3:
+
+                    [1/2
+          �+ � =
+                      �
+
+ The pseudoinverse A+ is the n by m matrix that makes AA+ and A+ A into projections.
+396                                         Chapter 7. The Singular Value Decomposition (SYD)
+
+
+                             A Row space to column space
+                row                                                           column
+                             A+ Column space to row space
+               space                                                           space
+
+
+
+
+                                PseudoinverseA+
+              nullspace
+
+                                                            O ] row space
+                                           A+ A = [ I
+                                            _       0       0   nullspace
+   Figure 7.6: Ax + in the column space goes back to A + Ax + = x + in the row space.
+
+
+      Trying for                AA + = projection matrix onto the column space of A
+      AA- 1 =A- 1 A=I           A + A = projection matrix onto the row space of A
+
+
+Example 3 Every rank one matrix is a column times a row. With unit vectors u and v,
+that is A = a-uv T. Its pseudoinverse is A + = vuT/ a-. The product AA + is uu T, the
+projection onto the line through u. The product A + A is vvT.
+
+Example 4      Find the pseudoinverse of A = [ �       �] . This matrix is not invertible. The
+rank is 1. The only singular value is a- 1 = 2. That is inverted to 1/2 in I; + (also rank 1).
+
+
+        A + = VI; + U T = _2:_ [1
+                          y12 1 -1
+                                  1] [1/2
+                                       0
+                                                    0] _2:_ [1
+                                                    0 y12 1 -1
+                                                               1] = �
+                                                                    4 1
+                                                                              [1 1]1 .
+A + also has rank 1. Its column space is always the row space of A.
+
+                                         Least Squares with Dependent Columns
+That matrix A with four 1 's appeared in Section 4.3 on least squares. It broke the require­
+ment of independent columns. The matrix appeared when we made two measurements,
+both at time t = l. The closest straight line went halfway between the measurements 3
+and 1, but there was no way to decide on the slope of the best line.
+   In matrix language, A T A was singular. The equation AT Ax = A T b had infinitely
+many solutions. The pseudoinverse gives us a way to choose a "best solution" x + =A + b.
+7.4. The Geometry of the SYD                                                         397
+
+   Let me repeat the unsolvable Ax = b and the infinitely solvable AT Ax= AT b:
+
+
+
+
+Any vector x = (1 + c, 1 - c) will solve those normal equations AT Ax                AT b.
+                                                            x
+The purpose of the pseudoinverse is to choose one solution = x +.
+
+
+     x + = A+b = (1, 1) is the shortest solution to AT Ax= AT b and Ax= p.
+
+
+                                                                        x
+   You can see that x + = (1, 1) is shorter than any other solution = (1 + c, 1 - c).
+The length squared of x is (1 + c) 2 + (1 - c)2 = 2 + 2c2 . The shortest choice is c = 0.
+That gives the solution x + = (1, 1) in the row space of A.
+   The geometry tells us what A+ should do: Take the column space of A back to the row
+space. Both spaces have dimension r. Kill off the error vector e in the left nullspace.
+   The pseudoinverse A+ and this best solution x + are essential in statistics, because
+experiments often have a matrix with dependent columns as well as dependent rows.
+
+
+
+                     •    REVIEW OF THE KEY IDEAS                   •
+
+   1. The ellipse of vectors Ax has axes along the singular vectors ui.
+   2. The matrix norm IIAII= 0-1 comes from the vector length: Maximize IIAxl 1/1lxl1-
+   3. Invertible matrix= (orthogonal matrix) (positive definite matrix): A= QS.
+
+   4. Every A= U�V T has a pseudoinverse A+ = v� + u T that sends N(AT ) to Z.
+
+
+
+                          • WORKED EXAMPLES                     •
+
+7.4 A If A has rank n (full column rank) then it has a left inverse L = (AT A)- 1 AT .
+This matrix L gives LA = I. Explain why the pseudoinverse is A+ = L in this case.
+    If A has rank m (full row rank) then it has a right inverse R = AT (AAT )- 1 .
+This matrix R gives AR = I. Explain why the pseudoinverse is A+ = R in this case.
+   Find L for A1 and find R for A2 . Find A+ for all three matrices A1 , A2 , A3 :
+398                                          Chapter 7. The Singular Value Decomposition (SYD)
+
+Solution     If A has independent columns then AT A is invertible-this is a key point
+of Section 4.2. Certainly L = (AT A)- 1A T multiplies A to give LA = I: a left inverse.
+    AL = A(AT A)- 1 AT is the projection matrix (Section 4.2) on the column space.
+So L meets the requirements on A + : LA and AL are projections on C(A) and C(AT ).
+    If A has rank m (full row rank) then AAT is invertible. Certainly A multiplies R =
+A (AAT )- 1 to give AR= I. In the opposite order, RA= AT (AAT )- 1 A is the projec­
+    T
+
+tion matrix onto the row space (column space of A T ). So R equals the pseudoinverse A + .
+        The example A 1 has full column rank (for L) and A 2 has full row rank (for R):
+
+                                                                             1  2
+                                                      A 2+ = A2T(A2A2T)-1 = /8 [ ] .
+                                                                                2
+
+Notice At A 1 = [1] and A2At                [1]. But A3 has no left or right inverse.
+Its rank is not full. Its pseudoinverse brings the column space of A 3 to the row space.
+                                                           1
+                         At = [ �      � r = v�: = 1 0 [ � � ] .
+                                                f
+
+
+
+
+Problem Set 7 .4
+Problems 1-4 compute and use the SVD of a particular matrix (not invertible).
+
+1           (a) Compute AT A and its eigenvalues and unit eigenvectors v 1 and v2. Find 0" 1.
+
+                                Rank one matrix      A= [      ! �]
+           (b) Compute AAT and its eigenvalues and unit eigenvectors u 1 and u2.
+            (c) Verify that Av 1 = 0" 1 u 1. Put numbers into A= U�V T (this is the SYD).
+2           (a) From the u's and v's in Problem 1 write down orthonormal bases for the four
+                fundamental subspaces of this matrix A.
+           (b) Describe all matrices that have those same four subspaces. Multiples of A?
+3         From U, V, and I; in Problem 1 find the orthogonal matrix Q = UVT and the
+          symmetric matrix S = VI;VT . Verify the polar decomposition A= QS. This S is
+          only semidefinite because __ . Test S2 = A.
+4         Compute the pseudoinverse A + = VI;+ UT . The diagonal matrix I;+ contains 1 / 0" 1.
+          Rename the four subspaces (for A) in Figure 7 .6 as four subspaces for A + . Compute
+          the projections A + A and AA + on the row and column spaces of A.
+7.4. The Geometry of the SVD                                                          399
+
+Problems 5-9 are about the SVD of an invertible matrix.
+
+5     Compute AT A and its eigenvalues and unit eigenvectors v 1 and v2. What are the
+      singular values CT1 and CT2 for this matrix A?
+
+
+
+
+6     AA T has the same eigenvalues (Tr and   (T�   as A T A. Find unit eigenvectors U1 and
+      u2. Put numbers into the SVD:
+
+
+
+
+7     In Problem 6, multiply columns times rows to show that A = CT1 u1v[ + CT2 u2vJ.
+      Prove from A = U�VT that every matrix of rank r is the sum of r matrices of rank
+      one.
+8     FromU , V, and� find the orthogonal matrix Q = UVT and the symmetric matrix
+      K= U�U T . Verify the polar decomposition in reverse order A= K Q.
+9     The pseudoinverse of this A is the same as __ because __ .
+
+Problems 10-11 compute and use the SVD of a 1 by 3 rectangular matrix.
+
+10    Compute A T A and AA T and their eigenvalues and unit eigenvectors when the matrix
+      is A = [ 3 4 0] . What are the singular values of A?
+11    Put numbers into the singular value decomposition of A:
+
+
+
+      Put numbers into the pseudoinverse v� +U T of A. Compute AA + and A + A:
+
+
+
+
+12   What is the only 2 by 3 matrix that has no pivots and no singular values? What is
+     � for that matrix? A + is the zero matrix, but what is its shape?
+13    If det A= 0 why is det A + = O? If A has rank r, why does A + have rank r?
+14    For vectors in the unit circle 11x 11 = 1, the vectors y = Ax in the ellipse will
+      have 11 A -l y 11 = 1. This ellipse has axes along the singular vectors with lengths
+      = 0"1, ... , O"r (as in Figure 7.5). Expand IIA- 1 Yll2 = 1 for A= [2 1; 1 2].
+400                                         Chapter 7, The Singular Value Decomposition (SVD)
+
+Problems 15-18 bring out the main p.rope:rties of A + and x + = A+ b.
+
+15    All matrices in this problem have rank one. The vector b is (bi, b 2 ),
+
+                                                                         A+ =
+                                                                                      [,2 ,l]
+                                                                                       ,2   .1
+
+       (a) The equation AT Ax= AT b has many solutions because AT A is _                         _,
+       (b)   Verify that x + = A+ b = (,2b   1   + ,lb2, ,2b 1 + ,lb2) solves A   T
+                                                                                      Ax + = AT b,
+       (c) Add (1, -   1) to that x + to get another solution to AT Ax = AT b,              Show that
+           llxll = llx ll + 2, and x is shorter.
+                2     + 2           +
+
+
+16    The vector x + = A + b is the shortest possible solution to AT Ax= AT b.
+      Reason: The difference x - x + is in the nullspace of AT A, This is also the nullspace
+      of A, orthogonal to x + , Explain how it follows that llxll2 = llx + 11 2 + llx - x + 11 2 ,
+17    Every b in Rm is p + e, This is the column space part plus the left nullspace part
+      Every x in R n is x + + X n . This is the row space part plus the nullspace part Then
+
+                              AA + e =
+
+18    Find A+ and A+ A and AA+ and x + for this matrix A = U�VT and these b:
+
+
+                 A= [ ] =     -          1
+                     �    [:�   ::] [�] [ ]
+
+19    A general 2 by 2 matrix A is determined by four numbers. If triangular, it is de­
+      termined by three, If diagonal, by two, If a rotation, by one, If a unit eigenvector,
+      also by one, Check that the total count is four for each factorization of A:
+
+                 Fournumbersin         LU LDU QR U�V T                      XAx- 1,
+
+20    Following Problem 18, check that LDLT and QAQT are determined by three
+      numbers. This is correct because the matrix is now
+21    From A and A+ show that A+ A is correct and (A+ A) 2                 A+ A = projection.
+
+      A = LO"iUiV[
+             1
+
+22    Each pair of singular vectors v and u has Av = O"U and AT u = O"V, Show that the
+      double vector [:] is an eigenvector of the symmetric block matrix M = � �
+                                                                            [
+                                                                                                      T] ,
+      The SVD of A is equivalent to the diagonalization of that symmetric matrix M.
+

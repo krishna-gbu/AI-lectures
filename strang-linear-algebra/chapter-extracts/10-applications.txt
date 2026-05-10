@@ -1,0 +1,2650 @@
+Chapter 10
+
+Applications
+
+10.1 Graphs and Networks
+Over the years I have seen one model so often, and I found it so basic and useful, that I
+always put it first. The model consists of nodes connected by edges. This is called a graph.
+    Graphs of the usual kind display functions f ( x). Graphs of this node-edge kind lead
+to matrices. This section is about the incidence matrix of a graph-which tells how the n
+nodes are connected by them edges. Normally m > n, there are more edges than nodes.
+    For anym by n matrix there are two fundamental subspaces in Rn and two in Rm . They
+are the row spaces and nullspaces of A and A T . Their dimensions r, n - r and r,m - r
+come from the most important theorem in linear algebra. The second part of that theorem
+is the orthogonality of the row space and nullspace. Our goal is to show how examples
+from graphs illuminate this Fundamental Theorem of Linear Algebra.
+    When I construct a graph and its incidence matrix, the subspace dimensions will be
+easy to discover. But we want the subspaces themselves-and orthogonality helps. It
+is essential to connect the subspaces to the graph they come from. By specializing to
+incidence matrices, the laws of linear algebra become Kirchhoff's laws. Please don't be
+put off by the words "current" and "voltage." These rectangular matrices are the best.
+    Every entry of an incidence matrix is O or 1 or -1. This continues to hold during
+elimination. All pivots and multipliers are ±1. Therefore both factors in A = LU also
+contain 0, 1, -1. So do the nullspace matrices! All four subspaces have basis vectors with
+these exceptionally simple components. The matrices are not concocted for a textbook,
+they come from a model that is absolutely essential in pure and applied mathematics.
+
+                                                               The Incidence Matrix
+Figure 10.1 displays a graph with m = 6 edges and n = 4 nodes. The 6 by 4 matrix A
+tells which nodes are connected by which edges. The first row -1, 1, 0, 0 shows that the
+first edge goes from node 1 to node 2 ( -1 for node 1 because the arrow goes out, + 1 for
+node 2 with arrow in).
+     Row numbers in A are edge numbers, column numbers 1, 2, 3, 4 are node numbers!
+
+                                           452
+10.1. Graphs and Networks                                                             453
+
+                                                            node
+                    CD                                  G)@G)@
+                                                       -1 I 0        0        1
+                                                       -1 0 l        0        2
+                                                    A= 0 -1 1        0        3     edge
+                                                       -1 0 0        1        4
+                                                        0 -1 0       l        5
+@F---------------"<> CT)
+                                                        0 0 -1       1        6
+       edge 3
+Figure 10.1: Complete graph with m = 6 edges and n = 4 nodes: 6 by 4 incidence matrix A.
+   You can write down the matrix by looking at the graph. The second graph has the
+same four nodes but only three edges. Its incidence matrix B is 3 by 4.
+                              CD
+                                                         CD CZl (3)@
+            row 1                                        1-1 o o 1
+                                                    B = [ 0 1-1 0 l 2             edge
+                                       row 3              0 0 1-1 3
+
+                         row2
+      (])
+
+Figure 10.1 *: Tree with 3 edges and 4 nodes and no loops. Then B has independent rows.
+
+The first graph is complete-every pair of nodes is connected by an edge. The second
+graph is a tree-the graph has no closed loops. Those are the two extremes. The maximum
+number of edges is ½n(n - 1) = 6 and the minimum to stay connected is n - l = 3.
+    Elimination reduces every graph to a tree. Loops produce dependent rows in A and
+zero rows in the echelon forms U and R. Look at the large loop from edges 1, 2, 3 in the
+
+
+
+                         �i
+first graph, which leads to a zero row in U:
+
+
+
+                                                                                    �]
+    -1      1   0                                   0                     1   0
+                                       -
+   [-1   0      1              ---t   [ �       �   1                    -1   1
+                                            -
+      0 -1      1        0              0   -1      1                     0   0
+Those steps are typical. When edges 1 and 2 share node 1, elimination produces the "short­
+cut edge" without node 1. If the graph already has this shortcut edge making a loop, then
+elimination gives a row of zeros. When the dust clears we have a tree.
+    An idea suggests itself: Rows are dependent when edges form a loop. Independent
+rows come from trees. This is the key to the row space. We are assuming that the graph
+is connected, and the arrows could go either way. On each edge, flow with the arrow is
+ "positive." Flow in the opposite direction counts as negative. The flow might be a current
+or a signal or a force-or even oil or gas or water.
+454                                                                  Chapter 10. Applications
+
+   When x 1, x2, x3, x4 are voltages at the nodes, Ax gives voltage differences:
+
+                      -1 1 0                 0                Xz - X1
+
+
+
+
+                                                 r�ll
+                      -1 0 1                 0                X3 - X1
+                       0 -1 1                0                X3 - Xz
+                  Ax=                                                                      (1)
+                      -1 0 0                 1                X4 - X1
+                       0 -1 0                1                X4 - Xz
+                       0 0 -1                1                X4 - X3
+
+
+    Let me say that again. The incidence matrix A is a difference matrix. The input vector
+x gives voltages, the output vector Ax gives voltage differences (along edges 1 to 6). If the
+voltages are equal, the differences are zero. This tells us the nullspace of A.
+1 The nullspace contains the solutions to Ax = 0. All six voltage differences are zero.
+This means: All four voltages are equal. Every x in the nullspace is a constant vector:
+x = (c, c, c, c). The nullspace of A is a line in Rn -its dimension is n - r = l.
+   The second incidence matrix B has the same nullspace. It contains (1, 1, 1, 1):
+
+            I-dimensional                -1  1  0
+            nullspace: same         Bx= [ 0 -l  1
+            for the tree                  0  0 -1
+
+   We can raise or lower all voltages by the same amount c, without changing the differ­
+ences. There is an "arbitrary constant" in the voltages. Compare this with the same state­
+ment for functions. We can raise or lower a function by C, without changing its derivative.
+   Calculus adds"+C" to indefinite integrals. Graph theory adds (c, c, c, c) to the vector x.
+Linear algebra adds any vector Xn in the nullspace to one particular solution of Ax = b.
+    The "+C" disappears in calculus when a definite integral starts at a known point.
+Similarly the nullspace disappears when we fix x4 = 0. The unknown x4 is removed and
+so are the fourth columns of A and B (those columns multiplied x4). Electrical engineers
+would say that node 4 has been "grounded."
+
+2 The row space contains all combinations of the six rows. Its dimension is certainly not 6.
+The equation r + (n - r) = n must be 3 + 1 = 4. The rank is r = 3, as we saw from
+elimination. After 3 edges, we start forming loops! The new rows are not independent.
+    How can we tell if v = (v1, v2, v3, v4) is in the row space? The slow way is to combine
+rows. The quick way is by orthogonality:
+
+ v is in the row space if and only if it is perpendicular to ( 1, 1, 1, 1) in the nullspace.
+
+The vector v = (0, 1, 2, 3) fails this test-its components add to 6. The vector (-6, 1, 2, 3)
+is in the row space: -6+1+ 2+3 = 0. That vector equals 6(row 1)+5(row 3)+3(row 6).
+     Each row of A adds to zero. This must be true for every vector in the row space.
+10.1. Graphs and Networks                                                                   455
+
+3 The column space contains all combinations of the four columns. We expect three
+independent columns, since there were three independent rows. The first three columns
+of A are independent (so are any three). But the four columns add to the zero vector, which
+says again that (1, 1, 1, 1) is in the nullspace. How can we tell if a particular vector b
+is in the column space of an incidence matrix?
+
+First answer Try to solve Ax = b. That misses all the insight. As before, orthogonal­
+ity gives a better answer. We are now corning to Kirchhoff's two famous laws of circuit
+theory-the voltage law and current law (KVL and KCL). Those are natural expressions
+of "laws" of linear algebra. It is especially pleasant to see the key role of the left nullspace.
+Second answer Ax is the vector of voltage differences Xi - Xj- If we add differences
+around a closed loop in the graph, they cancel to leave zero. Around the big triangle
+formed by edges 1, 3, -2 (the arrow goes backward on edge 2) the differences cancel:
+
+       Sum of differences is 0
+
+Kirchhoff's Voltage Law: The components of Ax = b add to zero around every loop.
+
+                      Around the big triangle:
+
+By testing each loop, the Voltage Law decides whether bis in the column space. Ax = b
+can be solved exactly when the components of b satisfy all the same dependencies as the
+rows of A. Then elimination leads to O = 0, and Ax = b is consistent.
+
+4 The left nullspace contains the solutions to A T y = 0. Its dimension is m - r = 6 - 3:
+
+
+                                             -1  0 -1  0
+                                              0 -1  0 -1
+       Current Law                                                                           (2)
+                                              1  1  0  0
+                                               0     0    1     1
+
+
+The true number of equations is r = 3 and not n = 4. Reason: The four equations add to
+0 = 0. The fourth equation follows automatically from the first three.
+    What do the equations mean? The first equation says that -y 1 - Y2 - y4 = 0. The
+net flow into node 1 is zero. The fourth equation says that y4 + y5 + Y6 = 0. Flow into
+node 4 minus flow out is zero. The equations A T y = 0 are famous and fundamental:
+
+    Kirchhoff's Current Law:A T y = 0              Flow in equals flow out at each node.
+
+ This law deserves first place among the equations of applied mathematics. It expresses
+"conservation" and "continuity" and "balance." Nothing is lost, nothing is gained. When
+currents or forces are balanced, the equation to solve is AT y = 0. Notice the beautiful fact
+that the matrix in this balance equation is the transpose of the incidence matrix A.
+456                                                                 Chapter 10. Applications
+
+    What are the actual solutions to A T y = O? The currents must balance themselves.
+The easiest way is to flow around a loop. If a unit of current goes around the big triangle
+(forward on edge 1 and 3, backward on 2), the six currents are y = (l, -1, 1, 0, 0, 0).
+This satisfies AT y = 0. Every loop current is a solution to the Current Law. Flow in
+equals flow out at every node. A smaller loop goes forward on edge 1, forward on 5, back
+on 4. Then y = (1, 0, 0, -1, 1, 0) is also in the left nullspace.
+    We expect three independent y's: m-r= 6-3= 3. The three small loops in the graph
+are independent. The big triangle seems to give a fourth y, but that flow is the sum of flows
+around the small loops. Flows around the 3 small loops are a basis for the left nullspace.
+
+                      CD
+
+
+                                                    1           0           0          1
+                                  2
+                                                    0           0          -1         -1
+                                                    0           1           0          1
+                                                   -1     +     0     +     1          0
+                                                    1          -1           0          0
+                                                                1          -1
+@
+                        3
+                                             ®      0
+                                                           3 small loops
+                                                                                       0
+                                                                                    big loop
+
+
+The incidence matrix A comes from a connected graph with n nodes and m edges. The
+ row space and column space have dimensions r = n - l. The nullspaces of A
+.and AT have dimensions 1 and m - n + l:
+ N(A) The constant vectors (c, c, ... , c) make up the nullspace of A: dim= 1.
+ C (A T ) The edges of any tree give r independent rows of A : r = n - 1.
+ C(A) Voltage Law: The components of Ax add to zero around all loops: dim= n - l.
+ N(AT ) Current Law: AT y = (flow in) - (flow out)= 0 is solved by loop currents.
+          There are m - r = m - n + 1 independent small loops in the graph.
+
+For every graph in a plane, linear algebra yields Euler's formula: Theorem 1 in topology!
+        (number of nodes) - (number of edges) + (number of small loops) = 1.
+This is ( n) - ( m) + ( m - n + 1) = 1. The graph in our example has 4 - 6+ 3 = 1.
+   A single triangle has (3 nodes) - (3 edges)+ (I loop). On a 10-node tree with 9 edges
+and no loops, Euler's count is 10 - 9+ 0. All planar graphs lead to the answer 1.
+     The next figure shows a network with a current source. Kirchhoff's Current Law changes
+from AT y = 0 to AT y = f, to balance the source f from outside. Flow into each node
+still equals flow out. The six edges would have conductances c1, ..., c6, and the current
+source goes into node 1. The source comes out from node 4 to keep the overall balance
+(in= out). The problem is: Find the currents y 1, • • • , y 6 on the six edges.
+Flows in networks now lead us from the incidence matrix A to the Laplacian matrix A T A.
+10.1. Graphs and Networks                                                                  457
+
+                                            Voltages and Currents and A T Ax = f
+We started with voltages x = (x 1, ... , X n ) at the nodes. So far we have Ax to find voltage
+differences Xi - xj along edges. And we have the Current Law AT y = 0 to find edge
+currents y = (y 1, ... Ym )- If all resistances in the network are 1, Ohm's Law will match
+y = Ax. Then AT y = AT Ax = 0. We are close but not quite there.
+Without any sources, the solution to AT Ax = 0 will just be no flow: x = 0 and y = 0.
+I can see three ways to produce x -=/= 0 and y -=/= 0.
+
+    1 Assign fixed voltages Xi to one or more nodes.
+
+    2 Add batteries (voltage sources) in one or more edges.
+
+    3 Add current sources going into one or more nodes. See Figure 10.2
+
+
+
+
+ Figure 10.2: The currents y 1 to Y6 in a network with a source S from node 4 to node 1.
+
+Example Figure 10.2 includes a current source S from node 4 to node 1. That current
+will trickle back through the network to node 4. Some current y4 will go directly on edge
+4. Other current will go the long way from node 1 to 2 to 4, or 1 to 3 to 4. By symmetry
+I expect no current (y3 = 0) from node 2 to node 3. Solving the network equations will
+confirm this. The matrix in those equations is AT A, the graph Laplacian matrix:
+
+                                       -1      1    0    0
+
+
+    r-�                         -�]
+           -1  0 -1  0                 -1      0    1    0            -1 -1 -l
+
+
+                                                                                       1
+            0 -1  0 -1                  0 -1        1    0             3 -1 -1
+
+                                                                  [-:
+            1 1 0 0                    -1 0 0            1         -1 -1 3 -1
+            0  0  1 1                   0 -1  0          1         -1 -1 -1 3
+                                        0  0 -1          1
+                                                                          AT A
+458                                                                  Chapter 10. Applications
+
+    That Laplacian matrix is not invertible! We cannot solve for all four potentials because
+(1, 1, 1, 1) is in the nullspace of A and AT A. One node has to be grounded. Setting x4 = 0
+removes the fourth row and column, and this leaves a 3 by 3 invertible matrix. Now we
+solve A T Ax= f for the unknown potentials x 1, x 2, x3, with source S into node 1:
+
+                                                                      [x'] = [S/2]
+                         [-;            i[ l m
+                             -1 -1          x
+       Voltages
+                              3 -1          X2               gives       X2   S/4
+      AT Ax= f            -1 -1  3          X3
+                                             ,                           X3      S/4
+
+                          Y1          -1  1  0          0                 S/4
+                          Y2          -1  0  1          0     S/2         S/4
+      Currents            Y3           0 -1  1          0        S/4 _     0
+                                                             [      ]
+      y=-Ax               Y4          -1  0  0          1        S/4 -    S/2
+                          Ys           0 -1  0          1         0       S/4
+                          Y6           0  0 -1          1                 S/4
+Half the current goes directly on edge 4. That is y4 = S/2. No current crosses from node
+2 to node 3. Symmetry indicated y3 = 0 and now the solution proves it.
+
+    Admission of error I remembered that current flows from high voltage to low voltage.
+That produces the minus sign in y = -Ax. And the correct form of Ohm's Law will be
+Ry = -Ax when the resistances on the edges are not all 1. Conductances are neater than
+resistances: C = R- 1 = diagonal matrix. We now present Ohm's Law y = -CAx.
+
+
+                                                                  Networks and A T C A
+In a real network, the current y along an edge is the product of two numbers. One number
+is the difference between the potentials x at the ends of the edge. This voltage difference
+is Ax and it drives the flow. The other number c is the "conductance"-which measures
+how easily flow gets through.
+     In physics and engineering, c is decided by the material. For electrical currents, c
+is high for metal and low for plastics. For a superconductor, c is nearly infinite. If we
+consider elastic stretching, c might be low for metal and higher for plastics. In economics,
+c measures the capacity of an edge or its cost.
+    To summarize, the graph is known from its incidence matrix A. This tells the node­
+edge connections. A network goes further, and assigns a conductance c to each edge.
+These numbers c1, ... , Cm go into the "conductance matrix" C-which is diagonal.
+   For a network of resistors, the conductance is c = 1 / (resistance). In addition to Kirch­
+hoff's Laws for the whole system of currents, we have Ohm's Law for each current.
+Ohm's Law connects the current y 1 on edge 1 to the voltage difference x 2 - x 1:
+
+       Ohm's Law: Current along edge = conductance times voltage difference.
+
+Ohm's Law for all m currents is y = -CAx. The vector Ax gives the potential differ­
+ences, and C multiplies by the conductances. Combining Ohm's Law with Kirchhoff's
+10.1. Graphs and Networks                                                              459
+
+Current Law AT y = 0, we get A T CAx = 0. This is almost the central equation for net­
+work flows. The only thing wrong is the zero on the right side! The network needs power
+from outside-a voltage source or a current source-to make something happen.
+Note about signs In circuit theory we change from Ax to -Ax. The flow is from higher
+potential to lower potential. There is (positive) current from node 1 to node 2 when xi - x2
+is positive-whereas Ax was constructed to yield x2 - xi. The minus sign in physics and
+electrical engineering is a plus sign in mechanical engineering and economics. Ax versus
+-Ax is a general headache but unavoidable.
+Note about applied mathematics Every new application has its own form of Ohm's Law.
+For springs it is Hooke's Law. The stress y is (elasticity C) times (stretching Ax). For
+heat conduction, Ax is a temperature gradient. For oil flows it is a pressure gradient. For
+least squares regression in statistics (Chapter 12) c-i is the covariance matrix.
+    My textbooks Introduction to Applied Mathematics and Computational Science and
+Engineering (Wellesley-Cambridge Press) are practically built on AT CA. This is the key
+to equilibrium in matrix equations and also in differential equations. Applied mathematics
+is more organized than it looks! In new problems I have learned to watch for A T CA.
+
+
+
+Problem Set 10.1
+Problems 1-7 and 8-14 are about the incidence matrices for these graphs.
+
+                    1                                      1                      2
+                                                                         1
+
+         edge 1            edge 2
+                                                               2     3        4
+
+
+                                                                         5
+        2                           3                                             4
+                  edge 3                                   3
+
+
+1     Write down the 3 by 3 incidence matrix A for the triangle graph. The first row has
+      -1 in column 1 and + 1 in column 2. What vectors (xi, x2, X3) are in its nullspace?
+      How do you know that (1, 0, 0) is not in its row space?
+2     Write down AT for the triangle graph. Find a vector y in its nullspace. The compo­
+      nents of y are currents on the edges-how much current is going around the triangle?
+3     Eliminate xi and x2 from the third equation to find the echelon matrix U. What tree
+      corresponds to the two nonzero rows of U?
+                                         -Xi+ X2 = bi
+                                         -Xi+ X3 = b2
+                                         -X2 + X3 = b3.
+460                                                                  Chapter 10. Applications
+
+4     Choose a vector (b 1,b 2,b 3) for whichAx = b can be solved, and another vector b
+      that allows no solution. How are those b's related toy = (1,-1, l)?
+5     Choose a vector (Ji, h, h) for which AT y = f can be solved, and a vector f
+      that allows no solution. How are those f's related to x = (1, 1, l)? The equation
+      ATy = f is Kirchhoff's __      law.
+6     Multiply matrices to findAT A. Choose a vector f for whichATAx = f can be
+      solved, and solve for x. Put those potentials x and the currents y = -Ax and
+      current sources f onto the triangle graph. Conductances are 1 because C= I.
+7     With conductances c 1 = 1 and c2 = c3 = 2, multiply matrices to findATC A. For
+      f = (1,0,-1) find a solution toATCAx = f. Write the potentials x and currents
+      y = -CAx on the triangle graph, when the current source f goes into node 1 and
+      out from node 3.
+13    Write down the 5 by 4 incidence matrix A for the square graph with two loops. Find
+      one solution toAx= 0 and two solutions toAT y = 0.
+9     Find two requirements on the b's for the five differences x2 - x1, x3 - x1, x3 - x2,
+      x 4 - x 2 , x 4 - x 3 to equalb 1,b 2,b 3, b4 , b5 . You have found Kirchhoff's _ _ law
+      around the two __ in the graph.
+10    Reduce A to its echelon form U. The three nonzero rows give the incidence matrix
+      for what graph? You found one tree in the square graph-find the other seven trees.
+11    Multiply matrices to findATA and guess how its entries come from the graph:
+        (a) The diagonal ofATA tells how many __ into each node.
+        (b) The off-diagonals -1 or O tell which pairs of nodes are __ .
+12    Why is each statement true aboutATA? Answer forATA not A.
+        (a) Its nullspace contains (1,1,1,1). Its rank is n - 1.
+        (b) It is positive semidefinite but not positive definite.
+        (c) Its four eigenvalues are real and their signs are __ .
+13    With conductances c 1 = c2 = 2 and c3 = c4 = c5 = 3, multiply the matrices
+      ATCA. Find a solution toATCAx = f = (1,0,0,-1). Write these potentials x
+      and currentsy = -CAx on the nodes and edges of the square graph.
+14    The matrixATCA is not invertible. What vectors x are in its nullspace? Why does
+      ATCAx= f have a solution if and only if Ji+ h + h + f4 = O?
+15    A connected graph with 7 nodes and 7 edges has how many loops?
+16    For the graph with 4 nodes, 6 edges, and 3 loops, add a new node. If you connect it
+      to one old node, Euler's formula becomes ( ) - ( ) + ( ) = 1. If you connect it
+      to two old nodes, Euler's formula becomes ( ) - ( ) + ( ) = 1.
+10.1. Graphs and Networks                                                          461
+
+17    Suppose A is a 12 by 9 incidence matrix from a connected (but unknown) graph.
+       (a) How many columns of A are independent?
+       (b) What condition on f makes it possible to solve A T y = f?
+       (c) The diagonal entries of AT A give the number of edges into each node. What is
+           the sum of those diagonal entries?
+
+18    Why does a complete graph with n = 6 nodes have m = 15 edges? A tree connect-
+      ing 6 nodes has __ edges.
+
+Note The stoichiometric matrix in chemistry is an important "generalized" incidence
+matrix. Its entries show how much of each chemical species (each column) goes into
+each reaction (each row).
+462                                                                    Chapter 10. Applications
+
+
+10.2      Matrices in Engineering
+This section will show how engineering problems produce symmetric matrices K (often
+K is positive definite). The "linear algebra reason" for symmetry and positive definiteness
+is their form K = AT A and K = AT C A. The "physical reason" is that the expression
+½u T Ku represents energy-and energy is never negative. The matrix C, often diagonal,
+contains positive physical constants like conductance or stiffness or diffusivity.
+     Our best examples come from mechanical and civil and aeronautical engineering.
+K is the stiffness matrix, and K- 1 f is the structure's response to forces f from outside.
+Section 10.1 turned to electrical engineering-the matrices came from networks and cir­
+cuits. The exercises involve chemical engineering and I could go on! Economics and
+management and engineering design come later in this chapter (the key is optimization).
+   Engineering leads to linear algebra in two ways, directly and indirectly:
+   Direct way The physical problem has only a finite number of pieces. The laws
+   connecting their position or velocity are linear (movement is not too big or too fast).
+   The laws are expressed by matrix equations.
+   Indirect way The physical system is "continuous". Instead of individual masses, the
+   mass density and the forces and the velocities are functions of x or x, y or x, y, z.
+   The laws are expressed by differential equations. To find accurate solutions we
+   approximate by finite difference equations or finite element equations.
+   Both ways produce matrix equations and linear algebra. I really believe that you cannot
+   do modern engineering without matrices.
+   Here we present equilibrium equations Ku = f. With motion, Md2 u/ dt 2 + Ku = f
+becomes dynamic. Then we would use eigenvalues from Kx = >-.Mx, or finite differences.
+
+
+                                       Differential Equation to Matrix Equation
+Differential equations are continuous. Our basic example will be -d2 u/dx 2 = f(x).
+Matrix equations are discrete. Our basic example will be K0 u = f. By taking the step
+from second derivatives to second differences, you will see the big picture in a very short
+space. Start with fixed boundary conditions at both ends x = 0 and x = l :
+
+
+      Fixed-fixed                            d2 u
+                                         -        = 1 with u(O) = 0 and u(l) = 0.           (1)
+      boundary value problem                 dx2
+
+
+That differential equation is linear. A particular solution is up = -½x 2 (then d2 u/dx 2 = -1).
+We can add any function "in the nullspace". Instead of solving Ax = 0 for a vector x,
+we solve -d2 u/dx2 = 0 for a function un (x). (Main point: The right side is zero.)
+   The nullspace solutions are un (x) = C + Dx (a 2-dimensional nullspace for a
+second order differential equation). The complete solution is Up + Un :
+10.2. Matrices in Engineering                                                            463
+
+         Complete            d2 u
+                            --                         1
+                                  =1           u(x) = - x2 + C + Dx.                         (2)
+         solution to         dx 2                        2
+
+   Now find C and D from the two boundaryconditions: Set x = 0 and then x = l. At
+x = 0, u(0) = 0 forces C = 0. At x = l, u(l) = 0 forces-½+ D = 0. Then D =                    ½:
+         1     1    1
+ u(x) = --x 2 +-x = -(x - x2 ) solves thefixed-fixed boundaryvalue problem. (3)
+         2     2    2
+
+                                                   Differences Replace Derivatives
+To get matrices instead of derivatives, we have three basic choices-forward or backward
+or centered differences. Start with first derivatives and first differences :
+
+   du  u(x + .6.x)- u(x)
+   - � -------              u(x) - u(x - .6.x)           u(x + .6.x) - u(x - .6.x)
+                         or ----'---'-------'-----'-- or ----'----'----'----'-.
+   dx         .6.x                       .6.x                      2.6.x
+Between x = 0 and x = l, we divide the interval inton + l equal pieces. The pieces have
+width .6.x = l/(n + 1). The values of u at then breakpoints .6.x, 2.6.x, ... will be the
+unknowns u 1 to Un in our matrix equation Ku = f:
+   Solution to compute: u = (u 1, u 2 , ... , un ) � (u(.6.x), u(2.6.x ), ..., u(n.6.x) ).
+   Zero values u0 = Un+i = 0 come from the boundaryconditions u(0) = u(l) = 0.
+
+Replace the derivatives in- � ( ��) = 1 by forward and backward differences :
+                           d
+
+                    1 -1  0
+              1
+                  [ 0  1 -1                                                                  (4)
+          (.6.x)2         1
+                    0  0
+
+    This is our matrix equation when n - 3 and .6.x = .!. . The two first differences
+are transposes of each other! The equation is AT Au= (.6.x)1 f. When we multiplyAT A,
+we get the positive definite second difference matrix Ko:
+
+
+                   2-1 ol
+ K0 u =
+                [ -1 2 -1                            gives                                   (5)
+ (Ax) 2 f
+                   0-1     2
+464                                                                        Chapter 10. Applications
+
+    The wonderful fact in this example is that those numbers u 1, u 2, u 3 are exactly correct!
+They agree with the true solution u = ½ (x - x 2) at the three meshpoints x =              ¼,
+                                                                                          ¾, ¾.
+Figure 10.3 shows the true solution (continuous curve) and the approximations u 1, u 2, u 3
+(lying exactly on the curve). This curve is a parabola.
+
+
+                                               U2
+                                                                    1
+                                                4       u(x) =          (x - x 2 )
+                                                                    2
+                                               32
+                                U1                             U3
+                                      3                    3
+                                     32                   32
+
+
+
+
+                  x=O                                       3D.x            4D.x = 1
+
+Figure 10.3: Solutions to - �:� = 1 and K0 u = (..:lx) 2 f with fixed-fixed boundaries.
+
+   How to explain this perfect answer, lying right on the graph of u(x)? In the matrix
+equation, Ko = A T A is a "second difference matrix." It gives a centered approximation
+to -d 2 u/ dx2 . I included the minus sign because the first derivative is antisymmetric.
+The second derivative by itself is negative:
+
+       The "transpose" of : is - � . Then ( - �) ( �) is positive definite.
+                           x    d            d    d
+    You can see that in the matrices A and A T . The transpose of A = forward difference is
+ T
+A = - backward difference. I don't want to choose a centered u(x+ D.x)-u(x-D.x).
+Centered is the best for a first difference, but then the second difference A T A would
+stretch from u(x + 2D.x) to u(x - 2D.x): not good.
+    Now we can explain the perfect answers, exactly on the true curve u(x) = ½ (x - x 2).
+Second differences -1, 2, -1 are exactly correct for straight lines y = x and parabolas !
+                    d2y
+     y=x                      0     -(x + D.x) +2x -(x - D.x) =
+                    dx2
+                    d2y
+   Y = x2         --=-2             -(x + D.x) 2 +2x 2 -(x - D.x)2 = -2(D.x)2
+                    dx2
+   The miracle continues to y = x 3. The correct -d 2 y/ dx2 = -6x is produced by
+second differences. But for y = x4 we return to earth. Second differences don't exactly
+match -y" = -12x 2 . The approximations u 1, u 2 , u 3 won't fall on the graph of u(x).
+10.2. Matrices in Engineering                                                               465
+
+                       Fixed End and Free End and Variable Coefficient c( x)
+To see two new possibilities, I will change the equation and also one boundary condition:
+
+                    d                                       �
+               -      ((l + x) �) = f(x) with u( 0) = 0 and    (1) = 0.                      (6)
+                   dx          dx                           dx
+
+    The end x = l is now free. There is no support at that end. "A hanging bar is fixed
+only at the top." There is no force at the free end x = l. That translates to du/ dx = 0
+instead of the fixed condition u = 0 at x = l.
+    The other change is in the coefficient c(x) = 1 + x. The stiffness of the bar is
+varying as you go from x = 0 to x = l. Maybe its width is changing, or the material
+changes. This coefficient 1 + x will bring a new matrix C into the difference equation.
+    Since u4 is no longer fixed at 0, it becomes a new unknown. The backward difference
+A is 4 by 4.And the multiplication by c(x) = 1 + x becomes a diagonal matrix C-which
+multiplies by 1 + �x, ..., 1 + 4�x at the meshpoints.Here are AT , C, and A:
+
+
+
+
+                                                                                    HJ.
+                      -1      0           1.2 5                                0
+
+
+                                   �l l                              1 r-�
+                       1    -1                    1.5                         1
+                        0    1    -1                    1.75             0   -1              (7)
+                        0     0    1                           2.0       0     0   -1   1
+
+This matrix K = AT CA will be symmetric and positive definite! Symmetric because
+(AT CA) T = AT C T AT T = AT CA. Positive definite because it passes the energy test:
+A has independent columns, so Ax =J O when x =J 0.
+
+    Energy = xT AT CAx = (Ax) T C(Ax) > 0 for every x =J 0, because Ax =J 0.
+
+When you multiply the matrices AT A and AT CA for this fixed-free combination, watch
+how 1 replaces 2 in the last corner of AT A. That fourth equation has u 4 - u 3, a first
+(not second) difference coming from the free boundary condition du/ dx = 0.
+
+
+
+
+           l
+    Notice in AT CA how c 1, c 2, c 3, c 4 come from c(x) = 1 + x in equation (7).Previously
+the e's were simply 1, 1, 1, 1.Here are the fixed-free matrices:
+
+
+
+
+                                  l
+                 2 -1
+               -l   2 -1
+  AT A =
+                   -1  2 -1
+                      -1  1
+466                                                                     Chapter 10. Applications
+
+                                                   Free-free Boundary Conditions
+Suppose both ends of the bar are free. Now du/ dx = 0 at both x = 0 and x = l.
+Nothing is holding the bar in place! Physically it is unstable-it can move with no force.
+Mathematically all constant functions like u = 1 satisfy these free conditions. Algebraically
+our matrices A T A and A T C A will not be invertible:
+
+
+Free-free examples
+Unknown uo, u1, u2
+�x = 0.5
+
+The vector (1, 1, 1) is in both nullspaces. This matches u(x) 1 in the continuous
+problem. Free-free AT Au= f and AT C Au= fare generally unsolvable.
+
+    Before explaining more physical examples, may I write down six of the matrices? The
+tridiagonal Ko appears many times in this textbook. Now we are seeing its applications.
+These matrices are all symmetric, and the first four are positive definite:
+
+                          -1                               c1      c2        2
+
+                           2               AJ' CoAo = [         -: 2    c2-: c3       -c3        ]
+                          -1                                              -C3        C3   + C4
+                     Fixed-fixed                         Spring constants included
+
+                          -1
+                           2
+                          -1
+                                           A{C,A,     �[   c
+                                                            ,_�,"        c,:::c,     �:'   l
+                      Fixed-free                         Spring constants included
+
+                          -1
+                           2
+                          -1
+                                          K circular =      [-i -; =�]
+                                                                -1      -1       2
+                       Free-free                         Periodic u(O) = u(l)
+
+ The matrices Ko, K1, Ksingular , and Kcircular have C = I for simplicity. This means
+that all the "spring constants" are Ci = 1. We included AJ' C0 A0 and AT C1A 1 to show how
+the spring constants enter the matrix (without changing its positive definiteness).
+Our next goal is to see these same stiffness matrices in other engineering problems.
+10.2. Matrices in Engineering                                                           467
+
+                                                     A Line of Springs and Masses
+Figure 10.4 shows three masses mi, m2, m3 connected by a line of springs. The fixed­
+fixed case has four springs, with top and bottom fixed. That leads to Ko and AJ C0 A0. The
+fixed-free case has only three springs; the lowest mass hangs freely. That will lead to Ki
+and AtCiAi. A free-free problem produces Ksingular-
+    We want equations for the mass movements u and the spring tensions y:
+         u         (ui,u2, u3) = movements of the masses (down is positive)
+         Y         (Yi,Y2,y3,y4) or (Yi,Y2,y3) = tensions in the springs
+
+
+fixed end                       Uo = 0            fixed end                      Uo = 0
+spring c1               tension y1                spring c1              tension y1
+massm1                movementu1                  mass m1              movementu1
+       C2                       Yz                spring Cz              tension y2
+      mz                        Uz                massm2               movementu2
+       C3                       Y3                spring c3              tension y3
+     m3                         U3                massm3               movement U3
+       C4                       Y4                            free end           Y4 = 0
+fixed end                       U4= 0
+
+        Figure 10.4: Lines of springs and masses: fixed-fixed and fixed-free ends.
+
+     When a mass moves downward, its displacement is positive (uj > 0). For the springs,
+tension is positive and compression is negative (Yi < 0). In tension, the spring is stretched
+so it pulls the masses inward. Each spring is controlled by its own Hooke's Law y = ce:
+(stretching force y) = (spring constant c) times (stretching distance e).
+     Our job is to link these one-spring equations y = ce into a vector equation Ku = f
+for the whole system. The force vector f comes from gravity. The gravitational constant
+g will multiply each mass to produce downward forces f = (mig,m2g,m3g).
+     The real problem is to find the stiffness matrix (fixed-fixed and fixed-free). The best
+way to create K is in three steps, not one. Instead of connecting the movements Uj directly
+to ilie forces Ji , it is much better to connect each vector to the next in this list:
+              u        Movements of n masses                     (uI,···,un)
+              e        Elongations of m springs                  (el,···,em)
+              y        Internal forces in m springs              (Y1,· · ·,Ym)
+              f        External forces on n masses               (fi, ...,fn )
+A great framework for applied mathematics connects u to e to y to f. Then AT C Au = f :
+
+               �
+               At
+                                0
+                                tA
+                                 T
+                                          e=Au
+
+                                          y =Ce
+                                                            A is m by n
+                                                            C is m by m
+
+               0 --+C 0                   f =ATy            A T is n by m
+468                                                                  Chapter 10. Applications
+
+We will write down the matrices A and C and A T for the two examples, first with fixed
+ends and then with the lower end free. Forgive the simplicity of these matrices, it is their
+form that is so important. Especially the appearance of A together with A T .
+    The elongation e is the stretching distance-how far the springs are extended. Orig­
+inally there is no stretching-the system is lying on a table. When it becomes vertical
+and upright, gravity acts. The masses move down by distances u1, u 2, u3. Each spring is
+stretched or compressed by ei = Ui - Ui-l, the difference in displacements of its ends:
+                    First spring:    e 1 = u1            (the top is fixed so u 0 = 0)
+    Stretching of   Second spring: e2 = u2 - u1
+    each spri.ng    Third spring:    e3 = u3 - u2
+                    Fourth spring: e4 =         - u3 (the bottom is fixed so u 4 = 0)
+   If both ends move the same distance, that spring is not stretched: Uj = Uj -l and
+ej = 0. The matrix in those four equations is a 4 by 3 difference matrix A, and e = Au:
+
+                                                         1      0
+          Stretching
+                                                        -1      1
+          distances       e = Au is                                                       (9)
+                                                         0     -1
+        (elongations)
+                                                         0      0
+
+    The next equation y = Ce connects spring elongation e with spring tension y. This is
+Hooke's Law Yi = cieifor each separate spring. It is the "constitutive law" that depends
+on the material in the spring. A soft spring has small c, so a moderate force y can produce
+a large stretching e. Hooke's linear law is nearly exact for real springs, before they are
+overstretched and the material becomes plastic.
+    Since each spring has its own law, the matrix in y = Ce is a diagonal matrix C:
+
+                           C1e1
+    Hooke's
+                           C2e2
+     Law                                                                                (10)
+                           C3e3
+    y=Ce
+                           C4e4
+
+Combining e = Au with y = Ce, the spring forces (tension forces) are y = CAu.
+    Finally comes the balance equation, the most fundamental law of applied math­
+ematics. The internal forces from the springs balance the external forces on the masses.
+Each mass is pulled or pushed by the spring force Yj above it. From below it feels the
+spring force YHl plus ]j from gravity. Thus Yj = YHl + ]j or ]j = Yj - YH1:
+
+    Force                                                 -1     0
+     balance                                               1    -1                      (11)
+    f =AT   y                                              0     1
+
+    That matrix is A T ! The equation for balance of forces is f = AT y. Nature transposes
+the rows and columns of the e -u matrix to produce the f - y matrix. This is the beauty of
+the framework, that A T appears along with A. The three equations combine into Ku = f.
+10.2. Matrices in Engineering                                                          469
+
+
+                                combine into AT CAu = f or Ku= f
+                                K = AT CA is the stiffness matrix (mechanics)
+                                K = AT CA is the conductance matrix (networks)
+
+ Finite element programs spend major effort on assembling K = AT CA from thousands
+of smaller pieces. We find K for four springs (fixed-fixed) by multiplying AT times CA:
+
+                                 C1      0
+
+
+                           l[
+          -1     0     0
+                                -c2
+           1    -1     0
+                                  0
+           0     1    -1
+                                  0
+
+
+reduces to AT A. It becomes the special -1, 2, -1 matrix K0 .
+If all springs are identical, with c 1 = c2 = c 3 = c4 = 1, then C = I. The stiffness matrix
+
+    Note the difference between AT A from engineering and LU from linear algebra. The
+
+The stiffness matrix K is assembled from AT A, and then broken up into LU. One step
+matrix A from four springs is 4 by 3. The triangular matrices from elimination are square.
+
+is applied mathematics, the other is computational mathematics. Each K is built from
+
+    May I list some properties of K = AT CA? You know almost all of them:
+rectangular matrices and factored into square matrices.
+
+
+   1. K is tridiagonal, because mass 3 is not connected to mass 1.
+   2. K is symmetric, because C is symmetric and AT comes with A.
+   3. K is positive definite, because Ci > 0 and A has independent columns.
+   4. K- 1 is a full matrix (not sparse) with all positive entries.
+Property 4 leads to an important fact about u = K- 1 f: If all forces act downwards
+(!J > 0) then all movements are downwards (uj > 0). Notice that "positive" is
+different from "positive definite". K- 1 is positive (K is not). Both are positive definite.
+Example 1      Suppose all Ci = c and mj = m. Find the movements u and tensions y.
+
+tions and tensions will not be the same. K- 1 includes l because AT CA includes c:
+    All springs are the same and all masses are the same. But all movements and elonga­
+
+
+
+                                                                      mg       2
+                                                                                  l
+                                                                             3 2
+  Movements                                                                    /
+                                                                       C
+
+The displacement u2, for the mass in the middle, is greater than u 1 and u 3. /
+                                                                           [ 3   2
+
+                      divided by force per unit length c gives a length u. Then
+                                                                               The units are
+                   mg
+correct: the force
+
+
+                                                 �1          !                   !�� 1 ·
+                                    1     0
+                                                     mg [       l       mg [
+                                   -1     1
+  Elongations
+                                    0 -1         1     C     3           C      -1/2
+                                    0     0 -1               2                  -3/2
+470                                                                 Chapter 10. Applications
+
+
+           Warning: Normally you cannot write        K- 1 = A- 10- 1 (AT )- 1.
+
+
+The three matrices are mixed together by AT C A, and they cannot easily be untangled.
+In general, AT y = f has many solutions. And four equations Au = e would usually
+have no solution with three unknowns. But AT C A gives the correct solution to all three
+equations in the framework. Only when m = n and the matrices are square can we go from
+y= (AT )- 1f toe= c- 1 y to u= A- 1e. We will see that now.
+
+
+                                                            Fixed End and Free End
+Remove the fourth spring. All matrices become 3 by 3. The pattern does not change! The
+matrix A loses its fourth row and (of course) AT loses its fourth column. The new stiffness
+
+
+
+
+                                                                            n
+matrix K 1 becomes a product of square matrices:
+
+                                                                1     0
+                                                               -1     1
+                                                                0    -1
+
+The missing column of AT and row of A multiplied the missing c4. So the quickest way to
+find the new AT C A is to set c4 = 0 in the old one:
+
+                FIXED
+                                                                                       (12)
+                FREE
+
+
+Example 2 If c 1 = c2 = c3 = 1 and C = I, this is the -1, 2, -1 tridiagonal matrix K1.
+The last entry of K1 is 1 instead of 2 because the spring at the bottom is free. Suppose all
+mj=m:
+
+
+
+        Fixed-free
+
+
+Those movements are greater than the free-free case. The number 3 appears in u 1 because
+all three masses are pulling the first spring down. The next mass moves by that 3 plus an
+additional 2 from the masses below it. The third mass drops even more (3 + 2 + 1 = 6).
+The elongations e = Au in the springs display those numbers 3, 2, 1:
+10.2. Matrices in Engineering                                                                       471
+
+                                                           Tuo Free Ends: K is Singular
+Freedom at both ends means trouble. The whole line can move. A is 2 by 3 :
+
+     FREE-FREE                                                            1
+                                                                                                    (13)
+     e=Au                                                                -1
+
+Now there is a nonzero solution to Au = 0. The masses can move with no stretching of
+the springs. The whole line can shift by u = (l, 1, 1) and this leaves e = (0, 0):
+
+
+                Au=
+                       [ -1         1
+                                             [       ]               nostretching.                  (14)
+                              O    -1
+                                        �]       :       � [ �] �
+
+Au = 0 certainly leads to AT CAu          0. Then AT CA is only positive semidefinite,
+without c 1 and c4. The pivots will be c2 and c 3 and no third pivot. The rank is only 2:
+
+
+
+                                                                                                l
+                                                                    C2        -C 2
+                                                  1 0
+                                                      ] = [ -C2          C2 + C3                    (15)
+                                                                                      -c�
+                                                 -l l
+                                                              0               -C3      C3
+
+Two eigenvalues will be positive but x = (l, 1, 1) is an eigenvector for.\ = 0. We can
+solve AT CAu= f only for special vectors f. The forces have to add to Ji+ h + h = 0,
+or the whole line of springs (with both ends free) will take off like a rocket.
+
+                                                                                 Circle of Springs
+A third spring will complete the circle from mass 3 back to mass 1. This doesn't make K
+invertible-the stiffness matrix Kcircular matrix is still singular:
+
+
+    A�
+         rcular ci rcular
+               A          =       [ � -� -�] [-�
+                                  -1    0    1
+                                                            �
+                                                         0 -1
+                                                                -�i [-� -� =�]
+                                                                1             -1 -1         2
+                                                                                                    (16)
+
+
+The only pivots are 2 and     !.
+                            The eigenvalues are 3 and 3 and 0. The determinant is zero.
+The nullspace still contains x = (l, 1, 1), when all the masses move together.
+This movement vector (1, 1, 1) is in the nullspace of Aci rcular and Kcircular = AT CA.
+    May I summarize this section? I hope the example will help you connect calculus with
+linear algebra, replacing differential equations by difference equations. If your step D.x is
+small enough, you will have a totally satisfactory solution.
+
+          . .       d       du         .                        du
+ The equation 1s -    ( c(x) ) = f(x) with u(0) = 0 and u(l) or    (l)] = 0
+                   dx       dx                          [       dx
+
+Divide the bar into N pieces of length D.x. Replace du/dx by Au and -dy/dx by AT y.
+Now A and AT include 1/ D.x. The end conditions are u0 = 0 and [uN = 0 or YN = 0].
+472                                                                    Chapter 10. Applications
+
+The three steps -d/dx and c(x) and d/dx correspond to AT and C and A:
+
+                f = AT   y   and   y   = Ce and e = Au give AT CAu = f.
+This is a fundamental example in computational science and engineering.
+
+    1. Model the problem by a differential equation
+
+    2. Discretize the differential equation to a difference equation
+
+    3. Understand and solve the difference equation (and boundary conditions!)
+
+    4. Interpret the solution; visualize it; redesign if needed.
+
+Numerical simulation has become a third branch of science, beside experiment and deduc­
+tion. Computer design of the Boeing 777 was much less expensive than a wind tunnel.
+    The two texts Introduction to Applied Mathematics and Computational Science and
+Engineering (Wellesley-Cambridge Press) develop this whole subject further-see the
+course page math.mit.edu/18085 with video lectures (The lectures are also on ocw.mit.edu
+and YouTube). I hope this book helps you to see the framework behind the computations.
+
+
+Problem Set 10.2
+1      Show that detAJ C oAo = c 1 c2c3+c 1 c3c4 +c 1 c2c4+c2c3C4. Find also detAtC 1A 1
+       in the fixed-free example.
+
+2      InvertAtC 1A 1 in the fixed-free example by multiplyingAL 1 C1 1 (At)- 1 .
+
+3     In the free-free case whenAT CA in equation ( 15) is singular, add the three equations
+      AT CAu = f to show that we needfi+h+h = 0. Find a solution toAT CAu = f
+      when the forces f = (-1, 0, 1) balance themselves. Find all solutions!
+
+4      Both end conditions for the free-free differential equation are du/dx = 0:
+
+                       d       du                         du
+                     --  ( c(x)-) = f(x)           with      = 0 at both ends.
+                      dx       dx                         dx
+
+                                                                               J
+       Integrate both sides to show that the force f ( x) must balance itself, f ( x) dx = 0,
+       or there is no solution. The complete solution is one particular solution u( x) plus
+       any constant. The constant corresponds to u = ( 1, 1, 1) in the nullspace of AT C A.
+
+5      In the fixed-free problem, the matrixA is square and invertible. We can solveAT    y   =
+       f separately from Au= e. Do the same for the differential equation:
+                       dy
+               Solve -    = f(x) with y(l) = 0.            Graph y(x) if f(x) = 1.
+                       dx
+10.2. Matrices in Engineering                                                            473
+
+6     The 3 by 3 matrix K1 = AIC1 A 1 in equation (6) splits into three "element matrices"
+      c 1 E1 + c2 E2 + c 3 E3. Write down those pieces, one for each c. Show how they
+      come from column times row multiplication of AI C1A 1. This is how finite element
+      stiffness matrices are actually assembled.
+7     For five springs and four masses with both ends fixed, what are the matrices A and
+      C and K? With C = I solve Ku= ones(4).
+8     Compare the solution u = (u 1, u 2 , u3, u4) in Problem 7 to the solution of the con­
+      tinuous problem -u11 = l with u(O) = 0 and u(l) = 0. The parabola u(x) should
+      correspond at x = ½,      i, ¾, !
+                                to u-is there a ( 6.x)2 factor to account for?
+
+9     Solve the fixed-free problem -u11 = mg with u(O) = 0 and u1 (l) = 0. Compare
+      u(x) at x = ½,   i, i
+                          with the vector u = (3mg, 5mg, 6mg) in Example 2.
+
+10    Suppose c 1 = c2 = c3 = c4 = 1, m 1 = 2 and m2 = m3 = 1. Solve AT CA u =
+      (2, 1, 1) for this fixed-fixed line of springs. Which mass moves the most (largest u)?
+11    (MATLAB) Find the displacements u(l), . . . , u(lOO) of 100 masses connected by
+      springs all with c = 1. Each force is f(i) = .01. Print graphs of u with fixed-fixed
+      and fixed-free ends. Note that diag(ones(n, 1), d) is a matrix with n ones along
+      diagonal d. This print command will graph a vector u:
+
+            plot(u, '+');       xlabel('mass number');   ylabel('movement');     print
+
+12    (MATLAB) Chemical engineering has a first derivative du/ dx from fluid velocity as
+      well as d2 u/ dx 2 from diffusion. Replace du/ dx by a forward difference, then a
+      centered difference, then a backward difference, with 6.x = ½. Graph your three
+      numerical solutions of
+                                 2
+                               d u        du
+                              --   + 10 - = 1 with u(O) = u(l) = 0.
+                                dx
+                                 2        dx
+      This convection-diffusion equation appears everywhere. It transforms to the
+      Black-Scholes equation for option prices in mathematical finance.
+      Problem 12 is developed into the first MATLAB homework in my 18.085 course on
+      Computational Science and Engineering at MIT. Videos on ocw.mit.edu.
+474                                                                          Chapter 10. Applications
+
+
+10.3     Markov Matrices, Population, and Economics
+This section is about positive matrices: every aij > 0. The key fact is quick to state:
+The largest eigenvalue is real and positive and so is its eigenvector. In economics
+and ecology and population dynamics and random walks, that fact leads a long way:
+
+   Markov      >-max = 1      Population            >-max > 1       Consumption       >-max < 1
+
+>-max controls the powers of A. We will see this first for >-max = 1.
+
+                                                                             Markov Matrices
+Multiply a positive vector u 0 again and again by this matrix A :
+
+  Markov                          .
+                   A=[·S            3
+  matrix              .2          .7 ]
+
+After k steps we have Ak u 0. The vectors u 1, u 2, u3, ...will approach a "steady state"
+u 00 = (.6, .4). This final outcome does not depend on the starting vector u 0. For every
+u 0 = (a, 1 - a) we converge to the same u 00 (.6,.4).The question is why.
+    The steady state equation Au 00 = u 00 makes u 00 an eigenvector with eigenvalue 1:
+
+                                                                 = U oo .
+Steady state
+                                     [.8 .3] [·6] [·6]
+                                         .2   .7   .4       .4
+
+Multiplying by A does not change u 00 But this does not explain why so many vectors uo
+                                               •
+
+lead to u 00 Other examples might have a steady state, but it is not necessarily attractive:
+           .
+
+
+
+
+                            0                             .                     1        1
+Not Markov       B -_ [ol                has the unattractive steady state   B [ ]      [O ] .
+                             2]                                                 O
+
+In this case, the starting vector uo = (0, 1) will give u 1 = (0, 2) and u2 = (0, 4). The
+second components are doubled. In the language of eigenvalues, B has ,X = 1 but also
+,X = 2- this produces instability.The component of u along that unstable eigenvector is
+multiplied by .X, and l>-1 > 1 means blowup.
+    This section is about two special properties of A that guarantee a stable steady state.
+These properties define a positive Markov matrix, and A above is one particular example:
+
+
+                              1. Every entry of A is positive: aij > 0.
+ Markov matrix
+                              2. Every column of A adds to 1.
+
+Column 2 of B adds to 2, not 1. When A is a Markov matrix, two facts are immediate:
+Because of 1: Multiplying u 0 2 0 by A produces a nonnegative u 1 = Auo 2 0.
+Because of 2: If the components of u 0 add to 1, so do the components of u 1 = Auo.
+10.3. Markov Matrices, Population, and Economics                                         475
+
+Reason: The components of u 0 add to 1 when [ 1        1 ] u 0 = 1. This is true for each
+column of A by Property 2. Then by matrix multiplication [ 1 . . . 1 ]A= [ 1 . . . 1 ]:
+       Components of A u 0 add to 1          [1 ... l]Auo = [1 ... l]uo = 1.
+The same facts apply to u2 = Au1 and u 3 = Au 2 . Every vector Ak uo is nonnegative
+with components adding to 1. These are "probability vectors." The limit u 00 is also a
+probability vector-but we have to prove that there is a limit. We will show that Amax = 1
+for a positive Markov matrix.
+Example 1      The fraction of rental cars in Denver starts at lo = .02. The fraction outside
+Denver is .98. Every month, 80% of the Denver cars stay in Denver (and 20% leave).
+Also 5% of the outside cars come in (95% stay outside). This means that the fractions
+u 0 = (.02, .98) are multiplied by A:
+
+First month      A= [ :��     :�:]     leads to u 1 = Au 0 = A [ :��] = [ :���] .
+
+Notice that .065 + .935= 1. All cars are accounted for. Each step multiplies by A:
+Next month              u2 = Au1 = (.09875, .90125). This is A2 uo.
+All these vectors are positive because A is positive. Each vector U will have its compo­
+                                                                   k
+nents adding to 1. The first component has grown from .02 and cars are moving toward
+Denver. What happens in the long run?
+     This section involves powers of matrices. The understanding of Ak was our first and
+best application of diagonalization. Where Ak can be complicated, the diagonal matrix Ak
+is simple. The eigenvector matrix X connects them: Ak equals X Akx- 1. The new ap­
+plication to Markov matrices uses the eigenvalues (in A) and the eigenvectors (in X). We
+will show that u 00 is an eigenvector of A corresponding to .X.= 1.
+     Since every column of A adds to 1, nothing is lost or gained. We are moving rental cars
+or populations, and no cars or people suddenly appear (or disappear). The fractions add to
+1 and the matrix A keeps them that way. The question is how they are distributed after k
+time periods-which leads us to Ak.
+Solution A ku0 gives the fractions in and out of Denver after k steps. We diagonalize A to
+understand Ak. The eigenvalues are ,X. = 1 and. 75 (the trace is 1.75).
+
+Ax=.X.x              A[:�] 1 [:�]
+                            =                and
+
+The starting vector u 0 combines x1 and x2, in this case with coefficients 1 and .18:
+
+Combination of eigenvectors
+
+Now multiply by A to find u 1. The eigenvectors are multiplied by .X. 1 = 1 and .X. 2 = .75:
+
+Each x is multiplied by .X.            U1   = 1 [:�] + (.75)(.18) [-�] .
+476                                                                   Chapter 10. Applications
+
+Every month, another,\ = .75 multiplies the vector x 2. The eigenvector x 1 is unchanged:
+Afterksteps              U k = Ak uo = 1 k [:�] + (.75l(.18)       [-u.
+   This equation reveals what happens. The eigenvector x 1 with,\ = 1 is the steady state.
+The other eigenvector x 2 disappears because i>-1 < 1. The more steps we take, the closer
+we come to u 00 = (.2, .8). In the limit, 120 of the cars are in Denver and 180 are outside.
+This is the pattern for Markov chains, even starting from u 0 = (0, 1):
+
+ If A is a positive Markov matrix (entries aij > 0, each column adds to 1), then
+ ,\1 = 1 is larger than any other eigenvalue. The eigenvector x 1 is the steady state:
+
+
+
+
+     The first point is to see that ,\ = 1 is an eigenvalue of A. Reason: Every column of
+A - I adds to 1 - 1 = 0. The rows of A - I add up to the zero row. Those rows are linearly
+dependent, so A - I is singular. Its determinant is zero and,\ = 1 is an eigenvalue.
+     The second point is that no eigenvalue can have l>-1 > 1. With such an eigenvalue,
+the powers Ak would grow. But Ak is also a Markov matrix! Ak has positive entries
+still adding to 1-and that leaves no room to get large.
+   A lot of attention is paid to the possibility that another eigenvalue has l>-1 = 1.
+Example 2     A = [ � "ti] has no steady state because,\ 2 = -1.
+   This matrix sends all cars from inside Denver to outside, and vice versa.
+The powers Ak alternate between A and I. The second eigenvector x 2 = ( -1, 1) will be
+multiplied by ,\ 2 = -1 at every step-and does not become smaller: No steady state.
+    Suppose the entries of A or any power of A are all positive-zero is not allowed.
+In this "regular" or "primitive" case, ,\ = 1 is strictly larger than any other eigenvalue.
+The powers Ak approach the rank one matrix that has the steady state in every column.
+Example 3 ("Everybody moves") Start with three groups. At each time step, half of
+group 1 goes to group 2 and the other half goes to group 3. The other groups also split in
+half and move. Take one step from the starting populations p1, p2, p3:
+                                             1
+                                             2
+New populations                              0
+                                             1
+                                             2
+
+A is a Markov matrix. Nobody is born or lost. A contains zeros, which gave trouble in
+Example 2. But after two steps in this new example, the zeros disappear from A 2:
+
+
+Two-step matrix                 u, d'uo
+                                             -   [i i !HE]
+10.3. Markov Matrices, Population, and Economics                                         477
+
+The eigenvalues of A are A 1 = 1 (because A is Markov) and A 2 = A3 =-½-For A= 1,
+the eigenvector x1 = (½,½,½) will be the steady state. When three equal populations
+split in half and move, the populations are again equal. Starting from u 0 =(8, 16,32),
+the Markov chain approaches its steady state:
+
+
+
+
+The step to u 4 will split some people in half. This cannot be helped. The total population
+is 8 + 16 + 32 = 56 at every step. The steady state is 56 times(½,½,½)-You can see the
+three populations approaching, but never reaching, their final limits 56/3.
+    Challenge Problem 6. 7 .16 created a Markov matrix A from the number of links be­
+tween websites. The steady state u will give the Google rankings. Google finds u= by a
+random walk that follows links (random surfing). That eigenvector comes from counting
+the fraction of visits to each website-a quick way to compute the steady state.
+    The size IA2 1 of the second eigenvalue controls the speed of convergence to steady state.
+
+
+                                                         Perron-Frobenius Theorem
+One matrix theorem dominates this subject. The Perron-Frobenius Theorem applies when
+all aij 2 0. There is no requirement that columns add to 1. We prove the neatest form,
+when all aij > 0 : any positive matrix A (not necessarily positive definite!).
+
+
+ Perron-Frobenius for A > 0           All numbers in Ax = Amaxx are strictly positive.
+
+
+Proof The key idea is to look at all numbers t such that Ax 2 tx for some nonnegative
+vector x (other than x = 0). We are allowing inequality in Ax 2 tx in order to have many
+small positive candidates t. For the largest value tmax (which is attained), we will show
+that equality holds: Ax = tmaxx.
+    Otherwise, if Ax 2 tmaxx is not an equality, multiply by A. Because A is positive
+that produces a strict inequality A 2 x > tmaxAx. Therefore the positive vector y = Ax
+satisfies Ay > tmaxY, and tmax could be increased. This contradiction forces the equality
+Ax = tmaxx, and we have an eigenvalue. Its eigenvector xis positive because on the left
+side of that equality, Ax is sure to be positive.
+    To see that no eigenvalue can be larger than tmax , suppose Az = AZ. Since A and z
+may involve negative or complex numbers, we take absolute values: IAIlzl = IAzl :::; Alzl
+by the "triangle inequality." This lzl is a nonnegative vector, so this IAI is one of the
+possible candidates t. Therefore IAI cannot exceed tmax -which must be Amax-
+478                                                                  Chapter 10. Applications
+
+                                                                   Population Growth
+Divide the population into three age groups: age < 20, age 20 to 39, and age 40 to 59.
+At year T the sizes of those groups are n 1, n 2, n3 . Twenty years later, the sizes have
+changed for three reasons: births, deaths, and getting older.
+   1. Reproduction npew = Fi n 1 + F2 n 2 + F3 n3 gives a new generation
+   2. Survival n�ew = Pi n 1 and nfew = P2 n 2 gives the older generations
+
+
+
+      [ l
+The fertility rates are Fi, A, F3 (F2 largest). The Leslie matrix A might look like this:
+              new       [
+                            F
+                    =
+         �;                 ��
+This is population projection in its simplest form, the same matrix A at every step. In
+a realistic model, A will change with time (from the environment or internal factors).
+Professors may want to include a fourth group, age � 60, but we don't allow it.
+   The matrix has A � 0 but not A > 0. The Perron-Frobenius theorem still applies
+
+
+
+                                                                                       l
+because A3 > 0. The largest eigenvalue is Amax :::o 1.06. You can watch the generations
+move, starting from n 2 = 1 in the middle generation:
+
+            1.06                     1.08 0.05   .00                0.10 1.19 .01
+  eig(A) = -1.01            A2 =     0.04 1.08   .01
+                                                       ]   A3 =     0.06 0.05 .00           .
+                                   [ 0.90   0                     [ 0.04 0.99 .01
+           -0.01                                  0
+A fast start would come from u 0 = (0, 1, 0). That middle group will reproduce 1.1 and
+also survive .92. The newest and oldest generations are in u 1 = (1.1, 0, .92) = column 2 of
+A. Then u 2 = Au 1 = A2 u 0 is the second column of A 2 . The early numbers (transients)
+depend a lot on u 0, but the asymptotic growth rate Amax is the same from every start.
+Its eigenvector x = (.63, .58, .51) shows all three groups growing steadily together.
+
+    Caswell's book on Matrix Population Models emphasizes sensitivity analysis. The
+model is never exactly right. If the F's or P's in the matrix change by 10%, does Amax
+go below 1 (which means extinction)? Problem 19 will show that a matrix change 6.A
+produces an eigenvalue change 6.A = y T (b.A)x. Here x and y T are the right and left
+eigenvectors of A, with Ax = dx and A T y = AY.
+
+                  Linear Algebra in Economics: The Consumption Matrix
+A long essay about linear algebra in economics would be out of place here. A short note
+about one matrix seems reasonable. The consumption matrix tells how much of each input
+goes into a unit of output. This describes the manufacturing side of the economy.
+10.3. Markov Matrices, Population, and Economics                                      479
+
+Consumption matrix We have n industries like chemicals, food, and oil. To produce a
+unit of chemicals may require .2 units of chemicals, .3 units of food, and .4 units of oil.
+Those numbers go into row 1 of the consumption matrix A:
+                    chemical output    .2
+                   [ food output ] = [ .4
+                                                .3
+                                                .4
+                                                     .4]
+                                                     .1
+                                                            chemical input
+                                                           [ food input ] .
+                       oil output     .5        .1   .3        oil input
+Row 2 shows the inputs to produce food-a heavy use of chemicals and food, not so much
+oil. Row 3 of A shows the inputs consumed to refine a unit of oil. The real consumption
+matrix for the United States in 1958 contained 83 industries. The models in the 1990's
+are much larger and more precise. We chose a consumption matrix that has a convenient
+eigenvector.
+    Now comes the question: Can this economy meet demands y 1 , Y2, y3 for chemicals,
+food, and oil? To do that, the inputs p 1, p2, p 3 will have to be higher-because part of p
+is consumed in producing y. The input is p and the consumption is Ap, which leaves the
+output p - Ap. This net production is what meets the demand y:
+
+
+ Problem Find a vector p such that       p - Ap = y        or
+
+
+   Apparently the linear algebra question is whether I - A is invertible. But there is
+more to the problem. The vector y of required outputs is nonnegative, and so is A. The
+production levels in p = (I - A)- 1 y must also be nonnegative. The real question is:
+                          When is (I - A)- 1 a nonnegative matrix?
+ This is the test on (I - A)- 1 for a productive economy, which can meet any demand.
+If A is small compared to I, then Ap is small compared top. There is plenty of output.
+If A is too large, then production consumes too much and the demand y cannot be met.
+    "Small" or "large" is decided by the largest eigenvalue .\ 1 of A (which is positive):
+     If >. 1 > 1   then     (I - A)- 1 has negative entries
+     If >-1 = 1    then     (I - A)- 1 fails to exist
+     If >-1 < 1    then     (I - A)- 1 is nonnegative as desired.
+The main point is that last one. The reasoning uses a nice formula for (I - A)- 1, which
+we give now. The most important infinite series in mathematics is the geometric series
+1 + x + x2 + · · · . This series adds up to 1 / ( 1 - x) provided x lies between -1 and 1.
+When x = 1 the series is 1 + 1 + 1 + · · · = oo. When [x[ ;::: 1 the terms x n don't go to
+zero and the series has no chance to converge.
+    The nice formula for (I - A)- 1 is the geometric series of matrices:
+
+
+ Geometric series
+480                                                                       Chapter I 0. Applications
+
+ If you multiply the series S = I+ A+ A2 + · · · by A, you get the same series except
+for I. Therefore S - AS= I, which is (J - A)S =I.The series adds to S = (I -A)- 1
+if it converges. And it converges if all eigenvalues of A have I A I < 1.
+     In our case A 2'. 0. All terms of the series are nonnegative. Its sum is (J -A)- 1 2: 0.
+                   .2 .3 .4                                   41 25 27
+Example4       A= [.4 .4 .1] has Amax = .9 and (J -A)-1 = 9\ [33 36 24] .
+                   .5 .1 .3                                   34 23 36
+This economy is productive. A is small compared to I, because Amax is .9. To meet the
+demand y, start from p = (I -A)- 1 y. Then Ap is consumed in production, leaving
+p - Ap. This is (J - A)p = y, and the demand is met.
+
+Example 5     A=[�       �] has Amax = 2 and (J -A)- 1 =           -½ [� 1].
+This consumption matrix A is too large. Demands can't be met, because production con­
+sumes more than it yields. The series I+ A+ A2 + . . . does not converge to (J -A)- 1
+because Amax > 1.The series is growing while (J -A)- 1 is actually negative.
+   In the same way 1 + 2 + 4 + · · · is not really 1/ (1 - 2) = -1. But not entirely false!
+
+
+Problem Set 10.3
+Questions 1-12 are about Markov matrices and their eigenvalues and powers.
+
+1      Find the eigenvalues of this Markov matrix (their sum is the trace):
+
+                                                [.90    .15]
+                                         A=                  .
+                                                 .10    .85
+
+       What is the steady state eigenvector for the eigenvalue A 1 =1?
+2      Diagonalize the Markov matrix in Problem 1 to A = X Ax- 1 by finding its other
+       eigenvector:
+                             A=[
+                                               ] [l .   75 ] [        ]
+       What is the limit of Ak = X A k   x- when A               _ 7�k] approaches [Ag]?
+                                           1            k = [�
+
+
+3      What are the eigenvalues and steady state eigenvectors for these Markov matrices?
+
+
+
+
+4      For every 4 by 4 Markov matrix, what eigenvector ofAT corresponds to the (known)
+       eigenvalue A = 1?
+10.3. Markov Matrices, Population, and Economics
+
+5     Every year 2% of young people become old and 3% of old people become dead.
+      (No births.) Find the steady state for
+
+                            young        .98 .00 O   young
+                           [ old ]    = [.02 .97 0l [ old ]
+                             dead k+l    .00 .03 1    dead k
+
+6     For a Markov matrix, the sum of the components of x equals the sum of the compo­
+      nents of Ax. If Ax = AX with,\ cf= 1, prove that the components of this non-steady
+      eigenvector x add to zero.
+
+7     Find the eigenvalues and eigenvectors of A. Explain why Ak approaches Aoc :
+
+                               A=    [·.28 .7.3]     Aoc =    [·.46 .4.6] .
+      Challenge problem: Which Markov matrices produce that steady state (.6, .4)?
+
+8     The steady state eigenvector of a permutation matrix is (            This is not
+                                                                         ¼, ¼, ¼, ¼).
+      approached when u0 = ( 0, 0, 0, 1). What are u 1 and u2 and u3 and u4? What are
+      the four eigenvalues of P, which solve,\ 4 = 1?
+
+
+       Permutation matrix = Markov matrix
+
+
+
+9     Prove that the square of a Markov matrix is also a Markov matrix.
+
+10    If A = [ � � ] is a Markov matrix, its eigenvalues are 1 and __ . The steady state
+      eigenvector is x 1 = __ .
+
+11    Complete A to a Markov matrix and find the steady state eigenvector. When A is a
+      symmetric Markov matrix, why is x 1 = ( 1 , ... , 1) its steady state?
+
+                                            .7 .1 .2
+                                        A= [.l .6 .3]
+                                             -     -
+
+12    A Markov differential equation is not du/dt = Au but du/dt = (A - I)u. The
+      diagonal is negative, the rest of A - I is positive. The columns add to zero, not 1.
+
+                                           -
+        Find >. 1 and >. 2 for B = A - I= [ :�           �] . Why does A - I have >. 1 = O?
+                                                      -:
+
+      When e >-.it and e >-.2 t multiply x 1 and x 2, what is the steady state as t--+ oo?
+482                                                                     Chapter 10. Applications
+
+Questions 13-15 are about linear algebra in economics.
+
+13    Each row of the consumption matrix in Example 4 adds to .9. Why does that make
+      A= .9 an eigenvalue, and what is the eigenvector?
+14    Multiply I+ A+ A2 + A3 + · · · by I -A to get I. The series adds to (I -A)- 1.
+      For A = [ �  !],
+                    find A 2 and A3 and use the pattern to add up the series.
+
+15    For which of these matrices does I + A + A 2 + · · · yield a nonnegative matrix
+      (I -A)- 1 ? Then the economy can meet any demand:
+
+                                         A= [
+                                                 0 4
+                                                .2 0
+                                                     ]          A=      [·5.5 01] .
+      If the demands are y= (2, 6), what are the vectorsp= (I -A)- 1 y?
+16    (Markov again) This matrix has zero determinant. What are its eigenvalues?
+
+                                          .4 .2 .3
+                                      A= [.2 .4 .3]
+                                          .4 .4 .4
+
+      Find the limits of A k u0 starting from u 0 = (1, 0, 0) and then u 0 = (100, 0, 0).
+17    If A is a Markov matrix, why doesn't I+ A+ A2 + · · · add up to (I -A)- 1?
+18    For the Leslie matrix show that det(A-AI)= 0 gives F1 ,\ + F Pi,\+ F3AP2 =
+                                                                    2
+                                                                            2
+        3                   3
+      ,\ . The right side ,\ is larger as ,\
+                                             --+ oo. The left side is larger at ,\ = 1 if
+      Fi + F2A + F3AP2 > 1. In that case the two sides are equal at an eigenvalue
+      Amax > 1: growth.
+19    Sensitivity of eigenvalues: A matrix change ,6.A produces eigenvalue changes ,6.A.
+      Those changes ,6.,\ 1 , . . . , ,6.,\n are on the diagonal of (x- 1 ,6.A X). Challenge:
+      Start from AX= XA. The eigenvectors and eigenvalues change by ,6.X and ,6.A:
+
+      (A+,6.A)(X+,6.X)=(X+,6.X)(A+,6.A) becomes A(,6.X)+(,6.A)X=X(,6.A)+(,6.X)A.
+
+      Small terms (,6.A)(,6.X) and (,6.X)(,6.A) are ignored. Multiply the last equation by
+      x- 1. From the inner terms, the diagonal part of x- 1(,6.A)X gives ,6.A as we want.
+      Why do the outer terms x- 1 A ,6.X and x- 1 ,6.X A cancel on the diagonal?
+
+        Explain x- 1 A= Ax- 1 and then          diag(A x- 1 ,6.X)= diag(x- 1 ,6.X A).
+
+20    Suppose B > A > 0, meaning that each bij > aij > 0. How does the Perron­
+      Frobenius discussion show that Amax (B) > Amax (A) ?
+10.4. Linear Programming                                                                 483
+
+10.4      Linear Programming
+Linear programming is linear algebra plus two new ideas: inequalities and minimization.
+The starting point is still a matrix equation Ax = b. But the only acceptable solutions
+are nonnegative. We require x 2 0 (meaning that no component of x can be negative).
+The matrix has n > m, more unknowns than equations. If there are any solutions x 2 0
+to Ax = b, there are probably a lot. Linear programming picks the solution x* 2 0
+that minimizes the cost:
+
+               The cost is c 1 x 1 + · · · + CnXn. The winning vector x* is
+               the nonnegative solution of Ax = b that has smallest cost.
+
+Thus a linear programming problem starts with a matrix A and two vectors b and c:
+    i) A has n > m: for example A= [ 1 1 2] (one equation, three unknowns)
+   ii) b hasm components form equations Ax = b: for example b = [ 4]
+
+  iii) The cost vector c has n components: for example c = [ 5 3 8].
+
+Then the problem is to minimize c · x subject to the requirements Ax = b and x 2 0:
+
+Minimize 5x1 + 3x2 + 8x3 subject to x1 + x2 + 2x3 = 4 and xi, x2, x3 2:: 0.
+
+We jumped right into the problem, without explaining where it comes from. Linear pro­
+gramming is actually the most important application of mathematics to management. De­
+velopment of the fastest algorithm and fastest code is highly competitive. You will see that
+finding x* is harder than solving Ax = b, because of the extra requirements: x* 2 0 and
+minimum cost cT x*. We will explain the background, and the famous simplex method,
+and interior point methods, after solving the example.
+    Look first at the "constraints": Ax = band x 2 0. The equation x 1 + x 2 + 2x 3 = 4
+gives a plane in three dimensions. The nonnegativity x 1 2 0, x 2 2 0, x 3 2 0 chops the
+plane down to a triangle. The solution x* must lie in the triangle PQR in Figure 8.6.
+    Inside that triangle, all components of x are positive. On the edges of PQR,
+one component is zero. At the comers P and Q and R, two components are zero. The
+optimal solution x* will be one of those corners! We will now show why.
+    The triangle contains all vectors x that satisfy Ax = band x 2 0. Those x's are called
+feasible points, and the triangle is the feasible set. These points are the allowed candidates
+in the minimization of c · x, which is the final step:
+
+         Find x* in the triangle PQR to minimize the cost 5x1 + 3x2 + 8x3.
+
+The vectors that have zero cost lie on the plane 5x 1 + 3x 2 + 8x3 = 0. That plane does
+not meet the triangle. We cannot achieve zero cost, while meeting the requirements on x.
+So increase the cost C until the plane 5x 1 + 3x 2 + 8x3 = C does meet the triangle.
+As C increases, we have parallel planes moving toward the triangle.
+484                                                                     Chapter 10. Applications
+
+             R = (0,0,2)                           Example with four homework problems
+    (2 hours by computer)                          Ax = b is the plane x1 + x2 + 2x3 = 4
+                                                   Triangle has x1 2 0, x2 2 0, x3 2 0
+
+
+
+
+                                                       corners have 2 zero components
+                                                       cost cT x = 5x 1 + 3x2 + 8x3
+
+         P = (4,0,0) (4 hours by Ph.D.)
+Figure 10.5: The triangle contains all nonnegative solutions: Ax = b and x 2 0. The
+lowest cost solution x* is a comer P, Q, or R of this feasible set.
+
+
+   The first plane 5x1 + 3x2 + 8x3 = C to touch the triangle has minimum cost C.
+The point where it touches is the solution x*. This touching point must be one of the
+comers P or Q or R. A moving plane could not reach the inside of the triangle before it
+touches a comer! So check the cost 5x1 + 3x2 + 8x3 at each comer:
+
+       P = (4,0, 0) costs 20        Q = (0,4,0) costs 12         R = (0,0,2) costs 16.
+
+The winner is Q. Then x* = (0,4,0) solves the linear programming problem.
+    If the cost vector c is changed, the parallel planes are tilted. For small changes, Q is still
+the winner. For the cost c · x = 5x1 + 4x2 + 7x3, the optimum x* moves to R = (0,0,2).
+The minimum cost is now 7 · 2 = 14.
+Note 1 Some linear programs maximize profit instead of minimizing cost. The mathemat­
+ics is almost the same. The parallel planes start with a large value of C, instead of a small
+value. They move toward the origin (instead of away), as C gets smaller. The first touching
+point is still a corner.
+
+Note 2 The requirements Ax = b and x 2 0 could be impossible to satisfy. The equation
+x1 + x2 + X3 = -1 cannot be solved with x 2 0. That feasible set is empty.
+
+Note 3 It could also happen that the feasible set is unbounded. If the requirement is
+x 1 + x 2 - 2x3 = 4, the large positive vector (100,100,98) is now a candidate. So is
+the larger vector (1000,1000,998). The plane Ax = b is no longer chopped off to a
+triangle. The two comers P and Q are still candidates for x*, but R moved to infinity.
+
+Note 4 With an unbounded feasible set, the minimum cost could be -oo (minus infinity).
+Suppose the cost is -x 1 - x 2 + x3. Then the vector (100,100,98) costs C = -102.
+The vector (1000,1000,998) costs C = -1002. We are being paid to include x 1 and x2,
+instead of paying a cost. In realistic applications this will not happen. But it is theoretically
+possible that A, b, and c can produce unexpected triangles and costs.
+10.4. Linear Programming                                                                  485
+
+                                                     The Primal and Dual Problems
+This first problem will fit A, b, c in that example. The unknowns x 1, x 2, x 3 represent hours
+of work by a Ph.D. and a student and a machine. The costs per hour are $5, $3, and $8.
+(I apologize for such low pay.) The number of hours cannot be negative: x 1 � 0, x 2 �
+0, x 3 � 0. The Ph.D. and the student get through one homework problem per hour. The
+machine solves two problems in one hour. In principle they can share out the homework,
+which has four problems to be solved: x 1 + x 2 + 2x 3 = 4.
+    The problem is to finish the four problems at minimum cost cT x.
+If all three are working, the job takes one hour: x1 = x2 = X3 = 1. The cost is
+5 + 3 + 8 = 16. But certainly the Ph.D. should be put out of work by the student (who
+is just as fast and costs less-this problem is getting realistic). When the student works
+two hours and the machine works one, the cost is 6 + 8 and all four problems get solved.
+We are on the edge QR of the triangle because the Ph.D. is not working: x 1 = 0.
+But the best point is all work by student (at Q) or all work by machine (at R). In
+this example the student solves four problems in four hours for $12-the minimum cost.
+    With only one equation in Ax = b, the corner (0, 4, 0) has only one nonzero
+component. When Ax = b has m equations, corners have m nonzeros. We solve
+Ax = b for those m variables, with n - m free variables set to zero. But unlike Chapter 3,
+we don't know which m variables to choose.
+    The number of possible corners is the number of ways to choose m components out
+of n. This number "n choose m" is heavily involved in gambling and probability. With
+n = 20 unknowns and m = 8 equations (still small numbers), the "feasible set" can have
+20!/8!12! corners. That number is (20)(19) · · · (13) = 5,079,110,400.
+    Checking three corners for the minimum cost was fine. Checking five billion corners is
+not the way to go. The simplex method described below is much faster.
+The Dual Problem In linear programming, problems come in pairs. There is a minimum
+problem and a maximum problem-the original and its "dual." The original problem was
+specified by a matrix A and two vectors b and c. The dual problem transposes A and
+switches band c: Maximize b · y. Here is the dual to our example:
+      A cheater offers to solve homework problems by selling the answers.
+      The charge is y dollars per problem, or 4y altogether. (Note how b = 4 has
+      gone into the cost.) The cheater must be as cheap as the Ph.D. or student or
+      machine: y ::; 5 and y ::; 3 and 2y ::; 8. (Note how c = (5, 3, 8) has gone into
+      inequality constraints). The cheater maximizes the income 4y.
+
+
+       Dual Problem        Maximize b · y subject to A T y ::; c
+
+
+
+   The maximum occurs when y = 3. The income is 4y = 12. The maximum in the dual
+problem ($12) equals the minimum in the original ($12). Max= min is duality.
+486                                                                Chapter 10. Applications
+
+
+
+       If either problem has a best vector (x* or y*) then so does the other.
+                  Minimum cost c · x*      equals maximum income b · y*
+
+
+This book started with a row picture and a column picture. The first "duality theorem" was
+about rank: The number of independent rows equals the number of independent columns.
+That theorem, like this one, was easy for small matrices. Minimum cost = maximum
+income is proved in our text Linear Algebra and Its Applications. One line will establish
+the easy half of the theorem: The cheater's income bT y cannot exceed the honest cost:
+
+
+
+The full duality theorem says that when bT y reaches its maximum and x Tc reaches its
+minimum, they are equal: b · y* = c · x*. Look at the last step in (1), with ::; sign:
+
+
+
+
+ Equality needs xTs = 0 So the optimal solution has x; = 0 ors; = 0 for each j.
+
+
+                                                               The Simplex Method
+Elimination is the workhorse for linear equations. The simplex method is the workhorse for
+linear inequalities. We cannot give the simplex method as much space as elimination, but
+the idea can be clear. The simplex method goes from one corner to a neighboring corner of
+lower cost. Eventually (and quite soon in practice) it reaches the comer of minimum cost.
+    A corner is a vector x � 0 that satisfies the m equations Ax = b with at most m
+positive components. The other n - m components are zero. (Those are the free variables.
+Back substitution gives the m basic variables. All variables must be nonnegative or x is
+a false comer.) For a neighboring corner, one zero component of x becomes positive and
+one positive component becomes zero.
+   The simplex method must decide which component "enters" by becoming positive,
+and which component "leaves" by becoming zero. That exchange is chosen so as to
+lower the total cost. This is one step of the simplex method, moving toward x*.
+    Here is the overall plan. Look at each zero component at the current comer. If it
+changes from Oto 1, the other nonzeros have to adjust to keep Ax = b. Find the new x
+by back substitution and compute the change in the total cost c · x. This change is the
+"reduced cost" r of the new component. The entering variable is the one that gives the
+most negative r. This is the greatest cost reduction for a single unit of a new variable.
+Example 1      Suppose the current comer is P = (4, 0, 0), with the Ph.D. doing all the
+work (the cost is $20). If the student works one hour, the cost of x = (3, 1, 0) is down to
+$18. The reduced cost is r = -2. If the machine works one hour, then x = (2, 0, 1) also
+10.4. Linear Programming                                                                    487
+
+costs $18. The reduced cost is also r = -2. In this case the simplex method can choose
+either the student or the machine as the entering variable.
+    Even in this small example, the first step may not go immediately to the best x*.
+The method chooses the entering variable before it knows how much of that variable
+to include. We computed r when the entering variable changes from O to 1, but one unit
+may be too much or too little. The method now chooses the leaving variable (the Ph.D.).
+It moves to corner Q or R in the figure.
+    The more of the entering variable we include, the lower the cost. This has to stop
+when one ofthe positive components (which are adjusting to keep Ax = b) hits zero. The
+leaving variable is the first positive Xi to reach zero. When that happens, a neighboring
+corner has been found. Then start again (from the new corner) to find the next variables to
+enter and leave.
+    When all reduced costs are positive, the current corner is the optimal x*.
+No zero component can become positive without increasing c · x. No new variable should
+enter. The problem is solved (and we can show that y* is found too).
+Note Generally x* is reached in cm steps, where a is not large. But examples have been
+invented which use an exponential number of simplex steps. Eventually a different ap­
+proach was developed, which is guaranteed to reach x* in fewer (but more difficult) steps.
+The new methods travel through the interior ofthe feasible set.
+
+Example 2 Minimize the cost c · x = 3x1 + x2 + 9x3 + x4. The constraints are x 2 0
+and two equations Ax = b:
+
+                      X1   + 2X3 + X4 = 4        m = 2 equations
+                          X2+ X3 - X4 = 2        n = 4 unknowns.
+
+A starting corner is x = (4, 2, 0, 0) which costs c · x = 14. It has m = 2 nonzeros and
+n - m = 2 zeros. The zeros are x3 and x 4. The question is whether x3 or x4 should enter
+(become nonzero). Try one unit ofeach ofthem:
+
+                 IfX3 = 1 and X4 = 0,     then x = (2, 1, 1, 0) costs 16.
+                 IfX4 = 1 and x3 = 0,       then x = (3, 3, 0, 1) costs 13.
+
+Compare those costs with 14. The reduced cost of x3 is r = 2, positive and useless. The
+reduced cost ofx4 is r = -1, negative and helpful. The entering variable is x 4.
+     How much of x4 can enter? One unit of x4 made x 1 drop from 4 to 3. Four units will
+make x1 drop from 4 to zero (while x2 increases all the way to 6). The leaving variable is
+x 1. The new corner is x = (0, 6, 0, 4), which costs only c · x = 10. This is the optimal
+x*, but to know that we have to try another simplex step from (0, 6, 0, 4). Suppose x 1 or
+X3 tries to enter:
+
+
+    Start from the             Ifx1 = 1 and x3 = 0,       then x = (1, 5, 0, 3) costs 11.
+    corner (0, 6, 0, 4)        IfX3 = 1 and x 1 = 0,      then x = (0, 3, 1, 2) costs 14.
+488                                                                 Chapter 10. Applications
+
+Those costs are higher than 10. Both r's are positive-it does not pay to move. The current
+corner (0, 6, 0, 4) is the solution x*.
+    These calculations can be streamlined. Each simplex step solves three linear systems
+with the same matrix B. (This is them by m matrix that keeps them basic columns of A.)
+When a column enters and an old column leaves, there is a quick way to update B- 1. That
+is how most codes organize the simplex method.
+    Our text on Computational Science and Engineering includes a short code with com­
+ments. (The code is also on math.mit.edu/cse) The best y* solves m equations A Ty* = c
+in the m components that are nonzero in x*. Then we have optimality x Ts = 0 and this is
+duality: Either x; = 0 or the "slack" ins* = c - A T y* has s; = 0.
+    When x* = (0, 4, 0) was the optimal corner Q, the cheater's price was set by y* = 3.
+
+
+                                                              Interior Point Methods
+The simplex method moves along the edges of the feasible set, eventually reaching the
+optimal corner x*. Interior point methods move inside the feasible set (where x > 0).
+These methods hope to go more directly to x*. They work well.
+    One way to stay inside is to put a barrier at the boundary. Add extra cost as a
+logarithm that blows up when any variable x1 touches zero. The best vector has x > 0.
+The number 0 is a small parameter that we move toward zero.
+
+
+ Barrierproblem        Minimize    c   x - 0 (log x 1 + · · · + log X n ) with Ax = b
+                                       T
+                                                                                          (2)
+
+
+This cost is nonlinear (but linear programming is already nonlinear from inequalities).
+The constraints x1 2". 0 are not needed because log x1 becomes infinite at x1 = 0.
+   The barrier gives an approximate problem for each 0. Them constraints Ax = b have
+Lagrange multipliers y 1, ... , Ym · This is the good way to deal with constraints.
+
+y from Lagrange                                                                           (3)
+
+8L/8y = 0 brings back Ax= b. The derivatives 8L/8x1 are interesting!
+
+
+    Optimality in
+    barrierpbm
+                        BL = cJ - !_ - (A T y) J· = O
+                        OX·            X·
+                                                            which is     p_,s 3·
+                                                                         -J        = 0.   (4)
+                          J             J
+
+
+
+The true problem has x1 s1 = 0. The barrier problem has x1 s1 = 0. The solutions x*(0)
+lie on the central path to x* (0). Those n optimality equations x1s1 = 0 are nonlinear, and
+we solve them iteratively by Newton's method.
+     The current x, y, swill satisfy Ax = b, x 2". 0 and A Ty + s = c, but not x1s1 = 0.
+Newton's method takes a step .6.x, .6.y, .6.s. By ignoring the second-order term .6.x.6.s
+10.4. Linear Program.ming                                                                489
+
+in (x + ,6,.x) (s + ,6,.s) = 0, the corrections in x, y, s come from linear equations:
+
+                                              A ,6,.x = 0
+Newton step                          AT ,6,.y + ,6,.s = 0                                 ( 5)
+                                  Sj,0.Xj + Xj,0.Sj = 0 - XjSj
+
+
+Newton iteration has quadratic convergence for each 0, and then 0 approaches zero.
+The duality gap xTs generally goes below 10- 8 after 20 to 60 steps. The explanation
+in my Computational Science and Engineering textbook takes one Newton step in detail,
+for the example with four homework problems. I didn't intend that the student should end
+up doing all the work, but x* turned out that way.
+    This interior point method is used almost "as is" in commercial software, for a large
+class of linear and nonlinear optimization problems.
+
+
+Problem Set 10.4
+1     Draw the region in the xy plane where x+2y = 6 and x 2 0 and y 2 0. Which point
+      in this "feasible set" minimizes the cost c = x + 3y? Which point gives maximum
+      cost? Those points are at corners.
+
+2     Draw the region in the xy plane where x + 2y ::; 6, 2x + y ::; 6, x 2 0, y 2 0. It
+      has four corners. Which corner minimizes the cost c = 2x - y?
+
+3     What are the corners of the set x1 + 2x2 - X3 = 4 with x1, x2, x3 all 2 0? Show
+      that the cost x1 + 2x3 can be very negative in this feasible set. This is an example of
+      unbounded cost: no minimum.
+4     Start at x = (0, 0, 2) where the machine solves all four problems for $16. Move
+      to x = (0, 1, ) to find the reduced cost r (the savings per hour) for work by the
+      student. Find r for the Ph.D. by moving to x = (l, 0, ) with 1 hour of Ph.D. work.
+
+5     Start Example 1 from the Ph.D. corner (4, 0, 0) with c changed to [ 5 3 7 ]. Show
+      that r is better for the machine even when the total cost is lower for the student. The
+      simplex method takes two steps, first to the machine and then to the student for x*.
+
+6     Choose a different cost vector c so the Ph.D. gets the job. Rewrite the dual problem
+      (maximum income to the cheater).
+7     A six-problem homework on which the Ph.D. is fastest gives a second constraint
+      2x1 + x2 + x3 = 6. Then x = (2, 2, 0) shows two hours of work by Ph.D. and
+      student on each homework. Does this x minimize the cost cT x with c = (5, 3, 8)?
+
+8     These two problems are also dual. Prove weak duality, that always yT b::; cT x:
+       Primal problem       Minimize cT x with Ax 2 band x 2 0.
+       Dual problem         Maximize yT b with AT y ::; c and y 2 0.
+490                                                                       Chapter 10. Applications
+
+
+10.5      Fourier Series: Linear Algebra for Functions
+This section goes from finite dimensions to infinite dimensions. I want to explain linear
+algebra in infinite-dimensional space, and to show that it still works.First step: look back.
+This book began with vectors and dot products and linear combinations. We begin by
+converting those basic ideas to the infinite case-then the rest will follow.
+    What does it mean for a vector to have infinitely many components? There are two
+different answers, both good:
+   1. The vector is infinitely long: v = (v 1, v2, v 3, . . .).It could be (1, ½, ¼, ...).
+   2. The vector is a function f(x). It could be v = sinx.
+We will go both ways.Then the idea of a Fourier series will connect them.
+     After vectors come dot products. The natural dot product of two infinite vectors
+(v 1, v2, ... ) and ( w 1, w2, ...) is an infinite series:
+
+                     Dot product                                                               (1)
+                                                                                 n
+This brings a new question, which never occurred to us for vectors in R .Does this infinite
+sum add up to a finite number? Does the series converge? Here is the first and biggest
+difference between finite and infinite.
+    When v = w = (1, 1, 1, ...), the sum certainly does not converge. In that case
+v-w = l+ 1+ 1+ ···is infinite.Since v equals w, we are really computingv•v = llvll 2 ,
+the length squared.The vector (1, 1, 1, ...) has infinite length.We don't want that vector.
+Since we are making the rules, we don't have to include it.The only vectors to be allowed
+are those with finite length:
+DEFINITION The vector v = (v 1, v2, . . .) and the function f(x) are in our infinite­
+dimensional "Hilbert spaces" if and only if their lengths llvII and I IfI I are finite:
+           llvll = V • V =Vi+ V� + V§ + • • •
+                 2
+                                                       must add to a finite number.
+                               2
+                               J
+           11!11 2 = (f, f) = 0 "' lf(x)l 2 dx         must be a finite integral.
+
+Example 1     The vector v = (l, ½, ¼, ...) is included in Hilbert space, because its length
+is 2/ v'3.We have a geometric series that adds to 4/3.The length of v is the square root:
+                                                                          1
+              Length squared          v · v = l + 41 + 161 + ·· ·=        _ 1 = 34 ·
+                                                                      1      4
+Question If v and w have finite length, how large can their dot product be?
+Answer The sum v · w = v 1 w 1 + v2w2 + · · · also adds to a finite number.We can safely
+take dot products.The Schwarz inequality is still true:
+
+                       Schwarz inequality           Iv· wl :S llvll llwll-                     (2)
+ The ratio of v · w to llvll llwll is still the cosine of 0 (the angle between v and w). Even
+in infinite-dimensional space, l cos 01 is not greater than 1.
+10.5. Fourier Series: Linear Algebra for Functions                                               491
+
+    Now change over to functions. Those are the "vectors." The space of functions J(x),
+g (x), h( x), . .. defined for 0 ::; x ::; 21r must be somehow bigger than Rn . What is the dot
+product off(x) and g(x)? What is the length off(x)?
+    Key point in the continuous case: Sums are replaced by integrals. Instead of a sum
+of Vj times Wj, the dot product is an integral of f(x) times g(x). Change the "dot" to
+parentheses with a comma, and change the words "dot product" to inner product:
+
+
+ DEFINITION The inner product of f(x) and g(x), and the length squared of f(x), are
+
+                       /2"                                                 /2"
+                                                                     2                 2
+            (f,g) =            f(x)g(x)dx           and          11111 =          (f(x)) dx.      (3)
+                      lo                                                   lo
+
+The interval [0, 21r] where the functions are defined could change to a different interval
+like [0, 1] or (-oo, oo). We chose 21r because our first examples are sinx and cos x.
+Example 2      The length of f ( x) = sinx comes from its inner product with itself:
+                           /2"
+               (f, f) =              (sin x) 2 dx = 1r. The length of sinx is ,,fir.
+                           lo
+That is a standard integral in calculus-not part of linear algebra. By writing sin2 x as
+½ - ½ cos2x, we see it go above and below its average value ½- Multiply that average by
+the interval length 21r to get the answer 1r.
+    More important: sinx and cos x are orthogonal in function space: (f, g) = 0
+
+   Inner product
+   is zero
+                           1   2
+                                   " sinxcosxdx =    1   2
+                                                             " ½ sin2xdx =      [-¾ cos2x]�" = 0. (4)
+This zero is no accident. It is highly important to science. The orthogonality goes beyond
+the two functions sinx and cos x, to an infinite list of sines and cosines. The list contains
+cos Ox (which is 1), sinx,cos x,sin2x, cos2x, sin 3x,cos 3x, . ...
+
+       Every function in that list is orthogonal to every other function in the list.
+
+                                                                                     Fourier Series
+The Fourier series of a function f ( x) is its expansion into sines and cosines:
+
+
+
+
+We have an orthogonal basis! The vectors in "function space" are combinations of the sines
+and cosines. On the interval from x = 21r to x = 41r, all our functions repeat what they did
+from Oto 21r. They are "periodic." The distance between repetitions is the period 21r.
+492                                                                          Chapter 10. Applications
+
+     Remember: The list is infinite. The Fourier series is an infinite series. We avoided
+the vector v = ( 1, 1, 1, . . .) because its length is infinite, now we avoid a function like
+½ +cosx +cos2x +cos 3x +···. (Note: This is 1r times the famous delta function /j (x).
+It is an infinite "spike" above a single point. At x= 0 its height ½ + 1 + 1 +··· is infinite.
+At all points inside O < x < 21r the series adds in some average way to zero.) The integral
+                   J
+of /j ( x) is 1. But b 2 ( x) = oo, so delta functions are not allowed into Hilbert space.
+     Compute the length of a typical sum f (x):
+
+               (!, f) =   1   2
+                                       (ao + a1 cosx + b 1 sinx +a2 cos2x +···) 2 dx
+
+                          1
+                                  1r
+
+
+                              2
+                    =             1r   (a5 +ai cos2 X + biSin2 X +a� COS2 2x +···) dx
+
+               llf 11 2 = 2rra� + rr(ai+bi+ a�+···).                                              (6)
+The step from line 1 to line 2 used orthogonality. All products like cosx cos2x integrate to
+give zero. Line 2 contains what is left-the integrals of each sine and cosine squared. Line
+3 evaluates those integrals. (The integral of 1 2 is 21r, when all other integrals give 1r.) If we
+divide by their lengths, our functions become orthonormal:
+        1 cosx sinx cos2x               .                     .              .
+       !7C.,
+             r,;; , r,;; , r,;; , . . . zs an orthonormal basis for our function space.
+      V 21r V 7r V 7r V 7r
+ These are unit vectors. We could combine them with coefficients Ao, A 1, B 1, A 2 , ... to
+yield a function F(x). Then the 21r and the 1r's drop out of the formula for length.
+ Function length = vector length                     IIFll 2 = (F, F) = A5 +Ai+Bf+A�+... . (7)
+Here is the important point, for f (x) as well as F(x). The function has finite length exactly
+when the vector of coefficients has finite length. Fourier series gives us a perfect match
+between the Hilbert spaces for functions and for vectors. The function is in L 2 , its Fourier
+coefficients are in £ 2 •
+
+The function space contains f(x) exactly when the Hilbert space contains the vector
+v = (ao, a 1, b 1, ... ) of Fourier coefficients off (x). Both must have finite length.
+
+
+Example 3      Suppose f(x) is a "square wave," equal to 1 for O::; x < 1r. Then f(x) drops
+to -1 for 7r::; x < 21r. The +land -1 repeat forever. This f(x) is an odd function like
+the sines, and all its cosine coefficients are zero. We will find its Fourier series, containing
+only sines :
+                                                  _ 4 sinx sin 3x sin 5x
+               Square wave                 f( X ) -- [ --+--+--+··· .                            (8)
+                                                    1r  1     3      5   ]
+                                                                                 2
+The length of this function is�. because at every point (J(x)) is (-1)2 or (+1)2 :
+                                            /27'               /27'
+                                                        2
+                          11!11 2 = lo             (f(x)) dx= lo      ldx=21r.
+10.5. Fourier Series: Linear Algebra for Functions                                          493
+
+At x = 0 the sines are zero and the Fourier series gives zero. This is half way up the jump
+from -1 to +1. The Fourier series is also interesting when x = �. At this point the square
+wave equals 1, and the sines in (8) alternate between +1 and -1:
+
+                       Formula for -rr                                                       (9)
+
+Multiply by ;r to find a magical formula 4(1 - ½ + ½ -           i +···) for that famous number.
+                                                                   The Fourier Coefficients
+How do we find the a's and b's which multiply the cosines and sines? For a given func­
+tion f(x), we are asking for its Fourier coefficients a k and b k :
+         Fourier series          f(x) = ao + a1 cosx + b1 sinx + a2 cos 2x + ··· .
+Here is the way to find a 1• Multiply both sides by cos x. Then integrate from Oto 2-rr.
+The key is orthogonality! All integrals on the right side are zero, except for cos2 x:
+
+          For coefficient a1           fo 21r f(x)cosxdx= fo 21r a1cos xdx=1ra1.
+                                                                            2
+                                                                                            (10)
+
+Divide by ;r and you have a1. To find any other a k , multiply the Fourier series by cos kx.
+Integrate from Oto 21r. Use orthogonality, so only the integral of a k cos2 kx is left. That
+integral is ;ra k , and divide by ;r:
+
+          1 27'
+     ak = -1 f(x)coskxdx
+           7r   0
+                                         and similarly      bk   = -1127' f(x) sin kx dx.
+                                                                   7r   0
+                                                                                            (11)
+
+
+
+                                          121r
+The exception is a0. This time we multiply by cos Ox = 1. The integral of 1 is 21r:
+                              1
+          Constant term ao = -                   f ( x) · 1 dx = average value of f ( x).   (12)
+                             2;r           0
+
+I used those formulas to find the Fourier coefficients for the square wave in equation (8).
+The integral off (x) cos kx was zero. The integral off ( x) sin kx was 4/ k for odd k.
+
+                                                         Compare Linear Algebra in Rn
+
+Infinite-dimensional Hilbert space is very much like then-dimensional space Rn . Suppose
+the nonzero vectors v 1, ... , V n are orthogonal in Rn . We want to write the vector b (instead
+of the function f(x)) as a combination of those v's:
+                    Finite orthogonal series     b = c1 V1 + c2v2 +··· + Cn V n .           (13)
+Multiply both sides by      vI. Use orthogonality, so vIv 2 = 0. Only the c term is left:
+                                                                                1
+
+     Coefficient c1 v[b = c1vf v1 + 0 +··· + 0.              Therefore c1 = v[b/vT v1.      (14)
+The denominator        vI
+                    v 1 is the length squared, like ;r in equation (11). The numerator
+ I                                 J
+v b is the inner product like f ( x) cos kxdx. Coefficients are easy to find when the
+494                                                                                   Chapter 10. Applications
+
+basis vectors are orthogonal. We are just doing one-dimensional projections, to find the
+components along each basis vector.
+   The formulas are even better when the vectors are orthonormal. Then we have unit
+vectors in Q. The denominators v Ivk are all 1. You know Ck = v I b in another form:
+
+
+
+
+                   Qc = b yields c = QT b. Row by row this is Ck= qib.
+Fourier series is like having a matrix with infinitely many orthogonal columns. Those
+columns are the basis functions 1, cos x, sin x, .... After dividing by their lengths we have
+an "infinite orthogonal matrix." Its inverse is its transpose, QT . Orthogonality is what
+reduces a series of terms to one single term, when we integrate.
+
+
+Problem Set 10.5
+1     Integrate the trig identity 2 cos j x cos kx = cos(j + k)x + cos(j - k)x to show that
+      cos j x is orthogonal to cos kx, provided j -/- k. What is the result when j = k?
+
+2     Show that 1, x, and x2 - ½ are orthogonal, when the integration is from x = -1 to
+      x = 1. Write f (x) = 2x2 as a combination of those orthogonal functions.
+
+3     Find a vector (w 1, w 2 , w 3 , . ..) that is orthogonal to v = (1,             ½, ¼, ...). Compute its
+      length llwll-
+
+4                                                                      ½.
+      The first three Legendre polynomials are 1, x, and x2 - Choose c so that the fourth
+      polynomial x3 - ex is orthogonal to the first three. All integrals go from -1 to 1.
+
+5     For the square wave f (x) in Example 3 jumping from 1 to -1, show that
+             27r                             27r                                27r
+          {o       f(x)cosxdx=O         }{         f (x) sin xdx = 4   }{             f (x) sin 2xdx = 0.
+         J                               0                                  0
+
+      Which three Fourier coefficients come from those integrals?
+
+6     The square wave has llf 11 2 = 21r. Then (6) gives what remarkable sum for n 2 ?
+
+7     Graph the square wave. Then graph by hand the sum of two sine terms in its series,
+      or graph by machine the sum of 2, 3, and 10 terms. The famous Gibbs phenomenon
+      is the oscillation that overshoots the jump (this doesn't die down with more terms).
+
+8     Find the lengths of these vectors in Hilbert space:
+
+        (a) v =
+                     (   Fl' }z, A' Fs' ...)
+l0.5. Fourier Series: Linear       for Functions                                            495
+
+            v = (l,a,a2 , ...)
+        (c) f (x) = 1 + sin x.
+
+9     Compute the Fourier coefficients a k and bk for f (x) defined from0 to 21r:
+        (a) f(:r) = 1 for0 � x � 1r, .f(x) = 0for1r < x < 21r
+        (b) .f(x) = x.
+
+10
+                                                                        r:7r
+      When f(x) has period 21r, why is its integral from -1r to 1r the same as from Oto
+      21r? ff .f(.1:) is an odd function, .f(-x) = -.f(x), show that     .f(x) dx is zero.
+      Odd functions only have sine terms, even functions only have cosines.
+11    Using trigonometric identities find the two terms in the Fourier series for .f (x):
+        (a) .f(x) = cos2 x     (b) .f(x) = cos(x + i)     (c) f(x) = sin 3 x
+12    The functions 1, cos x, sin x, cos 2x, sin 2x, ...are a basis for Hilbert space. Write
+      the derivatives of those first five functions as combinations of the same five functions.
+      What is the 5 by 5 "differentiation matrix" for these functions?
+13    Find the Fourier coefficients ak and bk of the square pulse F(x) centered at x = 0:
+      F(x) = 1/h for lxl � h/2 and F(x) = 0 for h/2 < lxl � 1r.
+      Ash -t 0, this F(x) approaches a delta function.Find the limits of a k and bk ,
+
+      Section 4.1 of Computational Science and Engineering explains the sine series,
+      cosine series, complete series, and complex series � ck e ikx on math.mit.edu/cse.
+      Section 9.3 of this book explains the Discrete Fourier Transform. This is "Fourier
+      series for vectors" and it is computed by the Fast !Fourier Transform. That fast
+      algorithm comes quickly from special complex numbers z = e ie = cos 0 + i sin 0
+      when the angle is 0 = 21rk/n.
+496                                                                    Chapter 10. Applications
+
+
+10.6 Computer Graphics
+Computer graphics deals with images. The images are moved around. Their scale is changed.
+Three dimensions are projected onto two dimensions. All the main operations are done by
+
+   The transformations of three-dimensional space are done with 4 by 4 matrices. You
+matrices-but the shape of these matrices is surprising.
+
+would expect 3 by 3. The reason for the change is that one of the four key operations
+cannot be done with a 3 by 3 matrix multiplication. Here are the four operations:
+       Translation     (shift the origin to another point Po= (xo, Yo, zo))
+         Rescaling     (by c in all directions or by different factors c 1, c2, c3)
+          Rotation     (around an axis through the origin or an axis through P0 )
+        Projection     (onto a plane through the origin or a plane through P0 ).
+
+Translation is the easiest-just add (x0, y0, z0) to every point. But this is not linear! No 3
+
+This is why the matrices are 4 by 4. The "homogeneous coordinates" of the point (x, y, z)
+by 3 matrix can move the origin. So we change the coordinates of the origin to (0, 0, 0, 1).
+
+are (x, y, z, l) and we now show how they work.
+1. Translation Shift the whole three-dimensional space along the vector v 0. The origin
+moves to (x0, y0, z0). This vector v 0 is added to every point v in R 3 . Using homogeneous
+coordinates, the 4 by 4 matrix T shifts the whole space by v 0
+
+
+
+                                                          !
+                                                               0   0
+                                              T       l
+                                                               1   0
+                     Translation matrix
+                                                  =            0   1
+                                                          Xo   Yo zo
+
+Important: Computer graphics works with row vectors. We have row times matrix instead
+of matrix times column. You can quickly check that [0 0 0 1] T = [x 0 y0 z0 1].
+    To move the points (0, 0, 0) and (x, y, z) by v0, change to homogeneous coordinates
+(0, 0, 0, 1) and (x, y, z, 1). Then multiply by T. A row vector times T gives a row vector.
+Everyvmovestov+v0: [x y z l]T = [x+xo y+y0 z+zo 1].
+    The output tells where any v will move. (It goes to v + v 0 .) Translation is now achieved
+by a matrix, which was impossible in R3 .
+
+2. Scaling To make a picture fit a page, we change its width and height. A copier
+will rescale a figure by 90%. In linear algebra, we multiply by .9 times the identity matrix.
+
+with homogeneous coordinates, the matrix is one size larger:
+That matrix is normally 2 by 2 for a plane and 3 by 3 for a solid. In computer graphics,
+
+
+
+                                                                            l                    �1
+                                                                                     �
+                                                                                        o
+                                                                                c
+
+
+                            9
+                                                                                    �   �c   �
+                        S--[·       .    1]
+  Rescale the plane:                              Rescale a solid:     S=       o
+                                     9
+10.6. Computer Graphics                                                                       497
+
+Important: Sis not cl. We keep the "1" in the lower corner. Then [x, y,1] times Sis the
+correct answer in homogeneous coordinates. The origin stays in its normal position because
+[00l]S = [001].
+     If we change that 1 to c, the result is strange. The point (ex, cy, cz, c) is the same
+as ( x, y, z,1). The special property of homogeneous coordinates is that multiplying by cl
+does not move the point. The origin in R3 has homogeneous coordinates (0,0,0,1) and
+(0,0,0, c) for every nonzero c. This is the idea behind the word "homogeneous."
+     Scaling can be different in different directions. To fit a full-page picture onto a half­
+page, scale the y direction by ½. To create a margin, scale the x direction by . The
+                                                                                      ¾
+graphics matrix is diagonal but not 2 by 2. It is 3 by 3 to rescale a plane and 4 by 4 to
+rescale a space:
+
+
+       Scaling matrke,      S� [
+                                   ¾
+                                           ½
+                                                1
+                                                      ]           and
+
+                                                                                          J
+That last matrix S rescales the x, y, z directions by positive numbers c1, c2, c3. The extra
+column in all these matrices leaves the extra1 at the end of every vector.
+Summary The scaling matrix Sis the same size as the translation matrix T. They can
+be multiplied. To translate and then rescale, multiply vT S. To rescale and then translate,
+multiply vST. Are those different? Yes.
+    The point (x, y, z) in R 3 has homogeneous coordinates (x, y, z,1) in P 3 . This "pro­
+jective space" is not the same as R4 . It is still three-dimensional. To achieve such a thing,
+(ex, cy, cz, c) is the same point as ( x, y, z,1). Those points of projective space P3 are really
+lines through the origin in R4 .
+    Computer graphics uses affine transformations, linear plus shift. An affine transforma­
+tion T is executed on P 3 by a 4 by 4 matrix with a special fourth column:
+
+
+
+                                                                      [rn:Hl �
+                                    a12        a 13
+                                    a22        a23
+                                                              ]                   ]
+                                    a32        a33        �       =                   ·
+                                    a4 2       a43        1             T(O,0,0) 1
+The usual 3 by 3 matrix tells us three outputs, this tells four. The usual outputs come
+from the inputs (1,0,0) and (0,1,0) and (0,0,1). When the transformation is linear, three
+outputs reveal everything. When the transformation is affine, the matrix also contains the
+output from (0,0,0). Then we know the shift.
+3. Rotation A rotation in R2 or R3 is achieved by an orthogonal matrix Q. The determi­
+nant is +1. (With determinant -1 we get an extra reflection through a mirror.) Include the
+extra column when you use homogeneous coordinates!
+
+                                                                                 cos0 -sin0
+                           cs0 -sin0
+ Plane rotation        Q= [ �
+                          sm0   cos0 ]
+                                                              becomes      R = [ si 0  cos0
+                                                                                   �    0
+498                                                                    Chapter 10. Applications
+
+
+
+    This matrix rotates the plane around the origin. How would we rotate around a
+different point (4, 5)? The answer brings out the beauty of homogeneous coordinates.
+Translate ( 4, 5) to (0, 0), then rotate bye, then translate (0, 0) back to ( 4, 5):
+
+                                    1        0   ol    cose -sine
+      v T_RT+= [x y 1] [ 0  1                    0    [sine  cos   e
+                        -4 -5                    1      0      0
+I won't multiply. The point is to apply the matrices one at a time: v translates to vT_, then
+rotates to vT_R, and translates back to vT_RT+ . Because each point [x y l ] is a row
+vector, T_ acts first. The center of rotation ( 4, 5)-otherwise known as ( 4, 5, 1)-moves
+first to ( 0, 0, 1). Rotation doesn't change it. Then T+ moves it back to ( 4, 5, 1). All as it
+should be. The point (4, 6, 1) moves to (0, 1, 1), then turns bye and moves back.
+     In three dimensions, every rotation Q turns around an axis. The axis doesn't move-it
+is a line of eigenvectors with ,\ = 1. Suppose the axis is in the z direction. The 1 in Q is to
+leave the z axis alone, the extra 1 in R is to leave the origin alone:
+
+
+
+
+                                        �]
+                  cose -sine
+             Q = [sine  cose                     and
+                       0       0
+
+Now suppose the rotation is around the unit vector a= (a 1, a 2, a 3). With this axis a, the
+rotation matrix Q which fits into R has three parts:
+
+
+                                                                                            (1 )
+
+
+The axis doesn't move because aQ = a. When a = (0, 0, 1) is in the z direction, this Q
+becomes the previous Q-for rotation around the z axis.
+    The linear transformation Q always goes in the upper left block of R. Below it we see
+zeros, because rotation leaves the origin in place. When those are not zeros, the transfor­
+mation is affine and the origin moves.
+4. Projection In a linear algebra course, most planes go through the origin. In real life,
+most don't. A plane through the origin is a vector space. The other planes are affine spaces,
+sometimes called "flats." An affine space is what comes from translating a vector space.
+    We want to project three-dimensional vectors onto planes. Start with a plane through
+the origin, whose unit normal vector is n. (We will keep n as a column vector.) The
+vectors in the plane satisfy n T v = 0. The usual projection onto the plane is the matrix
+I - nn T_ To project a vector, multiply by this matrix. The vector n is projected to zero,
+and the in-plane vectors v are projected onto themselves:
+10.6. Computer Graphics                                                                  499
+
+In homogeneous coordinates the projection matrix becomes 4 by 4 (but the origin doesn't
+move):
+
+
+
+            Projection onto the plane n T v = 0
+                                                            p=   [I -   nn T   �1-
+                                                                   0 0 0 1
+
+Now project onto a plane n T ( v - v0) = 0 that does not go through the origin. One point
+on the plane is vo. This is an affine space (or a.fl.at). It is like the solutions to Av = b
+when the right side is not zero. One particular solution v 0 is added to the nullspace-to
+produce a flat.
+    The projection onto the flat has three steps. Translate v 0 to the origin by T_. Project
+along then direction, and translate back along the row vector v 0:
+
+
+      Projection onto a flat      T_PT+ = [ I
+                                           -Vo
+                                                        O J [I -
+                                                        1
+                                                                   nn T
+                                                                   0
+                                                                           OJ [ OJ .
+                                                                           1
+                                                                                I
+                                                                               Vo    l
+
+I can't help noticing that T_ and T+ are inverse matrices: translate and translate back. They
+are like the elementary matrices of Chapter 2.
+
+    The exercises will include reflection matrices, also known as mirror matrices. These
+are the fifth type needed in computer graphics. A reflection moves each point twice as far
+as a projection-the reflection goes through the plane and out the other side. So change
+the projection I - nnT to I - 2nnT for a mirror matrix.
+    The matrix P gave a "parallel" projection. All points move parallel to n, until they
+reach the plane. The other choice in computer graphics is a "perspective" projection. This
+is more popular because it includes foreshortening. With perspective, an object looks larger
+as it moves closer. Instead of staying parallel ton (and parallel to each other), the lines of
+projection come toward the eye-the center of projection. This is how we perceive depth
+in a two-dimensional photograph.
+
+
+The basic problem of computer graphics starts with a scene and a viewing position. Ideally,
+the image on the screen is what the viewer would see. The simplest image assigns just one
+bit to every small picture element-called a pixel. It is light or dark. This gives a black
+and white picture with no shading. You would not approve. In practice, we assign shading
+levels between O and 2 8 for three colors like red, green, and blue. That means 8 x 3 = 24
+bits for each pixel. Multiply by the number of pixels, and a lot of memory is needed!
+     Physically, a raster frame buffer directs the electron beam. It scans like a television
+set. The quality is controlled by the number of pixels and the number of bits per pixel.
+In this area, the standard text is Computer Graphics : Principles and Practice by Hughes,
+Van Dam, McGuire, Skylar, Foley, Feiner, and Akeley (3rd edition, Addison-Wesley, 2014).
+Notes by Ronald Goldman and by Tony DeRose were excellent references.
+500                                                                   Chapter 10. Applications
+
+                       •   REVIEW OF THE KEY IDEAS                   •
+
+    1. Computer graphics needs shift operations T(v) = v+vo as well as linear operations
+       T(v) = Av.
+
+    2. A shift in Rn can be executed by a matrix of order n + l, using homogeneous coor­
+       dinates.
+
+    3. The extra component 1 in [x y z 1] is preserved when all matrices have the numbers
+       0, 0, 0, 1 as last column.
+
+
+Problem Set 10.6
+1      A typical point in R 3 is xi+yj + zk. The coordinate vectors i, j, and k are (1, 0, 0),
+       (0, 1, 0), (0, 0, 1). The coordinates of the point are (x, y, z).
+       This point in computer graphics is xi+ yj + zk + origin. Its homogeneous coordi­
+       nates are ( , , , ). Other coordinates for the same point are ( , , , ).
+
+2      A linear transformation Tis determined when we know T(i), T(j), T(k). For an
+       affine transformation we also need T( __ ). The input point ( x, y, z, 1) is trans­
+       formed to xT(i) + yT(j) + zT(k) + __ .
+
+3      Multiply the 4 by 4 matrix T for translation along (1, 4, 3) and the matrix T1 for
+       translation along (0, 2, 5). The product TT1 is translation along __ .
+
+4      Write down the 4 by 4 matrix S that scales by a constant c. Multiply ST and also
+       TS, where T is translation by (1, 4, 3). To blow up the picture around the center
+       point (1, 4, 3), would you use vST or vTS?
+
+5      What scaling matrix S (in homogeneous coordinates, so 3 by 3) would produce a
+       1 by 1 square page from a standard 8.5 by 11 page?
+
+6      What 4 by 4 matrix would move a comer of a cube to the origin and then multiply
+       all lengths by 2? The corner of the cube is originally at (1, 1, 2).
+
+7      When the three matrices in equation 1 multiply the unit vector a, show that they give
+       ( cos 0)a and (1 - cos 0)a and 0. Addition gives aQ = a and the rotation axis is not
+       moved.
+
+8      If b is perpendicular to a, multiply by the three matrices in 1 to get ( cos 0)b and 0
+       and a vector perpendicular to b. So Qb makes an angle 0 with b. This is rotation.
+
+9      What is the 3 by 3 projection matrix I - nnTonto the plane jx + jy + ½z = 0? In
+       homogeneous coordinates add 0, 0, 0, 1 as an extra row and column in P.
+l 0.6. Computer                                                                          501
+
+rn    With the same 4        4 matrix P, multiply T _PT+ to find the projection matrix onto
+                  f   f
+      the plane x + y + ½ z = 1. The translation T_ moves a point on that plane (choose
+      one) to (0, 0, 0, 1). The inverse matrix T+ moves it back.
+11    Project (3, 3, 3) onto those planes. Use P in Problem 9 and T_PT+ in Problem 10.
+12    If you project a square onto a plane, what shape do you get?
+13    If you project a cube onto a plane, what is the outline of the projection? Make the
+      projection plane perpendicular to a diagonal of the cube.
+14    The 3 by 3 min-or matrix that reflects through the plane n Tv = 0 is M = I - 2nn T.
+      Find the reflection of the point (3, 3, 3) in the plane fx + h + ½z = 0.
+15    Find the reflection of (3, 3, 3) in the plane fx +   h     + ½ z = 1. Take three steps
+      T _l\/1T+ using 4 by 4 matrices: translate by T _so the plane goes through the origin,
+      reflect the translated point (3, 3, 3, l)T_ in that plane, then translate back by T+.
+
+16   The vector between the origin (0, 0, 0, 1) and the point (x, y, z, 1) is the difference
+     v = __ . In homogeneous coordinates, vectors end in                       So we add a
+     _ _to a point, not a point to a point.
+17    If you multiply only the last coordinate of each point to get ( x, y, z, c), you rescale
+      the whole space by the number __ . This is because the point ( x, y, z, c) is the
+      same as ( , , , 1).
+     502                                                                     Chapter 10. Applications
+
+
+     10.7       Linear Algebra for Cryptography
+
+1 Codes can use finite fields as alphabets: letters in the message become numbers 0, 1, ..., p - 1.
+2 The numbers are added and multiplied (mod p). Divide by p, keep the remainder.
+3 A Hill Cipher multiplies blocks of the message by a secret matrix E (mod p).
+4 To decode, multiply each block by the inverse matrix D (mod p). Not a very secure cipher!
+
+
+          Cryptography is about encoding and decoding messages. Banks do this all the time
+      with financial information. Amazingly, modem algorithms can involve extremely deep
+     mathematics. "Elliptic curves" play a part in cryptography, as they did in the sensational
+     proof by Andrew Wiles of Fermat's Last Theorem.
+          This section will not go that far! But it will be our first experience with.finite fields and
+     finite vector spaces. The field for Rn contains all real numbers. The field for "modular
+     arithmetic" contains only p integers 0, 1, ...,P - 1. There were infinitely many vectors in
+      Rn -now there will only be pn messages of length n in message space. The alphabet from
+     A to Z is finite (as in p = 26).
+         The codes in this section will be easily breakable-they are much too simple for prac­
+     tical security. The power of computers demands more complex cryptography, because that
+     power would quickly detect a small encoding matrix. But a matrix code (the Hill Cipher)
+     will allow us to see linear algebra at work in a new way.
+         All our calculations in encoding and decoding will be "mod p". But the central con­
+     cepts of linear independence and bases and inverse matrices and determinants survive this
+     change. We will be doing "linear algebra with finite fields". Here is the meaning of mod p :
+
+                      27   =   2 (rnod 5)    means that 27 - 2 is divisible by 5
+                      y   = x ( rnod p)      means that y - x is divisible by p
+
+
+     Dividing y by 5 produces one of the five possible remainders x = 0, 1, 2, 3, 4. All the num-
+     bers 5, -5, 10, -10, ... with no remainder are congruent to zero (mod 5). The numbers
+
+                                                          =
+     y = 6, -4, 11, -9, ...are all congruent to x = l(mod 5).
+         We use the word congruent for the symbol and we call this "modular arithmetic".
+     Every integer y produces one of the values x = 0, 1, 2, ..., p - 1.
+         The theory is best if p is a prime number. With p = 26 letters from A to Z, we
+     unfortunately don't start with a prime p. Cryptography can deal with this problem.
+10.7. Linear Algebra for Cryptography                                                     503
+
+                                                                   Modular Arithmetic
+Linear algebra is based on linear combinations of vectors. Now our vectors (x 1, ... , X n )
+are strings of integers limited to x = 0, 1, ..., p- 1. All calculations produce these integers
+when we work "mod p". This means: Every integer y outside that range is divided by p
+and x is the remainder:
+
+      y = qp+ X               y   =   x (modp)       y divided by p has remainder x
+
+Addition mod 3       10   = 1 (mod 3) and 16 = 1 (mod 3) and 10 + 16 = 1 + 1 (mod 3)
+   I could add 10 + 16 and divide 26 by 3 to get the remainder2.
+   Or I can just add remainders 1 + 1 to reach the same answer 2.
+
+Addition mod 2 11         = 1 (mod2) and 17 = 1 (mod 2) and 11 + 17 = 28 = 0 (mod 2)
+   The remainders added to 1 + 1 but this is not 2. The final step was 2 = 0 (mod 2).
+
+Addition mod pis completely reasonable. So is multiplication mod p. Here p = 3 :
+    10  = 1 (mod 3) times 16 = 1 (mod 3) gives 1 times 1 = 1           160  = 1 (mod 3)
+      5 = 2 (mod 3) times 8 = 2 (mod 3) gives 2 times 2 = 1              40 = 1 (mod 3)
+
+Conclusion: We can safely add and multiply modulo p. So we can take linear combinations.
+This is the key operation in linear algebra. But can we divide ?
+    In the real number field, the inverse is 1 / y (for any number except y = 0). This means:
+We found another real number z so that yz = 1. Invertibility is a requirement for a field.
+Is inversion always possible mod p? For every number y = 1, ..., p - 1 can we find
+                                                 =
+                          =                          =                       =
+another number z = 1, ..., p - 1 so that yz 1 mod p?
+
+                                  =
+    The examples 3- 1      4 (mod 11) and 2- 1 6 (mod 11) and 5- 1             9 (mod 11) all
+succeed. Can you solve 7 z 1 ( mod 11) ? Inverting numbers will be the key to inverting
+matrices.
+   Let me show that inversion mod p has a problem when p is not a prime number. The
+examplep= 26factors into2 times 13. Theny = 2cannot have an inversez (mod 26).
+                      =
+                                                                        =
+The requirement 2z     1 (mod 26) is impossible to satisfy because 2z and 26 are even.
+   Similarly 5 has no inverse z when pis 25. We can't solve 5z            1 (mod 25). The
+number 5z - 1 is never going to be a multiple of 5, so it can't be a multiple of 25.
+
+      Inversion of every y (0 < y < p) will be possible if and only ifpis prime.
+
+   Inversion needs y, 2y, 3y, ..., py to have different remainders when divided by p.
+   If my and ny had the same remainder x then ( m - n)y would be divisible by p.
+   The prime number pwould have to divide either m - n or y. Both are impossible.
+    Soy, . .., py have different remainders: One of those remainders must be x = 1.
+504                                                                       Chapter 10. Applications
+
+                                       The Enigma Machine and the Hill Cipher
+Lester Hill published his cipher (his system for encoding and decoding) in the American
+Mathematical Monthly (1929). The idea was simple, but in some way it started the transi­
+tion of cryptography from linguistics to mathematics. Codes up to that time mainly mixed
+up alphabets and rearranged messages. The Enigma code used by the German Navy in
+World War II was a giant advance-using machines that look to us like primitive comput­
+ers. The English set up Bletchley Park to break Enigma. They hired puzzle solvers and
+language majors. And by good luck they also happened to get Alan Turing.
+     I don't know if you have seen the movie about him: The Imitation Game. A lot of
+it is unrealistic (like Good Will Hunting and A Beautiful Mind at MIT). But the core idea
+of breaking the Enigma code was correct, using human weaknesses in the encoding and
+broadcasting. The German naval command openly sent out their coded orders-knowing
+that the codes were too complicated to break (if it hadn't been for those weaknesses).
+The codebreaking required English electronics to undo the German electronics. It also
+required genius.
+     Alan Turing was surely a genius-England's most exceptional mathematician. His
+life was ultimately tragic and he ended it in 1954. The biography by Andrew Hodges
+is excellent. Turing arrived at Bletchley Park the day after Poland was invaded. It is to
+Winston Churchill's credit that he gave fast and full support when his support was needed.
+     The Enigma Machine had gears and wheels. The Hill Cipher only needs a matrix. That
+is the code to be explained now, using linear algebra. You will see how decoding involved
+inverse matrices. All steps use modular arithmetic, multiplying and inverting mod p.
+     I will follow the neat exposition of Professor Spickler of Salisbury State University,
+which he made available on the Web: facultyfp.salisbury.edu/despickler/personal/index.asp
+
+                                                  Modular Arithmetic with Matrices
+Addition, subtraction, and multiplication are all we need for Ax (matrix times vector).
+To multiply mod p we can multiply the integers in A times the integers in x as usual­
+and then replace every entry of Ax by its value mod p.
+Key questions: When can we solve Ax= b (mod p)? Do we still have the four subspaces
+C(A), N(A), C(AT ), N(AT )? Are they still orthogonal in pairs? Is there still an in­
+verse matrix mod p whenever the determinant of A is nonzero mod p? I am happy to say
+that the last three answers are yes (but the inverse question requires p to be a prime number).
+    We can find A- 1 (mod p) by Gauss-Jordan elimination, reducing [A J] to [J A- 1]
+as in Section 2.5. Or we can use determinants and the cofactor matrix C in the formula
+A- 1 = (det A)- 1 C T . I will work mod 3 with a 2 by 2 integer matrix A:
+
+
+[ A I] = [
+              2 0 1 0
+              2 1 0 1
+                        ] -+ [   2 0 1 0
+                                 0 1 2 1
+                                           ] -+   multiply row 1
+                                                  by 2- 1 = 2
+                                                                   -+ [ 01 01 22 01 l
+10.7. Linear Algebra for Cryptography                                                  505
+
+By pure chance A- 1   = A ! Multiplying A times A mod 3 does give the identity matrix:
+                           2 0     2     0           4 0 _ 1 0
+        A 2 = AA -1 = [        ] [         ]     [      ] [    ] (mod 3).
+                           2 1     2     1           6 1 = 0 1
+
+The determinant of A is 2, and the cofactor formula from Section 5.3 also gives A- 1   = A:
+
+Theorem. A- 1 exists mod p if and only if ( <let A )- 1 exists mod p.
+        The requirement is: <let A and p have no common factors.
+
+                                                 Encryption with the Hill Cipher
+The original cipher used the letters A to Z with p = 26. Hill chose an n by n encryption
+
+                                                               =
+matrix E so that <let E is not divisible by 2 or 13. Then the number <let E has an inverse
+mod 26 and so does the matrix E. The inverse matrix E- 1         D (mod 26) will be the
+decryption matrix that decodes the message.
+   Now convert each letter of the message into a number from Oto 25. The obvious choice
+from A = 0 to Z = 25 is acceptable because the matrix will make this cipher stronger.
+      Ignore spaces and divide the message into blocks v 1, v 2 , ... of size n.
+      Then multiply each message block (mod p) by the encryption matrix E.
+      The coded message is Ev 1, Ev2, ... and you know what the decoder will do.
+
+
+
+
+                                         [ l -1 [        = 4 23 7
+                                                                         l
+     .     ,                               2 3 15             10 19 16
+   Spikier   s �xamp: has D _
+                            - E -1 _
+                                   -
+                                           5 8 12                            (mod 26).
+     detE - 583 _ 11 (mod 26)
+                                           1 13 4             17 5 19
+
+    Of course a codebreaker will not know E or D. And the block size n is generally
+unknown too. For the matrices Hill had in mind n would not be very large and a computer
+could quickly discover E and D.
+   I am not sure if Hill's Cipher could become seriously difficulty to break by choosing
+very large matrices and a large prime number p. And by encoding the coded message a
+second time, using a different block size n 2 and large matrix E2 and large prime p 2.
+
+                                          Finite Fields and Finite Vector Spaces
+In algebra, a field F is a set of scalars that can be added and multiplied and inverted
+(except 0 can't be inverted). Familiar examples are the real numbers Rand the complex
+numbers C and the rational numbers Q (containing every ratio p/q of integers). From a
+field you build vectors v = (!1, h, ... , fn ), From linear combinations of vectors you
+build vector spaces. So linear algebra begins with afield F.
+    I taught for ten years from a textbook that started with fields. On the way to Rn , we
+lost a lot of students. That was a signal-the emphasis was misplaced if we wanted the
+506                                                                      Chapter lO. Applications
+
+course to be useful. I believe the right way is to understand Rn and its subspaces first,
+as you do. Then you can look at other fields and vector spaces with a natural question
+in mind: What is new when thefield is not R?
+    These pages are asking that question for finite fields. The possibilities become more
+limited but also highly interesting. The starting point (and not quite the ending point) is
+the finite field FP. It contains only the numbers O, 1, ..., p - 1 and p is a prime number.
+I will focus first on the field F 2 with only 2 members "O" and "1". You could think of 0
+and 1 as "even" and "odd" because the rules to add and multiply are obeyed by the even
+numbers and odd numbers: even+ odd = odd and even X odd = even.
+                           0 1                                             0    1
+            Addition     OfllTl                   Multiplication     or-oo1
+            table        1  l!___QJ               table              1    l___g__JJ
+This is addition and multiplication "mod 2".
+    From this field F2 we can build vectors like v = (0, 0, 1) and w = (1, 0, 1). There are
+three components with two choices each: a total of 23 = 8 different vectors in the vector
+space (F 2) 3 . You know the requirements on a subspace and the possibilities it opens up:
+
+   a) The zero-dimensional subspace containing only O = (0, 0, 0).
+
+   b) One-dimensional subspaces containing O and a vector like v. Notice v + v = 0!
+
+   c) Two-dimensional subspaces with a basis like v and w and 4 vectors O, v, w, v + w.
+
+   d) The full three-dimensional subspace (F 2) with 8 vectors.
+                                                  3
+
+
+
+
+What are the possible bases for (F 2) 3 ? The standard basis contains (1, 0, 0) and (0, 1, 0)
+and (0, 0, 1). Those vectors are linearly independent and they span (F 2) 3 . Their eight
+combinations with coefficients O and 1 fill all of (F 2) 3.
+    What about matrices that multiply those vectors? The matrices will be 1 by 3, or 2 by
+3, or 3 by 3. When they are 3 by 3 we can ask if they are invertible. Their determinants
+can only be O (singular matrix) or 1 (invertible matrix). Let me leave you the pleasure of
+deciding whether these matrices are invertible. And how would youfind the inverse ?
+
+
+
+
+Out of 2 9 possible matrices over F 2, I will guess that most are singular.
+    To conclude this discussion of F 2, I mention a field with 22 = 4 members. It will not
+come from multiplication (mod 4), because 4 is not prime. The multiplication 2 times 2
+will give O (and 2 has no inverse): not afield. But we can start with the numbers O and 1
+in F 2 and invent two more numbers a and 1 + a-provided they follow these two rules:
+(a+ a= 0) and (a X a= 1 + a). Then a and 1 + a are inverses. Not obvious!
+10.7. Linear Algebra for Cryptography                                                   507
+     Add    0  1  a  l+a                          Multiply     0    1        a         l+a
+      0     0  1  a  l+a                            0          0    0        0          0
+      1     1  0 l+a a                              1          0    1        a         l+a
+      a     a l+a 0   1                             a          0    a       l+a         1
+    l+a    l+a a  1   0                            l+a         0   l+a       1          a
+
+   Beyond p = 2, we have the fields FP for all prime numbers p. They use addition and
+multiplication mod p. They are alphabets for codes. They provide the components for
+vectors v = (Ji, ... , fn ) in the space (Fvt- They provide the entries for matrices that
+multiply those vectors. These fields FP are the most frequently used finite fields.
+   The only other finite fields have pk members. The example above of 0, 1, a, 1+ a
+had 22 = 4 members. We will leave it there and get back safely to R.
+
+
+Problem Set 10.7
+1     If you multiply n whole numbers (even or odd) when is the answer odd? Translate
+      into multiplication ( mod 2): If you multiply O's and l's when is the answer 1?
+2     If you add n whole numbers (even or odd) when is the sum of the numbers odd?
+      Translate into adding O's and l's (mod 2). When do they add to 1?
+3                =             =                      =
+       (a) If Y1 x1 and Y2 x2 , why is Y1 + Y2 X1 + x2 ? All are mod p.
+           Suggestion: Y1 = pq1 + X1 and Y2 = pq2+ x2. Now add Y1 + Y2-
+       (b) Can you be sure that x 1 + x2 is smaller than p? No. Give an example where
+           there is a smaller x with (Y1 + Y2 ) = x (mod p).
+4     p = 39 is not prime. Find a number a that has no inverse z (mod 39). This means
+      that az = 1 (mod 39) has no solution. Then find a 2 by 2 matrix A that has no
+      inverse matrix Z (mod 39). This means that AZ= I (mod 39) has no solution.
+5     Show that y    = x (mod p) leads to -y = -x (mod p).
+6     Find a matrix that has independent columns in R 2 but dependent columns ( mod 5).
+7     What are all the 2 by 2 matrices of O's and l's that are invertible ( mod 2) ?
+8     Is the row space of A still orthogonal to the nullspace in modular arithmetic ( mod 11) ?
+      Are bases for those subspaces still bases ( mod 11) ?
+9     (Hill's Cipher) Separate the message THISWHOLEBOOKISINCODE into blocks
+      of 3 letters. Replace each letter by a number from 1 to 26 (normal order). Multiply
+      each block by the 3 by 3 matrix L with 1's on and below the diagonal. What is the
+      coded message (in numbers) and how would you decode it?
+10    Suppose you know the original message (the plaintext). Suppose you also see the
+      coded message. How would you start to discover the matrix in Hill's Cipher ? For a
+      very long message do you expect success ?
+
