@@ -1,0 +1,2473 @@
+   Chapter 4
+
+   Orthogonality
+
+   4.1     Orthogonality of the Four Subspaces
+
+1 Orthogonal vectors have v T w = 0. Then llvll2 + llwll2 = llv+ wll2 = llv- wll2 .
+
+2 Subspaces V and W are orthogonal when v T w = 0 for every v in V and every win W.
+
+3 The row space of A is orthogonal to the nullspace. The column space is orthogonal to N(A T ).
+4 One pair of dimensions adds to r + ( n - r) = n. The other pair has r + ( m - r) = m.
+S Row space and nullspace are orthogonal complements: Every x in Rn splits into X row + X null·
+6 Suppose a space S has dimension d. Then every basis for S consists of d vectors.
+7 If d vectors in Sare independent, they span S. If d vectors span S, they are independent.
+
+       Two vectors are orthogonal when their dot product is zero: v · w = v T w = 0. This
+   chapter moves to orthogonal subspaces and orthogonal bases and orthogonal matrices.
+   The vectors in two subspaces, and the vectors in a basis, and the column vectors in Q,
+   all pairs will be orthogonal. Think of a 2 + b 2 = c2 for a right triangle with sides v and w.
+
+                                                                 llvll + llwll = llv+ wll -
+                                                                     2        2             2
+     Orthogonal vectors                               and
+
+   The right side is (v + w) T (v + w). This equals v T v + w T w when v T w = w T v = 0.
+       Subspaces entered Chapter 3 to throw light on Ax = b. Right away we needed the
+   column space and the nullspace. Then the light turned onto A T , uncovering two more
+   subspaces. Those four fundamental subspaces reveal what a matrix really does.
+       A matrix multiplies a vector: A times x. At the first level this is only numbers. At
+   the second level Ax is a combination of column vectors. The third level shows subspaces.
+   But I don't think you have seen the whole picture until you study Figure 4.2.
+
+
+                                               194
+4.1. Orthogonality of the Four Subspaces                                               195
+
+    The subspaces fit together to show the hidden reality of A times x. The 90 ° angles
+between subspaces are new-and we can say now what those right angles mean.
+    The row space is perpendicular to the nullspace. Every row of A is perpendicular to
+every solution of Ax = 0. That gives the 90 ° angle on the left side of the figure. This
+perpendicularity of subspaces is Part 2 of the Fundamental Theorem of Linear Algebra.
+    The column space is perpendicular to the nullspace of AT . When b is outside the
+column space-when we want to solve Ax = band can't do it-then this nullspace of
+AT comes into its own. It contains the error e = b - Ax in the "least-squares" solution.
+Least squares is the key application of linear algebra in this chapter.
+    Part 1 of the Fundamental Theorem gave the dimensions of the subspaces. The row
+and column spaces have the same dimension r (they are drawn the same size). The two
+nullspaces have the remaining dimensions n - r and m - r. Now we will show that
+the row space and nullspace are orthogonal subspaces inside Rn.
+DEFINITION Two subspaces V and W of a vector space are orthogonal if every vector
+v in V is perpendicular to every vector w in W:
+
+
+ Orthogonal subspaces                v T w = 0 for all v in V and all w in W.
+
+Example 1 The floor of your room (extended to infinity) is a subspace V. The line where
+two walls meet is a subspace W (one-dimensional). Those subspaces are orthogonal.
+Every vector up the meeting line of the walls is perpendicular to every vector in the floor.
+Example 2 Two walls look perpendicular but those two subspaces are not orthogonal!
+The meeting line is in both V and W-and this line is not perpendicular to itself. Two
+planes (dimensions 2 and 2 in R3 ) cannot be orthogonal subspaces.
+    When a vector is in two orthogonal subspaces, it must be zero. It is perpendicular to
+itself. It is v and it is w, so v T v = 0. This has to be the zero vector.
+
+                                 w
+
+
+                             I                            V
+              V              I
+
+
+              orthogonal plane V and line W              non-orthogonal planes
+
+ Figure 4.1: Orthogonality is impossible when dim V + dim W > dim (whole space).
+
+   The crucial examples for linear algebra come from the four fundamental subspaces.
+Zero is the only point where the nullspace meets the row space. More than that, the
+nullspace and row space of A meet at 90° . This key fact comes directly from Ax = 0:
+196                                                                   Chapter 4. Orthogonality
+
+
+ Every vector x in the nullspace is perpendicular to every row of A, because Ax = 0.
+ The nullspace N(A) and the row space C(AT ) are orthogonal subspaces of Rn .
+
+To see why xis perpendicular to the rows, look at Ax = 0. Each row multiplies x:
+
+
+                     rowl                                     (row 1) ·xis zero
+
+                     rowm       ]H rrl                        (row m) ·xis zero
+                                                                                          (1)
+
+
+
+The first equation says that row 1 is perpendicular to x. The last equation says that row mis
+perpendicular to x. Every row has a zero dot product with x. Then xis also perpendicular
+to every combination of the rows. The whole row space C(AT ) is orthogonal to N(A).
+    Here is a second proof of that orthogonality for readers who like matrix shorthand.
+The vectors in the row space are combinations AT y of the rows. Take the dot product
+of A T y with any x in the nullspace. These vectors are perpendicular:
+
+Nullspace orthogonal to row space                                                         (2)
+We like the first proof. You can see those rows of A multiplyingxto produce zeros in equa­
+tion (1). The second proof shows why A and AT are both in the Fundamental Theorem.
+Example 3     The rows of A are perpendicular to x= ( 1, 1, -1) in the nullspace :
+
+                                                                       1+3-4=0
+                                             gives the dot products
+                                                                       5+2-7=0
+
+Now we tum to the other two subspaces. In this example, the column space is all of R 2.
+The nullspace of AT is only the zero vector (orthogonal to every vector). The column space
+of A and the nullspace of AT are always orthogonal subspaces.
+
+ Every vector y in the nullspace of AT is perpendicular to every column of A.
+ The left nullspace N(AT ) and the column space C(A) are orthogonal in Rm .
+
+App ly the original proof to AT . The nullspace of AT is orthogonal to the row space of
+AT -and the row space of AT is the column space of A. Q.E.D.
+   For a visual proof, look at AT y = 0. Each column of A multiplies y to give 0:
+                                        (colu
+                               T =              �� l)          =    � -
+                             A y
+                                                        T
+
+                                       [             l [Yl         [ ]
+                                        (column n) T
+                                                                                          (3)
+                                                                    0
+The dot product of y with every column of A is zero. Then y in the left nullspace is
+perpendicular to each column of A-and to the whole column space.
+4.1. Orthogonality of the Four Subspaces                                             197
+
+
+dimension                                                                    dimension
+   =r                                                                          = r
+
+              row                                                 column
+             space                                                 space
+                                               u space
+              of A             row space to col mn                  of A
+                               �
+                                    Axrow=  b
+
+                 goo
+                                    Axnull = 0
+                                  nullspace to 0
+           nullspace
+             of A
+  dimension                                                      =m-r
+    = n-r
+
+
+Figure 4.2: Two pairs of orthogonal subspaces. The dimensions add to n and add to m.
+This is the Big Picture-two subspaces in Rn and two subspaces in Rm .
+
+
+                                                         Orthogonal Complements
+Important The fundamental subspaces are more than just orthogonal (in pairs).
+Their dimensions are also right. Two lines could be perpendicular in R3, but those lines
+could not be the row space and nullspace of a 3 by 3 matrix. The lines have dimensions
+1 and 1, adding to 2. But the correct dimensions rand n - r must add ton= 3.
+    The fundamental subspaces of a 3 by 3 matrix have dimensions 2 and 1, or 3 and 0.
+Those pairs of subspaces are not only orthogonal, they are orthogonal complements.
+DEFINITION The orthogonal complement of a subspace V contains every vector that is
+perpendicular to V. This orthogonal subspace is denoted by V J.. (pronounced "V perp").
+   By this definition, the nullspace is the orthogonal complement of the row space.
+Every x that is perpendicular to the rows satisfies Ax = 0, and lies in the nullspace.
+
+    The reverse is also true. If v is orthogonal to the nullspace, it must be in the row
+space. Otherwise we could add this v as an extra row of the matrix, without changing its
+nullspace. The row space would grow, which breaks the law r + (n - r) = n. We conclude
+that the nullspace complement N(A) J.. is exactly the row space C(AT ).
+    In the same way, the left nullspace and column space are orthogonal in Rm , and they
+are orthogonal complements. Their dimensions r and m - r add to the full dimension m.
+198                                                                   Chapter 4. Orthogonality
+
+
+               Fundamental Theorem of Linear Algebra, Part 2
+
+       N(A) is the orthogonal complement of the row space C(AT ) (in Rn ).
+       N(AT ) is the orthogonal complement of the column space C(A) (in Rm ).
+
+   Part 1 gave the dimensions of the subspaces. Part 2 gives the 90 ° angles between them.
+The point of "complements" is that every x can be split into a row space component Xr
+and a nullspace component X n . When A multiplies x = Xr + Xn , Figure 4.3 shows what
+happens to Ax= Ax r + Ax n :
+
+      The nullspace component goes to zero: Ax n = 0.
+
+      The row space component goes to the column space: Axr = Ax.
+
+Every vector goes to the column space! Multiplying by A cannot do anything else.
+More than that: Every vector b in the column space comes from one and only one vector
+X r in the row space. Proof: If Axr = Ax�, the difference Xr - x� is in the nullspace.
+It is also in the row space, where Xr and x� came from. This difference must be the zero
+vector, because the nullspace and row space are perpendicular. Therefore Xr = x�.
+     There is an r by r invertible matrix hiding inside A, if we throw away the two nullspaces.
+From the row space to the column space, A is invertible. The "pseudoinverse" will invert
+that part of A in Section 7.4.
+Example 4     Every matrix of rank r has an r by r invertible submatrix:
+
+
+
+                                     �]                                [� �]
+                         0 0 0
+                         5 0 0             contains the submatrix
+                         0 0 0                                                 .
+
+The other eleven zeros are responsible for the nullspaces. The rank of B is also r = 2:
+
+                 2 3
+                 2 4
+                 2 4
+                         4 5
+                         5 6 ] contains [1
+                         5 6             1
+                                                    !]   in the pivot rows and columns.
+
+
+Every matrix can be diagonalized, when we choose the right bases for Rn and Rm . This
+Singular Value Decomposition has become extremely important in applications.
+
+    Let me repeat one clear fact. A row of A can't be in the nullspace of A (except for
+a zero row). The only vector in two orthogonal subspaces is the zero vector.
+
+              If a vector v is orthogonal to itself then v is the zero vector.
+4.1. Orthogonality of the Four Subspaces                                               199
+
+
+     dim r                                                                           dim r
+
+
+
+
+                        x,.,�========����=;:\-
+        all combinations                                         all combinations
+        of the rows                              Ax, = b              b of the,
+                                                                           columns
+                                                        Ax= b
+
+
+
+
+                                  Axn= O
+             all vectors
+              orthogonal
+                  to the rows
+    dimn-r
+
+
+
+Figure 4.3: This update of Figure 4.2 shows the true action of A on x           Xr   + Xn-
+Row space vector Xr to column space, nullspace vector Xn to zero.
+
+
+                                                           Drawing the Big Picture
+I don't know the best way to draw the four subspaces in Figures 4.2 and 4.3. This big
+picture has to show the orthogonality of those subspaces. I can see a possible way to do
+it when a line meets a plane-maybe Figure 4.4 also shows that those spaces are infinite,
+more clearly than the rectangles in Figure 4.3. But how do I draw a pair of two-dimensional
+subspaces in R4 , to show they are orthogonal to each other? Good ideas are welcome.
+
+
+
+                                                                  nullspace of A
+
+                                                               A-[: j:]
+     direction (1, O, -1)
+      orthogonal to rows
+
+Figure 4.4: Row space of A = plane. Nullspace = orthogonal line. Dimensions 2 + 1 = 3.
+200                                                                     Chapter 4. Orthogonality
+
+                                                   Combining Bases from Subspaces
+What follows are some valuable facts about bases. They were saved until now-when we
+are ready to use them. After a week you have a clearer sense of what a basis is (linearly
+independent vectors that span the space). Normally we have to check both properties.
+When the count is right, one property implies the other :
+
+
+      Any n independent vectors in Rn must span Rn . So they are a basis.
+      Any n vectors that span Rn must be independent. So they are a basis.
+
+
+    Starting with the correct number of vectors, one property of a basis produces the other.
+This is true in any vector space, but we care most about Rn . When the vectors go into the
+columns of an n by n square matrix A, here are the same two facts:
+
+
+      If the n columns of A are independent, they span Rn . So Ax = b is solvable.
+      If the n columns span Rn , they are independent. So Ax = b has only one solution.
+
+
+Uniqueness implies existence and existence implies uniqueness. Then A is invertible. If
+there are no free variables, the solution x is unique. There must be n pivot columns.
+Then back substitution solves Ax = b (the solution exists).
+    Starting in the opposite direction, suppose that Ax = b can be solved for every b
+(existence of solutions). Then elimination produced no zero rows. There are n pivots and
+no free variables. The nullspace contains only x = 0 (uniqueness of solutions).
+
+   With bases for the row space and the nullspace, we have r + ( n - r) = n vectors.
+This is the right number. Those n vectors are independent.2 Therefore they span Rn .
+
+      Each x is the sum X r + X n of a row space vector X r and a nullspace vector X n ,
+
+The splitting in Figure 4.3 shows the key point of orthogonal complements-the dimen­
+sions add to n and all vectors are fully accounted for.
+
+Example 5      For A = [    ! �]    split x = [   !]   into X r + X n = [ � ] + [ _ � ] .
+
+   The vector (2, 4) is in the row space. The orthogonal vector (2, -1) is in the nullspace.
+The next section will compute this splitting for any A and x, by a projection.
+
+                                                    n = 0, then x r = -x n is in both subspaces.
+   2 If a combination of all n vectors gives x + x
+                                              r
+So X r = x n = 0. All coefficients of the row space basis and of the nullspace basis must be zero.
+This proves independence of the n vectors together.
+4.1. Orthogonality of the Four Subspaces                                               201
+
+                       • REVIEW OF THE KEY IDEAS                    •
+
+   1. Subspaces V and Ware orthogonal if every v in Vis orthogonal to every win W.
+   2. V and W are "orthogonal complements" if W contains all vectors perpendicular to
+      V (and vice versa). Inside Rn , the dimensions of complements V and W add ton.
+   3. The nullspace N(A) and the row space C(AT ) are orthogonal complements, with
+      dimensions (n - r) + r = n. Similarly N(AT ) and C(A) are orthogonal comple­
+      ments with (m - r) + r = m.
+   4. Any n independent vectors in Rn span Rn . Any n spanning vectors are independent.
+
+
+
+                           • WORKED EXAMPLES                   •
+
+
+4.1 A      Suppose S is a six-dimensional subspace of nine-dimensional space R 9.
+  (a) What are the possible dimensions of subspaces orthogonal to S?
+  (b) What are the possible dimensions of the orthogonal complement SJ_ of S?
+  (c) What is the smallest possible size of a matrix A that has row space S?
+  (d) What is the smallest possible size of a matrix B that has nullspace SJ_ ?
+
+Solution
+  (a) If Sis six-dimensional in R9 , subspaces orthogonal to Scan have dimensions 0, 1, 2, 3.
+  (b) The complement SJ_ is the largest orthogonal subspace, with dimension 3.
+  (c) The smallest matrix A is 6 by 9 (its six rows will be a basis for S).
+  (d) This is the same as question (c) !
+    If a new row 7 of B is a combination of the six rows of A, then B has the same row
+space as A. It also has the same nullspace. The special solutions s 1, s 2, s 3 to Ax = 0.
+will be the same for Bx = 0. Elimination will change row 7 of B to all zeros.
+
+4.1 B      The equation x - 3y - 4z = 0 describes a plane Pin R3 (actually a subspace).
+  (a) The plane Pis the nullspace N(A) of what 1 by 3 matrix A? Ans: A= [1 -3 - 4].
+  (b) Find a basis s 1, s 2 of special solutions of x - 3y - 4z = 0 (these would be the
+      columns of the nullspace matrix N). Answer: s 1 = (3, 1, 0) and s 2 = (4, 0, 1).
+  (c) Find a basis for the line PJ_ that is perpendicular to P. Answer: (1, -3, -4)!
+202                                                                Chapter 4. Orthogonality
+
+
+Problem Set 4.1
+Questions 1-12 grow out of Figures 4.2 and 4.3 with four subspaces.
+
+1     Construct any 2 by 3 matrix of rank one. Copy Figure 4.2 and put one vector in each
+      subspace (and put two in the nullspace). Which vectors are orthogonal?
+2     Redraw Figure 4.3 for a 3 by 2 matrix of rank r = 2. Which subspace is Z (zero
+      vector only)? The nullspace part of any vector x in R2 is Xn = __ .
+3     Construct a matrix with the required property or say why that is impossible:
+
+       (a) Column space contains [  _!] [-!],
+                                          and        nullspace contains [ ½]
+
+       (b) Row space contains [  _!] [-!] ,
+                                      and        nullspace contains [ ½]
+
+       (c) Ax =   [½ ] has a solution and A [ g] = [g]
+                                            T
+
+
+       (d) Every row is orthogonal to every column (A is not the zero matrix)
+       (e) Columns add up to a column of zeros, rows add to a row of 1's.
+4     If AB = 0 then the columns of B are in the of A. The rows of A are in the
+      __ of B. With AB= 0, why can't A and B be 3 by 3 matrices of rank 2?
+5      (a) IfAx=bhas a solution andAT y=O,is(yT x=O)or(yTb=O)?
+       (b) If AT y= (1, 1, 1) has a solution and Ax= 0, then __ .
+6     This system of equations Ax = b has no solution (they lead to O = 1):
+
+                                      X + 2y + 2z         5
+                                     2x + 2y + 3z         5
+                                     3x + 4y + 5z         9
+
+      Find numbers YI, Y2, y3 to multiply the equations so they add to O = 1. You have
+      found a vector yin which subspace? Its dot product yT b is 1, so no solution x.
+7     Every system with no solution is like the one in Problem 6. There are numbers
+      YI, ..., Ym that multiply the m equations so they add up to O = 1. This is called
+      Fredholm's Alternative:
+                        Exactly one of these problems has a solution
+                        Ax= b       OR      AT y = O with yT b = 1.
+
+      If b is not in the column space of A, it is not orthogonal to the nullspace of AT .
+      Multiply the equations XI - x 2 = 1 and x 2 - x 3 = 1 and XI - x 3 = 1 by numbers
+      YI, Yz, y3 chosen so that the equations add up to O = 1.
+4.1. Orthogonality of the Four Subspaces                                             203
+
+8     In Figure 4.3, how do we know that Axr is equal to Ax? How do we know that this
+      vector is in the column space? If A = [ � i] and x = [ 5] what is X r ?
+
+9     If AT Ax = 0 then Ax = 0. Reason: Ax is in the nullspace of AT and also in the
+       __ of A and those spaces are __ . Conclusion: AT A has the same nullspace
+      as A. This key fact is repeated in the next section.
+
+10    Suppose A is a symmetric matrix (AT = A).
+
+        (a) Why is its column space perpendicular to its nullspace?
+        (b) If Ax = 0 and Az = 5z, which subspaces contain these "eigenvectors" x
+            and z? Symmetric matrices have perpendicular eigenvectors xT z = 0.
+
+11    (Recommended) Draw Figure 4.2 to show each subspace correctly for
+
+                               A= [   ! �]   and    B= [   ! �] .
+12    Find the pieces Xr and Xn and draw Figure 4.3 properly if
+
+                                    1 -l
+                                A= [�  �i        and x= [�] .
+
+
+Questions 13-23 are about orthogonal subspaces.
+
+13    Put bases for the subspaces V and W into the columns of matrices V and W. Ex­
+      plain why the test for orthogonal subspaces can be written V T W = zero matrix.
+      This matches v T w = 0 for orthogonal vectors.
+
+14    The floor V and the wall W are not orthogonal subspaces, because they share a
+      nonzero vector (along the line where they meet). No planes V and Win R3 can be
+      orthogonal! Find a vector in the column spaces of both matrices:
+
+
+                                              and
+
+
+      This will be a vector Ax and also Bx. Think 3 by 4 with the matrix [ A B ] .
+
+15    Extend Problem 14 to a p-dimensional subspace V and a q-dimensional subspace
+      W of Rn . What inequality on p + q guarantees that V intersects Win a nonzero
+      vector? These subspaces cannot be orthogonal.
+
+16    Prove that every y in N(AT ) is perpendicular to every Ax in the column space,
+      using the matrix shorthand of equation (2). Start from AT y = 0.
+204                                                                 Chapter 4. Orthogonality
+
+11    If S is the subspace of R3 containing only the zero vector, what is S1_ ? If S is
+      spanned by (1, 1, 1), what is S1_ ? If Sis spanned by (1, 1, 1) and (1, 1, -1), what
+      is a basis for S1_ ?
+
+18    Suppose Sonly contains two vectors (1, 5, 1) and (2, 2, 2) (not a subspace). Then
+      S1- is the nullspace of the matrix A = __ . S1_ is a subspace even if Sis not.
+
+19    Suppose L is a one-dimensional subspace (a line) in R3. Its orthogonal complement
+      L 1_ is the __ perpendicular to L. Then (L 1_ )1_ is a __ perpendicular to L 1- _
+      In fact (L 1-) 1- is the same as __ .
+
+20    Suppose V is the whole space R4. Then V 1- contains only the vector __ . Then
+      (V1_ )1_ is __ . So (V1- ) 1_ is the same as __ .
+
+21    Suppose Sis spanned by the vectors (1, 2, 2, 3) and (1, 3, 3, 2). Find two vectors
+      that span S1_ . This is the same as solving Ax = 0 for which A?
+
+22    If P is the plane of vectors in R4 satisfying x 1 + x 2 + x 3 + x 4 = 0, write a basis
+      for p .l . Construct a matrix that has P as its nullspace.
+
+23    If a subspace Sis contained in a subspace V, prove that S.l contains V .l .
+
+Questions 24-30 are about perpendicular columns and rows.
+
+24    Suppose an n by n matrix is invertible: AA- 1 = I. Then the first column of A- 1 is
+      orthogonal to the space spanned by which rows of A?
+
+25    Find AT A if the columns of A are unit vectors, all mutually perpendicular.
+
+26    Construct a 3 by 3 matrix A with no zero entries whose columns are mutually per­
+      pendicular. Compute AT A. Why is it a diagonal matrix?
+
+27    The lines 3x + y = b 1 and 6x + 2y = b2 are __ . They are the same line if __ .
+      In that case ( b 1, b2) is perpendicular to the vector __ . The nullspace of the matrix
+      is the line 3x + y = __ . One particular vector in that nullspace is __ .
+
+28    Why is each of these statements false?
+
+       (a) (1, 1, 1) is perpendicular to (1, 1, -2) so the planes x + y + z = 0 and x + y -
+           2z = 0 are orthogonal subspaces.
+       (b) The subspace spanned by (1, 1, 0, 0, 0) and (0, 0, 0, 1, 1) is the orthogonal com­
+           plement of the subspace spanned by (1, -1, 0, 0, 0) and (2, -2, 3, 4, -4).
+       (c) Two subspaces that meet only in the zero vector are orthogonal.
+
+29    Find a matrix with v = (l, 2, 3) in the row space and column space. Find another
+      matrix with v in the nullspace and column space. Which pairs of subspaces can v
+      notbe in?
+4.1. Orthogonality of the Four Subspaces                                           205
+
+                                     Challenge Problems
+
+30    Suppose A is 3 by 4 and B is 4 by 5 and AB = 0. So N(A) contains C(B).
+      Prove from the dimensions of N(A) and C(B) that rank(A) + rank(B) S:: 4.
+31    The command N = null(A) will produce a basis for the nullspace of A. Then the
+      command B = null(N') will produce a basis for the __ of A.
+32    Suppose I give you four nonzero vectors r, n, c, l in R2 .
+        (a) What are the conditions for those to be bases for the four fundamental sub­
+            spaces C(AT ), N(A), C(A), N(AT ) of a 2 by 2 matrix?
+        (b) What is one possible matrix A?
+
+
+
+        (a) What are the conditions for those pairs to be bases for the four fundamental
+            subspaces of a 4 by 4 matrix?
+        (b) What is one possible matrix A?
+      206                                                                       Chapter 4. Orthogonality
+
+
+     4.2 Projections
+
+1 The projection of a vector b onto the line through a is the closest point p = a( aT b/ aTa).
+2 The error e = b -pis perpendicular to a: Right triangle b p e has I IPI l 2 + I lei l 2 = I Jbl l 2 .
+3 The projection of b onto a subspace Sis the closest vectorpin S; b -pis orthogonal to S.
+4 AT A is invertible (and symmetric) only if A has independent columns : N(AT A)= N(A).
+5 Then the projection of b onto the column space of A is the vector p = A(AT A)- 1 AT b.
+
+6 The projection matrix onto C(A) is IP= A(AT A)- 1 AT . I It hasp= Pb and P2 =P = p T _
+
+
+         May we start this section with two questions? (In addition to that one.) The first
+      question aims to show that projections are easy to visualize. The second question is about
+      "projection matrices"-symmetric matrices with P2 = P. The projection of bis Pb.
+
+          1 What are the projections of b = (2, 3, 4) onto the z axis and the xy plane?
+
+          2 What matrices A and P2 produce those projections onto a line and a plane?
+
+            When b is projected onto a line, its projection pis the part of b along that line.
+            If b is projected onto a plane, p is the part in that plane. The projection pis Pb.
+            The projection matrix P multiplies b to give p. This section finds p and also P.
+
+      The projection onto the z axis we call p1 . The second projection drops straight down to
+      the xy plane. The picture in your mind should be Figure 4.5. Start with b = (2, 3, 4).
+      The projection across gives p1 = (0, 0, 4). The projection down gives p2 = (2, 3, 0).
+      Those are the parts of b along the z axis and in the xy plane.
+          The projection matrices A and P2 are 3 by 3. They multiply b with 3 components
+      to produce p with 3 components. Projection onto a line comes from a rank one matrix.
+      Projection onto a plane comes from a rank two matrix:
+
+                                                                                  p.2 �    1   0    0
+        Projection matrix                                                             - [�
+                                                           Onto the xy plane:                           �]
+        Onto the z axis:                                                                        �
+
+         A picks out the z component of every vector. P2 picks out the x and y components.
+     To find the projections p1 and p2 of b, multiply b by A and P2 (small p for the vector,
+     capital P for the matrix that produces it):
+4.2. Projections                                                                          207
+
+In this case the projections p 1 and p 2 are perpendicular. The xy plane and the z axis
+are orthogonal subspaces, like the floor of a room and the line between two walls.
+
+
+
+               Projection p 1 = Ab=      [�zl ..._'' ..._ ':
+                                                                         l
+                                                               b=    ;
+                                                                    [x
+
+
+
+
+  Figure 4.5: The projections p 1 = Ab and p 2 = P2 b onto the z axis and the xy plane.
+
+    More than just orthogonal, the line and plane are orthogonal complements. Their
+dimensions add to 1 + 2 = 3. Every vector b in the whole space is the sum of its parts in
+the two subspaces. The projections p 1 and p 2 are exactly those two parts of b:
+
+          The vectors give p 1 + p 2 = b.         The matrices give A+ P2 = I.             (1)
+
+This is perfect. Our goal is reached-for this example. We have the same goal for any line
+and any plane and any n-dimensional subspace. The object is to find the part p in each
+subspace, and the projection matrix P that produces that part p = Pb. Every subspace
+of Rm has its own m by m projection matrix. To compute P, we absolutely need a good
+description of the subspace that it projects onto.
+    The best description of a subspace is a basis. We put the basis vectors into the columns
+of A. Now we are projecting onto the column space of A! Certainly the z axis is the
+column space of the 3 by 1 matrix A 1 . The xy plane is the column space of A 2 . That plane
+is also the column space of A 3 (a subspace has many bases). So p2 = p 3 and P2 = P3 .
+
+
+
+
+Our problem is to project any b onto the column space of any m by n matrix.
+Start with a line (dimension n = l). The matrix A will have only one column. Call it a.
+
+
+                                                                Projection Onto a Line
+A line goes through the origin in the direction of a = (a 1 , . . . ,a m )- Along that line,
+we want the point p closest to b = (b 1 , . . . , bm )- The key to projection is orthogonality:
+The line from b to p is perpendicular to the vector a. This is the dotted line marked
+e = b - p for the error on the left side of Figure 4.6. We now compute p by algebra.
+208                                                                           Chapter 4. Orthogonality
+
+    The projection p will be some multiple of a. Call it p = xa = "x hat" times a.
+                                x
+Computing this number will give the vector p. Then from the formula for p, we will
+read off the projection matrix P. These three steps will lead to all projection matrices:
+       x,
+find then find the vector p, then find the matrix P.
+    The dotted line b - p is the "error" e = b - xa. It is perpendicular to a-this will
+determine x. Use the fact that b-xa is perpendicular to a when their dot product is zero:
+
+
+       Projecting b onto a with error e = b - xa                      �  a,b  aT b
+                                                                      x------                     (2)
+       a·(b -xa)=O               or a,b-xa•a=O                          -a,a -aT a"
+
+
+The multiplication aT b is the same as a · b. Using the transpose is better, because it
+applies also to matrices. Our formula x = aT b/ aT a gives the projection p = xa.
+
+   b
+                    error
+            1       e =h-p                                                   p=Ax
+                I
+                                                                              = A(AT A)- 1 AT b
+                                                                              =Pb
+
+
+
+
+       Figure 4.6: The projection p of b onto a line and onto S = column space of A.
+
+
+
+                                                                �    aT b
+  The projection of b onto the line through a is the vector p = xa = --   a.
+                                                                     aT a
+
+    Special case 1: If b = a then x = l. The projection of a onto a is itself. Pa= a.
+
+    Special case 2: If bis perpendicular to a then aT b = 0. The projection is p = 0.
+
+
+
+
+                                         l                  l
+                                     1                  1
+
+Example 1              Project b = [ �       onto a = [ �       to find p = xa in Figure 4.6.
+
+
+Solution The number x is the ratio of a b = 5 to aT a = 9. So the projection is p = � a.
+                                                  T
+4.2. Projections                                                                                  209
+
+  The error vector between b and p is e = b - p. Those vectors p and e will add to
+b=(l,1,1):
+
+
+
+
+The error e should be perpendicular to a= (1         2,,2) and it is: eT a= ½ - � - � = 0.
+   Look at the right triangle of b, p, and e. The vector b is split into two parts-its
+component along the line is p, its perpendicular part is e. Those two sides p and e
+have length I IPI I = JJbJJ c os0 and I Jel I = llbll sin 0. Trigonometry matches the dot product:
+
+                                                     a
+          p = ::: a has length                   = JJ lJ i'i'!\\�
+                                                                    ose
+                                         IIPII                            lJaJJ = JJbJJ c os 0.    (3)
+
+The dot product is a lot simpler than getting involved with c os0 and the length of b.
+The example has square roots in cos0 = 5/3/3 and JJbll = /3. There are no square
+roots in the projection p = 5a/9. The good way to 5/9 is aT b/ aT a.
+   Now comes the projection matrix. In the formula for p, what matrix is multiplying b?
+You can see the matrix better if the number xis on the right side of a:
+
+
+    Projection                     aT b                                                    aaT
+                         p = ax = a--   = Pb              when the matrix is             P=�­
+    matrix P                       aT a                                                    a a
+
+P is a column times a row! The column is a, the row is aT. Then divide by the number
+aT a. The projection matrix P is m by m, but its rank is one. We are projecting onto a
+one-dimensional subspace, the line through a. That line is the column space of P.
+                                                         T
+Example 2      Find the projection matrix P = :�           onto the line through a = [ �] .
+                                                         a
+Solution Multiply column a times row aT and divide by aT a = 9:
+
+
+         Projection matrix
+
+
+This matrix projects any vector b onto a. Checkp = Pb for b = (1
+                                                               1,,
+                                                                1) in Example 1:
+
+
+              P =Pb=       !9 [� �
+                             244 1
+                                       �i [�]                5
+                                                       !9 [10]
+                                                         10
+                                                                      which is correct.
+
+
+If the vector a is doubled, the matrix P stays the same! It still projects onto the same line.
+If the matrix is squared, P2 equals P. Projecting a second time doesn't change anything,
+so P 2 = P. The diagonal entries of P add up to½ (1+   4+   4) =   1.
+210                                                                 Chapter 4. Orthogonality
+
+    The matrix I -P should be a projection too. It produces the other side e of the triangle­
+the perpendicular part of b. Note that (I - P)b equals b- p which is e in the left nullspace.
+   When P projects onto one subspace, I - P projects onto the perpendicular subspace.
+Here I - P projects onto the plane perpendicular to a.
+    Now we move beyond projection onto a line. Projecting onto an n-dimensional
+subspace of Rm takes more effort. The crucial formulas will be collected in equations
+(5)-(6)-(7). Basically you need to remember those three equations.
+
+                                                        Projection Onto a Subspace
+Start with n vectors a 1, ... , an in Rm . Assume that these a's are linearly independent.
+
+                                         x
+Problem: Find the combination p = 1 a 1 + · · · + Xn an closest to a given vector b.
+We are projecting each bin Rm onto the subspace spanned by the a's.
+    With n = l (one vector a 1) this is projection onto a line. The line is the column space
+of A, which has just one column. In general the matrix A has n columns a 1, ... , an .
+    The combinations in Rm are the vectors Ax in the column space. We are looking for
+the particular combination p = Ax (the projection) that is closest to b. The hat over x
+                          x,
+indicates the best choice to give the closest vector in the column space. That choice is
+x = aT b/ aT a when n = l. For n > l, the best x = (x1, ... , xn ) is to be found now.
+   We compute projections onto n-dimensional subspaces in three steps as before:
+Find the vector x, find the projection p = Ax, find the projection matrix P.
+   The key is in the geometry! The dotted line in Figure 4.6 goes from b to the nearest
+point Ax in the subspace. This error vector b - Ax is perpendicular to the subspace.
+The error b - Ax makes a right angle with all the vectors a 1 , . . . , an in the base.
+The n right angles give the n equations for  x:
+
+           aT(b-Ax) = 0
+                                  or                                                     (4)
+           aJ(b-Ax)=O
+
+
+The matrix with those rows a; is A T . The n equations are exactly A T (b - Ax) = 0.
+   Rewrite A T (b - Ax) = O in its famous form A T Ax = A T b. This is the equation
+   x,                                                       x
+for and the coefficient matrix is A T A. Now we can find and p and P, in that order.
+4.2. Projections                                                                        211
+
+                          x
+ The combination p = 1 a 1 + · · · + xn an = Ax that is closest to b comes from    x:
+                                                                                        (5)
+
+ This symmetric matrix AT A is n by n. It is invertible if the a's are independent.
+ The solution is x = (AT A)- 1 AT b. The projection of b onto the subspace is p:
+
+                   Find p (m x 1)                                                       (6)
+
+ The next formula picks out the projection matrix that is multiplying bin (6):
+
+                   Find P(m x m)                                                        (7)
+
+Compare with projection onto a line, when A has only one column : AT A is aT a.
+
+
+                                                                            aa T
+ Forn = 1                                and                      and   P=-.
+                                                                          T a a
+
+
+    Those formulas are identical with (5) and (6) and (7). The number aT a becomes the
+matrix AT A. When it is a number, we divide by it. When it is a matrix, we invert it.
+The new formulas contain (AT A)- 1 instead of l/aT a. The linear independence of the
+columns a 1, ... , a n will guarantee that this inverse matrix exists.
+    The key step was AT (b - Ax) = 0. We used geometry (e is orthogonal to each a).
+Linear algebra gives this "normal equation" too, in a very quick and beautiful way :
+
+   1. Our subspace is the column space of A.
+
+   2. The error vector b - Ax is perpendicular to that column space.
+
+   3. Therefore b - Ax is in the nullspace of AT ! This means AT ( b - Ax) = 0.
+
+The left nullspace is important in projections. That nullspace of AT contains the error
+vector e = b- Ax. The vector bis being split into the projection p and the error e = b- p.
+Projection produces a right triangle with sides p, e, and b.
+
+Example 3      If A = [   i i] and b = [ g] find x and p and P.
+Solution Compute the square matrix AT A and also the vector AT b:
+
+
+
+                        ; l [: [] � [; ;J                               ;1 m [ �]
+                    1                                               1
+                    1                                               1
+212                                                                 Chapter 4. Orthogonality
+
+Now solve the normal equation AT Ax= A T b to find     x:
+                   [� !] [!�] [�]           gives   x=   [!�] [_;].                      (8)
+
+The combination p = Axis the projection of b onto the column space of A:
+
+
+
+
+    Two checks on the calculation. First, the error e = (1, - 2, 1) is perpendicular to both
+columns (1, 1, 1) and (0, 1, 2). Second, the matrix P times b = (6, 0, 0) correctly gives
+p = (5, 2, -1). That solves the problem for one particular b, as soon as we find P.
+    The projection matrix is P = A(AT A)-1A T . The determinant of AT A is 15 9 = 6;
+                                                                                   -
+then (AT A)-1 is easy. Multiply A times (AT A)-1 times A T to reach P:
+
+              (AT A)-1 = � [
+                         6 -3
+                             5
+                                     -3]3   and     P= � [ �
+                                                       6 -1
+                                                                   ;
+                                                                   2
+                                                                       -
+                                                                           �1
+                                                                           5
+                                                                                       (10)
+
+
+We must have P2 = P, because a second projection doesn't change the first projection.
+Warning The matrix P = A(AT A)-1AT is deceptive. You might try to split (AT A)-1
+into A-1 times (AT )-1. If you make that mistake, and substitute it into P, you will find
+P = AA-1(AT )-1A T . Apparently everything cancels. This looks like P = I, the identity
+matrix. We want to say why this is wrong.
+    The matrix A is rectangular. It has no inverse matrix. We cannot split (AT A)-1 into
+    1
+A- times (AT )-1 because there is no A - l in the first place.
+    In our experience, a problem that involves a rectangular matrix almost always leads to
+A T A. When A has independent columns, AT A is invertible. This fact is so crucial that we
+state it clearly and give a proof.
+
+ AT A is invertible if and only if A has linearly independent columns.
+
+Proof AT A is a square matrix ( n by n). For every matrix A, we will now show that
+A T A has the same nullspace as A. When the columns of A are linearly independent, its
+nullspace contains only the zero vector. Then AT A, with this same nullspace, is invertible.
+    Let A be any matrix. If xis in its nullspace, then Ax = 0. Multiplying by A T gives
+A Ax = 0. So xis also in the nullspace of A T A.
+  T
+
+    Now start with the nullspace of AT A. From AT Ax = Owe must prove Ax = 0.
+We can't multiply by (AT )-1, which generally doesn't exist. Just multiply by xT :
+               (xT )AT Ax= 0 or (Ax?(Ax) = 0 or                 IIAxll2 = 0.           (11)
+We have shown: If A Ax = 0 then Axhas length zero. Therefore Ax = 0. Every vector
+                     T
+
+x in one nullspace is in the other nullspace. If AT A has dependent columns, so has A.
+If A T A has independent columns, so has A. This is the good case : AT A is invertible.
+4.2. Projections                                                                       213
+
+     When A has independent columns, A T A is square, symmetric, and invertible.
+
+To repeat for emphasis: AT A is (n by m) times (m by n). Then AT A is square (n by n).
+It is symmetric, because its transpose is (AT A)T = AT (AT )T which equals AT A. We just
+proved that AT A is invertible-provided A has independent columns. Watch the difference
+between dependent and independent columns:
+
+               AT         A                         AT            A
+
+
+           [; ; �] [i �]
+                     dependent    singular
+                                                [i ; �] [i �]indep.       invertible
+
+
+
+Very brief summary To find the projectionp = :i\a1 + · · · +xn an , solve AT Ax= AT b.
+This gives x. The projection is p = Ax and the error is e = b - p = b - Ax. The
+projection matrix P = A(AT A)- 1 AT gives p = Pb.
+    This matrix satisfies P 2 = P. The distance from b to the subspace C(A) is llell-
+
+
+
+                      •   REVIEW OF THE KEY IDEAS                     •
+
+   1. The projection of b onto the line through a is p = ax = a( aT b/ aT a).
+
+   2. The rank one projection matrix P = aaT / aT a multiplies b to produce p.
+
+   3. Projecting b onto a subspace leaves e = b - p perpendicular to the subspace.
+
+   4. When A has full rank n, the equation AT Ax= AT b leads to x and p = Ax.
+
+   5. The projection matrix P = A(AT A)- 1 AT has p T = P and P 2 = P and Pb= p.
+
+
+
+
+                          • WORKED EXAMPLES                   •
+
+
+4.2 A     Project the vector b = (3, 4, 4) onto the line through a = (2, 2, 1) and then
+onto the plane that also contains a* = (1, 0, 0). Check that the first error vector b - p
+is perpendicular to a, and the second error vector e* = b - p* is also perpendicular to a*.
+    Find the 3 by 3 projection matrix P onto that plane of a and a*. Find a vector whose
+projection onto the plane is the zero vector. Why is it exactly the error e* ?
+214                                                                   Chapter 4. Orthogonality
+
+Solution      The projection of b = (3,4,4) onto the line through a= (2,2,1) is p = 2a:
+
+                                 aT b  18
+Onto a line                  p = -T a= -(2 ,2 , 1 ) = (4,4,2 ) = 2a.
+                                 a a   9
+The error vector e = b -p = (-l,0,2 ) is perpendicular to a= (2 ,2 , 1). Sop is correct.
+   The plane of a= (2,2,1) and a*= (1,0,0) is the column space of A= [a a*]:
+
+
+                                         (AT A)-1 =    !5 [-21 -29] P = [10 .8o .4ol
+                                                                               0     .4   .2
+
+Now p* = Pb= (3,4.8,2 .4). The error e* = b - p* = (0, -.8,1.6) is perpendicular to
+a and a*. This e* is in the nullspace of P and its projection is zero! Note P 2 = P = p T _
+
+4.2 B     Suppose your pulse is measured at x = 70 beats per minute, then at x = 80,
+then at x = 12 0. Those three equations Ax = b in one unknown have AT = [ 1 1 1] and
+b = (70,80, 12 0). The best xis the __ of 70, 80,120. Use calculus and projection:
+
+     1. Minimize E = (x - 70)2 +(x - 80)2 +(x - 12 0)2 by solving dE/dx = 0.
+     2. Project b = (70,80, 12 0) onto a= (l, 1, 1) to find x = aT bjaT a.
+
+
+Solution     The closest horizontal line to the heights 70,80, 1 20 is the average   x =90:
+     dE                                       .    � 70+80+ 12 0
+    - = 2(x - 70)+2(x - 80)+ 2(x - 12 0) = 0 gives x = ---- =90.
+     dX                                                  3
+
+                             x= a b = ( 1 , 1, 1 ?(70,80, 12 0) = 70+80+ 12 0 =90 ·
+                                    T
+    Also by projection
+                                aT a      ( 1, 1,l)T(l, 1, 1)         3
+In recursive least squares, a fourth measurement 130 changes the average Xold = 90 to
+                                                                         x
+Xnew = 100. Verify the update formula Xnew = Xold + ¾( 1 30 - 01d )- When a new
+measurement arrives, we don't have to average all the old measurements again!
+
+
+Problem Set 4.2
+Questions 1-9 ask for projections p onto lines. Also errors e = b - p and matrices P.
+
+1       Project the vector b onto the line through a. Check that e is perpendicular to a:
+4.2. Projections                                                                       215
+
+
+2     Draw the projection of b onto a and also compute it from p = xa:
+
+        (a) b=     [:�:!]   and   a=[�]           (b)   b = [ �]   and a = [_ �] .
+
+3     In Problem 1, find the projection matrix P = aaTjaT a onto the line through each
+      vector a. Verify in both cases that P2 = P. Multiply Pb in each case to compute
+      the projection p.
+4     Construct the projection matricesA and P2 onto the lines through the a's in Prob­
+      lem 2. Is it true that (A + P ) = A + P2 ? This would be true if AP2 = 0.
+                                   2
+                                       2
+
+
+
+
+5     Compute the projection matrices aaT/ aT a onto the lines through a 1 = ( -1,2,2)
+      and a 2 = (2,2, -1). Multiply those projection matrices and explain why their prod­
+      uctAA is what it is.
+
+6     Project b = (1, 0, 0) onto the lines through a 1 and a2 in Problem 5 and also onto
+      a3 = (2, -1,2). Add up the three projections p 1 + p2 + p 3.
+7     Continuing Problems 5-6, find the projection matrix P3 onto a 3 = (2, -1,2). Verify
+      that A + P2 + P3 = I. This is because the basis a 1, a 2, a 3 is orthogonal!
+
+
+        a3 = [-�]
+                   2         a1   =
+                                    [-1]   2
+                                                                          a2   = [;]
+
+                                                                           b=   [!]
+                                  a, =     [ j]              P1P2a1
+
+
+              Questions 5-6-7: orthogonal                 Questions 8-9-10: not orthogonal
+
+
+8     Project the vector b = (1,1) onto the lines through a 1 = (1, 0) and a2 = (1,2).
+      Draw the projections p 1 and p 2 and add p 1 + p 2 . The projections do not add to b
+      because the a's are not orthogonal.
+
+9     In Problem 8, the projection of b onto the plane of a 1 and a2 will equal b. Find
+      P=A(ATA)- 1AT forA= [a 1 a2] = [H] = invertible matrix.
+
+10    Project a 1 = (1, 0) onto a 2 = (1,2). Then project the result back onto a 1. Draw
+      these projections and multiply the projection matricesAP2 : Is this a projection?
+216                                                                 Chapter 4. Orthogonality
+
+Questions 11-20 ask for projections, and projection matrices, onto subspaces.
+
+
+
+
+                      il                                      [i : l
+11    Project b onto the column space of A by solving AT Ax= AT b and p = Ax:
+
+
+       (a) A� [�            and b �     m        ( b)   A�               and b �    m
+      Find e = b - p. It should be perpendicular to the columns of A.
+12    Compute the projection matrices A and P2 onto the column spaces in Problem 11.
+      Verify that Ab gives the first projection p 1 . Also verify P} = P2 .
+13    (Quick and Recommended) Suppose A is the 4 by 4 identity matrix with its last
+      column removed. A is 4 by 3. Project b = (1, 2, 3, 4) onto the column space of A.
+      What shape is the projection matrix P and what is P?
+14    Suppose b equals 2 times the first column of A. What is the projection of b onto
+      the column space of A? Is P = I for sure in this case? Compute p and P when
+      b = (0, 2, 4) and the columns of A are (0, 1, 2) and (1, 2, 0).
+15    If A is doubled, then P= 2A(4AT A)- 1 2AT _ This is the same as A(AT A)- 1 AT .
+                                                          x
+      The column space of 2A is the same as __ . Is the same for A and 2A?
+16    What linear combination of (1, 2, -1) and (1, 0, 1) is closest to b = (2, 1, 1)?
+17    (Important) If P2 = P show that (I - P)2 = I - P. When P projects onto the
+      column space of A, I - P projects onto the __ .
+18     (a) If Pis the 2 by 2 projection matrix onto the line through (1, 1), then I - Pis
+           the projection matrix onto __ .
+       (b) If Pis the 3 by 3 projection matrix onto the line through (1, 1, 1), then I - P
+           is the projection matrix onto __ .
+19    To find the projection matrix onto the plane x - y - 2z = 0, choose two vectors in
+      that plane and make them the columns of A. The plane will be the column space of
+      A! Then compute P= A(AT A)- 1 AT .
+20    To find the projection matrix P onto the same plane x - y - 2z = 0, write down a
+      vector e that is perpendicular to that plane. Compute the projection Q = eeT/ eTe
+      and then P= I - Q.
+Questions21-26show that projection matrices satisfy P 2 = P and p T = P.
+21    Multiply the matrix P A(AT A)- 1 AT by itself. Cancel to prove that P2 = P.
+      Explain why P(Pb) always equals Pb: The vector Pb is in the column space of A
+      so its projection onto that column space is __ .
+22    Prove that P= A(AT A)- 1 AT is symmetric by computing p T _ Remember that the
+      inverse of a symmetric matrix is symmetric.
+4.2. Projections                                                                        217
+
+
+23    If A is square and invertible, the warning against splitting ( AT A)- 1 does not apply.
+      It is true that AA- l (AT )- 1AT = I. When A is invertible, why is P = I? What is
+      the error e?
+
+24    The nullspace of AT is __ to the column space C(A). So if AT b = 0, the
+      projection of b onto C(A) should be p = _ _ . Check that P = A(AT A)- 1 AT
+      gives this answer.
+
+25    The projection matrix P onto an n-dimensional subspace of Rm has rank r = n.
+      Reason: The projections Pb fill the subspace S. So Sis the _ _ of P.
+
+26    If anm bym matrix has A2 = A and its rank ism, prove that A= I.
+
+27    The important fact that ends the section is this: If AT Ax = 0 then Ax = 0.
+      New Proof: The vector Ax is in the nullspace of __ . Ax is always in the column
+      space of __ . To be in both of those perpendicular spaces, Ax must be zero.
+
+28    Use T = P and P 2 = P to prove that the length squared of column 2 always
+          p the diagonal entry A . This number is � = � + � + � for
+      equals                    2                     3   3   3
+
+
+
+
+                                            ! [ � � -�i
+                                        =
+                                    p       6   -1    2    5
+
+29    If B has rankm (full row rank, independent rows) show that BE T is invertible.
+
+                                    Challenge Problems
+
+30      (a) Find the projection matrix Pc onto the column space of A (after looking closely
+            at the matrix!)
+                                                     3 6 6
+                                            A=[
+                                                     4 8 8]
+        (b) Find the 3 by 3 projection matrix PR onto the row space of A. Multiply B =
+            P0APR . Your answer B should be a little surprising-can you explain it?
+
+31    In Rm , suppose I give you b and also a combination p of a 1, ... , an . How would
+      you test to see if pis the projection of b onto the subspace spanned by the a's?
+
+32    Suppose Pi is the projection matrix onto the I-dimensional subspace spanned by
+      the first column of A. Suppose P2 is the projection matrix onto the 2-dimensional
+      column space of A. After thinking a little, compute the product P2 Pi.
+
+                                        A� [ �        :]
+218                                                                 Chapter 4. Orthogonality
+
+33    Suppose you know the average Xo Jd of b1, b2, ..., b999. When b1000 arrives, check
+      that the new average is a combination of Xo Jd and the mismatch b1000 - Xo ld:
+
+      xne = b1 + · · · + b1000 = b1 + · · · + bggg + _1_ (b1            _ b1 + · · · + b999
+                                                                                           ) ·
+          w           1000                 999          1000
+                                                                  000
+                                                                                999
+
+      This is a "Kalman fi.Uer" Xnew = Xo ld + iloo (b1000 - Xo Jd) with gain matrix 10100 .
+      The last page of the book extends the Kalman filter to matrix updates.
+
+34    (2017) Suppose Pi and P2 are projection matrices (Pl= Pi= P?). Prove this fact:
+                    Pi P2 is a projection matrix if and only if Pi P2 = P2 A.
+     4.3. Least Squares Approximations                                                               219
+
+     4.3        Least Squares Approximations
+
+           I                   I
+1 Solving AT A x = AT b gives the projection p = Ax of b onto the column space of A.
+
+2 When Ax= b has no solution, xis the "least -squares solution": I lb - Axl 1 = minimum.
+                                                                                       2
+
+
+
+
+3 Setting partial derivatives of E = I !Ax - bl 1 to zero (
+                                                   2
+                                                               gf = 0) also produces A Ax = A b.
+                                                                                            T           T
+
+
+
+4 To fit points (t1, b1), ..., (t m , bm ) by a straight line, A has columns (1, ..., 1) and (t1, ..., tm )-
+
+                                            m          � ti ] and A T b .s the vector [ � bi ] .
+S In that case AT A is the 2 by 2 matrix [ � ti
+                                                       �  tr            1               � tibi
+
+
+
+        It often happens that Ax = b has no solution. The usual reason is: too many equations.
+     The matrix A has more rows than columns. There are more equations than unknowns
+     (mis greater thann). Then columns span a small part of m-dimensional space. Unless all
+     measurements are perfect, b is outside that column space of A. Elimination reaches an
+     impossible equation and stops. But we can't stop just because measurements include noise!
+          To repeat: We cannot always get the error e = b - Ax down to zero. When e is zero,
+      x is an exact solution to Ax = b. When the length of e is as small as possible, x is a
+                                                                           x
+      least squares solution. Our goal in this section is to compute and use it. These are real
+      problems and they need an answer.
+         The previous section emphasized p (the projection). This section emphasizes x (the
+     least squares solution). They are connected by p = Ax. The fundamental equation is still
+     AT Ax=AT b. Here is a short unofficial way to reach this "normal equation":
+
+
+               When Ax= b has no solution, multiply by AT and solve AT Ax=AT b.
+
+
+
+      Example 1       A crucial application of least squares is fitting a straight line to m points.
+      Start with three points: Find the closest line to the points (0, 6), (1, 0), and (2, 0).
+      No straight line b = C + Dt goes through those three points. We are asking for two
+      numbers C and D that satisfy three equations: n = 2 and m = 3. Here are the three
+      equations at t=0, l, 2 to match the given values b=6, 0, 0:
+
+               t=O       The first point is on the line b = C + Dt if            C+D·0=6
+               t=l       The second point is on the line b= C + Dt if            C+D·l=0
+               t=2       The third point is on the line b = C + Dt if            C+D·2= 0.
+220                                                                      Chapter 4. Orthogonality
+
+This 3 by 2 system has no solution: b = (6, 0, 0) is not a combination of the columns
+(1, 1, 1) and (0, 1, 2). Read off A, x, and b from those equations:
+
+
+            A�     [t !]       x�   [g]     b�    m       Ax�bisnotsolvable
+
+
+The same numbers were in Example 3 in the last section. We computed = (5, -3).    x
+Those numbers are the best C and D, so 5 - 3t will be the best line for the 3 points.
+We must connect projections to least squares, by explaining why A TAx= A T b.
+   In practical problems, there could easily be m = 100 points instead of m = 3. They
+don't exactly match any straight line C + Dt. Our numbers 6, 0, 0 exaggerate the error so
+you can see e1, e 2 , and e3 in Figure 4.6.
+
+                                                                      Minimizing the Error
+How do we make the error e = b - Ax as small as possible? This is an important question
+with a beautiful answer. The best x (called x) can be found by geometry (the error
+e meets the column space of A at 90° ) and by algebra : A TAx = A T b. Calculus gives the
+same x: the derivative of the error I !Ax - bl 1 2 is zero atx.
+By geometry Every Ax lies in the plane of the columns (1, 1, 1) and (0, 1, 2). In that
+plane, we look for the point closest to b. The nearest point is the projection p.
+The best choice for Ax is p. The smallest possible error is e = b - p, perpendicular
+to the columns. The three points at heights (p 1, p 2, p 3) do lie on a line, because p is in the
+column space of A. In fitting a straight line, xis the best choice for ( C, D).
+By algebra Every vector b splits into two parts. The part in the column space is p.
+The perpendicular part is e. There is an equation we cannot solve (Ax = b). There is an
+equation Ax= p we can and do solve (by removing e and solving A TAx= A T b) :
+
+ Ax = b = p + e is impossible             Ax = p is solvable
+
+The solution to Ax= p leaves the least possible error (which is e):
+
+                                       IIAx - bll = !!Ax - Pll + llell -
+                                                 2            2       2
+Squared length for any x                                                                      (2)
+
+This is the law c2 = a 2 + b 2 for a right triangle. The vector Ax - pin the column space
+is perpendicular to e in the left nullspace. We reduce Ax - p to zero by choosing x =         x.
+That leaves the smallest possible error e = ( e1, e2 , e3) which we can't reduce.
+    Notice what "smallest" means. The squared length of Ax - b is minimized:
+
+       The least squares solution   x makes E = 11 Ax - b11 as small as possible.
+                                                                  2
+
+
+
+
+   Figure 4.6a shows the closest line. It misses by distances e1, e 2 , e3 = 1, -2, 1.
+Those are vertical distances. The least squares line minimizes E = ei + e� + e�.
+4.3. Least Squares Approximations                                                      221
+
+    Figure 4.6b shows the same problem in 3-dimensional space (b p e space). The vector
+b is not in the column space of A. That is why we could not solve Ax = b. No line goes
+through the three points. The smallest possible error is the perpendicular vector e. This is
+e = b - Ax, the vector of errors (1, -2, 1) in the three equations. Those are the distances
+from the best line. Behind both figures is the fundamental equation ATAx = AT b.
+
+
+
+
+                         P2 = 2
+        b
+               e2 = -2                     b3 = 0   b=
+             L------""'*--�,........:')i(' e3 = 1
+                                          p3 = -1
+      errors = vertical distances to line                      e = (1,-2, I)
+
+Figure 4.6: Best line and projection: Two pictures, same problem. The line has heights
+p = (5, 2, -1) with errors e = (1, -2, 1). The equations ATAx=AT b give x = (5, -3).
+Same answer! The best line is b = 5 - 3t and the closest point is p = 5a 1 - 3a 2.
+
+   Notice that the errors 1, -2, 1 add to zero. Reason: The error e = (e1, e2, e3) is
+perpendicular to the first column (1, 1, 1) in A. The dot product gives e1 + e2 + e3 = 0.
+
+By calculus Most functions are minimized by calculus! The graph bottoms out and the
+derivative in every direction is zero. Here the error function E to be minimized is a sum of
+squares ei + e� + e� (the square of the error in each equation):
+
+            E = IIAx - bll 2 = (C+D·0 - 6)2 +(C+D·1)2 +(C+D·2)2 .                       (3)
+
+The unknowns are C and D. With two unknowns there are two derivatives-both zero
+at the minimum. They are "partial derivatives" because 8E / fJC treats D as constant and
+8E/8D treats C as constant:
+      8E/8C=2(C+D·0-6)                  +2(C+D·l)          +2(C+D·2)            =0
+
+      8E/8D = 2(C+D·0 - 6)(0)+2(C+D·1)(1)+2(C+D·2)(2) = 0.
+8E/ 8D contains the extra factors O, 1, 2 from the chain rule. (The last derivative from
+(C + 2D) 2 was 2 times C + 2D times that extra 2.) Those factors are just 1, 1, 1 in
+8E/8C.
+222                                                                           Chapter 4. Orthogonality
+
+    It is no accident that those factors 1, 1, 1 and 0, 1, 2 in the derivatives of I IAx - bl 1 2
+are the columns of A. Now cancel 2 from every term and collect all C's and all D's:
+      The C derivative is zero: 30 + 3D = 6                                   3 3
+                                                      This matrix [               ] is A T A       (4)
+      The D derivative is zero: 30 + 5D = O                                   3 5
+
+These equations are identical with ATAx = AT b. The best C and D are the components
+of x. The equations from calculus are the same as the "normal equations" from linear
+algebra. These are the key equations of least squares:
+
+          The partial derivatives of II Ax - bll 2 are zero when A Ax = ATb.
+                                                                              T
+
+
+
+The solution is C = 5 and D = -3. Therefore b = 5 - 3t is the best line-it comes
+closest to the three points. At t = 0, 1, 2 this line goes through p = 5, 2, -1.
+It could not go through b = 6, 0, 0. The errors are 1, -2, 1. This is the vector el
+
+                                                  The Big Picture for Least Squares
+The key figure of this book shows the four subspaces and the true action of a matrix. The
+vector x on the left side of Figure 4.3 went to b = Ax on the right side. In that figure x
+was split into Xr + Xn. There were many solutions to Ax = b.
+    In this section the situation is just the opposite. There are no solutions to Ax = b.
+Instead of splitting up x we are splitting up b = p + e. Figure 4.7 shows the big picture
+for least squares. Instead of Ax = b we solve Ax = p. The error e = b-p is unavoidable.
+
+
+
+                                       solvable for p                         column space
+            row space             p is in the column space                     inside Rm
+             is all of Rn
+                     ---+------------------
+                              Ax=p
+                                                     - p = Pb is
+                                                 .,, .,,
+                 best x                      .,,         nearest to b
+                                 _b
+                              A X-       .,-
+                         ----------------�
+                              not solvable for b                ,b = p + e
+                                b is not in the column- space    \
+                                                                  \
+                                                                      \
+                                                                          \
+                                                                       e = minimum error
+             0
+   Independent columns                                           nullspace/
+   Nullspace = {O}                                                of AT
+
+
+   Figure 4.7: The projection p =Ax is closest to b, so x minimizes E = llb - Axll 2 .
+
+    Notice how the nullspace N(A) is very small-just one point. With independent
+columns, the only solution to Ax = 0 is x = 0. Then ATA is invertible. The equation
+ATAx =AT b fully determines the best vector x. The error has AT e = 0.
+4.3. Least Squares Approximations                                                            223
+
+    Chapter 7 will have the complete picture-all four subspaces included. Every x splits
+                                                                         x
+into X r + X n , and every b splits into p + e. The best solution is = X r in the row space.
+We can't help e and we don't want X n from the nullspace-this leaves Ax = p.
+
+
+                                                                    Fitting a Straight Line
+Fitting a line is the clearest application of least squares. It starts with m > 2 points,
+hopefully near a straight line. At times t 1, ... , tm those m points are at heights
+b1, ... , bm . The best line C + Dt misses the points by vertical distances e1, ... , e m .
+No line is perfect, and the least squares line minimizes E = er+···+ e;,...
+     The first example in this section had three points in Figure 4.6. Now we allow m points
+                                                    x
+(and m can be large). The two components of are still C and D.
+     A line goes through them points when we exactly solve Ax = b. Generally we can't
+do it. Two unknowns C and D determine a line, so A has only n = 2 columns. To fit the
+m points, we are trying to solve m equations (and we only have two unknowns!).
+
+                                  C+Dti = bi
+
+
+
+                                                                         r; 1
+                                  C + Dt2 = b2                                 t2
+                 Ax=b is                                with       A            .     .       (5)
+
+                                 C+Dtm = bm                          �         tt,m
+
+The column space is so thin that almost certainly b is outside of it. When b happens to lie
+in the column space, the points happen to lie on a line. In that case b = p. Then Ax = b
+is solvable and the errors are e = (0, ..., 0).
+      The closest line C + Dt has heights p 1, . . . , Prn with errors e 1, • • • , e rn .
+      Solve AT Ax= AT b for x = (C, D). The errors are ei = bi - C - Dti.
+   Fitting points by a straight line is so important that we give the two equations AT Ax=
+  T
+A b, once and for all. The two columns of A are independent (unless all times ti are the
+same). So we turn to least squares and solve AT Ax= AT b.
+
+
+
+Dot-product matrix AT A = [ t�                                                                (6)
+
+
+On the right side of the normal equation is the 2 by 1 vector AT b:
+
+
+                                                                                              (7)
+
+
+
+In a specific problem, these numbers are given. The best x = ( C, D) is (AT A)- 1AT b.
+224                                                                     Chapter 4. Orthogonality
+
+
+The line C + Dt minimizes d + · · · + e;,, = II Ax- bll 2 when A Ax= A b:
+
+                                                                l [ C] [ l
+                                                                        T            T
+
+
+
+                                                 m      I; ti           I; bi
+                                            [                                   .                (8)
+                                                I; ti   I; t;    D -   I; ti bi
+
+
+The vertical errors at the m points on the line are the components of e = b - p. This
+error vector (the residual) b - Ax is perpendicular to the columns of A (geometry). The
+error is in the nullspace of AT (linear algebra). The best x = (C, D) minimizes the total
+error E, the sum of squares (calculus):
+          E(x) = II Ax- bll 2 = (C + Dt1 - b1) 2 + · · · + (C + Dtm - bm ) 2 ,
+Calculus sets the derivatives 8E/8C and 8E/8D to zero, and produces AT Ax= AT b.
+     Other least squares problems have more than two unknowns. Fitting by the best parabola
+has n = 3 coefficients C, D, E (see below). In general we are fitting m data points
+by n parameters x 1, ... , Xn. The matrix A has n columns and n < m. The derivatives
+of II Ax - bll 2 give then equations AT Ax= AT b. The derivative of a square is linear.
+This is why the method of least squares is so popular.
+Example 2     A has orthogonal columns when the measurement times ti add to zero.
+Suppose b = 1,2, 4 at times t = -2, 0,2. Those times add to zero. The columns of A have
+zero dot product: (1,1,1) is orthogonal to (-2, 0,2):
+               C + D(-2) = 1
+               C + D(O) = 2            or
+               C + D(2) = 4
+When the columns of A are orthogonal, AT A will be a diagonal matrix:
+
+                                            is                                                   (9)
+
+Main point: Since AT A is diagonal, we can solve separately for C = and D = f      The      i.
+zeros in AT A are dot products of perpendicular columns in A. The diagonal matrix AT A,
+                         tr
+with entries m = 3 and + t� + t� = 8, is virtually as good as the identity matrix.
+  Orthogonal columns are so helpful that it is worth shifting the times by subtracting the
+average timet = (ti + · · · + tm ) / m. If the original times were1, 3, 5 then their average is
+t= 3. The shifted times T = t- t= t- 3 add up to zero!
+       T1 = 1- 3 = -2
+       T2 = 3- 3 = 0                                                T
+                                                                   Anew Anew =
+                                                                                    [3 0]
+                                                                                    0    8 ·
+       T3 = 5- 3 = 2
+Now C and D come from the easy equation (9). Then the best straight line uses C + DT
+which is C + D(t- t) = C + D(t- 3). Problem 30 even gives a formula for C and D.
+4.3. Least Squares Approximations                                                                        225
+
+  That was a perfect example of the "Gram-Schmidt idea" coming in the next section:
+Make the columns orthogonal in advance. Then AJew Anew is diagonal and X new is easy.
+
+
+                                           Dependent Columns in A: What is x?
+From the start, this chapter has assumed independent columns in A. Then AT A is invert­
+ible. Then AT Ax= ATb produces the least squares solution to Ax= b.
+           x
+    Which is best if A has dependent columns? Here is a specific example.
+
+
+
+[ i n [ :� J [n
+                                                                                           •
+                         =b
+                                    [ i i] [ �� ] [;]        =p
+                                                                      b1 = 3      '
+                                                                                    '
+                                                                               - - - ,,,
+                                                                                      -...- - -
+                                                                                                /
+                                                                                                     /
+
+
+
+
+            Ax=b                                Ax=p
+                                                                      b2 = 1      /        •
+                                                                                      .,. / I
+                                                                                                '
+                                                                                                 '
+                                                                                                     '
+
+                                                                                                           t
+                                                                                   T=1
+
+    The measurements b 1 = 3 and b 2 = 1 are at the same time T! A straight line C + Dt
+cannot go through both points. I think we are right to project b = (3, 1) top = (2, 2) in
+the column space of A. That changes the equation Ax = b to the equation Ax = p.
+An equation with no solution has become an equation with infinitely many solutions.
+The problem is that A has dependent columns and ( 1, -1) is in its nullspace.
+                     x
+    Which solution should we choose? All the dashed lines in the figure have the same
+two errors 1 and -1 at time T. Those errors ( 1, -1) = e = b -p are as small as possible.
+But this doesn't tell us which dashed line is best.
+    My instinct is to go for the horizontal line at height 2. If the equation for the best line
+                                              x                   x
+is b = C + Dt, then my choice will have 1 = C = 2 and 2 = D = 0. But what if
+the line had been written as b = ct + d? This is equally correct (just reversing C and D).
+                             x                 x
+Now the horizontal line has 1 = c = 0 and 2 = d = 2. I don't see any way out.
+   In Section 7.4, the "pseudoinverse" of A will choose the shortest solution to Ax = p.
+Here, that shortest solution will be x+ = (1, 1). This is the particular solution in the row
+space of A, and x+ has length v'2. (Both solutions x = (2, 0) and (0, 2) have length 2.)
+We are arbitrarily choosing the nullspace component of the solution x+ to be zero.
+   When A has independent columns, the nullspace only contains the zero vector and the
+pseudoinverse is our usual left inverse L = (AT A)- 1 AT . When I write it that way, the
+pseudoinverse sounds like the best way to choose x.
+    Comment MATLAB experiments with singular matrices produced either Inf or NaN
+(Not a Number) or 10 16 (a bad number). There is a warning in every case! I believe that Inf
+and NaN and 10 16 come from the possibilities Ox = b and Ox = 0 and 10- 16 x = 1.
+    Those are three small examples of three big difficulties: singular with no solution,
+singular with many solutions, and very very close to singular.
+226                                                                    Chapter 4. Orthogonality
+
+                                                                   Fitting by a Parabola
+If we throw a ball, it would be crazy to fit the path by a straight line. A parabola b =
+C + Dt + Et 2 allows the ball to go up and come down again (bis the height at time t).
+The actual path is not a perfect parabola, but the whole theory of projectiles starts with that
+approximation.
+    When Galileo dropped a stone from the Leaning Tower of Pisa, it accelerated.
+The distance contains a quadratic term ½gt2 . (Galileo's point was that the stone's mass is
+not involved.) Without that t2 term we could never send a satellite into its orbit.
+But even with a nonlinear function like t2 , the unknowns C, D, E still appear linearly!
+Fitting points by the best parabola is still a problem in linear algebra.
+Problem Fit heights b 1, ... , bm at times t 1, ... , t m by a parabola C + Dt + Et 2•
+
+Solution With m > 3 points, the m equations for an exact fit are generally unsolvable:
+
+
+
+                                     is Ax= b with
+                                                                                           (10)
+                                     the m by 3 matrix
+    C + Dt m + Et;,, = bm
+
+Least squares The closest parabola C + Dt + Et 2 chooses x =                     (C, D, E) to
+satisfy the three normal equations AT Ax = AT b.
+    May I ask you to convert this to a problem of projection? The column space of A has
+dimension __ . The projection of b is p = Ax, which combines the three columns
+using the coefficients C, D, E. The error at the first data point is e 1 = b 1 - C - Dt i - Etr.
+The total squared error is  er  + __ . If you prefer to minimize by calculus, take the
+partial derivatives of E with respect to __ , __ , __ . These three derivatives will
+be zero when x = ( C, D, E) solves the 3 by 3 system of equations AT Ax = AT b.
+    Section 10.5 has more least squares applications. The big one is Fourier series­
+approximating functions instead of vectors. The function to be minimized changes from a
+                       er
+sum of squared errors + ... + e� to an integral of the squared error.
+Example 3    For a parabola b = C + Dt + Et 2 to go through the three heights b = 6, 0, 0
+when t =0, 1, 2, the equations for C, D, E are
+
+                                  C + D·0 + E·02 = 6
+                                   C+D·l+E-12 =0                                           (11)
+                                  C + D·2 + E· 2 =0.  2
+
+
+    This is Ax = b. We can solve it exactly. Three data points give three equations and
+a square matrix. The solution is x = (C, D, E) = (6, -9, 3). The parabola through the
+three points in Figure 4.8a is b = 6 - 9t + 3t 2 .
+4.3. Least Squares Approximations                                                         227
+
+    What does this mean for projection? The matrix has three columns, which span the
+whole space R3 . The projection matrix is the identity. The projection of b is b. The error
+is zero. We didn't need AT Ax = AT b, because we solved Ax = b. Of course we could
+multiply by AT , but there is no reason to do it.
+    Figure 4.8 also shows a fourth point b4 at time t 4. If that falls on the parabola, the new
+Ax = b (four equations) is still solvable. When the fourth point is not on the parabola, we
+tum to AT Ax = AT b. Will the least squares parabola stay the same, with all the error at
+the fourth point? Not likely!
+    Least squares balances the four errors to get three equations for C, D, E.
+
+        6
+
+
+
+
+Figure 4.8: An exact fit of the parabola at t = 0, 1, 2 means that p = b and e = 0. The
+fourth point @ off the parabola makes m > n and we need least squares: project b on
+C (A). The figure on the right shows b-not a combination of the three columns of A.
+
+
+
+
+                       •   REVIEW OF THE KEY IDEAS                   •
+
+   1. The least squares solution x minimizes 11 Ax - b 11 2 = x T AT Ax - 2x T AT b + b b.
+                                                                                           T
+
+      This is E, the sum of squares of the errors in the m equations ( m > n).
+
+   2. The best x comes from the normal equations AT Ax = AT b. E is a minimum.
+   3. To fit m points by a line b = C + Dt, the normal equations give C and D.
+   4. The heights of the best line are p = (p 1, ... , Pm ). The vertical distances to the data
+      points are the errors e = (e 1, ... , e m ), A key equation is AT e = 0.
+   5. If we try to fit m points by a combination of n < m functions, the m equations
+      Ax = b are generally unsolvable. Then equations AT Ax = AT b give the least
+      squares solution-the combination with smallest MSE (mean square error).
+228                                                                    Chapter 4. Orthogonality
+
+                           • WORKED EXAMPLES                     •
+
+4.3 A    Start with nine measurements b 1 to b 9 , all zero, at times t = 1, ..., 9. The
+tenth measurement b 10 = 40 is an outlier. Find the best horizontal line y = C to fit
+the ten points (1, 0), (2, 0), ..., (9, 0), (10, 40) using three options for the error E:
+(1) Least squares E2 = ef + · · · + ef 0 (then the normal equation for C is linear)
+(2) Least maximum error E00 = lemaxl (3) Least sum of errors E1=le1I + · · · + le1ol-
+
+Solution     (1) The least squares fit to 0, 0, ..., 0, 40 by a horizontal line is C = 4:
+
+        A= column of l's AT A= 10 AT b= sum of bi = 40. So 10 C=40.
+(2) The least maximum error requires C = 20, halfway between O and 40.
+(3) The least sum requires C = 0 (!!).The sum of errors 9ICI + 140 - Cl would increase
+if C moves up from zero.
+    The least sum comes from the median measurement (the median of 0, ..., 0, 40 is zero).
+Many statisticians feel that the least squares solution is too heavily influenced by outliers
+like b 1 o= 40, and they prefer least sum. But the equations become nonlinear.
+    Now find the least squares line C + Dt through those ten points (1, 0) to (10, 40):
+
+                    O     Lti          lO    55
+        AT A=[l
+                  I: ti I: t;]=[55          385
+                                                ]
+
+Those come from equation (8).Then AT Ax= AT b gives C= -8 and D= 24/11.
+    What happens to C and D if you multiply b= (0, 0, ..., 40) by 3 and then add 30 to
+get bnew = (30, 30, ..., 150)? Linearity allows us to rescale b. Multiplying b by 3 will
+multiply C and D by 3. Adding 30 to all bi will add 30 to C.
+
+4.3 B    Find the parabola C + Dt + Et 2 that comes closest (least squares error) to the
+values b= (0, 0, 1, 0, 0) at the times t= -2, -1, 0, 1, 2. First write down the five equations
+Ax = bin three unknowns x = ( C, D, E) for a parabola to go through the five points. No
+solution because no such parabola exists. Solve AT Ax = AT b.
+    I would predict D= 0. Why should the best parabola be symmetric around t = O?
+In AT Ax= AT b, equation 2 for D should uncouple from equations 1 and 3.
+
+Solution     The five equations Ax= b have a rectangular Vandermonde matrix A:
+
+ C + D (-2) + E (-2)2              0                1   -2   4
+
+
+                                                                                         �i
+ C + D (-1) + E (-1)2              0                1   -1   1                 5 0
+ C+D (0) + E (0)2                  1    A=          1    0   0       AT A- [ 0   10
+ C+D (1) + E (1)2                  0                1    1   1                10 0 34
+ C+D (2) + E (2)2                  0                1    2   4
+4.3. Least Squares Approximations                                                          229
+
+    Those zeros in AT A mean that column 2 of A is orthogonal to columns 1 and 3. We
+
+
+
+                          l
+see this directly in A (the times -2, -1, 0, 1, 2 are symmetric). The best C, D, E in the
+parabola C + Dt + Et 2 come from AT Ax= AT b, and Dis uncoupled from C and E:
+
+
+
+                              [�] [�]
+            5 0 10                                                 C = 34/70
+         [ 0 10 0                                     leads to     D = 0 as predicted
+           10 0 34                                                 E = -10/70
+
+Problem Set 4.3
+Problems 1-11 use four data points b = (0, 8, 8, 20) to bring out the key ideas.
+
+
+                                                                       b = (0, 8, 8, 20)
+                                                                       ''
+                                                                            '
+                                                                         e ''
+                                                                                '
+                                                                      /p-Ca,+Da,
+
+
+
+                                                                 a2 = (0, 1, 3, 4)
+
+
+                 t2 = 1             t3 = 3   t4 = 4
+
+    Figure 4.9: Problems 1-11: The closest line C + Dt matches Ca 1 + Da 2 in R4 .
+
+
+1     With b = 0, 8, 8, 20 at t = 0, 1, 3, 4, set up and solve the normal equations
+      AT Ax = AT b. For the best straight line in Figure 4.9a, find its four heights Pi
+      and four errors ei. What is the minimum value E = ei + e� + e� + e�?
+2     (Line C + Dt does go through p's) With b = 0, 8, 8, 20 at times t = 0, 1, 3, 4,
+      write down the four equations Ax = b (unsolvable). Change the measurements to
+      p = 1, 5, 13, 17 and find an exact solution to Ax = p.
+3     Check that e = b - p = ( -1, 3, -5, 3) is perpendicular to both columns of the
+      same matrix A. What is the shortest distance llell from b to the column space of A?
+4     (By calculus) Write down E = II Ax - bll 2 as a sum of four squares-the last one
+      is (C + 4D - 20)2 . Find the derivative equations 8E/8C = 0 and 8E/8D = 0.
+      Divide by 2 to obtain the normal equations AT Ax= AT b.
+5     Find the height C of the best horizantal line to fit b = (0, 8, 8, 20). An exact fit
+      would solve the unsolvable equations C = 0, C = 8, C = 8, C = 20. Find the
+      4 by 1 matrix A in these equations and solve AT Ax = AT b. Draw the horizontal
+      line at height x = C and the four errors in e.
+230                                                                    Chapter 4. Orthogonality
+
+6     Project b = (0, 8, 8, 20) onto the line through a = (1, 1, 1, 1). Find x = a Tb/ a Ta
+      and the projection p = xa. Check that e = b - p is perpendicular to a, and find the
+      shortest distance llell from bto the line through a.
+7     Find the closest line b = Dt, through the origin, to the same four points. An exact
+      fit would solve D · 0 = 0, D · l = 8, D · 3 = 8, D · 4 = 20. Find the 4 by 1 matrix
+      and solve AT Ax= AT b. Redraw Figure 4.9a showing the best line b = Dt and the
+      e's.
+8     Project b = (0, 8, 8, 20) onto the line through a = (0, 1, 3, 4). Find x = D and
+      p = xa. The best C in Problems 5-6 and the best Din Problems 7-8 do not agree
+      with the best (C, D) in Problems 1-4. That is because (1, 1, 1, 1) and (0, 1, 3, 4) are
+      __ perpendicular.
+9     For the closest parabola b = C + Dt + Et 2 to the same four points, write down the
+      unsolvable equations Ax = b in three unknowns x = ( C, D, E). Set up the three
+      normal equations AT Ax = AT b (solution not required). In Figure 4.9a you are now
+      fitting a parabola to 4 points-what is happening in Figure 4.9b?
+10    For the closest cubic b = C + Dt + Et2 + Ft3 to the same four points, write down
+      the four equations Ax = b. Solve them by elimination. In Figure 4.9a this cubic
+      now goes exactly through the points. What are p and e?
+11                                      t
+      The average of the four times is = ¼(O + 1 + 3 + 4) = 2. The average of the
+      four b's is b = ¼(O + 8 + 8 + 20) = 9.
+
+       (a) Verify that the best line goes through the center point (t, b) = (2, 9).
+       (b) Explain why C + Dt = b comes from the first equation in AT Ax = AT b.
+
+Questions 12-16 introduce basic ideas of statistics-the foundation for least squares.
+
+12    (Recommended) This problem projects b = ( b 1, ... , bm ) onto the line through a =
+      (1, ..., 1). We solvem equations ax= bin 1 unknown (by least squares).
+       (a) Solve aT ax= aT b to show that xis the mean (the average) of the b's.
+       (b) Find e = b - ax and the variance llell 2 and the standard deviation llell-
+       (c) The horizontal line b = 3 is closest to b = (1, 2, 6). Check that p = (3, 3, 3) is
+           perpendicular to e and find the 3 by 3 projection matrix P.
+13    First assumption behind least squares: Ax = b- (noise e with mean zero). Multiply
+      the error vectors e = b - Ax by (AT A)- 1 AT to get x - x on the right. The
+      estimation errors x-                                         x
+                            x also average to zero. The estimate is unbiased.
+14    Second assumption behind least squares: Them errors ei are independent with vari­
+      ance a 2 , so the average of (b - Ax)(b - Ax)T is a 2 I. Multiply on the left by
+      (AT A)- 1AT and on the right by A(AT A)- 1 to show that the average matrix
+      (x - x)(x - x)T is a 2 (AT A)- 1. This is the covariance matrix Win Section 10.2.
+4.3. Least Squares Approximations                                                         231
+
+15    A doctor takes 4 readings of your heart rate. The best solution to x = b 1, ... , x = b4
+      is the average x of b 1, ... , b4. The matrix A is a column of 1 's. Problem 14 gives
+      the expected error (x - x) as 0" (AT A)- 1 = __ . By averaging, the vmiance
+                                    2       2
+
+
+      drops from 0" to 0" / 4.
+                    2     2
+
+
+
+
+16    If you know the average x9 of 9 numbers b 1, ... , b9 , how can you quickly find the
+      average x 10 with one more number b 1 0 ? The idea of recursive least squares is to
+                                                            x
+      avoid adding 10 numbers. What number multiplies 9 in computing 10 ?     x
+         x10 = {0 b 10 + __ xg = {0 (b 1 + · · · + b10) as in Worked Example 4.2 C.
+
+Questions 17-24 give more practice with x and p and e.
+
+17    Write down three equations for the line b = C + Dt to go through b = 7 at t = -1,
+      b = 7 at t = l, and b = 21 at t = 2. Find the least squares solution x = (C, D) and
+      draw the closest line.
+
+18    Find the projection p = Ax in Problem 17. This gives the three heights of the closest
+      line. Show that the error vector ise = (2, -6, 4). Why is Pe= O?
+
+19    Suppose the measurements at t = -1, 1, 2 are the errors 2, -6, 4 in Problem 18.
+                x
+      Compute and the closest line to these new measurements. Explain the answer:
+      b = (2, -6, 4) is perpendicular to _ _ so the projection is p = 0.
+
+20    Suppose the measurements at t = -1, 1, 2 are b = ( 5, 13, 17). Compute        x and the
+      closest line and e. The error is e = 0 because this b is
+
+21    Which of the four subspaces contains the error vector e? Which contains p? Which
+      contains x? What is the nullspace of A?
+
+22    Find the best line C + Dt to fit b = 4, 2, -1, 0, 0 at times t = -2, -1, 0, 1, 2.
+
+23    Is the error vector e orthogonal to b or pore or x? Show that llell 2 equals eT b
+      which equals bT b - pT b. This is the smallest total error E.
+
+24    The partial derivatives of 11Axll 2 with respect to x 1, ... , Xn fill the vector 2AT Ax.
+      The derivatives of 2b T Ax fill the vector 2A T b. So the derivatives of IIAx - bll 2 are
+      zero when
+
+                                        Challenge Problems
+
+25    What condition on (t 1, b 1), ( t , b2), (t3, b3) puts those threepoints onto a straight
+                                        2
+
+      line? A column space answer is: (b 1 , b2 , b3 ) must be a combination of (1, 1, 1) and
+      (t 1, t2, t3). Try to reach a specific equation connecting the t's and b's. I should have
+      thought of this question sooner!
+232                                                                  Chapter 4. Orthogonality
+
+26    Find the plane that gives the best fit to the 4 values b = (0, 1, 3, 4) at the corners
+      (1, 0) and (0, 1) and (-1, 0) and (0, -1) of a square. The equations C + Dx+ Ey =
+      b at those 4 points are Ax = b with 3 unknowns x = (C, D, E). What is A?
+      At the center (0, 0) of the square, show that C + Dx + Ey = average of the b's.
+
+27    (Distance between lines ) The points P = (x, x, x) and Q = (y, 3y, -1) are on two
+      lines in space that don't meet. Choose x and y to minimize the squared distance
+      11 P - Q 11 . The line connecting the closest P and Q is perpendicular to __ .
+               2
+
+
+
+
+28    Suppose the columns of A are not independent. How could you find a matrix B so
+      that P = B ( B T B )-1B T does give the projection onto the column space of A? (The
+      usual formula will fail when AT A is not invertible.)
+29    Usually there will be exactly one hyperplane in Rn that contains the n given points
+      x = 0, a 1, ... , an-l· (Example for n = 3: There will be one plane containing
+      0, a 1, a 2 unless __ .) What is the test to have exactly one plane in Rn ?
+
+30    Example 2 shifted the times t i to make them add to zero. We subtracted away the
+                   t                                           t.
+      average time = (t 1 + · · · + t m )/m to get i= t i - Those Ti add to zero.
+                                                     T
+
+
+      With the columns (1, ... , 1) and (T1 , ... , Tm) now orthogonal, AT A is diagonal. Its
+      entries are m and T'f + · · · + T�. Show that the best C and D have direct formulas:
+
+                                   b1 + · · · + bm                       b1T1 + · · · + bm m
+             Tist -    t      C=
+                                         m
+                                                         and        D=
+                                                                                        T
+
+
+                                                                           T'f + · · · +T;,
+
+      The best line is C + D or C + D ( t - t). The time shift that makes AT A diagonal
+                             T
+
+
+      is an example of the Gram-Schmidt process: orthogonalize the columns of A in
+      advance.
+     4.4. Orthonormal Bases and Gram-Schmidt                                                    233
+
+     4.4 Orthonormal Bases and Gram-Schmidt
+
+                                          .             0 f r #
+1 The co1umns q1, ... , qn are orthonormal 1f q T           o i_ J_ }· Then .I QT Q -- I. .I
+                                                i % = { 1 £ or i =J
+
+
+2 If Q is also square, then QQT = I and I QT = Q- 1 I- Q is an "orthogonal matrix".
+
+3 The least squares solution to Qx = bis     x = Q b. Projection of b: p = QQ b = Pb.
+                                                    T                                 T
+
+
+4 The Gram-Schmidt process takes independent ai to orthonormal q i. Start with q 1 =ai/ I la1II-
+5 q i is (ai - projection pi)/ llai -pill; projection Pi= (a'fq 1 )q 1 + · · · + (a'fq i_ 1 )q i-l·
+
+6 Each ai will be a combination of q 1 to q i. Then A = QR: orthogonal Q and triangular R.
+
+
+         This section has two goals, why and how. The first is to see why orthogonality is good.
+     Dot products are zero, so AT A will be diagonal. It becomes so easy to find x and p = Ax.
+     The second goal is to construct orthogonal vectors. You will see how Gram-Schmidt
+     chooses combinations of the original basis vectors to produce right angles. Those original
+     vectors are the columns of A, probably not orthogonal. The orthonormal basis vectors
+     will be the columns of a new matrix Q.
+         From Chapter 3, a basis consists of independent vectors that span the space.
+     The basis vectors could meet at any angle (except 0 ° and 180 ° ). But every time we visu­
+     alize axes, they are perpendicular. In our imagination, the coordinate axes are practically
+     always orthogonal. This simplifies the picture and it greatly simplifies the computations.
+         The vectors q 1, ... , q n are orthogonal when their dot products q i · % are zero. More
+     exactly q'f % = 0 whenever i # j. With one more step-just divide each vector by its
+     length-the vectors become orthogonal unit vectors. Their lengths are all 1 (normal).
+     Then the basis is called orthonormal.
+
+
+       DEFINITION The vectors q 1, ... , qn are orthonormal if
+
+
+                                     0 when i # j       (orthogonal vectors)
+                         qT q1 = {
+                          i
+                                      1 when i = j      (unit vectors: llq ill = 1)
+
+          A matrix with orthonormal columns is assigned the special letter Q.
+
+
+
+        The matrix Q is easy to work with because Q T Q = I. This repeats in matrix lan­
+     guage that the columns q 1 , ... , qn are orthonormal. Q is not required to be square.
+234                                                                       Chapter 4. Orthogonality
+
+
+
+  A matrix Q with orthonormal columns satisfies QTQ =I:
+
+
+                       [ -•i- l [ I                                1 0
+
+
+                                                      +l                       ri
+                                                                   0
+                          -q2 -
+         QTQ                              Q1   Q2                                      I.     (1)
+                         -qJ-              I                       0 0
+
+
+When row i of QT multiplies column j of Q, the dot product is q; qj . Off the diagonal
+(i -=/- j) that dot product is zero by orthogonality. On the diagonal (i = j) the unit vectors
+give q; qi= llqill 2 = 1. Often Q is rectangular (m > n). Sometimes m = n.
+    When Q is square, Q T Q = Imeans that Q T= Q- 1.- transpose= inverse.
+    If the columns are only orthogonal (not unit vectors) , dot products still give a diagonal
+matrix (not the identity matrix). This diagonal matrix is almost as good as I. The important
+thing is orthogonality-then it is easy to produce unit vectors.
+    To repeat: QT Q = I even when Q is rectangular. In that case QT is only an inverse
+from the left. For square matrices we also have QQT = I, so QT is the two-sided in­
+verse of Q. The rows of a square Qare orthonormal like the columns. The inverse is the
+transpose. In this square case we call Q an orthogonal matrix. 1
+    Here are three examples of orthogonal matrices-rotation and permutation and reflec­
+tion. The quickest test is to check QT Q = I.
+Example 1        (Rotation) Q rotates every vector in the plane by the angle 0:
+
+             = c? s0 - sin 0                          = -i= c? s0 sin 0 ·
+            Q [ sm 0                     and    QT     Q   [- sm 0 co s0 ]
+                      co s0 ]
+
+The columns of Q are orthogonal (take their dot product). They are unit vectors because
+sin 0 + co s 0 = 1. Those columns give an orthonormal basis for the plane R .
+   2         2                                                                   2
+
+    The standard basis vectors i and j are rotated through 0 (see Figure 4.10a). Q- 1 rotates
+vectors back through -0. It agrees with QT , because the cosine of -0 equals the cosine
+of 0, and sin(-0) = - sin 0. We have QT Q = I and QQT = I.
+Example 2        (Permutation) These matrices change the order to (y, z, x) and (y, x):
+
+
+                   [� � !] m m                      and
+                                                          [�   �   l [; l [� l .
+All columns of these Q's are unit vectors (their lengths are obviously 1). They are also
+orthogonal (the 1 's appear in different places). The inverse of a permutation matrix is its
+transpose: Q-1 = QT . The inverse puts the components back into their original order:
+   1 "Orthonormal matrix" would have been a better name for Q, but it's not used. Any matrix with
+orthonormal columns has the letter Q. But we only call it an orthogonal matrix when it is square.
+4.4. Orthonormal Bases and Gram-Schmidt                                                            235
+
+
+
+   Inve,se= t,anspose,       [[   �    �   l [;] m           o
+                                                              nd
+                                                                    [�    �] [ �      l [:]
+ Every permutation matrix is an orthogonal matrix.
+
+Example 3 (Reflection) If u is any unit vector, set Q = I - 2uuT. Notice that
+uuT is a matrix while uT uis the number llu ll2 = 1. ThenQT andQ- 1 both equalQ:
+
+           Q T = I-2uuT = Q           and QTQ = I-4uuT +4uuT uuT = I.                               (2)
+
+Reflection matrices I-2uuT are symmetric and also orthogonal. If you square them, you
+get the identity matrix: Q2 = QTQ = I. Reflecting twice through a mirror brings back the
+original, like (-1 ) 2 = 1. Notice uT u = l inside 4uuT uuT in equation (2).
+
+                         j                                         Qi= j
+  Qj   = [-:�::]           i    c? s0  =                 u
+                                                                                         )"
+                                                                                     mirror
+                               [ sm 0 ]
+                   �   0                                                    ,'   /
+
+
+
+           Rotate by 0       .                           Reflect
+                         0   I                            uto-u ----- Qj = i
+
+       Figure 4.10: Rotation byQ = [ � - �] and reflection across 45 ° byQ = [ � i] .
+
+   As example choose the direction u = (-l/ v12, 1/ v12). Compute 2uuT (column times
+row) and subtract from I to get the reflection matrixQin the direction of u:
+
+                                      -
+       Reflection Q = I-2 [_: �        : �] = [�         and                                   .
+                                                   �]              [�    �] [:]          [;]
+When (x, y) goes to (y, x), a vector like (3,3) doesn't move. It is on the mirror line.
+   Rotations preserve the length of every vector. So do reflections. So do permutations.
+So does multiplication by any orthogonal matrix Q-lengths and angles don't change.
+Proof 11Qxll2 equals llxll2 because (Qx) T (Qx) =            xTQTQx = xT Jx = xT x.
+
+
+If Q has orthonormal columns ( Q T Q = I), it leaves lengths unchanged:
+
+ Same length forQx                     IIQxll = llxllfor every vector x.                           (3)
+236                                                                  Chapter 4. Orthogonality
+
+                       Projections Using Orthonormal Bases: Q Replaces A
+Orthogonal matrices are excellent for computations-numbers can never grow too large
+when lengths of vectors are fixed. Stable computer codes use Q's as much as possible.
+    For projections onto subspaces, all formulas involve A T A. The entries of A T A are the
+dot products a;a1 of the basis vectors a 1, ... , a n .
+    Suppose the basis vectors are actually orthonormal. Thea's become the q's. Then
+A T A simplifies to QT Q = I. Look at the improvements in x and p and P. Instead of
+QT Q we print a blank for the identity matrix:
+
+                 __ X = QT b and p = Qx and p = Q __ QT .                                 (4)
+
+The least squares solution of Qx = bis       x = Q b. The projection matrix is QQ .
+                                                      T                                    T
+
+
+There are no matrices to invert. This is the point of an orthonormal basis. The best x =
+QT b just has dot products of q 1 , . . . ,qn with b. We have !-dimensional projections!
+The "coupling matrix" or "correlation matrix" A T A is now QT Q = I. There is no
+coupling. When A is Q, with orthonormal columns, here is p = Qx = QQT b:
+
+
+
+    Projection
+    onto q's
+
+                                                                                    (5)
+Important case: When Q is square and m = n, the subspace is the whole space. Then
+QT = Q- 1 and x = QT b is the same as x = Q- 1 b. The solution is exact! The projection
+of b onto the whole space is b itself. In this case p = band P = QQT = I.
+
+     You may think that projection onto the whole space is not worth mentioning. But when
+p = b, our formula assembles b out of its 1-dimensional projections. If q 1 , . . . , qn is an
+orthonormal basis for the whole space, then Q is square. Every b = QQT b is the sum of
+its components along the q's:
+
+                                                                                          (6)
+
+Transforms QQT = I is the foundation of Fourier series and all the great "transforms"
+of applied mathematics. They break vectors b or functions f ( x) into perpendicular pieces.
+Then by adding the pieces in (6), the inverse transform puts band f(x) back together.
+Example 4      The columns of this orthogonal Qare orthonormal vectors q 1 , q2 , q3:
+
+
+         m=n=3             Q=�
+                             3
+                                    [-� -i �i
+                                       2    2 -1
+4.4. Orthonormal Bases and Gram-Schmidt                                                       237
+
+The separate projections of b = (0, 0, 1) onto q 1 and q2 and <1:3 are p 1 and p 2 and p3 :
+
+           q 1 (qTb) = jq 1    and q2 (qib) = jq2         and q3 (qjb) = -½q3 .
+
+The sum of the first two is the projection of b onto the plane of q 1 and q2 . The sum of all
+three is the projection of b onto the whole space-which is p 1 + p 2 + p 3 = b itself:
+
+      Reconstruct b
+      b = P1 +P2 + P3
+
+
+                                                          The Gram-Schmidt Process
+The point of this section is that "orthogonal is good". Projections and least squares
+always involve A T A. When this matrix becomes Q T Q = I, the inverse is no problem.
+                                                                x
+The one-dimensional projections are uncoupled. The best is Q T b (just n separate dot
+products). For this to be true, we had to say "If the vectors are orthonormal".
+Now we explain the "Gram-Schmidt way" to create orthonormal vectors.
+   Start with three independent vectors a, b, c. We intend to construct three orthogonal
+vectors A, B, C. Then (at the end may be easiest) we divide A, B, C by their lengths.
+That produces three orthonormal vectors q 1 = A/IIAII, q2 = B/IIBII, q 3 = C /IICII-
+Gram-Schmidt Begin by choosing A = a. This first direction is accepted as it comes.
+The next direction B must be perpendicular to A. Start with b and subtract its
+projection along A. This leaves the perpendicular part, which is the orthogonal vector B:
+
+
+  First Gram-Schmidt step                                                                      (7)
+
+
+A and B are orthogonal in Figure 4.11. Multiply equation (7) by AT to verify that AT B =
+AT b - AT b = 0. This vector B is what we have called the error vector e, perpendicular
+to A. Notice that B in equation (7) is not zero (otherwise a and b would be dependent).
+The directions A and B are now set.
+    The third direction starts with c. This is not a combination of A and B (because c is
+not a combination of a and b). But most likely c is not perpendicular to A and B. So
+subtract off its components in those two directions to get a perpendicular direction C:
+
+
+   Next Gram-Schmidt step                                                                      (8)
+
+
+    This is the one and only idea of the Gram-Schmidt process. Subtract from every new
+vector its projections in the directions already set. That idea is repeated at every step.2
+If we had a fourth vector d, we would subtract three projections onto A, B, C to get D.
+  21 think Gram had the idea. I don't really know where Schmidt came in.
+238                                                                  Chapter 4. Orthogonality
+
+
+
+                                            C=c-p
+          Subtract the                                 C
+          projectionp
+          togetB =b - p                                             Unitvectors
+                                              B1
+                        B                          I
+
+                                               '   I
+
+
+
+
+                                      A      projectionp
+          lf
+         A=ab
+Figure 4.11: First project b onto the line through a and find the orthogonal B as b - p.
+Then project c onto the AB plane and find C as c - p. Divide by IIA II, IIBII, IIC II-
+
+At the end, or immediately when each one is found, divide the orthogonal vectors A, B,
+C, D by their lengths. The resulting vectors q 1 , q 2 , q 3, q 4 are orthonormal.
+
+Example of Gram-Schmidt Suppose the independent non-orthogonal vectors a, b, c are
+
+
+
+
+Then A = a has A T A = 2 and A T b = 2. Subtract from b its projection p along A:
+
+
+First step
+
+
+Check: A T B = 0 as required. Now subtract the projections of c on A and B to get C:
+
+
+Next step
+
+
+Check: C = (1, 1, 1) is perpendicular to both A and B. Finally convert A, B, C to
+unit vectors (length 1, orthonormal). The lengths of A, B, C are v'2 and v'6 and \/'3.
+Divide by those lengths, for an orthonormal basis:
+
+
+
+
+Usually A, B, C contain fractions. Almost always q 1 , q 2 , q 3 contain square roots.
+4.4. Orthonormal Bases and Gram-Schmidt                                                 239
+
+                                                        The Factorization A = QR
+We started with a matrix A, whose columns were a, b, c. We ended with a matrix Q,
+whose columns are q 1 , q2 , q3 . How are those matrices related? Since the vectors a, b, c
+are combinations of the q's (and vice versa), there must be a third matrix connecting A
+to Q. This third matrix is the triangular R in A = QR.
+    The first step was q 1 = a/llall (other vectors not involved). The second step was
+equation (7), where b is a combination of A and B. At that stage C and q 3 were not
+involved. This non-involvement of later vectors is the key point of Gram-Schmidt:
+
+    • The vectors a and A and q 1 are all along a single line.
+    • The vectors a, band A, B and q 1 , q2 are all in the same plane.
+    • The vectors a, b, c and A, B, C and q 1 , q2 , q3 are in one subspace (dimension 3).
+
+At every step a1, ...,ak are combinations of q 1 , ... ,qk. Later q's are not involved.
+The connecting matrix R is triangular, and we have A= QR:
+
+
+
+                                                                 or    A=QR.              (9)
+
+
+A= QR is Gram-Schmidt in a nutshell. Multiply by QT to recognize R = QT A above.
+
+ (Gram-Schmidt) From independent vectors a 1, . . . , an , Gram-Schmidt constructs
+ orthonormal vectors q 1, ... , qn. The matrices with these columns satisfy A = QR.
+ Then R = QT A is upper triangular because later q's are orthogonal to earlier a's.
+
+
+     Here are the original a's and the final q's from the example. The i, j entry of R = QT A
+
+
+                                                                           v'IS]
+is row i of QT times column j of A. The dot products q; a1 go into R. Then A = QR:
+
+       1  2 3      1/./2  1/v'6                     1/v'3      v12 v'2
+  A= [-1 0 -3] = [-1/./2 1/v'6                      1/v'3] [ 0        v'6 -v'6 = QR.
+       0 -2 3        0   -2/v'6                     1/v'3    0         0    v'3
+Look closely at Q and R. The lengths of A, B, C are ./2, v'6, v'3 on the diagonal of R.
+The columns of Q are orthonormal. Because of the square roots, QR might look harder
+than LU. Both factorizations are absolutely central to calculations in linear algebra.
+    Any m by n matrix A with independent columns can be factored into A = QR. The
+m by n matrix Q has orthonormal columns, and the square matrix R is upper triangular
+with positive diagonal. We must not forget why this is useful for least squares:
+A T A = (QR)TQR = RT QT QR = RT R The least squares equation AT Ax =
+AT b simplifies to RT Rx = RT QT b. Then finally we reach Rx = QT b: good.
+240                                                                  Chapter 4. Orthogonality
+
+
+
+   Least squares                                                                        (10)
+
+
+Instead of solving Ax = b, which is impossible, we solve Rx = Q T bby back substitu­
+tion-which is very fast. The real cost is the mn 2 multiplications in the Gram-Schmidt pro­
+cess, which are needed to construct the orthogonal Q and the triangular R with A = QR.
+
+Below is an informal code. It executes equations (11) for j = 1 then j = 2 and eventually
+j = n. The important lines 4-5 subtract fromv = a, its projection onto each qi ,i < j.
+The last line of that code normalizesv(divides by rjj = 11v11) to get the unit vector q{
+
+
+
+
+Starting from a, b, c = a1,a2 ,a3 this code will construct q1 , then B, q2 , then C, q3 :
+
+       Q1 = ai/llaill           B = a2 - (q'fa2 )q1        Q2 = B/IIBII
+       C* = a3 - (q'fa3 )q1      C = C* - (q'JC*)q2        q3 = C/IICII
+
+Equation (11) subtracts one projection at a time as in C* and C. That change is called
+modified Gram-Schmidt. This code is numerically more stable than equation (8) which
+subtracts all projections at once.
+
+
+      for j = 1 :n                     % modified Gram-Schmidt
+         V = A(:,j);                   % v begins as column j of the original A
+         for i = 1 :j-1                % columns q1 to %-l are already settled in Q
+            R(i,j) = Q(:,i)'*v;        % compute Rij = q; a1 which is q; v
+            v = v-R(i,j)*Q(:,i);       % subtract the projection (q;v)qi
+         end                           %vis now perpendicular to all of q1 ,... , %-l
+         R(j,j) = norm(v );            % the diagonal entries R11 are lengths
+         Q(:,j) = v/R(j,j);            % divide v by its length to get the next %
+      end                              % the "for j = 1 : n loop" produces all of the %
+
+
+
+To recover column j of A, undo the last step and the middle steps of the code:
+                                                                    j-1
+      R(j,j)Qj = (vminus itsprojections) = (column jofA ) - LR(i,j)qi.                  (12)
+                                                                    i=l
+
+Moving the sum to the far left, this is column j in the multiplication QR = A.
+4.4. Orthonormal Bases and Gram-Schmidt                                                241
+
+Confession Good software like LAPACK, used in good systems like MATLAB and
+Julia and Python, will not use this Gram-Schmidt code. There is now a better way.
+"Householder reflections" act on A to produce the upper triangular R. This happens one
+column at a time in the same way that elimination produces the upper triangular U in LU.
+    Those reflection matrices I - 2uu T will be described in Chapter 11 on numerical linear
+algebra. If A is tridiagonal we can simplify even more to use 2 by 2 rotations. The result
+is always A = QR and the MATLAB command to orthogonalize A is [Q, R] = qr(A).
+I believe that Gram-Schmidt is still the good process to understand, even if the reflections
+or rotations lead to a more perfect Q.
+
+
+
+                      • REVIEW OF THE KEY IDEAS                    •
+
+   1. If the orthonormal vectors q 1, ... , qn are the columns of Q, then q; q1 = 0 and
+      q; qi = 1 translate into the matrix multiplication Q T Q = I.
+   2. If Q is square (an orthogonal matrix) then QT = Q- 1: transpose= inverse.
+   3. The length of Qx equals the length of x: IIQxll = llxll-
+   4. The projection onto the column space of Q spanned by the q's is P = QQT.
+   5. If Q is square then P = QQ T = I and every b = q 1 (qlb) + · · · + qn (qJb).
+   6. Gram-Schmidt produces orthonormal vectors q 1 , q2 , q3 from independent a, b, c.
+      In matrix form this is the factorization A= QR= (orthogonal Q)(triangular R).
+
+
+
+                          • WORKED EXAMPLES                    •
+
+
+4.4 A  Add two more columns with all entries 1 or -1, so the columns of this 4 by 4
+"Hadamard matrix" are orthogonal. How do you turn H4 into an orthogonal matrix Q?
+
+
+                                                       and
+
+                                                                                       l
+                                          is the next Hadamard matrix with 1 's and -1 's.
+The block matrix H8 = [ ;: _;:]
+                                          What is the product Hl' H8 ?
+The projection of b = (6, 0, 0, 2) onto the first column of H4 is p 1 = (2, 2, 2, 2). The
+projection onto the second column is p2 = (1, -1, 1, -1). What is the projection p 1 2 of b
+onto the 2-dimensional space spanned by the first two columns?
+242                                                                   Chapter 4. Orthogonality
+
+Solution     H4 can be built from H 2 just as Hs is built from H4:
+
+
+                                                          has orthogonal columns.
+
+
+Then Q = H/2 has orthonormal columns. Dividing by 2 gives unit vectors in Q. A 5 by
+5 Hadamard matrix is impossible because the dot product of columns would have five 1's
+and/or -1's and could not add to zero. H8 has orthogonal columns of length Js.
+
+              HT  HT    H          H      2H T H          O         SJ      O      Hs
+    HsT Hs = [ T - T] [                                                       .Q
+              H   H     H         -H] = [   0           2H T H ] = [ 0     8I] s = Js
+
+4.4 B What is the key point of orthogonal columns? Answer: AT A is diagonal and
+easy to invert. We can project onto lines and just add. The axes are orthogonal.
+      Add p's      Projection p 1 ,2 onto a plane equals p 1 + p 2 onto orthogonal lines.
+
+
+
+Problem Set 4.4
+Problems 1-12 are about orthogonal vectors and orthogonal matrices.
+1      Are these pairs of vectors orthonormal or only orthogonal or only independent?
+
+        (a) [�] and   [-n       (b)   [:�] and[-:!]         (c)
+                                                                   c� s0       - sin 0
+                                                                  [ sm0 ] and [ cos0] _
+
+       Change the second vector when necessary to produce orthonormal vectors.
+2     The vectors (2, 2, -1) and ( -1, 2, 2) are orthogonal. Divide them by their lengths to
+      find orthonormal vectors q 1 and q 2 . Put those into the columns ofQ and multiply
+      Q TQ andQQ T _
+3       (a) If A has three orthogonal columns each of length 4, what is AT A?
+        (b) If A has three orthogonal columns of lengths 1, 2, 3, what is AT A?
+4      Give an example of each of the following:
+        (a) A matrixQ that has orthonormal columns butQQ T =/- I.
+        (b) Two orthogonal vectors that are not linearly independent.
+        (c) An orthonormal basis for R 3 , including the vector q1 = (1, 1, 1)/v3.
+5      Find two orthogonal vectors in the plane x + y + 2z = 0. Make them orthonormal.
+6      If Q 1 and Q 2 are orthogonal matrices, show that their product Q 1Q 2 is also an or­
+       thogonal matrix. (UseQ TQ = I.)
+4.4. Orthonormal Bases and Gram-Schmidt                                                243
+
+7     If Q has orthonormal columns, what is the least squares solution x to Qx = b?
+
+8     If q 1 and q 2 are orthonormal vectors in R. 5 , what combination __ q 1 + __ q 2
+      is closest to a given vector b?
+
+9      (a) Compute P = QQT when q 1 = (.8, .6, 0) and q 2 = (-.6, .8, 0). Verify that
+           p 2 =P.
+       (b) Prove that always (QQT )2 = QQT by using QT Q = I. Then P = QQT is
+           the projection matrix onto the column space of Q.
+
+10    Orthonormal vectors are automatically linearly independent.
+
+       (a) Vector proof: When c 1 q 1 +c2 q2 +c3 q 3 = 0, what dot product leads to c 1 = O?
+           Similarly c2 = 0 and c3 = 0. Thus the q's are independent.
+       (b) Matrix proof: Show that Qx = 0 leads to x = 0. Since Q may be rectangular,
+           you can use QT but not Q� 1.
+
+11     (a) Gram-Schmidt: Find orthonormal vectors q 1 and q2 in the plane spanned by
+           a= (1, 3, 4, 5, 7) and b = (-6, 6, 8, 0, 8).
+       (b) Which vector in this plane is closest to (1, 0, 0, 0, 0)?
+
+12    If a 1 , a2, a3 is a basis for R3, any vector b can be written as
+
+
+                                                or
+
+
+       (a) Suppose the a's are orthonormal. Show that x 1 = afb.
+       (b) Suppose the a's are orthogonal. Show that x1 = afb/afa 1 .
+       (c) If the a's are independent, x 1 is the first component of __ times b.
+
+Problems 13-25 are about the Gram-Schmidt process and A= QR.
+
+13    What multiple of a = [ i ] should be subtracted from b = [ 6] to make the result B
+      orthogonal to a? Sketch a figure to show a, b, and B.
+
+14    Complete the Gram-Schmidt process in Problem 13 by computing q 1 = a/ llall and
+      q2 = B /IIBII and factoring into QR:
+
+                                l 4      [
+                               [ 1 0 ] = ql       q2 ] [i
+                                                         lall
+                                                          0
+244                                                                      Chapter 4. Orthogonality
+
+15     (a) Find orthonormal vectors q 1 , q 2 , q 3 such that q 1 , q 2 span the column space of
+
+
+                                              A=
+                                                   [-2�   -�l-
+                                                           4
+
+       (b) Which of the four fundamental subspaces contains q 3 ?
+       (c) Solve    x (1,2, 7) by least squares.
+                   A =
+16    What multiple of a = (4, 5,2,2) is closest to b = (1,2,0,0)? Find orthonormal
+      vectors q 1 and q 2 in the plane of a and b.
+
+17    Find the projection of b onto the line through a:
+
+
+              a        m       and   b�   rn    and p          ?   and   e   b-p c ?
+
+
+      Compute the orthonormal vectors q 1 = a/llall and q 2 = e/llell-
+
+18    (Recommended)Find orthogonal vectors A, B, C by Gram-Schmidt from a, b, c:
+
+                  a= (1,-1,0,0)           b = (0,1,-1,0)            c= (0,0,1,-1).
+
+      A, B, C and a, b, care bases for the vectors perpendicular to d = (1,1,1,1).
+19    If A = QR then A T A = RT R = __ triangular times __ triangular.
+      Gram-Schmidt on A corresponds to elimination on A T A. The pivots for A T A must
+      be the squares of diagonal entries of R. Find Q and R by Gram-Schmidt for this A:
+
+                -1     l
+               [           l     and
+         A=
+                   ;   !
+20    True or false (give an example in either case):
+
+       (a) Q� 1 is an orthogonal matrix when Q is an orthogonal matrix.
+       (b) If Q (3 by 2)has orthonormal columns then IIQxll always equals llxll-
+
+21    Find an orthonormal basis for the column space of A:
+
+                                   1 -2
+                                    1 0
+                                  [    ]           and
+                               A= 1   1
+                                     1    3
+
+      Then compute the projection of b onto that column space.
+4.4. Orthonormal Bases and Gram-Schrnidt                                            245
+
+22    Find orthogonal vectors A, B, C by Gram-Schmidt from
+
+
+
+
+23    Find q 1 , q 2 , q3 (orthonormal) as combinations of a, b, c (independent columns).
+      Then write A as QR:
+
+
+
+
+24     (a) Find a basis for the subspace Sin R4 spanned by all solutions of
+
+
+
+       (b) Find a basis for the orthogonal complement SJ_ .
+       (c) Find b 1 in Sand b 2 in SJ_ so that b 1 + b 2 = b = (1, 1, 1, 1).
+25    If ad - be> 0, the entries in A= QR are
+                                b]        [: -:] [   a2
+                                                          ;
+                                                              c2
+                                                                   :: �
+                                                                          �!]
+                          [a                                                    .
+                            C   d - ._/a 2 + c 2          ._/a2 + c 2
+      Write A = QR when a, b, c, d = 2, 1, 1, 1 and also 1, 1, 1, 1. Which entry of R
+      becomes zero when the columns are dependent and Gram-Schmidt breaks down?
+Problems 26-29 use the QR code in equation (11). It executes Gram-Schmidt.
+26    Show why C (found via C* in the steps after (11)) is equal to C in equation (8).
+27    Equation (8) subtracts from cits components along A and B. Why not subtract the
+      components along a and along b?
+28    Where are the mn 2 multiplications in equation (11)?
+29    Apply the MATLAB qr code to a= (2, 2, -1), b = (0, -3, 3), c = (1, 0, 0). What
+      are the q's?
+Problems 30-35 involve orthogonal matrices that are special.
+30    The first four wavelets are in the columns of this wavelet matrix W:
+                                           rl  1
+
+
+
+                                                                   J]
+                                w- � 1         1
+                                      2     1 -1          0
+                                            1 -1          0    -v'2
+      What is special about the columns? Find the inverse wavelet transform w- 1.
+246                                                                 Chapter 4. Orthogonality
+
+31     (a) Choose c so that Q is an orthogonal matrix:
+
+                                         1 -1
+                                        -1 1
+                                    Q= [
+                                      C -1 -1
+                                        -1 -1
+
+      Project b = (l,1,1,1) onto the first column. Then project b onto the plane of the
+      first two columns.
+
+32    If u is a unit vector, then Q = I - 2uu Tis a reflection matrix (Example 3). Find Q 1
+      from u = (0,1) and Q 2 from u = (0,v'J,/2,v'J,/2). Draw the reflections when Q 1
+      and Q 2 multiply the vectors (1,2) and (1,1,1).
+
+33    Find all matrices that are both orthogonal and lower triangular.
+34    Q = I - 2uu Tis a reflection matrix when u Tu = l. Two reflections give Q 2 = I.
+
+       (a) Show that Qu = -u. The mirror is perpendicular to u.
+       (b) Find Qv when u Tv = 0. The mirror contains v. It reflects to itself.
+
+
+                                   Challenge Problems
+
+35    (MATLAB) Factor [ Q,R] = qr(A) for A = eye(4) - diag([1 1 1 ],-1). You
+      are orthogonalizing the columns (1,-1,0,0) and (0,1,-1,0) and (0,0,1,-1) and
+      (0,0,0,1) of A. Can you scale the orthogonal columns of Q to get nice integer
+      components?
+
+36    If A ism by n with rank n, qr(A) produces a square Q and zeros below R:
+
+         The factors from MATLAB are ( m bym) ( m by n)
+
+      The n columns of Q 1 are an orthonormal basis for which fundamental subspace?
+      The m-n columns of Q 2 are an orthonormal basis for which fundamental subspace?
+37    We know that P = QQT is the projection onto the column space of Q(m by n).
+      Now add another column a to produce A = [Q a]. Gram-Schmidt replaces a by
+      what vector q? Start with a, subtract _ _ , divide by __ to find q.
+

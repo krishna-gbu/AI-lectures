@@ -1,0 +1,1325 @@
+     Chapter 11
+
+     Numerical Linear Algebra
+
+
+1 The goals of numerical linear algebra are speed and accuracy and stability: n > 10 3 or 10 6.
+2 Matrices can be full or sparse or banded or structured: special algorithms for each.
+
+3 Accuracy of elimination is controlled by the condition number 11 A11 11 A - 1 11.
+4 Gram-Schmidt is often computed by using Householder reflections H = I - 2uu T to find Q.
+
+5 Eigenvalues use QR iterations Ao = QoRo ---+ RoQo = A1 = Q1R1 ---+ ---+ An .
+6 Shifted QR is even better: Shift to Ak - ckI = QkRk, shift back Ak+l = RkQk + ckI.
+7 Iteration Sxk+l = b - Txk solves (S + T) x = b if all eigenvalues of s- 1T have l>-1 < 1.
+8 Iterative methods often use preconditioners P. Change Ax= b to PAx = Pb with PA� I.
+9 Conjugate gradients and GMRES are Krylov methods; see Trefethen-Bau (and other texts).
+
+
+
+     11.1 Gaussian Elimination in Practice
+     Numerical linear algebra is a struggle for quick solutions and also accurate solutions. We
+     need efficiency but we have to avoid instability. In Gaussian elimination, the main freedom
+     (always available) is to exchange equations. This section explains when to exchange rows
+     for the sake of speed, and when to do it for the sake of accuracy.
+         The key to accuracy is to avoid unnecessarily large numbers. Often that requires us to
+     avoid small numbers! A small pivot generally means large multipliers (since we divide by
+     the pivot). A good plan is "partial pivoting", to choose the largest available pivot in each
+     new column. We will see why this pivoting strategy is built into computer programs.
+         Other row exchanges are done to save elimination steps. In practice, most large matrices
+     are sparse-almost all entries are zeros. Elimination is fastest when the equations are
+
+                                                 508
+11. 1. Gaussian Elimination in Practice                                                  509
+
+ordered to produce a narrow band of nonzeros. Zeros inside the band "fill in" during
+elimination-those zeros are destroyed and don't save computing time.
+    Section 11.2 is about instability that can't be avoided. It is built into the problem,
+and this sensitivity is measured by the "condition number". Then Section 11.3 describes
+how to solve Ax = b by iterations. Instead of direct elimination, the computer solves
+an easier equation many times. Each answer Xk leads to the next guess Xk+i· For good
+iterations (the conjugate gradient method is extremely good), the Xk converge quickly to
+         1
+X = A- b.
+
+
+                                                         The Fastest Supercomputer
+A new supercomputing record was announced by IBM and Los Alamos on May 20, 2008.
+The Roadrunner was the first to achieve a quadrillion (10 15 ) floating-point operations per
+second: a petafiop machine. The benchmark for this world record was a large dense linear
+system Ax = b: computer speed is tested by linear algebra.
+    That machine was shut down in 2013! The TOP500 project ranks the 500 most powerful
+computer systems in the world. As I write this page in October 2015, the first four are from
+NUDT in China, Cray and IBM in the US, and Fujitsu in Japan. They all use a LINUX­
+based system. And all vector processors have fallen out of the top 500.
+    Looking ahead, the Summit is expected to take first place with 150-300 petaflops.
+President Obama has just ordered the development of an exascale system (1000 petaflops).
+Up to now we are following Moore's Law of doubling every 14 months.
+    The LAPACK software does elimination with partial pivoting. The biggest difference
+from this book is to organize the steps to use large submatrices and never single numbers.
+And graphics processing units (GPU's) are now almost required for success. The market for
+video games dwarfs scientific computing and led to astonishing acceleration in the chips.
+    Before IBM's BlueGene, a key issue was to count the standard quad-core processors
+that a petaflop machine would need: 32,000. The new architecture uses much less power,
+but its hybrid design has a price: a code needs three separate compilers and explicit instruc­
+tions to move all the data. Please see the excellent article in SIAM News (siam.org, July
+2008) and the update on www.Ianl.gov/roadrunner.
+   Our thinking about matrix calculations is reflected in the highly optimized BLAS
+(Basic Linear Algebra Subroutines). They come at levels 1, 2, and 3:
+   Level 1 Linear combinations of vectors au+ v: O(n) work
+   Level 2 Matrix-vector multiplications Au+ v: O(n 2 ) work
+   Level 3 Matrix-matrix multiplications AB+ C: O(n3 ) work
+Level 1 is an elimination step (multiply row j by £ ij and subtract from row i). Level 2
+can eliminate a whole column at once. A high performance solver is rich in Level 3 BLAS
+(AB has 2n 3 flops and 2n 2 data, a good ratio of work to talk).
+   It is data passing and storage retrieval that limit the speed of parallel processing. The
+high-velocity cache between main memory and floating-point computation has to be fully
+used! Top speed demands a block matrix approach to elimination.
+   The big change, corning now, is parallel processing at the chip level.
+510                                                    Chapter 11. Numerical Linear Algebra
+
+                                           Roundoff Error and Partial Pivoting
+Up to now, any pivot (nonzero of course) was accepted. In practice a small pivot is danger­
+ous. A catastrophe can occur when numbers of different sizes are added. Computers keep a
+fixed number of significant digits (say three decimals, for a very weak machine). The sum
+10,000 + 1 is rounded off to 10,000. The "l" is completely lost. Watch how that changes
+the solution to this problem:
+       .000lu + v = l                                                .0001 1
+                             starts with coefficient matrix    A= [         ]
+           -u+ V = 0                                               -1      1 .
+If we accept .0001 as the pivot, elimination adds 10,000 times row 1 to row 2. Roundoff
+leaves
+                10,000v = 10,000        instead of    10,00lv = 10,000.
+The computed answer v = l is near the true v = .9999. But then back substitution puts the
+wrong v = l into the equation for u:
+
+               .0001 u + l = 1        instead of      .0001 u + .9999 = 1.
+
+The first equation gives u = 0. The correct answer (look at the second equation) is u =
+1.000. By losing the "1" in the matrix, we have lost the solution. The small change from
+10,001 to 10,000 has changed the answer from u = l to u = 0 (100% error!).
+If we exchange rows, even this weak computer finds an answer that is correct to 3 places:
+               -U + V = 0                   -U + V = 0                    U = l
+                                 ---+                           ---+
+           .000lu+ v = l                          v=l                      v = l.
+The original pivots were .0001 and 10,000-badly scaled. After a row exchange the exact
+pivots are -1 and 1.0001-well scaled. The computed pivots -1 and 1 come close to the
+exact values. Small pivots bring numerical instability, and the remedy is partial pivoting.
+Here is our strategy when we reach and search column k for the best available pivot:
+      Choose the largest number in row k or below. Exchange its row with row k.
+The strategy of complete pivoting looks also in later columns for the largest pivot. It ex­
+changes columns as well as rows. This expense is seldom justified, and all major codes
+use partial pivoting. Multiplying a row or column by a scaling constant can also be very
+worthwhile. If the first equation above is u + 10,000v = 10,000 and we don't rescale,
+then l looks like a good pivot and we would miss the essential row exchange.
+    For positive definite matrices, row exchanges are not required. It is safe to accept
+the pivots as they appear. Small pivots can occur, but the matrix is not improved by row
+exchanges. When its condition number is high, the problem is in the matrix and not in the
+code. In this case the output is unavoidably sensitive to the input.
+
+The reader now understands how a computer actually solves Ax = b--by elimination
+with partial pivoting. Compared with the theoretical description-find A- 1 and multiply
+A- 1 b-the details took time. But in computer time, elimination is much faster. I believe
+that elimination is also the best approach to the algebra of row spaces and nullspaces.
+11.1. Gaussian Elimination in Practice                                                  511
+
+                                                 Operation Counts: Full Matrices
+Here is a practical question about cost. How many separate operations are needed to solve
+Ax = b by elimination? This decides how large a problem we can afford.
+      Look first at A, which changes gradually into U. When a multiple of row 1 is subtracted
+from row 2, we don operations. The first is a division by the pivot, to find the multiplier£.
+For the other n-1 entries along the row, the operation is a "multiply-subtract". For conve­
+nience, we count this as a single operation. If you regard multiplying by £ and subtracting
+from the existing entry as two separate operations, multiply all our counts by 2.
+      The matrix A isn byn. The operation count applies to all n-1 rows below the first.
+Thus it requiresn timesn-1 operations, or n2 -n, to produce zeros below the first pivot.
+Check: All n2 entries are changed, except then entries in the first row.
+      When elimination is down to k equations, the rows are shorter. We need only k 2 - k
+operations (instead of n2 - n) to clear out the column below the pivot. This is true for
+1 ::::; k ::::; n. The last step requires no operations (12 - 1 = 0); forward elimination is
+complete. The total count to reach U is the sum of k2 - k over all values of k from 1 to n:
+
+                                         n(n+1)(2n+l) _ n(n+l)                n3 -n
+    (l2 +···+n2 )-(l+···+n)=                                              =             .
+                                                  6                 2             3
+Those are known formulas for the sum of the first n numbers and their squares. Substituting
+n = 100 gives a million minus a hundred-then divide by 3. (That translates into one
+second on a workstation.) We will ignore n in comparison with n3 , to reach our main
+conclusion:
+  The multiply-subtract count is ½n 3 for forward elimination (A to U, producing L).
+That means ½n3 multiplications and subtractions. Doublingn increases this cost by eight
+(becausen is cubed). 100 equations are easy, 1000 are more expensive, 10000 dense equa­
+tions are close to impossible. We need a faster computer or a lot of zeros or a new idea.
+    On the right side of the equations, the steps go much faster. We operate on single
+numbers, not whole rows. Each right side needs exactly n 2 operations. Down and back
+up we are solving two triangular systems, Le= b forward and Ux = c backward. In back
+substitution, the last unknown needs only division by the last pivot. The equation above
+it needs two operations-substituting Xn and dividing by its pivot. The kth step needs k
+multiply-subtract operations, and the total for back substitution is
+                                       n(n + 1)        2
+                   1+2 +···+n = �--� � ln           2
+                                                           operations.
+                                           2
+The forward part is similar. The n2 total exactly equals the count for multiplying A-lb!
+This leaves Gaussian elimination with two big advantages over A -lb:
+
+
+     1 Elimination requires ½n3 multiply-subtracts, compared to n3 for A-1•
+     2 If A is banded so are L and U: by comparison A - 1 is full of nonzeros.
+512                                                       Chapter 11. Numerical Linear Algebra
+
+                                                                            Band Matrices
+These counts are improved when A has "good zeros". A good zero is an entry that remains
+zero in L and U. The best zeros are at the beginning of a row. They require no elimination
+steps (the multipliers are zero). So we also find those same good zeros in L. That is
+especially clear for this tridiagonal matrix A (and for band matrices in Figure 11.1):
+ Tridiagonal
+
+
+                       r-i -�               1 r-i
+ Bidiagonal                        -1                     1
+ times                       -1     2 -1                 -1    1
+ bidiagonal                        -1  2                      -1
+
+
+
+
+              A=                                                             =LU
+
+
+
+      Figure 11.1: A = LU for a band matrix. Good zeros in A stay zero in Land U.
+
+These zeros lead to a complete change in the operation count, for "half-bandwidth" w:
+                     A band matrix has aij = 0 when Ii - j I > w.
+Thus w = 1 for a diagonal matrix, w = 2 for tridiagonal, w = n for dense. The length of
+the pivot row is at most w. There are no more than w - 1 nonzeros below any pivot. Each
+stage of elimination is complete after w(w - 1) operations, and the band structure survives.
+There are n columns to clear out. Therefore:
+    Elimination on a band matrix (A to Land U) needs less than w 2 n operations.
+For a band matrix, the count is proportional to n instead of n 3. It is also proportional to w2 .
+A full matrix has w = n and we are back to n 3 . For an exact count, remember that the
+
+                                                     n(n - l)(n + 1) n 3 -n
+bandwidth drops below w in the lower right corner (not enough space):
+               w(w - 1)(3n - 2w + 1)
+       Band                                 Dense
+                           3                                    3          3
+On the right side of Ax = b, to find x from b, the cost is about 2wn (compared to the
+
+This is extremely fast. A tridiagonal matrix of order 10,000 is very cheap, provided
+usual n 2 ). Main point: For a band matrix the operation counts are proportional to n.
+
+
+
+               r 1 -1 0 0
+we don't compute A- 1. That inverse matrix has no zeros at all:
+
+
+                            1
+                -l  2 -1  0
+        A=
+                 0 -1  2 -1
+                 0  0 -1  2
+We are actually worse off knowing A- 1 than knowing Land U. Multiplication by A- 1
+needs the full n2 steps. Solving Le = b and Ux = c needs only 2wn.
+11.1. Gaussian Elimination in Practice                                                            513
+
+   A band structure is very common in practice, when the matrix reflects connections
+between near neighbors: a 13 = 0 and a 14 = 0 because 1 is not a neighbor of 3 and 4.
+   We close with counts for Gauss-Jordan and Gram-Schmidt-Householder:
+
+
+          A- 1 costs n 3 multiply-subtract steps.                QR costs in 3 steps.
+
+
+
+In AA- 1 = I, the jth column of A- 1 solves Axj = jth column of I. The left side costs
+½n 3 as usual. (This is a one-time cost! Land U are not repeated.) The special saving for the
+jth column of I comes from its first j - 1 zeros. No work is required on the right side until
+elimination reaches row j. The forward cost is ½(n - j) 2 instead of ½n 2 . Summing over
+j, the total for forward elimination on then right sides is ½n 3 . The final multiply-subtract
+count for A- 1 isn 3 if we actually want the inverse:
+
+                n3
+                     (Land U) +
+                                   n3
+                                         (forward) + n
+                                                         (n2 ) (back substitutions) = n   3
+                                                                                              .    (1)
+                3                  6                      2
+
+
+Orthogonalization (A to Q): The key difference from elimination is that each multiplier
+is decided by a dot product. That takes n operations, where elimination just divides by
+the pivot. Then there are n "multiply-subtract" operations to remove from column k its
+projection along column j < k (see Section 4.4). The combined cost is 2n where for
+elimination it is n. This factor 2 is the price of orthogonality. We are changing a dot
+product to zero where elimination changes an entry to zero.
+
+Caution To judge a numerical algorithm, it is not enough to count the operations. Beyond
+"flop counting" is a study of stability (Householder wins) and the flow of data.
+
+
+                                                          Reordering Sparse Matrices
+For band matrices with constant width w, the row ordering is optimal. But for most sparse
+matrices in real computations, the width of the band is not constant and there are many
+zeros inside the band. Those zeros can fill in as elimination proceeds-they are lost. We
+need to renumber the equations to reduce fill-in, and thereby speed up elimination.
+     Generally speaking, we want to move zeros to early rows and columns. Later rows
+and columns are shorter anyway. The "approximate minimum degree" algorithm in sparse
+MATLAB is greedy-it chooses the row to eliminate without counting all the consequences.
+We may reach a nearly full matrix near the end, but the total operation count to reach LU
+is still much smaller. To find the absolute minimum of nonzeros in L and U is an NP-hard
+problem, much too expensive, and amd is a good compromise.
+     Fill-in is famous when each point on a square grid is connected to its four nearest
+neighbors. It is impossible to number all the gridpoints so that neighbors stay together! If
+we number by rows of the grid, there is a long wait to come around to the gridpoint above.
+                                                         <
+514                                                        Chapter 11. Numerical Linear Algebra
+
+
+
+
+i[
+        1    1                                                  =2
+       -2    1                                 j=l                     ---+
+       -2    0                                                  k=3            11
+
+                                                   a32   = 0 before             a32 =I= 0 after
+
+
+     We only need the positions of the nonzeros, not their exact values. Think of the graph
+of nonzeros: Node i is connected to node j if aij =f. 0. Watch to see how elimination can
+create nonzeros (new edges), which we are trying to avoid.
+     The command nnz(L) counts the nonzero multipliers in the lower triangular L, find
+(L) will list them, and spy(L) shows them all.
+     The goal of colamd and symamd is a better ordering (permutation P) that reduces
+fill-in for AP and p T AP-by choosing the pivot with the fewest nonzeros below it.
+
+
+                                                                 Fast Orthogonalization
+There are three ways to reach the important factorization A = QR. Gram-Schmidt works
+to find the orthonormal vectors in Q. Then R is upper triangular because of the order of
+Gram-Schmidt steps. Now we look at better methods (Householder and Givens), which
+use a product of specially simple Q's that we know are orthogonal.
+     Elimination gives A = LU, orthogonalization gives A = QR. We don't want a
+triangular L, we want an orthogonal Q. L is a product of E's from elimination, with
+1's on the diagonal and the multiplier fJ,ij below. Q will be a product of orthogonal matrices.
+     There are two simple orthogonal matrices to take the place of the E's. The reflection
+matrices I - 2uu T are named after Householder. The plane rotation matrices are named
+after Givens. The simple matrix that rotates the xy plane by 0 is Q21 :
+                                           cos0 -sin0 O
+      Givens rotation
+                                  Q 2 1 = [sin0  cos0 0l .
+      in the 1-2 plane
+                                             0      0 1
+
+Use Q 21 the way you used E21 , to produce a zero in the (2, 1) position. That determines
+the angle 0. Bill Hager gives this example in Applied Numerical Linear Algebra:
+
+                         .8   ol [    90     -153         114         150     -155   -110
+                         .6   0      120      -79        -223] = [ 0            75   -225
+                                                                                          ]
+                          0   1      200      -40         395      200         -40    395
+
+The zero came from -.8(90) + .6(120). No need to find 0, what we needed was cos0:
+
+                                90                                   -120
+                 cos 0 = ---;=====;;:        and         sin0 = -;=====;;:                    (2)
+                         \1'90 2 + 1202                         \1'902 + 1202
+11. 1. Gaussian Elimination in Practice                                                                    515
+
+
+
+
+                                      -� l [
+Now we attack the (3, 1) entry. The rotation will be in rows and columns 3 and l. The
+numbers cos 0 and sin 0 are determined from 150 and 200, instead of 90 and 120.
+
+                          .6     0                   15     ·                     25       -125    250
+                                                       �         :                     �
+                           0     1                                   ]        [              75   -225]
+                        -.8      0    .6             200         ·                0         100    325
+
+
+
+
+                                          -� l
+One more step to R. The (3, 2) entry has to go. The numbers cos 0 and sin 0 now come
+from 75 and 100. The rotation is now in rows and columns 2 and 3:
+
+                                 0                25       -1                           25 -         250
+                                                       �        ;;       :                �  ���
+                                .6               [                        ]            [             125]
+                               -.8        .6           0   100           .                0   0      375
+
+We have reached the upper triangular R. What is Q? Move the plane rotations Qij to the
+other side to find A = QR-just as you moved the elimination matrices Eij to the other
+side to find A= LU:
+
+                                          means                                                             (3)
+
+The inverse of each Qij is Q[j (rotation through -0). The inverse of Eij was not an
+orthogonal matrix! LU and QR are similar but L and Q are not the same.
+    Householder reflections are faster than rotations because each one clears out a whole
+column below the diagonal. Watch how the first column a i of A becomes column ri of R:
+
+
+       Reflection by H i
+        H i= I - 2uiuT
+                                                                                                            (4)
+
+
+The length was not changed, and u i is in the direction of a i - ri. We have n - 1 entries
+in the unit vector ui to get n - 1 zeros in ri. (Rotations had one angle 0 to get one zero.)
+When we reach column k, we have n - k available choices in the unit vector Uk.
+This leads to n - k zeros in rk · We just store the u 's and r's to know the final Q and R:
+
+ Inverse of Hi is Hi      (Hn - i ...H i)A= R means A= (H i ...Hn- i)R = QR. (5 )
+
+This is how LAPACK improves on 19th century Gram-Schmidt. Q is exactly orthogonal.
+    Section 11.3 explains how A = QR is used in the other big computation of linear
+algebra-the eigenvalue problem. The factors QR are reversed to give A i= RQ which is
+Q-iAQ. Since A i is similar to A, the eigenvalues are unchanged. Then A i is factored into
+Q iR i, and reversing the factors gives A2 • Amazingly, the entries below the diagonal get
+smaller in A i, A2 , A3, . . . and we can identify the eigenvalues. This is the "QR method"
+for Ax= ,,\x, a big success of numerical linear algebra.
+516                                                    Chapter I I. Numerical Linear Algebra
+
+
+Problem Set 11.1
+1     Find the two pivots with and without row exchange to maximize the pivot:
+                                           .001    O
+                                     A= [            J .
+                                          1     1000
+      With row exchanges to maximize pivots, why are no entries ofL larger than 1?
+      Find a 3 by 3 matrix A with all 1% I ::::; 1 and 1-l\j I ::::; 1 but third pivot= 4.
+2     Compute the exact inverse ofthe Hilbert matrix A by elimination. Then compute
+      A- 1 again by rounding all numbers to three figures:
+
+
+
+
+3
+                Ill-conditioned matrix            A hilb(3)
+                                                   �        �
+                                                                  [i l !]
+      For the same A compute b = Ax for x = (l, 1, 1) and x = (0, 6, -3.6). A small
+      change !:i.b produces a large change !:i.x.
+4     Find the eigenvalues (by computer) ofthe 8 by 8 Hilbert matrix % = 1 / (i + j - 1).
+      In the equation Ax= bwith llbll = l,how large can llxll be ? Ifbhas roundofferror
+      less than 10-15, how large an error can this cause in x? See Section 9.2.
+5     For back substitution with a band matrix (width w), show that the number ofmulti­
+      plications to solve Ux= c is approximately wn.
+6     Ifyou know Land U and Q and R, is it faster to solve LU x= b or Q Rx= b?
+7     Show that the number ofmultiplications to invert an upper triangular n by n matrix
+      is about ¼n 3. Use back substitution on the columns ofI, upward from l's.
+8     Choosing the largest available pivot in each column (partial pivoting),factor each A
+      intoPA=LU:
+
+                         A= [�     �]       and
+
+
+9     Put l's on the three central diagonals ofa 4 by 4 tridiagonal matrix. Find the cofac­
+      tors ofthe six zero entries. Those entries are nonzero in A- 1.
+10    (Suggested by C. Van Loan.) Find the LU factorization and solve by elimination
+      when E= 10-3, 10-6, 10-9, 10-12, 10-15:
+
+
+
+      The true xis (1, 1). Make a table to show the error for each E. Exchange the two
+      equations and solve again-the errors should almost disappear.
+11.1. Gaussian Elimination in Practice                                                      517
+
+
+11      (a) Choose sin 0 and co s 0 to triangularize A, and find R:
+
+               Givens rotation         Q21 A
+                                               = c� s0 - sin 0      [1 -lJ = [* *] = R.
+                                                 [ sm 0 co s 0 ] 3        5       0   *
+
+        (b) Choose sin 0 and co s 0 to make QAQ- 1 triangular. What are the eigenvalues?
+12    When A is multiplied by a plane rotation Qij, which entries of A are changed?
+      When QiJA is multiplied on the right by Q-;/, which entries are changed now?
+13    How many multiplications and how many additions are used to compute QijA?
+      Careful organization of the whole sequence of rotations gives jn 3 multiplications
+      and jn 3 additions-the same as for QR by reflectors and twice as many as for LU.
+
+                                         Challenge Problems
+14    (Turning a :robot hand) The robot produces any 3 by 3 rotation A from plane rota­
+      tions around the x, y, z axes. Then Q 32Q 31 Q 21 A = R, where A is orthogonal so R
+      is I! The three robot turns are in A = Q·.;]Q 3/Q 3z1_ The three angles are "Euler
+      angles" and det Q = 1 to avoid reflection. Start by choosing co s 0 and sin 0 so that
+
+
+       Q21 A
+                   co s0 - sin 0
+                  sin 0   co s0
+                                         Ol ! [
+                                         0
+                                                 -1  2
+                                                  2 -1
+                                                        2
+                                                        2]         is zero in the (2,l) position.
+               - [ 0         0           1 3      2  2 -1
+
+15    Create the 10 by 10 second difference matrix K = toepl.itz([2 - 1 zeros(l,8)]).
+      Permute rows and columns randomly by KK = K(randperm(lO),randperm(lO)).
+      Factor by [L, U] = lu(K) and [LL, UU] = lu(KK), and count nonzeros by rmz(L)
+      and nnz(LL). In this case Lis in perfect tridiagonal order, but not LL.
+16    Another ordering for this matrix K colors the meshpoints alternately red and black.
+      This permutation P changes the normal 1,. . . ,10 to 1,3,5,7,9,2,4,6,8,10:
+
+          Red-black ordering
+                                                             i]          Find the matrix D.
+
+          So many interesting experiments are possible. If you send good ideas they can
+      go on the linear algebra website math.mit.edu/linearalgebra. I also recommend
+      learning the command B = sparse(A), after which find(B) will list the nonzero
+      entries and fu(B) will factor B using that sparse format for L and U. Only the
+      nonzeros are computed, where ordinary (dense) MATLAB computes all the zeros too.
+
+
+                          [x]
+17    Jeff Stuart has created a student activity that brilliantly demonstrates ill-conditioning:
+
+
+         [�    1.0001
+               1.0000]    y
+                                =   [
+                                      3.0001 + e
+                                     3.0000 + E
+                                                 ]
+                                                     With errors
+                                                     e and E
+                                                                     x = 2 - 10000(e - E)
+                                                                     y = 1 + 10000(e - E)
+      When those equations are shown by nearly parallel long sticks, a small shake gives
+      a big jump in the crossing point (x, y). Errors e and E are amplified by 10000.
+518                                                              Chapter 11. Numerical Linear Algebra
+
+
+11.2        Norms and Condition Numbers
+How do we measure the size of a matrix? For a vector, the length is llxll- For a matrix,
+the norm is IIAII - This word "norm" is sometimes used for vectors, instead of length. It
+is always used for matrices, and there are many ways to measure IIAII - We look at the
+requirements on all "matrix norms" and then choose one.
+    Frobenius squared all the Iaij I2 and added; his norm 11 A IIF is the square root. This
+treats A like a long vector with n 2 components: sometimes useful, but not the choice here.
+    I prefer to start with a vector norm. The triangle inequality says that llx + YII is not
+greater than llxll + IIYII - The length of 2x or -2x is doubled to 2 llxll- The same rules
+will apply to matrix norms:
+
+
+                      IIA + BIi :S IIAII + IIBII          and         llcAII = lei IIAII-            (1)
+
+
+   The second requirements for a matrix norm are new, because matrices multiply. The
+norm IIAII controls the growth from x to Ax, and from B to AB:
+
+   Growth factor IIAII            IIAxll :S IIAll llxll         and         IIABII :S IIAII IIBII-   (2)
+
+This leads to a natural way to define IIAII, the norm of a matrix:
+
+
+
+
+                                                                                �)t w·
+                                                                                     IIAxll
+      The norm of A is the largest ratio IIAxll/llxll:                IIAII =                        (3)
+
+
+
+IIAxll/llxll is never larger than IIAII (its maximum). This says that IIAxll :S IIA ll llxll­
+Example 1       If A is the identity matrix I, the ratios are llxll/llxll- Therefore IIIII = 1. If
+A is an orthogonal matrix Q, lengths are again preserved: IIQxll = llxll- The ratios still
+give IIQII = 1. An orthogonal Q is good to compute with: errors don't grow.
+Example 2           The norm of a diagonal matrix is its largest entry (using absolute values):
+
+ A __ [2o    03 ]                                                        x = [ 1J
+                                                                                 O     has    Ax= 3x.
+                       has norm    IIAII = 3.      The eigenvector
+
+The eigenvalue is 3. For this A (but not all A), the largest eigenvalue equals the norm.
+
+          For a positive definite symmetric matrix the norm is IIAII = A max (A).
+Choose xto be the eigenvector with maximum eigenvalue. Then IIAxll/llxll equals A max ·
+The point is that no other x can make the ratio larger. The matrix is A = QAQT , and the
+orthogonal matrices Q and QT leave lengths unchanged. So the ratio to maximize is really
+II A xll/llxll- The norm is the largest eigenvalue in the diagonal A.
+11.2. Norms and Condition Numbers                                                                      519
+
+Symmetric matrices Suppose A is symmetric but not positive definite. A = QAQ T is
+still true. Then the norm is the largest of IA1 I, IA2 f, ..., IAn f. We take absolute values,
+because the norm is only concerned with length. For an eigenvector ffAxff = ffAxff fAI                 =
+
+
+times 11 x11- The x that gives the maximum ratio is the eigenvector for the maximum IAf.
+
+Unsymmetric matrices If A is not symmetric, its eigenvalues may not measure its true
+size. The norm can be larger than any eigenvalue. A very unsymmetric example has
+A1 A2 = 0 but its norm is not zero:
+   =
+
+
+
+
+                                                                                    I xflIA
+                                                     has norm       IIAII   =
+                                                                                �;i W         =   2.
+
+The vector x (0, 1) gives Ax= (2, 0). The ratio oflengths is 2/1. This is the maximum
+              =
+
+
+ratio ffAlf, even though xis not an eigenvector.
+  It is the symmetric matrix AT A, not the unsymmetric A, that has eigenvector
+x (0, 1). The norm is really decided by the largest eigenvalue of AT A:
+  =
+
+
+
+
+  The norm of A (symmetric or not) is the square root of A max (AT A):
+                                           2
+                                     lfAxfl             xT AT Ax
+                  IIAll 2   =   max ---         =   max----          =      Amax (AT A)                    (4)
+                                x,to ll xll 2       x,to xT x
+
+
+
+ The unsymmetric example with Amax (A)              =   0 has Amax (AT A)       =   4:
+
+   A= [�      �] leads to AT A= [�              �] with Amax    =   4. So the norm is IIAII = V4.
+
+
+For any A Choose x to be the eigenvector of AT A with largest eigenvalue Amax. The
+ratio in equation (4) is xT AT Ax = xT ( Amax ) x divided by xT x. This is Amax·
+    No x can give a larger ratio. The symmetric matrix AT A has eigenvalues A1 , ... , An
+and orthonormal eigenvectors q 1 , q 2 , . .., q n . Every xis a combination of those vectors.
+Try this combination in the ratio and remember that q; qj = 0:
+
+                  (e 1 Q 1 +···+en qn f (e 1 A1 Q 1 +···+en An q n )                 erA1 +···+e;.An
+                      (e 1 Q 1 +···+en q n )T(e 1 Q 1 +···+en qn )                     er+···+e�
+The maximum ratio Amax is when all e's are zero, except the one that multiplies Amax ·
+Note 1 The ratio in equation (4) is the Rayleigh quotient for the symmetric matrix AT A.
+Its maximum is the largest eigenvalue Amax (AT A). The minimum ratio is Am in(AT A).
+Ifyou substitute any vector x into the Rayleigh quotient xT AT Ax/xT x, you are guaran­
+teed to get a number between Am in (AT A) and Amax (AT A).
+520                                                         Chapter 11. Numerical Linear Algebra
+
+Note 2 The norm IIAII equals the largest singular value D"max of A. The singular values
+cr 1 , . . . , O'r are the square roots of the positive eigenvalues of AT A. So certainly
+O'max = (>- max ) 1 1 2. Since U and V are orthogonal in A = U�V T , the norm is IIAII =
+D"max·
+
+
+
+
+                                                           The Condition Number of A
+Section 9 .1 showed that roundoff error can be serious. Some systems are sensitive, others
+are not so sensitive. The sensitivity to error is measured by the condition number. This
+is the first chapter in the book which intentionally introduces errors. We want to estimate
+how much they change x.
+     The original equation is Ax = b. Suppose the right side is changed to b + t:i.b
+because of roundoff or measurement error. The solution is then changed to x + t:i.x. Our
+goal is to estimate the change t:i.x in the solution from the change t:i.b in the equation.
+Subtraction gives the error equation A(t:i.x) = t:i.b:
+
+         Subtract Ax = b from A(x + t:i.x) = b + t:i.b to find            A(t:i.x) = t:i.b.   (5)
+
+The error is t:i.x = A- 1 t:i.b. It is large when A- 1 is large (then A is nearly singular). The
+error t:i.x is especially large when t:i.b points in the worst direction-which is amplified
+most by A- 1 . The worst error has llt:i.xll = IIA- 1 11 llt:i.bll-
+    This error bound IIA- 1 11 has one serious drawback. If we multiply A by 1000, then
+A- is divided by 1000. The matrix looks a thousand times better. But a simple rescaling
+    1
+
+cannot change the reality of the problem. It is true that t:i.x will be divided by 1000, but so
+will the exact solution x = A- 1b. The relative error llt:i.xll/llxll will stay the same. It is
+this relative change in x that should be compared to the relative change in b.
+    Comparing relative errors will now lead to the "condition number" c = 11A 11 11A- 1 11.
+Multiplying A by 1000 does not change this number, because A- 1 is divided by 1000 and
+the condition number c stays the same. It measures the sensitivity of Ax = b.
+
+
+  The solution error is less than c = IIAII IIA- 1 11 times the problem error:
+
+
+            Condition number c                                                                (6)
+
+  If the problem error is t:i.A (error in A instead of b), still c controls t:i.x:
+
+                                              llt:i.xll     llt:i.AII .
+           Error t:i.Ain A                                                                    (7)
+                                           llx + t:i.xll � clAjf
+11.2. Norms and Condition Numbers                                                            521
+
+Proof The original equation is b = Ax. The error equation (5) is �x                     A-1�b.
+Apply the key property IIAxll :=; IIAll ll xll of matrix norms:
+
+                   ll bll :=; IIAll llxll   and
+
+Multiply the left sides to get ll bll ll�xll , and multiply the right sides to get cll xll ll�bll­
+Divide both sides by llbll llxll- The left side is now the relative error ll�xll/ll xll- The
+right side is now the upper bound in equation (6).
+    The same condition number c= IIA II IIA-111 appears when the error is in the matrix.
+We have �A instead of �b in the error equation:
+
+  Subtract Ax=b from (A + �A)(x + �x)=b to find A(�x)= -(�A)(x + �x).
+
+Multiply the last equation by A-1 and take norms to reach equation (7):
+
+                                                         ll�xll                 1 ll�AII
+                                                        x  + �x    < IIA II IIA- 11 A .
+                                                     ll         ii -                II II
+
+Conclusion Errors enter in two ways. They begin with an error �A or �b---a wrong
+matrix or a wrong b. This problem error is amplified (a lot or a little) into the solution error
+�x. That error is bounded, relative to x itself, by the condition number c.
+    The error �b depends on computer roundoff and on the original measurements of b.
+The error �A also depends on the elimination steps. Small pivots tend to produce large
+errors in L and U. Then L+�L times U+�U equals A+�A. When �A or the condition
+number is very large, the error �x can be unacceptable.
+
+Example 3      When A is symmetric, c= IIAI I IIA-1 I comes from the eigenvalues:
+
+                A= [ � �] has norm 6.             A -1 -
+                                                       _   [t0 ½0] has norm 2. 1
+
+
+
+
+This A is symmetric positive definite. Its norm is Am ax = 6. The norm of A-1 is
+1/Amin= ½- Multiplying norms gives the condition number IIA II IIA-1 II=Am ax/Amin:
+
+                                                                  Amax  �   _
+  Condition number for positive definite A                  C=         = =3
+                                                                  Amin  2
+
+Example 4 Keep the same A, with eigenvalues 6 and 2. To make x small, choose b along
+the first eigenvector (1, 0). To make �x large, choose �b along the second eigenvector
+(0, 1). Then x = ½b and �x = ½�b. The ratio ll�x ll/llxll is exactly c = 3 times the
+ratio ll�bll/ll bll-
+    This shows that the worst error allowed by the condition number IIA II IIA-1II can
+actually happen. Here is a useful rule of thumb, experimentally verified for Gaussian
+elimination: The computer can lose log c decimal places to roundoff error.
+522                                                          Chapter 11. Numerical Linear Algebra
+
+
+Problem Set 11.2
+1     Find the norms IIAII = A m ax and condition numbers c = A m ax/ A m in ofthese posi­
+      tive definite matrices:
+
+
+                                                                  [ i �] .
+2     Find the norms and condition numbers from the square roots of >-m ax(AT A) and
+      A m in(A T A). Without positive definiteness in A, we go to AT A!
+
+
+
+
+3     Explain these two inequalities from the definitions (3) of IIAII and IIBII:
+
+                              IIABxll :S: IIAII IIBxll :S: IIAII IIBll ll xll-
+      From the ratio of IIABxll to ll xll, deduce that IIABII ::; IIAII IIBII- This is the key to
+      using matrix norms. The norm ofA n is never larger than IIAlln .
+4     Use IIAA- 1 11 :S: IIAII IIA- 1 11 to prove that the condition number is at least l.
+5     Why is I the only symmetric positive definite matrix that has A m ax = A m in = 1?
+      Then the only other matrices with IIAII = 1 and IIA- 1 II = 1 must have AT A= I.
+      Those are __ matrices: perfectly conditioned.
+
+6     Orthogonal matrices have norm IIQII = 1. If A= QR show thc>.t IIAII :S: IIRII and
+      also IIRII :S: IIAII- Then IIAII = IIQII IIRII- Find an example of A = LU with
+      IIAII < IILII IIUll-
+7      (a) Which famous inequality gives ll(A + B)xll :S: IIAxll + IIBxll for every x?
+       (b) Why does the definition (3) ofmatrix norms lead to IIA + BIi :S: IIAII + IIBII?
+
+8     Show that if>- is any eigenvalue ofA, then l>-1 ::; IIAII- Start from Ax= .\x.
+
+9     The "spectral radius" p( A) = l>-m ax I is the largest absolute value ofthe eigenvalues.
+      Show with 2 by 2 examples that p(A + B) ::; p(A) + p(B) and p(AB) ::; p(A)p(B)
+      can both be false. The spectral radius is not acceptable as a norm.
+
+10     (a) Explain why A and A- 1 have the same condition number.
+       (b) Explain why A and AT have the same norm, based on >-(AT A) and >-(AAT ).
+
+11    Estimate the condition number ofthe ill-conditioned matrix A = [ � 1.o1oi].
+12    Why is the determinant of A no good as a norm? Why is it no good as a condition
+      number?
+11.2. Norms and Condition Numbers                                                        523
+
+13    (Suggested by C.Moler and C.Van Loan.) Compute b - Ay and b - Az when
+                  ·217         .780 .563                    .341               .999
+            b=[        ]    A=[           ]         y=[          ]      =[          ].
+                  .254         . 913 .65 9                 -.087       z     -1.0
+      Is y closer than z to solving Ax = b? Answer in two ways: Compare the residual
+      b - Ay to b - Az. Then compare y and z to the true x=(1, -1). Both answers
+      can be right.Sometimes we want a small residual, sometimes a small .6.x.
+14     (a) Compute the determinant of A in Problem 13. Compute A- 1 .
+       (b) If possible compute IIA II and IIA-111 and show that c > 106 .
+
+Problems 15-19 are about vector norms other than the usual llxll = �.
+15    The "£ 1 norm" and the "£ 00 norm" of x=(x 1 , ... , X n ) are
+
+
+                                                           llxll oo=l:S:i:S:n
+                                                                     max Ix;!.
+
+
+      Compute the norms llxll and llxll1 and llxll oo of these two vectors inR5 :
+
+                           X=(1, 1, 1, 1, 1)       X=(.1, .7, .3, .4, .5).
+
+
+16    Prove that llxll oo � llxll � llxlli, Show from the Schwarz inequality that the ratios
+      llxll/llxll oo and llxlli/llxll are never larger than yn. Which vector (x1, ..., xn)
+      gives ratios equal to yn?
+17    All vector norms must satisfy the triangle inequality. Prove that
+
+            llx + Yll oo � llxll oo + IIYll oo    and
+
+18    Vector norms must also satisfy llcxll = lei llxll- The norm must be positive except
+      when x=0.Which of these are norms for vectors (x 1, x 2) in R2 ?
+
+           llxllA=lx1I + 2 lx2I           llxllB=min ( lx1I, lx2I)
+           llxllc=llxll + llxlloo         llxllD=IIAxll    (this answer depends on A).
+
+                                      Challenge Problems
+19    Show that xT y � llxlli II Yll 00 by choosing components Yi = ±1 to make xT y as
+      large as possible.
+20    The eigenvalues of the -1, 2, -1 difference matrix K are A= 2 - 2 cos (j1r/n+1).
+      Estimate A m in and A m ax and c=cond(K)=A m ax/A m in as n increases: c::::; Cn2
+      with what constant C?
+         Test this estimate with eig(K) and cond(K) for n = 10, 100, 1000.
+524                                                     Chapter 11. Numerical Linear Algebra
+
+
+11.3      Iterative Methods and Preconditioners
+Up to now, our approach to Ax = b has been direct. We accepted A as it came. We
+attacked it by elimination with row exchanges. We now look at iterative methods, which
+replace A by a simpler matrix S. The difference T = S - A is moved over to the right
+side of the equation. The problem becomes easier to solve, with S instead of A. But there
+is a price-the simpler system has to be solved over and over.
+     An iterative method is easy to invent. Just split A (carefully) into S - T.
+
+                        Rewrite Ax = b         Sx = Tx+b.                                (1)
+
+The novelty is to solve (1) iteratively. Each guess Xk leads to the next Xk+I:
+
+                        Pure iteration                                                   (2)
+
+Start with any x0. Then solve Sx1 = Tx0 + b. Continue to Sx2 = Tx1 + b. A hundred
+iterations are very common-often more. Stop when (and if!) Xk+I is sufficiently close
+to Xk-or when the residual Tk = b - Axk is near zero. Our hope is to get near the true
+solution, more quickly than by elimination. When the Xk converge, their limit x 00 does
+solve equation (1): Sx00 = Tx00 + b means Ax00 = b.
+    The two goals of the splitting A = S - T are speed per step and fast convergence.
+The speed of each step depends on Sand the speed of convergence depends on      1
+                                                                                 s- r:
+   1 Equation (2) should be easy to solve for Xk+i· The "preconditioner" S could be the
+     diagonal or triangular part of A. A fast way uses S = L 0 U0, where those factors
+     have many zeros compared to the exact A= LU. This is "incomplete LU".
+   2 The difference x - Xk (this is the error ek) should go quickly to zero. Subtracting
+     equation (2) from (1) cancels b, and it leaves the equation for the error ek:
+
+
+         Error equation                                                                  (3)
+
+
+At every step the error is multiplied by s- r. s- r
+                                          1
+                                               If   1
+                                                         is small, its powers go quickly to
+zero. But what is "small"?
+    The extreme splitting is S = A and T = 0. Then the first step of the iteration is the
+original Ax = b. Convergence is perfect and     s- r
+                                                  1
+                                                      is zero. But the cost of that step is
+what we wanted to avoid. The choice of Sis a battle between speed per step (a simple S)
+and fast convergence (S close to A). Here are some choices of S:
+   J S = diagonal part of A (the iteration is called Jacobi's method)
+ GS S = lower triangular part of A including the diagonal ( Gauss-Seidel method)
+ILU S = approximate L times approximate U (incomplete L U method).
+11.3. Iterative Methods and Preconditioners                                                  525
+
+    Our first question is pure linear algebra: When do the Xk 's converge to x? The
+answer uncovers the number l>-l max that controls convergence. In examples of Jacobi and
+Gauss-Seidel, we will compute this "spectral radius" l>-l max · It is the largest eigenvalue of
+the iteration matrix B=    s- r.
+                             1
+
+
+
+                             The Spectral Radius p(B) Controls Convergence
+Equation (3) is e k +I =   s-1
+                               Te k . Every iteration step multiplies the error by the same
+matrix B =    s-1
+                  T. The error after k steps is e k = B k ea. The error approaches zero if
+the powers of B = s- 1 T approach zero. It is beautiful to see how the eigenvalues of
+B-the largest eigenvalue in particular-control the matrix powers B k .
+
+
+ The powers B k approach zero if and only if every eigenvalue of B has l>-1 < 1.
+ The rate ofconvergence is controlled by the spectral radius of B: p = max I,\ ( B) 1-
+
+
+The test for convergence is l>-l max < 1. Real eigenvalues must lie between -1 and 1.
+Complex eigenvalues>-= a+ ib must have l>-1 2 = a 2 + b 2 < 1. The spectral radius "rho"
+is the largest distance from Oto the eigenvalues of B=     s-  1
+                                                                 T. This is p= l>-l max ·
+      To see why l>-l max < 1 is necessary, suppose the starting error ea happens to be an
+eigenvector of B. After one step the error is Beo = >-ea. After k steps the error is B k eo =
+A k ea. If we start with an eigenvector, we continue with that eigenvector-and the factor
+,>_ k only goes to zero when l>-1 < 1. This condition is required of every eigenvalue.
+      To see why l>-l max < 1 is sufficient for the error to approach zero, suppose eo is a
+combination of eigenvectors:
+       ea = C1X1 + · · · + Cn Xn     leads to e k = c1(>-1lx1 + · · · + Cn (>-n lXn -            (4)
+This is the point of eigenvectors! When we multiply by B, each eigenvector Xi is multiplied
+by Ai- If all I Ai I < 1 then equation (4) ensures that eJc goes to zero.
+
+Example 1      B= [ :�      :� ] has A max = 1.1         B' = [ -�
+                                                                     1
+                                                                         :! ]   has A max = .6
+
+B2 is 1.1 times B. Then B3 is (1.1) 2 times B. The powers of B will blow up.
+Contrast with the powers of B'. The matrix (B') k has (.6)k and ( .5)k on its diagonal.
+The off-diagonal entries also involve p k = ( .6) k , which sets the speed of convergence.
+
+Note When there are too few eigenvectors, equation (4) is not correct. We turn to the
+Jordan form when eigenvectors are missing and the matrix B can't be diagonalized:
+     Jordan form J              B = MJM- 1         and                                           (5)
+Section 8.3 shows how J and J k are made of "blocks" with one repeated eigenvalue:
+
+          The powers of a 2 by 2 block in J are
+526                                                        Chapter 11. Numerical Linear Algebra
+
+        1
+If l>-1 < then these powers approach zero. The extra factor k from a double eigenvalue is
+overwhelmed by the decreasing factor )_ k -I _ This applies to every block:
+Diagonalizable or not: Convergence B k -+ 0 and its speed depend on p = I A I max < 1.
+
+                                                               Jacobi versus Gauss-Seidel
+We now solve a specific 2 by 2 problem by splitting A. Watch for that number l>-l max ·
+                             2u- V = 4
+                                                has the solution
+              Ax=b
+                            -u+2v = -2                               [uv] [ o2] .               (6)
+
+The first splitting is Jacobi's method. Keep the diagonal of A on the left side (this is S).
+Move the off-diagonal part of A to the right side (this is T). Then iterate:
+
+
+                                                                        = V k +4
+            Jacobi iteration
+                                                                        = Uk - 2.
+
+   Start from u 0 = v0 = 0. The first step finds u1 = 2 and v1 =-1. Keep going:
+                                             [15/�]
+                                                          [-1;1!]     approaches        rn] .
+This shows convergence. At steps 1, 3, 5 the second component is -1, -1/4, -1/16.
+Those drop by 4 in each two steps. The error equation is Se k+I = Te k :
+
+      Error equation           rn �]   ek+l = [�      �] e k    or e k+I =   [i !]     ek ,     (7)
+
+That last matrix   s- 1 r has eigenvalues ½ and -½. So its spectral radius is p( B) =½:
+                                                                        2
+                                    has l>-l m ax = ½    and            ] =[¼           J .
+                                                                     0½     0       l.O
+                                                                                    4
+
+Two steps multiply the error by ¼ exactly, in this special example. The important message
+is this: Jacobi's method works well when the main diagonal of A is large compared to the
+off-diagonal part. The diagonal part is S, the rest is -T. We want the diagonal to dominate.
+     The eigenvalue >- = ½ is unusually small. Ten iterations reduce the error by
+2 10 = 1024. More typical and more expensive is l>-l max = .99 or .999.
+     The Gauss-Seidel method keeps the whole lower triangular part of A as S:
+                        2u k+l         = V k +4                     U k+l = ½v k   +2
+  Gauss-Seidel                                             or                                   (8)
+                        -U k+l +2V k+I =     -2                     V k+l = ½u k+l - l.
+Notice the change. The new uk +l from the first equation is used immediately in the second
+equation. With Jacobi, we saved the old U k until the whole step was complete. With Gauss­
+Seidel, the new values enter right away and the old U k is destroyed. This cuts the storage in
+half. It also speeds up the iteration (usually). And it costs no more than the Jacobi method.
+11.3. Iterative Methods and Preconditioners                                                   527
+
+    Test the iteration starting from another start u 0 = 0 and v 0 = -1:
+
+                          3/2
+                       [ -1/4]
+                                      15 /8
+                                   [ -1/16]      [ �� !! ]
+                                                      j           approaches    rn] .
+The errors in the first component are 2, 1/2, 1/8, 1/32. The errors in the second component
+are -1, -1/4, -1/16, -1/32. We divide by 4 in one step not two steps. Gauss-Seidel is
+twice as fast as Jacobi. We have PGs = (PJ)2 when A is positive definite tridiagonal:
+
+
+             S= [-�       �]     and T= [�       �]       and    s- 1 T= [�     !] .
+The Gauss-Seidel eigenvalues are O and ¼- Compare with            ½ and -½ for Jacobi.
+With a small push we can describe the successive overrelaxation method (SOR).
+The new idea is to introduce a parameter w (omega) into the iteration. Then choose this
+number w to make the spectral radius of   1
+                                             as small as possible.
+                                              s- r
+    Rewrite Ax = bas wAx = wb. The matrix Sin SOR has the diagonal of the origi­
+nal A, but below the diagonal we use wA. On the right side Tis S - wA:
+
+                      2uk+l          = (2 - 2w)uk +        wvk + 4w
+                                                    (2 - 2w)vk - 2w.
+     SOR
+                      -wuk+l + 2vk+l =                                                            (9)
+
+This looks more complicated to us, but the computer goes as fast as ever. SOR is like
+Gauss-Seidel, with an adjustable number w. The best w makes it faster.
+    I will put on record the most valuable test matrix of order n. It is our favorite -1, 2,
+-1 tridiagonal matrix K. The diagonal is 2I. Below and above are -1 's. Our example had
+n = 2, which leads to cos i = ½ as the Jacobi eigenvalue found above. Notice especially
+that this 1>-l max is squared for Gauss-Seidel:
+
+
+ The splittings of the -1, 2, -1 matrix K of order n yield these eigenvalues of B:
+
+   Jacobi (S = 0, 2, 0 matrix):                                                            7f
+                                                                S -1 T has l>-l max = COS -­
+                                                                                          n+l
+                                                                                              2
+   Gauss-Seidel (S = -1, 2, 0 matrix):                    s- 1 r has l>-l max = (cos _1r
+                                                                                     n+l
+                                                                                         _)
+   SOR (with the best w):        s- 1 r has l>-l max = (cos-7f
+                                                             -) (1+sin-7f-) .
+                                                                        2                  2
+
+                                                           n+l /      n+l
+
+
+    Let me be clear: For the -1, 2, -1 matrix you should not use any of these iterations!
+Elimination on a tridiagonal matrix is very fast (exact LU). Iterations are intended for a
+large sparse matrix that has nonzeros far from the central diagonal. Those create many
+more nonzeros in the exact Land U. This fill-in is why elimination becomes expensive.
+528                                                      Chapter 11. Numerical Linear Algebra
+
+    We mention one more splitting. The idea of "incomplete LU" is to set the small nonze­
+ros in L and U back to zero. This leaves triangular matrices Lo and U0 which are again
+sparse. The splitting has S = L 0 U0 on the left side. Each step is quick:
+
+      Incomplete LU              LoUo x k +l = (LoUo - A)x k + b.
+
+On the right side we do sparse matrix-vector multiplications. Don't multiply Lo times U0 ,
+those are matrices. Multiply X k by U0 and then multiply that vector by L 0. On the left side
+we do forward and back substitutions. If L 0 U0 is close to A, then i>-l max is small. A few
+iterations will give a close answer.
+
+
+                                              Multigrid and Conjugate Gradients
+I cannot leave the impression that Jacobi and Gauss-Seidel are great methods. Generally the
+"low-frequency" part of the error decays very slowly, and many iterations are needed. Here
+are two important ideas that bring tremendous improvement. Multigrid can solve problems
+of size n in 0(n) steps. With a good preconditioner, conjugate gradients becomes one of
+the most popular and powerful algorithms in numerical linear algebra.
+
+Multigrid Solve smaller problems with coarser grids. Each iteration will be cheaper and
+faster. Then interpolate between the coarse grid values to get a quick headstart on the
+full-size problem. Multigrid might go 4 levels down and back.
+
+Conjugate gradients An ordinary iteration like X k +l = X k - Ax k + b involves mul­
+tiplication by A at each step. If A is sparse, this is not too expensive: Ax k is what we
+are willing to do. It adds one more basis vector to the growing "Krylov spaces" that con­
+tain our approximations. But X k +l is not the best combination of x o , Ax o , ... , A k x o .
+The ordinary iterations are simple but far from optimal.
+     The conjugate gradient method chooses the best combination X k at every step. The
+extra cost (beyond one multiplication by A) is not great. We will give the CG iteration,
+emphasizing that this method was created for a symmetric positive definite matrix. When
+A is not symmetric, one good choice is GMRES. When A = AT is not positive definite,
+there is MINRES. A world of high-powered iterative methods has been created around the
+idea of making optimal choices of each successive X k .
+
+    My textbook Computational Science and Engineering describes multigrid and CG in
+much more detail. Among books on numerical linear algebra, Trefethen-Bau is deservedly
+popular (others are terrific too). Golub-Van Loan is a level up.
+    The Problem Set reproduces the five steps in each conjugate gradient cycle from X k -l
+to X k . We compute that new approximation X k , the new residual r k = b - Ax k , and the
+new search direction dk to look for the next X k +l·
+    I wrote those steps for the original matrix A. But a preconditioner S can make con­
+vergence much faster. Our original equation is Ax = b. The preconditioned equation is
+            s-
+s- 1 Ax = 1 b. Small changes in the code give the preconditioned conjugate gradient
+method-the leading iterative method to solve positive definite systems.
+11.3. Iterative Methods and Preconditioners                                                529
+
+   The biggest competition is direct elimination, with the equations reordered to take max­
+imum advantage of the zeros in A. It is not easy to outperform Gauss.
+
+                                                        Iterative Methods for Eigenvalues
+We move from Ax = b to Ax = AX. Iterations are an option for linear equations. They
+are a necessity for eigenvalue problems. The eigenvalues of an n by n matrix are the roots
+of an nth degree polynomial. The determinant of A - Al starts with (-At. This book
+must not leave the impression that eigenvalues should be computed that way! Working
+from det(A - AI) = 0 is a very poor approach-except when n is small.
+    For n > 4 there is no formula to solve det(A - >-I) = 0. Worse than that, the A's
+can be very unstable and sensitive. It is much better to work with A itself, gradually mak­
+ing it diagonal or triangular. (Then the eigenvalues appear on the diagonal.) Good computer
+codes are available in the LAPACK library-individual routines are free on
+www.netlib.org/lapack. This library combines the earlier UNPACK and EISPACK, with
+many improvements (to use matrix-matrix operations in the Level 3 BLAS). It is a collec­
+tion of Fortran 77 programs for linear algebra on high-performance computers. For your
+computer and mine, a high quality matrix package is all we need. For supercomputers with
+parallel processing, move to ScaLAPACK and block elimination.
+    We will briefly discuss the power method and the QR method (chosen by LAPACK)
+for computing eigenvalues. It makes no sense to give full details of the codes.
+1 Power methods and inverse power methods. Start with any vector u 0. Multiply by
+A to find u 1 . Multiply by A again to find u2 . If u0 is a combination of the eigenvectors,
+then A multiplies each eigenvector Xi by Ai- After k steps we have (Ai ) k :
+                       Uk   =   A k uo = c 1 (A 1 tx 1 + · · · + Cn (An tXn -              (10)
+As the power method continues, the largest eigenvalue begins to dominate. The vectors
+Uk point toward that dominant eigenvector x 1. We saw this for Markov matrices:
+
+              A=    [·9. 1 .7.3]      has    Amax   =1    with eigenvector      [.75
+                                                                                 .25 ]
+                                                                                       .
+
+Start with u 0 and multiply at every step by A:
+
+         uo = [�], u1 =            [:i],   u2 = [:�:]     is approaching u= = [:��].
+
+The speed of convergence depends on the ratio of the second largest eigenvalue A 2 to the
+largest A 1 . We don't want A 1 to be small, we want A2 / A 1 to be small. Here A2 = .6 and
+A1 = 1, giving good speed. For large matrices it often happens that IA2 / A 1 I is very close
+to 1. Then the power method is too slow.
+    Is there a way to find the smallest eigenvalue-which is often the most important in
+applications? Yes, by the inverse power method: Multiply u 0 by A- 1 instead of A. Since
+we never want to compute A- 1 , we actually solve Au 1 = u 0. By saving the LU factors,
+the next step Au2 = u 1 is fast. Step k has Auk u k _ 1: =
+530                                                    Chapter 11. Numerical Linear Algebra
+
+
+    Inverse power method                                                                (11 )
+
+ Now the smallest eigenvalue A min is in control. When it is very small, the factor 1/,\�in
+is large. For high speed, we make A min even smaller by shifting the matrix to A - ,\*I.
+
+                                                                                      n-
+     That shift doesn't change the eigenvectors. (,\* might come from the diagonal of A,
+                                                                                          1
+even better is a Rayleigh quotient X T Ax/xT x). If,\* is close to A min then (A -,\*
+                                             1
+has the very large eigenvalue ( A min -,\* )- . Each shifted inverse power step multiplies
+the eigenvector by this big number, and that eigenvector quickly dominates.
+
+2 The QR Method This is a major achievement in numerical linear algebra. Sixty years
+ago, eigenvalue computations were slow and inaccurate. We didn't even realize that solving
+det(A - ,\J) = 0 was a terrible method. Jacobi had suggested earlier that A should
+gradually be made triangular-then the eigenvalues appear automatically on the diagonal.
+He used2 by2 rotations to produce off-diagonal zeros. (Unfortunately the previous zeros
+can become nonzero again. But Jacobi's method made a partial comeback with parallel
+computers.) The QR method is now a leader in eigenvalue computations.
+    The basic step is to factor A, whose eigenvalues we want, into QR. Remember from
+Gram-Schmidt (Section 4.4) that Q has orthonormal columns and R is triangular. For
+eigenvalues the key idea is: Reverse Q and R. The new matrix ( same ,\'s) is A 1 = RQ.
+The eigenvalues are not changed in RQ because A= QR is similar to A1 = Q- 1 AQ:
+
+A 1 = RQ has the same ,\                                                              (12)
+
+This process continues. Factor the new matrix A1 into Q1 R1. Then reverse the factors
+to R1 Q1. This is the similar matrix A2 and again no change in the eigenvalues. Amazingly,
+those eigenvalues begin to show up on the diagonal. Soon the last entry of A4 holds an
+accurate eigenvalue. In that case we remove the last row and column and continue with a
+smaller matrix to find the next eigenvalue.
+    Two extra ideas make this method a success. One is to shift the matrix by a multiple of
+I, before factoring into QR. Then RQ is shifted back to give Ak+1:
+
+
+
+Ak+l has the same eigenvalues as Ak, and the same as the original Ao = A. A good shift
+chooses c near an (unknown) eigenvalue. That eigenvalue appears more accurately on the
+diagonal of Ak+ 1-which tells us a better c for the next step to Ak+ 2.
+    The second idea is to obtain off-diagonal zeros before the QR method starts. An elim­
+ination step E will do it, or a Givens rotation, but don't forget E- 1 (or,\ will change):
+
+
+                [l              l U : �l [ l [ i ! il .
+                                               1
+    EAE '�            1                                                     Same A's.
+                     -1     1                      :   1
+
+   We must leave those nonzeros 1 and 4 along one subdiagonal. More E's could remove
+them, but E- 1 would fill them in again. This is a "Hessenberg matrix" (one nonzero
+11.3. Iterative Methods and Preconditioners                                           531
+
+subdiagonal). The zeros in the lower left corner will stay zero through the QR method.
+The operation count for each QR factorization drops from O(n 3 ) to O(n 2 ).
+   Golub and Van Loan give this example of one shifted QR step on a Hessenberg matrix.
+The shift is 7I, taking 7 from all diagonal entries of A (then shifting back for A 1 ):
+
+
+
+                             �]
+            1 2                                       .5          1.69     0.835
+        A= [4 5                    leads to A 1 =      .31        6.53    -6.656] .
+            0 .001                                   0
+                                                    [- 4           .00002  7.012
+Factoring A- 7I into QR produced A 1 = RQ + 7I. Notice the very small number .00002.
+The diagonal entry 7.012 is almost an exact eigenvalue of A 1 , and therefore of A. Another
+QR step on A 1 with shift by 7.0121 would give terrific accuracy.
+
+    For a few eigenvalues of a large sparse matrix I would look to ARPACK.
+Problems 25-27 describe the Arnoldi iteration that orthogonalizes the basis-each step
+has only three terms when A is symmetric. The matrix becomes tridiagonal: a wonderful
+start for computing eigenvalues.
+
+
+Problem Set 11.3
+Problems 1-12 are about iterative methods for Ax = b.
+1     Change Ax = b to x = (I - A)x + b. What are S and T for this splitting? What
+      matrix s- 1 y controls the convergence of Xk+l = (I - A)xk + b?
+2     If A is an eigenvalue of A, then __ is an eigenvalue of B = I - A. The real
+      eigenvalues of B have absolute value less than 1 if the real eigenvalues of A lie
+      between         and
+3     Show why the iteration Xk+l = (I -A)xk + b does not converge for A= [ _i -�].
+
+4     Why is the norm of Bk never larger than IIBIi k ? Then IIBII < 1 guarantees that the
+      powers Bk approach zero (convergence). No surprise since l>-l max is below IIBll-
+5     If A is singular then all splittings A = S - T must fail. From Ax = 0 show that
+      s- 1 rx= X. So this matrix B= s- 1 r has>.= 1 and fails.
+6     Change the 2's to 3's and find the eigenvalues of s- 1 y for Jacobi's method:
+
+                   Sxk+l   = Txk + b is       [�    �] Xk+l   = [ � �] Xk + b.
+7     Find the eigenvalues of s- 1 y for the Gauss-Seidel method applied to Problem 6:
+
+
+
+
+      Does l>-l max for Gauss-Seidel equal l>-l� ax for Jacobi?
+532                                                     Chapter 11. Numerical Line ar Algebra
+
+8     For any 2 by 2 matrix [ � �] show that [>-[max equals [be/ ad[ for Gauss-Seidel and
+      [be/ ad[ 1 /2 for Jacobi.We need ad =f. 0 for the matrix S to be invertible.
+
+9     Write a computer code (MATLAB or other) for the Gauss-Seidel method. You can
+      define S and T from A, or set up the iteration loop directly from the entries aij. Test
+      it on the -1, 2, -1 matrices A of order 10, 20, 50 with b = (1, 0, ..., 0).
+
+10    The Gauss-Seidel iteration at component i uses earlier parts of x new :
+                                                          i-1              n
+           Gauss-Seidel       xnew
+                               ,   = x ,old + J__ (bi _� a · xnew _� a · ·xold ) .
+                                                 ..              ,1 1            ,1 1
+                                                aii       L..,            L..,
+                                                          j=l             j=i
+
+
+      If every xrew = x?1d how does this show that the solution X is correct? How does
+      the formula change for Jacobi's method? For SOR insert w outside the parentheses.
+
+11    Divide equation ( 10) by A� and explain why I >-2 / A1 I controls the convergence of the
+      power method.Construct a matrix A for which this method does not converge.
+
+12    The Markov matrix A = [ :i J] has A = 1 and .6, and the power method U k
+      Ak u0 converges to [ :��]. Find the eigenvectors of A- 1 . What does the inverse
+      power method u_ k = A- k u0 converge to (after you multiply by .6k )?
+
+13    The tridiagonal matrix of size n - 1 with diagonals -1, 2, -1 has eigenvalues
+      Aj = 2 - 2co s(j1r/n). Why are the smallest eigenvalues approximately (j1r/n)2 ?
+      The inverse power method converges at the speed >-i/ >-2 :::::: 1/ 4.
+
+14    For A = [ _i -�] apply the power method U k +i = Au k three times starting with
+      u 0 = [ 5]. What eigenvector is the power method converging to?
+            =
+15    For A -1, 2, -1 matrix, apply the inverse power method U k +l = A- 1 u k three
+      times with the same u 0. What eigenvector are the U k 's approaching?
+
+16    In the QR method for eigenvalues when A is shifted to make A22 = 0, show that the
+                                      =
+      2, 1 entry drops from sin 0 in A QR to - sin3 0 in RQ. (Compute Rand RQ.)
+      This "cubic convergence" makes the method a success:
+
+                    = c� s0       sin 0 =  = c� s0 - sin 0 1                ?]
+                   A [
+                       sm 0         0
+                                       ] QR [
+                                              sm 0
+                                                          ] [
+                                                    co s 0 0                ? ·
+17    If A is an orthogonal matrix, its QR factorization has Q = __ and R = __ .
+      Therefore RQ = __ . These are among the rare examples when the QR method
+      goes nowhere.
+
+18    The shifted QR method factors A - cl into QR. Show that the next matrix A 1 =
+      RQ + cl equals Q- 1 AQ. Therefore A 1 has the __  eigenvalues as A (but A 1 is
+      closer to triangular).
+11.3. Iterative Methods and Preconditioners                                              533
+
+19    When A= AT , the "Lanczas method" finds a's and b's and orthonormal q's so that
+      Aqj = bj -lQj -l + aj qj + bj qj +l (with q0 = 0). Multiply by qJ to find a formula
+      for aj . The equation says that AQ = QT where Tis a tridiagonal matrix.
+20    The equation in Problem 19 develops from this loop with b0 = 1 and r0 = any q 1 :
+
+      qj +l = rj /bj ; j = j + l; aj = Qf A%; T j = Aqj -bj - 1 %-l -aj qj ; bj = llrj II­
+
+      Write a code and test it on the -1, 2, -1 matrix A. Q T Q should be I.
+21    Suppose A is tridiagonal and symmetric in the QR method. From A 1 = Q- 1 AQ
+      show that A1 is symmetric. Write A 1 = RAR-1 to show that A 1 is also tridiagonal.
+      (If the lower part of A1 is proved tridiagonal then by symmetry the upper part is too.)
+      Symmetric tridiagonal matrices are the best way to start in the QR method.
+
+Problems 22-25 present two fundamental iterations. Each step involves Aq or Ad.
+The key point for large matrices is that matrix-vector multiplication is much faster
+than matrix-matrix multiplication. A crucial construction starts with a vector b. Re­
+peated multiplication will produce Ab,A2 b,... but those vectors are far from orthogonal.
+The "Arnoldi iteration" creates an orthonormal basis q 1 , q 2 , ... for the same space by the
+Gram-Schmidt idea: orthogonalize each new Aqn against the previous q 1 , . . . , qn -l· The
+"Krylov space" spanned by b,Ab, ...,An -lb then has a much better basis q 1 , ... , qn .
+    Here in pseudocode are two of the most important algorithms in numerical linear
+algebra: Arnoldi gives a good basis and CG gives a good approximation to x = A- 1 b.
+
+
+  Arnoldi Iteration         Conjugate Gradient Iteration for Positive Definite A
+  Q 1 = b/llbll             xo = O,ro = b,do = ro
+  for n = 1 to N - 1        forn = 1 to N
+     V =Aqn                   O!n = (rJ_ 1 Tn- 1 )/(dJ_ 1 Adn -d step length X n -1 to X n
+     for j = 1 ton            X n = X n -1 + an dn -1               approximate solution
+       h j n = qJ v           Tn = T n -1 an dn -1
+                                          -     A                   new residual b - Axn
+       V = V - hjn Q
+                      j       f3n = (rJrn)/(rJ_ 1rn- 1 )            improvement this step
+     hn +l, n = llvll         dn = T n + f3n dn -l                  next search direction
+     qn +l = v/hn +l, n     % Notice: only 1 matrix-vector multiplication Aq and Ad
+
+For conjugate gradients, the residuals Tn are orthogonal and the search directions are A­
+orthogonal: all d'J Adk = 0. The iteration solves Ax = b by minimizing the error e T Ae
+over all vectors in the Krylov space=span of b,Ab,...,An -1b. It is a fantastic algorithm.
+
+22    For the diagonal matrix A = diag([l 2 3 4]) and the vector b = (1, 1, 1, 1),
+      go through one Arnoldi step to find the orthonormal vectors q 1 and q 2.
+534                                                   Chapter 11. Numerical Linear Algebra
+
+23    Arnoldi's method is finding Q so that AQ = QH (column by column):
+
+
+
+
+      H is a "Hessenberg matrix" with one nonzero subdiagonal. Here is the crucial fact
+      when A is symmetric: The Hessenberg matrix H = Q- 1 AQ = QT AQ is
+      symmetric and therefore it is tridiagonal. Explain that sentence.
+24    This tridiagonal H (when A is symmetric) gives the Lanc:ws iteration:
+
+              Three terms only
+
+      From H = Q- 1 AQ, why are the eigenvalues of H the same as the eigenvalues
+      of A? For large matrices, the "Lanczos method" computes the leading eigenvalues
+      by stopping at a smaller tridiagonal matrix Hk. The QR method in the text is applied
+      to compute the eigenvalues of Hk.
+25    Apply the conjugate gradient method to solve Ax = b = ones(lOO, 1), where A is
+      the -1, 2, -1 second difference matrix A= toeplitz([2 - 1 zeros(l, 98)]). Graph
+      x 10 and x20 from CG, along with the exact solution x. (Its 100 components are
+      Xi = (ih - i h )/2 with h = 1/101. "plot(i, x(i))" should produce a parabola.)
+                  2 2
+
+
+26    For unsymmetric matrices, the spectral radius p = max I Ai I is not a norm.
+      But still IIAn ll grows or decays like pn for large n. Compare those numbers for
+      A= [1 1; 0 1.1] using the command norm.
+      An -+ 0 if and only if p < 1. When A= s- 1 r, this is the key to convergence.
+

@@ -1,0 +1,1078 @@
+     Chapter 9
+
+     Complex Vectors and Matrices
+                                    Real versus Complex
+R = line of all real numbers -oo < x < oo +-+ C = plane of all complex numbers z = x + iy
+ Ix I = absolute value of x   +-+  I z I = jx2 + y 2 = r = absolute value (or modulus) of z
+    1 and -1 solve x 2 = 1    +-+ z = 1, w, ... , wn -l solve zn = 1 where w = e 21ri / n
+The complex conjugate of Z = X + iy is Z = X - iy. lzl 2 = x 2 + y 2 = zz and
+                                                                                    1
+                                                                                    ; =   w·
+                                                                                          z
+
+The polar form of z = x + iy is lzlei0 = re i0 = r cos 0 + ir sin 0. The angle has tan0 = '}L_
+                                                                                               X
+       R n : vectors with n real components +-+ e n : vectors with n complex components
+              length: llxll 2 = xr + ... + x;, +-+ length: llzll 2 = lz11 2 + · · · + lznl 2
+                    transpose: (A T ) ij = A 1i +-+ conjugate transpose: (A H ) ij = A 1i
+    dot product: X T = X1Y1 + · · · + XnYn +-+ inner product: uH v = u1 V1 + · · · + Un Vn
+                    y
+
+
+      reason for A T : (Ax) T = xT (A T ) +-+ reason for A H : (Au) H v = uH (A H v)
+                              y           y
+
+
+                    orthogonality: xT = O +-+ orthogonality: uH v = 0
+                                      y
+
+
+
+               symmetric matrices: S = S T +-+ Hermitian matrices: S = S H
+          S = QAQ- 1 = QAQT (real A) +-+ S = UAu- 1 = UAU H (real A)
+      skew-symmetric matrices: K T = - K +-+ skew-Hermitian matrices K H = - K
+           orthogonal matrices: Q T = Q- 1 +-+ unitary matrices: U H = u-l
+          orthonormal columns: Q T Q = I +-+ orthonormal columns: u H u = I
+     (Qx) T (Q ) = xT and IIQxll = llxll +-+ (Ux) H (U ) = xH and IIUzll = llzll
+               y        y                                   y        y
+
+
+
+
+        A complete presentation of linear algebra must include complex numbers z = x + iy.
+    Even when the matrix is real, the eigenvalues and eigenvectors are often complex.
+    Example: A 2 by 2 rotation matrix has complex eigenvectors x = (1, i) and x = (1, -i).
+    I will summarize Sections 9.1 and 9.2 in these few unforgettable words: When you
+    transpose a vector v or a matrix A, take the conjugate of every entry (i changes to -i).
+    Section 9.3 is about the most important complex matrix of all-the Fourier matrix F.
+
+
+                                               430
+9.1. Complex Numbers                                                                        431
+
+9.1     Complex Numbers
+Start with the imaginary number i. Everybody knows that x 2 = -1 has no real solution.
+When you square a real number, the answer is never negative. So the world has agreed on
+a solution called i. (Except that electrical engineers call it j .) Imaginary numbers follow
+the normal rules of addition and multiplication, with one difference. Replace i 2 by -1.
+    This section gives the main facts about complex numbers. It is a review for some
+students and a reference for everyone. Everything comes from i2 = -1 and e 21ri = 1.
+
+
+ A complex number (say 3 + 2i) is a real number (3) plus an imaginary number (2i).
+ Addition keeps the real and imaginary parts separate. Multiplication uses i 2 = -1:
+
+                        Add:    (3 + 2i) + (3 + 2i) = 6 + 4i
+                   Multiply:    (3 + 2i)(l - i) = 3 + 2i - 3i - 2i 2 = 5 - i.
+
+
+If I add 3 + i to 1 - i, the answer is 4. The real numbers 3 + 1 stay separate from the
+imaginary numbers i - i. We are adding the vectors (3, 1) and (1, -1) to get (4, 0).
+     The number (1 + i)2 is 1 + i times 1 + i. The rules give the surprising answer 2i:
+
+                            (1 + i)(l + i) = 1 + i + i + i 2 = 2i.
+
+In the complex plane, 1 + i is at an angle of 45 ° . It is like the vector (1, 1). When we square
+1 + i to get 2i, the angle doubles to go 0 • If we square again, the answer is (2i)2 = -4. The
+go o angle doubled to 180 ° , the direction of a negative real number.
+    A real number is just a complex number z = a + bi, with zero imaginary part: b = 0.
+      The real part is a= Re (a+ bi).         The imaginary part is     b = Im (a+ bi).
+
+
+                                                                     The Complex Plane
+Complex numbers correspond to points in a plane. Real numbers go along the x axis. Pure
+imaginary numbers are on the y axis. The complex number 3 + 2i is at the point with
+coordinates (3, 2). The number zero, which is O + Oi, is at the origin.
+    Adding and subtracting complex numbers is like adding and subtracting vectors in the
+plane. The real component stays separate from the imaginary component. The vectors go
+head-to-tail as usual. The complex plane C 1 is like the ordinary two-dimensional plane R2 ,
+except that we multiply complex numbers and we didn't multiply vectors.
+    Now comes an important idea. The complex conjugate of 3 + 2i is 3 - 2i. The
+complex conjugate of z = 1 - i is z = 1 + i. In general the conjugate of z = a + bi is
+z = a - bi. (Some writers use a "bar" on the number and others use a "star": z = z* .)
+The imaginary parts of z and "z bar" have opposite signs. In the complex plane, z is the
+image of z on the other side of the real axis.
+432                                                    Chapter 9. Complex Vectors and Matrices
+
+
+                               2i    Imaginary                  z = 3 + 2i
+             Complex                   axis
+              plane                               r = lzl = .J3 2 + 2 2
+
+                 Unit
+                                                                   Real axis
+                 circle                           2         3
+
+
+
+                             -2i                                Conjugate z = 3 - 2i
+
+  Figure 9.1: The number z = a + bi corresponds to the point (a, b) and the vector [ b] .
+
+
+
+Two useful facts. When we multiply conjugates z 1 and z 2, we get the conjugate of z 1 z2 •
+And when we add z 1 and z 2 , we get the conjugate of z1 + z2 :
+   z 1 + z2 = (3 - 2i) + (1 + i) = 4 - i. This is the conjugate of z1 + z2 = 4 + i.
+   z 1 X z2 = (3 - 2i) x (1 + i) = 5 + i. This is the conjugate of z1 x z2 = 5 - i.
+Adding and multiplying is exactly what linear algebra needs. By taking conjugates of
+Ax = .\x, when A is real, we have another eigenvalue "X and its eigenvector x:
+      Eigenvalues A and X              If Ax= Ax and A is real then Ax= Ax.                   (1)
+Something special happens when z = 3 + 2i combines with its own complex conjugate
+z = 3 - 2i. The result from adding z + z or multiplying zz is always real:
+
+        z+z=real            (3 + 2i) + (3 - 2i) = 6 (real)
+          zz = real         (3 + 2i) x (3 - 2i) = 9 + 6i - 6i - 4i2 = 13           (real).
+The sum of z = a + bi and its conjugate z = a - bi is the real number 2a. The product of
+z times z is the real number a2 + b2 :
+
+ Multiply z times z to get I z 1 2 = r 2           (a+bi)(a - bi)= a2 + b2 .                  (2)
+The next step with complex numbers is 1/z. How to divide by a+ ib? The best idea
+is to multiply first by z/z = 1. That produces zz in the denominator, which is a2 + b2 :
+
+         1         ----
+                       1a - ib         a - ib
+                                      ---               1            1
+                                                                   ----
+                                                                          3 - 2i     3 - 2i
+      a+ib        a+ ib a - ib        a 2 + b2        3 + 2i       3 + 2i 3 - 2i       13
+
+   In case a 2 + b2 = 1, this says that (a+ ib)- 1 is a -ib. On the unit circle, 1 / z equals z.
+Later we will say: 1/e i0 is e-ie_ Use distance rand angle 0 to multiply and divide.
+9.1. Complex Numbers                                                                           433
+
+                                                                     The Polar Form re i8
+The square root of a 2 + b2 is lzl. This is the absolute value (or modulus) of the number
+z =a+ ib. The square root lzl is also written r, because it is the distance from Oto z. The
+real number r in the polar form gives the size of the complex number z:
+
+
+     The absolute value of z =a+ ib          is     lzl   = Ja 2 + b2 .    This is called r.
+
+     The absolute value of z = 3 + 2i is lzl = J32 + 22 .                 This is r = vl3.
+
+The other part of the polar form is the angle 0. The angle for z = 5 is 0 = 0 (because this z
+is real and positive). The angle for z = 3i is 1r/2 radians. The angle for a negative z = -9
+is 1r radians. The angle doubles when the number is squared. The polar form is excellent
+for multiplying complex numbers (not good for addition).
+     When the distance is rand the angle is 0, trigonometry gives the other two sides of the
+triangle. The real part (along the bottom) is a = r cos 0. The imaginary part (up or down)
+is b = rsin 0. Put those together, and the rectangular form becomes the polar form rei0 .
+
+
+   The number       z = a + ib         is also    z = r cos 0 + ir sin 0.        This is re i9
+
+Note: cos 0 + i sin 0 has absolute value r = 1 because cos2 0 + sin2 0 = 1. Thus
+cos 0 + i sin 0 lies on the circle of radius I -the unit circle.
+
+Example 1      Find rand 0 for z = 1 + i and also for the conjugate z = 1 - i.
+
+Solution The absolute value is the same for z and z. It is r =       Jf+T = vf2:
+                                         and also         lzl 2 = 12 + (-1) 2 = 2.
+
+The distance from the center is r       J2. What about the angle 0? The number 1 + i
+is at the point (1, 1) in the complex plane. The angle to that point is 1r/4 radians or 45 °.
+The cosine is 1/V2 and the sine is 1/vf2. Combining r and 0 brings back z = 1 + i:
+
+
+
+
+     The angle to the conjugate 1 - i can be positive or negative. We can go to 71r/4 radians
+which is 315 ° . Or we can go backwards through a negative angle, to -1r/4 radians or
+-45 ° . If z is at angle 0, its conjugate z is at 2n - 0 and also at -0.
+     We can freely add 21r or 41r or -21r to any angle! Those go full circles so the final point
+is the same. This explains why there are infinitely many choices of 0. Often we select the
+angle between 0 and 21r. But -0 is very useful for the conjugate z. And 1 = e 0 = e 21ri _
+434                                                   Chapter 9. Complex Vectors and Matrices
+
+                                                Powers and Products: Polar Form
+Computing (1+ i)2 and (1+ i)8 is quickest in polar form. That form has r = v'2 and
+0 = 1r /4 (or 45 ° ). If we square the absolute value to get r 2 = 2, and double the angle to
+get 20 = 1r /2 (or 90 ° ), we have (1+i)2 . For the eighth power we need r8 and 80:
+
+              (1 + i) 8        r8 = 2. 2. 2. 2 =16 and 80 = 8 · � = 21r.
+                                                                4
+This means: (1+i)8 has absolute value 16 and angle 21r . So (l +i)8 = 16.
+   Powers are easy in polar form. So is multiplication of complex numbers.
+
+
+The nth power of z = r( cos 0 + i sin0) is                z n = r n ( cos n0 + i sin n0). (3)
+
+
+
+In that case z multiplies itself. To multiply z times z', multiply r's and add angles:
+
+  r(cos0+isin0) times r'(cos0'+isin0') = rr'(cos(0 + 0')+isin(0 + 0')).                   (4 )
+
+One way to understand this is by trigonometry. Why do we get the double angle 20 for z 2 ?
+
+         (cos0+isin0) x (cos0+isin0) =cos2 0+i 2 sin2 0+2isin0cos0.
+
+The real part cos2 0 - sin2 0 is cos20. The imaginary part 2sin0cos0 is sin20. Those are
+the "double angle" formulas. They show that 0 in z becomes 20 in z 2 .
+    There is a second way to understand the rule for z n . It uses the only amazing formula
+in this section. Remember that cos0+isin0 has absolute value 1. The cosine is made up
+of even powers, starting with 1 - ½02 • The sine is made up of odd powers, starting with
+0 - ¼0 3 . The beautiful fact is that e i0 combines both of those series into cos0+isin0:
+
+               l      1
+   e X = 1+ X+ -X 2 + -X 3 + · · ·
+               2      6
+
+Write -1 fori 2 to see 1 - ½02 . The complex number e i8 is cos 0 + i sin 0:
+
+
+Euler's Formula e i 0 = cos 0 + i sin 0 gives z = r cos 0 + ir sin 0 = re i 8             (5)
+
+
+The special choice 0 =21r gives cos21r +isin21r which is l. Somehow the infinite series
+e 2 1ri = 1+ 21ri+ ½ (21ri)2 + · · · adds up to l.
+       Now multiply e i 0 times e i 0 '. Angles add for the same reason that exponents add:
+
+
+       e 2 times e 3 is e 5    e i 0 times i 0 is e 2i0
+9.1. Complex Numbers                                                                                       435
+
+   The powers (rei 0 )n are equal to rn eine _ They stay on the unit circle when r = 1
+and rn = 1. Then we find n different numbers whose nth powers equal 1:
+
+
+        Set w = e 27r:i /n. The nth powers of 1, w, w2 , • • • , wn -I all equal 1.
+
+Those are the "nth roots of l." They solve the equation z n = 1. They are equally spaced
+around the unit circle in Figure 9.2b, where the full 2w is divided by n. Multiply their
+                                                                                           r
+angles by n to take nth powers. That gives w n = e 2 -rri which is 1. Also ( w 2 = e 4 -rri = 1.
+Each of those numbers, to the nth power, comes around the unit circle to 1.
+    These n roots of 1 are the key numbers for signal processing. The Discrete Fourier
+Transform uses w = e2 -rri/ n and its powers. Section 9.3 shows how to decompose a vector
+(a signal) into n frequencies by the Fast Fourier Transform.
+                                 e2 i0
+                                                                      e4 n i/6 ___             e2n i/6
+
+
+
+
+                                                                      6 solutions to z 6 = 1
+                                                              -I           e 12n i/6 = e2n i = 1
+                    Add the angles 0 + 0 '
+
+
+
+                                                                    eB n i/6               elO n i/6
+
+     Figure 9.2: (a) ei 0 times ei0' is ei ( e + e '). (b) The nth power of e2 -rr i/ n is e 2 -rri = 1.
+
+
+
+
+                          •    REVIEW OF THE KEY IDEAS                          •
+
+   1. Adding a+ ib to c + id is like adding ( a, b) + ( c, d). Use i2 = -1 to multiply.
+
+   2. The conjugate of z = a+ bi = rei 0 is z = z* = a - bi = re- i 0.
+   3. z times z is rei 0 times re- i 0. This is r2 = lzl 2 = a2 + b 2 (real).
+   4. Powers and products are easy in polar form z = rei0. Multiply r's and add 0's.
+436                                                                Chapter 9. Complex Vectors and Matrices
+
+
+Problem Set 9.1
+Questions 1-8 are about operations on complex numbers.
+
+1     Add and multiply each pair of complex numbers:
+
+       (a) 2 + i, 2 - i           (b)       -l +i,-l+i                   (c)      cos 0+i sin 0, cos 0-i sin 0
+
+2     Locate these points on the complex plane. Simplify them if necessary:
+
+       (a) 2 + i          (b)     (2+i) 2           (c)      1
+                                                            2+i
+                                                                          (d)         12 + ii
+
+3     Find the absolute valuer = lzl of these four numbers. If 0 is the angle for 6-8i,
+      what are the angles for the other three numbers?
+
+       (a) 6-8i            (b)         (6 - 8i) 2     (c)          1
+                                                                  6-8i
+                                                                                (d)      (6 + 8i)2
+
+4     If izl = 2 and lwl = 3 then iz x wl = __ and lz+wl ::; __ and iz/wl =
+      __ and lz-wl::; __ .
+
+5     Find a+ ib for the numbers at angles 30 ° , 60 ° , 90 ° , 120 ° on the unit circle. If w is
+      the number at 30 ° , check that w 2 is at 60 ° . What power of w equals 1?
+
+6     If z = r cos 0 + ir sin 0 then 1/ z has absolute value __ and angle __ . Its
+      polar form is __ . Multiply z x 1/ z to get 1.
+
+7     The complex multiplication M = (a+ bi)(c + di) is a 2 by 2 real multiplication
+
+
+
+
+      The right side contains the real and imaginary parts of M. Test M = (1+3i)(l-3i).
+
+8     A = A 1 + iA2 is a complex n by n matrix and b = b 1 + ib 2 is a complex vector.
+      The solution to Ax = bis x 1 + ix 2. Write Ax =bas a real system of size 2n:
+
+
+                                                                               ] [ :�] = [t] .
+                    Complex n by n
+                    Real 2n by 2n
+
+Questions 9-16 are about the conjugate z = a - ib = re-i0 = z*.
+
+9     Write down the complex conjugate of each number by changing i to-i:
+       (a) 2 - i          (b)     (2-i)(l -i)               (c)      e i1r / 2 (which isi)
+       (d) e i1r   = -1          (e)      i�! (which is alsoi)                  (f)     i l 03   =
+10    The sum z + z is always __ . The difference z - z is always __ . Assume
+      z -=J 0. The product z x z is always __ . The ratio z /z has absolute value __ .
+9.L Complex Numbers                                                                    437
+
+11   For a real matrix, the conjugate of Ax = AX is Ax = Xx. This proves two things:
+     Xis another eigenvalue and xis its eigenvector. Find the eigenvalues A, Xand eigen­
+     vectors x, xof A= [a b; -b a].
+12   The eigenvalues of a real 2 by 2 matrix come from the quadratic formula :
+
+                   det
+                         [a: A            = A2 - (a+ d)A + (ad - be) = 0
+                                  d �A]
+
+     gives the two eigenvalues A= [a+ d ±       J(a+ d)     2 - 4(ad - be)] /2.
+
+
+      (a) If a= b= d= 1, the eigenvalues are complex when e is __ .
+      (b) What are the eigenvalues when ad = be?
+13   In Problem 12 the eigenvalues are not real when (trace)2 = (a+ d) 2 is smaller than
+           . Show that the A's are real when be> 0.
+14   A real skew-symmetric matrix (AT = -A) has pure imaginary eigenvalues. First
+     proof: If Ax= AX then block multiplication gives
+
+
+
+     This block matrix is symmetric. Its eigenvalues must be __ ! So A is __ .
+Questions 15-22 are about the form re i8 of the complex number r cos 0 + ir sin 0.
+15   Write these numbers in Euler's form re i0 . Then square each number:
+       (a) 1 + vf3i      (b)   cos 20 + i sin 20      (c)    -7i      (d)    5 - 5i.
+16   (A favorite) Find the absolute value and the angle for z = sin 0 + i cos 0 (careful).
+     Locate this z in the complex plane. Multiply z by cos 0 + i sin 0 to get __ .
+17   Draw all eight solutions of z 8 = 1 in the complex plane. What is the rectangular
+     form a+ ib of the root z = w= exp(-2ni/8)?
+18   Locate the cube roots of l in the complex plane. Locate the cube roots of -1. To­
+     gether these are the sixth roots of __ .
+19   By comparing e 3i0 = cos 30 + i sin 30 with (e i8 ) 3 = (cos 0 + i sin 0)3 , find the
+     "triple angle" formulas for cos 30 and sin 30 in terms of cos 0 and sin 0.
+20   Suppose the conjugate z is equal to the reciprocal 1/ z. What are all possible z's?
+21     (a) Why do ei and i e both have absolute value I?
+       (b) In the complex plane put stars near the points ei and ie .
+       (c) The number ie could be (ei1r l2)e or (e 5i1r l2)e . Are those equal?
+22   Draw the paths of these numbers from t = 0 to t = 27T in the complex plane:
+       (a) eit
+438                                                  Chapter 9. Complex Vectors and Matrices
+
+
+9.2      Hermitian and Unitary Matrices
+The main message of this section can be presented in one sentence: When you transposea
+ complex vector z or matrix A, takethe complex co njugatetoo. Don't stop at zT or AT .
+Reverse the signs of all imaginary parts. From a column vector with Zj = aj + ibj ,
+the good row vector :zT is the conjugate transpose with components aj - ibj :
+
+Conjugate transpose                                                                      (1)
+
+Here is one reason to go to z. The length squared of a real vector is xr + · · · + x;;,. The
+length squared of a complex vector is not zr + · · · + z;. With that wrong definition, the
+length of (1, i) would be 12 + i2 = 0. A nonzero vector would have zero length-not
+good. Other vectors would have complex lengths. Instead of (a+ bi)2 we want a 2 + b 2 ,
+the absolute value squared. This is (a + bi) times (a - bi).
+    For each component we want Zj times Zj , which is lzj 1 = a; + b;. That comes when
+                                                            2
+
+
+the components of z multiply the components ofz:
+
+
+
+
+Now the squared length of (1, i) is 12 + lil 2 = 2. The length is y12. The squared length of
+(1 + i, 1- i) is 4. The only vectors with zero length are zero vectors.
+
+
+      Thelength llzll is thesquareroot of :zT z = zH z = lz11 2 + · · · + lzn l
+                                                                                  2
+
+
+
+
+   Before going further we replace two symbols by one symbol. Instead of a bar for the
+conjugate and T for the transpose, we just use a superscript H. Thus :zT = zH . This is
+"z Hermitian," the conjugate transpose of z. The new word is pronounced "Hermeeshan."
+The new symbol applies also to matrices: The conjugate transpose of a matrix A is AH .
+    Another popular notation is A*. The MATLAB transpose command I automatically
+                                                         T
+takes complex conjugates (z I is zH = :zT and AI is AH =A ).
+
+                                                                      1  0
+       A H is "A Hermitian"      If A= [�
+                                                1:   i]   then AH = [
+                                                                    -i 1- i
+                                                                           ]
+
+
+
+                                                            Complex Inner Products
+For real vectors, the length squared is x T x-the inner product of x with itself. For
+complex vectors, the length squared is z H z. It will be very desirable if zH z is the in­
+ner product of z with itself. To make that happen, the complex inner product should use
+the conjugate transpose (not just the transpose). This has no effect on real vectors.
+9.2. Hermitian and Unitary Matrices                                                      439
+
+ DEFINITION The inner product of real or complex vectors u and v is uH v:
+
+
+
+                                                                                          (3)
+
+
+
+
+With complex vectors, u H v is different from v H u. The order of the vectors is now impor­
+tant. In fact v H u = v 1 u 1 + · · · + VnUn is the complex conjugate of uH v. We have to put
+up with a few inconveniences for the greater good.
+
+Example 1     The inner product of u = [   !]   with v = [ �] is [ 1 - i] [ �] = 0.
+
+Example 1 is surprising. Those vectors (1, i) and (i, 1) don't look perpendicular. But
+they are. A zero inner product still means that the (complex) vectors are orthogonal.
+Similarly the vector (1, i) is orthogonal to the vector (1, -i). Their inner product is 1 - 1.
+We are correctly getting zero for the inner product-where we would be incorrectly
+getting zero for the length of (1, i) if we forgot to take the conjugate.
+
+Note We have chosen to conjugate the first vector u. Some authors choose the second
+vector v. Their complex inner product would be uT v. I think it is a free choice.
+
+The inner product of Au with v equals the inner product of u with AH v:
+
+            A H is also called the "adjoint" of A                                         (4)
+
+                                                               T
+The conjugate of Au is Au. Transposing Au gives uT A as usual. This is uH AH .
+Everything that should work, does work. The rule for H comes from the rule for T.
+We constantly use the fact that ( a - ib) ( c - id) is the conjugate of (a + ib) ( c + id).
+
+
+ The conjugate transpose of AB is       (AB) H = BH AH .
+
+
+
+
+                                                         Hermitian Matrices S = S H
+Among real matrices, symmetric matrices form the most important special class: S = ST .
+They have real eigenvalues and the orthogonal eigenvectors in an orthogonal matrix Q.
+Every real symmetric matrix can be written as S = QAQ- 1 and also as S = QAQT
+(because Q- 1 = QT ). All this follows from ST = S, when Sis real.
+440                                                     Chapter 9. Complex Vectors and Matrices
+
+    Among complex matrices, the special class contains the Hermitian matrices:
+S = SH . The condition on the entries is Sij = s ji · In this case we say that "S is
+Hermitian." Every real symmetric matrix is Hermitian, because taking its conjugate has
+no effect. The next matrix is also Hermitian, S= SH :
+                       2       3 - 3i     The main diagonal must be real since Sii = Sii·
+Example2 S = [
+                     3 + 3,;,     5 ] Across it are conjugates 3 + 3i and 3-3i.
+This example will illustrate the three crucial properties of all Hermitian matrices.
+
+
+ If S = SH and z is any real or complex column vector, the number zH Sz is real.
+
+
+Quick proof: zH Sz is certainly 1 by 1. Take its conjugate transpose:
+                  (zH Sz)H = zH SH (zH )8 which is zH Sz again.
+So the number zH Sz equals its conjugate and must be real. Here is that "energy" zH Sz:
+   - _            2    3 - 3i zi        = 2z1z1 + 5z 2 z2 + (3 - 3i)z1z2 + (3 + 3i)z1z2 .
+  [ z i z 2 ] [ 3 + 3i   5 ] [z 2 ]          diagonal                off-diagonal
+The terms 2lz11 and 5lz 2 12 from the diagonal are both real. The off-diagonal terms are
+                    2
+
+conjugates of each other-so their sum is real. (The imaginary parts cancel when we add.)
+The whole expression zH Sz is real, and this will make A real.
+
+
+ Every eigenvalue of a Hermitian matrix is real.
+
+
+Proof Suppose Sz = AZ. Multiply both sides by zH to get zH Sz = AzH z. On the left
+side, zH Sz is real. On the right side, zH z is the length squared, real and positive. So the
+ratio A= zH Sz/ zH z is a real number. Q.E.D.
+    The example above has eigenvalues A= 8 and A= -1, real because S= SH :
+                    2-A 3-3i
+                                 = A2 -7A + 10-13 + 3il2
+                    3 + 3i 5-A I
+                1
+
+
+
+
+                                     = A2 - 7A + 10- 18= (A-8)(A + 1).
+
+ The eigenvectors of a Hermitian matrix are orthogonal (when they correspond to
+ different eigenvalues). If Sz = AZ and Sy= {3 y then yH z = 0.
+
+
+
+Proof Multiply Sz = AZ on the left by yH . Multiply yH SH = {3 yH on the right by z:
+
+                         y
+                             H
+                                 Sz = AyH z and   y S z
+                                                   H H
+                                                             = {3 yH z.                     (5)
+    The left sides are equal so AYH z= {3 yH z. Then yH z must be zero.
+9.2. Hermitian and Unitary Matrices                                                      441
+
+    The eigenvectors are orthogonal in our example with A = 8 and j3 = -1:
+
+        (S - 8I)z = 3
+                       [ -63i                                  and
+                          +
+         (S + I)y = [
+                        313i
+                                                               and
+
+
+     Orthogonal eigenvectors
+
+These eigenvectors have squared length 1 2 + 1 2 + 1 2 = 3. After division by      v3
+                                                                               they are
+unit vectors. They were orthogonal, now they are orthonormal. They go into the columns
+of the eigenvector matrix X, which diagonalizes S.
+    W hen Sis real and symmetric, Xis Q-an orthogonal matrix. Now Sis complex and
+Hermitian. Its eigenvectors are complex and orthonormal. The eigenvector matrix X is
+like Q, but complex: Q H Q =I.We assign Q a new name "unitary" but still call it Q.
+
+                                                                         Unitary Matrices
+A unitary matrix Q is a (complex) square matrix that has orthonormal columns.
+
+     Unitary matrix that diagonalizes S:
+                                                          1         1    1-   i]
+                                                  Q
+                                                      =
+                                                          v3   [
+                                                                   l+i   -1
+This Q is also a Hermitian matrix. I didn't expect that! The example is almost too perfect.
+We will see that the eigenvalues of this Q must be 1 and -1.
+    The matrix test for real orthonormal columns was Q T Q = I. The zero inner prod­
+ucts appear off the diagonal. In the complex case, Q T becomes Q8. The columns show
+themselves as orthonormal when Q8 multiplies Q. The inner products fill up Q H Q = I:
+
+
+ Every matrix Q with orthonormal columns has Q H Q = I.
+
+ If Q is square, it is a unitary matrix. Then Q H = Q- 1.
+
+
+   Suppose Q (with orthonormal columns) multiplies any z. The vector length stays the
+same, because z 8 Q8 Qz = z 8 z. If z is an eigenvector of Q we learn something more:
+The eigenvalues of unitary (and orthogonal) matrices Q all have absolute value i>-1 = 1.
+
+
+ If Q is unitary then      IIQzll = llzll-   Therefore Qz = ..\z leads to          I..\I = 1.
+
+   Our 2 by 2 example is both Hermitian (Q = Q8) and unitary (Q- 1 = Q 8). That
+means real eigenvalues and it means i>-1 = 1. A real number with i>-1 = 1 has only two
+possibilities: The eigenvalues are 1 or -1. The trace of Q is zero so A = 1 and A = -1.
+442                                                  Chapter 9. Complex Vectors and Matrices
+
+Example 3 The 3 by 3 Fourier matrix is in Figure 9.3. Is it Hermitian? Is it uni­
+tary? F3 is certainly symmetric. It equals its transpose. But it doesn't equal its conjugate
+transpose-it is not Hermitian. If you change i to -i, you get a different matrix.
+
+
+
+
+                                                                                              l
+                                                                                      1
+                                         Fourier                        e2:n:i/3   e4:n:i/3
+                                         matrix
+                                                                        e4:n:i/3   e2:n:i/3
+
+
+
+
+            Figure 9.3: The cube roots of 1 go into the Fourier matrix F = F3.
+
+   Is F unitary? Yes. The squared length of every column is ½(1 + 1 + 1) (unit vector).
+The first column is orthogonal to the second column because 1 + e 21ri /3 + e 41ri /3 = 0.
+This is the sum of the three numbers marked in Figure 9.3.
+   Notice the symmetry of the figure. If you rotate it by 120 ° , the three points are in the
+same position. Therefore their sum S also stays in the same position! The only possible
+sum in the same position after 120 ° rotation is S = 0.
+   Is column 2 of F orthogonal to column 3? Their dot product looks like
+                         ½(1+ e 61ri /3 + e 61ri /3) = ½(l + 1+ 1).
+This is not zero. The answer is wrong because we forgot to take complex conjugates. The
+complex inner product uses H not T:
+          (column 2)8(column 3) = ½(1. 1+ e-21ri /3e 41ri /3+ e- 41ri /3e 21ri /3)
+                                = ½(1 + e 21ri /3 + e- 21ri /3) = 0.
+
+So we do have orthogonality. Conclusion: F is a unitary matrix.
+    The next section will study the n by n Fourier matrices. Among all complex unitary
+matrices, these are the most important. When we multiply a vector by F, we are comput­
+ing its Discrete Fourier Transform. When we multiply by p- 1, we are computing the
+inverse transform. The special property of unitary matrices is that p-l = p H _ The inverse
+transform only differs by changing i to -i:
+
+                                                        1
+Change i to -i                                       e-21ri /3
+                                                     e-41ri /3
+
+Everyone who works with F recognizes its value. The last section of this chapter will bring
+together Fourier analysis and complex numbers and linear algebra.
+9.2. Hermitian and Unitary Matrices                                                     443
+
+Problem Set 9.2
+1     Find the lengths of u = (l + i, 1 - i, 1 + 2i) and v = (i, i, i). Find u H v and v H u.
+2     Compute AH A and AAH . Those are both __ matrices:
+
+                                        A=      [ li i1 ii] .
+3     Solve Az = 0 to find a vector z in the nullspace of A in Problem 2. Show that z is
+      orthogonal to the columns of AH . Show that z is not orthogonal to the columns of
+      AT . The good row space is no longer C(AT ). Now it is C(A H ).
+4     Problem 3 indicates that the four fundamental subspaces are C(A) and N(A) and
+      __ and __ . Their dimensions are still rand n - rand rand m - r. They are
+      still orthogonal subspaces. The symbol H takes the place of T.
+5       (a) Prove that AH A is always a Hermitian matrix.
+        (b) If Az = 0 then AH Az = 0. If AH Az = 0, multiply by z H to prove that
+            Az = 0. The nullspaces of A and AH A are __ . Therefore AH A is an
+            invertible Hermitian matrix when the nullspace of A contains only z = 0.
+6     True or false (give a reason if true or a counterexample if false):
+        (a) If A is a real matrix then A+ if is invertible.
+        (b) If S is a Hermitian matrix then S + if is invertible.
+        (c) If Q is a unitary matrix then Q + if is invertible.
+7     When you multiply a Hermitian matrix by a real number c, is cS still Hermitian?
+      Show that iS is skew-Hermitian when Sis Hermitian. The 3 by 3 Hermitian matrices
+      are a subspace provided the "scalars" are real numbers.
+8     Which classes of matrices does P belong to: invertible, Hermitian, unitary?
+
+
+
+                                        p
+                                            =
+                                                [�i O� 0 �i
+      Compute P2, P3, and p ioo . What are the eigenvalues of P?
+9     Find the unit eigenvectors of P in Problem 8, and put them into the columns of a
+      unitary matrix Q. What property of P makes these eigenvectors orthogonal?
+10    Write down the 3 by 3 circulant matrix C = 2f + 5P. It has the same eigenvectors
+      as Pin Problem 8. Find its eigenvalues.
+11    If Q and U are unitary matrices, show that Q-1 is unitary and also QU is unitary.
+      Start from QH Q = f and U H U = f.
+444                                                 Chapter 9. Complex Vectors and Matrices
+
+12    How do you know that the determinant of every Hermitian matrix is real?
+13    The matrix AH A is not only Hermitian but also positive definite, when the columns
+      of A are independent. Proof: z H AH Az is positive if z is nonzero because __ .
+14    Diagonalize these Hermitian matrices to reach S = Q AQ H :
+
+                                              and
+                                                                      1+   i]
+                                                                       3
+
+15    Diagonalize this skew-Hermitian matrix to reach K = QAQ H _ All ,,\'s are __ :
+                                        =[O         -l+i]
+                                    K                        .
+                                           1+i        i
+
+16    Diagonalize this orthogonal matrix to reach U = QAQ H . Now all Xs are __ :
+
+                                     U = [c�s0 - sin 0] _
+                                          sm0   cos0
+
+17    Diagonalize this unitary matrix to reach U = Q AQH . Again all ,,\'s are __ :
+
+                                   U = __2_ [ 1 1-         i] .
+                                       v3 1 + i -1
+
+18    If v 1, ... , V n is an orthonormal basis for e n , the matrix with those columns is a
+      __ matrix. Show that any vector z equals (vr z )v 1 + · · · + ( v� z )v n .
+19    v = (l, i, 1), w = (i, 1, 0) and z = __ are an orthogonal basis for __ .
+20    If S = A + iB is a Hermitian matrix, are its real and imaginary parts symmetric?
+21    The (complex) dimension of e n is __ . Find a non-real basis for e n .
+22    Describe all 1 by 1 and 2 by 2 Hermitian matrices and unitary matrices.
+23    How are the eigenvalues of A H related to the eigenvalues of the square matrix A?
+24    If u H u = 1 show that I - 2uuH is Hermitian and also unitary. The rank-one matrix
+      uu H is the projection onto what line in e n ?
+25    If A + iB is a unitary matrix (A and B are real) show that Q = [ �         -! ] is an
+      orthogonal matrix.
+26    If A+ iB is Hermitian (A and Bare real) show that [ �      -! ] is symmetric.
+27    Prove that the inverse of a Hermitian matrix is also Hermitian (transpose s- S = I).
+                                                                                  1
+
+
+28    A matrix with orthonormal eigenvectors has the form N = QAQ- 1 = QAQ H .
+      Prove that NNH = NH N. These N are exactly the normal matrices. Examples
+      are Hermitian, skew-Hermitian, and unitary matrices. Construct a 2 by 2 normal
+      matrix from QAQ H by choosing complex eigenvalues in A.
+9.3. The Fast Fourier Transform                                                           445
+
+9.3     The Fast Fourier Transform
+Many applications of linear algebra take time to develop. It is not easy to explain them
+in an hour. The teacher and the author must choose between completing the theory and
+adding new applications. Often the theory wins, but this section is an exception. It explains
+the most valuable numerical algorithm in the last century.
+     We want to multiply quickly by F and p-1, the Fourier matrix and its inverse. This
+is achieved by the Fast Fourier Transform. An ordinary product F c usesn2 multiplications
+(F hasn2 entries). The FFT needs onlyn times ½ log 2n. We will see how.
+     The FFT has revolutionized signal processing. Whole industries are speeded up by this
+one idea. Electrical engineers are the first to know the difference-they take your Fourier
+transform as they meet you (if you are a function). Fourier's idea is to represent f as a
+sum of harmonics Ck e ikx . The function is seen infrequency space through the coefficients
+Ck , instead of physical space through its values f(x). The passage backward and forward
+between e's and f's is by the Fourier transform. Fast passage is by the FFT.
+
+
+                                           Roots of Unity and the Fourier Matrix
+Quadratic equations have two roots (or one repeated root). Equations of degreen haven
+roots (counting repetitions). This is the Fundamental Theorem of Algebra, and to make it
+true we must allow complex roots. This section is about the very special equation z n = l.
+The solutions z are the "nth roots of unity." They aren evenly spaced points around the
+unit circle in the complex plane.
+     Figure 9 .4 shows the eight solutions to z 8 = l. Their spacing is ½ (360 ° ) = 45 ° . The
+first root is at 45 ° or 0 = 21r/8 radians. It is the complex number w = e i0 = e i2 ,r/B_
+We call this number w8 to emphasize that it is an 8th root. You could write it in terms
+of cos 2; and sin 2;, but don't do it. The seven other 8th roots are w 2 , w3 , . .., w8 , going
+    4;, ... ,
+around the circle. Powers of w are best in polar form, because we work only with the angles
+2 ,
+ ;
+               l�1r = 21r. Those 8 angles in degrees are 45 ° , 90 ° , 135 ° , ... , 360 °
+                                                                                           .
+
+                                  w2 = i
+                                                                      2:rr
+                                                   = e 2rrz·; 8 = cos -            2:rr
+                     w3                        w                           + i sin -
+                                                                        8           8
+
+                                     w8 = 1
+          w4 = ----------,e-�-----11>-------
+               -1                            Real axis
+
+
+                                                                 2:rr        2:rr
+                                              w 7 = w = cos - - i sin -
+                    wS                                            8           8
+                              w6 = -i
+
+  Figure 9.4: The eight solutions to z 8 = 1 are 1, w, w 2 , ... , w7 with w = (l + i)/ ./2.
+446                                                    Chapter 9. Complex Vectors and Matrices
+
+     The fourth roots of 1 are also in the figure. They are i, -1, -i, 1. The angle is now
+21r /4 or 90 ° . The first root w4 = e 21ri / 4 is nothing but i. Even the square roots of 1
+are seen, with w 2 = ei2rr 1 2 = -1. Do not despise those square roots 1 and -1. The
+idea behind the FFT is to go from an 8 by 8 Fourier matrix (containing powers of ws)
+to the 4 by 4 matrix below (with powers of w4 = i). The same idea goes from 4 to 2.
+By exploiting the connections of F8 down to F4 and up to F15 (and beyond), the FFT
+makes multiplication by F 1024 very quick.
+     We describe the Fourier matrix, first for n = 4. Its rows contain powers of 1 and w and
+w 2 and w 3 . These are the fourth roots of 1, and their powers come in a special order.
+
+ Fourier                          1     1
+
+
+                            [1
+ matrix                           w     w2
+                      F
+ n=4                              w2    w4
+ w =i                   �         w3    w6
+
+The matrix is symmetric (F = FT ). It is not Hermitian. Its main diagonal is not real. But
+½Fis a unitary matrix, which means that (½pH ) (½ F) = I:
+
+
+ The columns of P give pH P = 41. Its inverse is¼ pH which is p-l =                    ¼ P.
+The inverse changes from w = i tow= -i. That takes us from F to F. When the Fast
+Fourier Transform gives a quick way to multiply by F, it does the same for P and p- 1.
+    Every column has length fo,. So the unitary matrices are Q = F/ ,/n and Q- 1 =
+F / fo,. We avoid ,/n and just use F and p-l = p/ n. The main point is to multiply p
+times co, c1, c2, c3:
+
+                                                      1
+
+
+                                                            ::1 r��i-
+4-point
+                                                      w2
+Fourier                                                                                       (1)
+                                                      w4
+series
+                                                      w6    w
+                                                                9
+                                                                    C3
+
+
+The input is four complex coefficients c0, c1, c2, c3. The output is four function values
+Yo, Yi, Y2, y3. The first output Yo = co + c1 + c2 + c3 is the value of the Fourier series
+L ck e ikx at x = 0. The second output is the value of that series L Ck eikx at x = 21r/4:
+
+The third and fourth outputs y2 and y3 are the values of I:; ck e ikx at x = 41r /4 and
+x = 61r /4. These are finite Fourier series! They contain n = 4 terms and they are evaluated
+at n = 4 points. Those points x = 0, 21r /4, 41r /4, 61r /4 are equally spaced.
+      The next point would be x = 81r /4 which is 21r. Then the series is back to Yo, because
+e 2rr i is the same as e 0 = 1. Everything cycles around with period 4. In this world 2 + 2 is 0
+because ( w2) ( w 2 ) = w 0 = 1. We follow the convention that j and k go from O to n - l
+(instead of 1 ton). The "zeroth row" and "zeroth column" of F contain all ones.
+9.3. The Fast Fourier Transform                                                           447
+
+    The n by n Fourier matrix contains powers of w = e21ri /n :
+                   1     1            1              1         Co         Yo
+                   1    w            w2           w n -1       C1         Y1
+         Fn c=     1    w2           w4          w2( n -l)     C2         Y2     =y.           (2)
+                                                          2
+                   1 w n -1       w2( n -l)      w( n - 1)    Cn -1     Yn -1
+
+Fn is symmetric but not Hermitian. Its columns are orthogonal, and Fn F n = nl. Then
+F,;; 1 is Fn /n. The inverse contains powers of Wn = e- 21ri /n_ Look at the pattern in F:
+
+    The entry in row j, column k is wJk _ Row zero and column zero contain w0 = l.
+
+ When we multiply c by Fn , we sum the series at n points. When we multiply y by F,;; 1 , we
+find the coefficients cfrom the function values y. In MATLAB that command is c = fft(y).
+The matrix F passes from "frequency space" to "physical space."
+
+Important note. Many authors prefer to work with w = e-21ri /N, which is the complex
+conjugate of our w. (They often use the Greek omega, and I will do that to keep the two
+options separate.) With this choice, their DFT matrix contains powers of w not w. It is F,
+the conjugate of our F. F goes from physical space to frequency space.
+     Fis a completely reasonable choice! MATLAB uses w = e- 21ri /N. The DFT matrix
+fft(eye(N)) contains powers of this number w = w. The Fourier matrix F with w's
+reconstructs y from c. The matrix F with w's computes Fourier coefficients as fft(y).
+Also important. When a function f(x) has period 21r, and we change x to ei0 ,
+the function is defined around the unit circle (where z = ei0 ). The Discrete Fourier
+Transform is the same as interpolation. Find the polynomial p(z) = c0 + c 1 z + · · · +
+Cn -1Z n -l that matches n values Jo, ..., fn -1:
+
+
+   Interpolation        Find co, ..., Cn - 1 so that p( z) = f at n points z = l, ..., wn -l
+
+
+The Fourier matrix is the Vandermonde matrix for interpolation at those n special points.
+
+                                              One Step of the Fast Fourier Transform
+We want to multiply F times c as quickly as possible. Normally a matrix times a vector
+takes n 2 separate multiplications-the matrix has n 2 entries. You might think it is impos­
+sible to do better. (If the matrix has zero entries then multiplications can be skipped. But
+the Fourier matrix has no zeros!) By using the special pattern wjk for its entries, F can be
+factored in a way that produces many zeros. This is the FFT.
+    The key idea is to connect Fn with the half-size Fourier matrix Fn; 2. A ssume that
+n is a power of 2 (say n = 2 10 = 1024). We will connect F10 24 to two copies of F512-
+448                                                    Chapter 9. Complex Vectors and Matrices
+
+When n = 4, the key is in the relation between F4 and two copies of F2 :
+
+
+       p4 = [
+             1
+              �      !
+                    i2
+                         i; i\
+                         i4 i6
+                                 j    and       [
+                                                  F2
+                                                        F2
+                                                           j     [
+                                                                   � i;
+                                                                            1 1
+                                                                                  j
+             1      i3   i   i                                              1 i
+    On the left is F4, with no zeros. On the right is a matrix that is half zero. The work
+                           6   9                                                2
+
+
+
+is cut in half. But wait, those matrices are not the same. We need two sparse and simple
+matrices to complete the FFT factorization:
+
+Factors                      1
+
+                              1
+forFFT                                                                                       (3)
+
+
+     The last matrix is a permutation. It puts the even e's (c0 and c2 ) ahead of the odd e's (c1
+and c3). The middle matrix performs half-size transforms F2 and F2 on the even e's and
+odd e's. The matrix at the left combines the two half-size outputs-in a way that produces
+the correct full-size output y = F4 c.
+     The same idea applies whenn = 1024 andm = ½n = 512. The numberwise21ri /io2 4_
+It is at the angle 0 = 21r /1024 on the unit circle. The Fourier matrix F1024 is full of powers
+of w. The first stage of the FFT is the great factorization discovered by Cooley and Tukey
+(and foreshadowed in 1805 by Gauss):
+
+                                                                     even-odd
+                                                                [               ]
+                                                                    permutation              (4)
+
+                                                                                       51 1
+fs 12 is the identity matrix. D 51 2 is the diagonal matrix with entries (1, w, ... , w ). The
+two copies of F512 are what we expected. Don't forget that they use the 512th root of unity
+(which is nothing but w2 ! !) The permutation matrix separates the incoming vector c into
+its even and odd parts c' = (co,c2 , ...,c102 2) and c" = (c1 ,c3, ...,c1 02 3).
+     Here are the algebra formulas which say the same thing as that factorization of F1 024:
+
+ (One step of the FFT) Set m = ½n. The first m and last m components of y = Fn c
+ combine the half-size transforms y' = Fm c' and y" = Fm c". Equation (4) shows this
+ step from n to m = n/2 as Iy' + Dy" and Iy' - Dy":
+
+                            Yi = Yj + (wn)iyj',      j = 0, ...,m-1
+                         Yi+m = Yj - (wn)iyj',       j = 0, ...,m- l.
+                                                                                             (5)
+
+ Split c into c' and c", transform them by Fm into y' and y", then (5) reconstructs y.
+
+Those formulas come from separating co ..., Cn-l into even c2 k and odd c2k+l : w is Wn.
+                   n-1           m-1             m-1
+                 =     wi k Ck =     w 2i k
+              Yi         L           L      C k      wi(2k+1) C2 k+1 with m = ½n. (6)
+                                                       L
+                    0             0                0
+ y = Fe                                      2 +
+9.3. The Fast Fourier Transform                                                           449
+
+   The even e's go into c ' = (co,c 2 ,...) and the odd e's go into c " = (c 1, c3,...). Then
+come the transforms Fm c' and Fm c11 • The key is w� = W rn - This gives w�jk = w�.
+
+Rewn"te (6) Yj _ '°'       jk I + ( )j '°'( )jk c II   I +
+                                                           (Wn )j YjII .
+               - L.., (Wm ) ck                                                             (7)
+                                                             _
+                                   Wn L.., Wm    k - Yj
+For j � m, the minus sign in (5) comes from factoring out (Wn )m = -1 from (Wn )J.
+    MATLAB easily separates even e's from odd e's and multiplies by w�. We use conj(F)
+or equivalently MATLAB's inverse transform ifft, because fft is based on w = w= e- 21ri/n.
+Problem 16 shows that F and conj(F) are linked by permuting rows.
+                                       y' = ifft (c(0: 2: n - 2)) * n/2;
+                FFT step               y11 = ifft (c(l : 2: n - 1)) * n/2;
+                from n to n/2          d = w/'(0: n/2 - 1)';
+                in MATLAB              y = [y' + d. * y11 ; y' - d. * y11 ];
+
+    The flow graph shows c' and c11 going through the half-size F2 . Those steps are called
+"butte,fiies," from their shape. Then the outputs y' and y11 are combined (multiplying y11
+by 1,i from D and also by -1, -i from -D) to produce y = F4 c.
+    This reduction from Fn to two Fm's almost cuts the work in half-you see the zeros in
+the matrix factorization. That reduction is good but not great. The full idea of the FFT is
+much more powerful. It saves much more than half the time.
+           00        Co                                                   Yo   00
+                c'
+           10        C2                                                   YI   10
+
+
+           01        C1                                                   Y2   01
+                c"
+           11        C3                                                   Y3   11
+                          -1                                         -i
+
+
+                                                        The Full FFT by Recursion
+If you have read this far, you probably guessed what comes next. We reduced Fn to Fn ;2.
+Keep going to Fn ; 4. Every Fs1 2 leads to F25 6. Then 256 leads to 128. That is recursion.
+
+
+
+
+                                                                 l
+    Recursion is a basic principle of many fast algorithms. Here is step 2 with four
+copies of F255 and D (256 powers of w51 2). Evens of evens co,c4,cs,... come first:
+
+                                                                                      1
+                     l[                     l
+                             D                  F                     pick 0,4,8,.. ·
+                          I -D                      F                 pick 2,6,10,...
+                      -                                                               .
+             Fs1 2                 I    D               F             p�ck 1,5,9,...
+                          J        I -D         [            F       [pick 3,7,11,...
+450                                                    Chapter 9. Complex Vectors and Matrices
+
+    We will count the individual multiplications, to see how much is saved. Before the FFT
+was invented, the count was the usual n 2 =(1024)2 . This is about a million multiplica­
+tions. I am not saying that they take a long time. The cost becomes large when we have
+many, many transforms to do-which is typical. Then the saving by the FFT is also large:
+
+               The final count for size n = 2 £ is reduced from n 2 to ½ n.e.
+
+    The number 1024 is 2 10 , so£ =10. The original count of (1024)2 is reduced to
+(5)(1024). The saving is a factor of 200. A million is reduced to five thousand. That is why
+the FFT has revolutionized signal processing.
+    Here is the reasoning behind ½n£. There are£ levels, going from n =2 e down to
+n =l. Each level has n/2 multiplications from the diagonal D's, to reassemble the half­
+size outputs from the lower level. This yields the final count ½n£, which is ½n log 2 n .
+    One last note about this remarkable algorithm. There is an amazing rule for the order
+that the e's enter the FFT, after all the even-odd permutations. Write the numbers Oto n - 1
+in binary (like 00, 01, 10, 11 for n = 4 ). Reverse the order of those digits: 00, 10, 01, 11.
+That gives the bit-reversed order O, 2, 1, 3 with evens before odds (See Problem 17.)
+The complete picture shows the e's in bit-reversed order, the£ = log 2 n steps of the
+recursion, and the final output Yo, ..., Yn l which is Fn times c.
+                                             -
+    The chapter ends with that very fundamental idea, a matrix multiplying a vector.
+
+
+Problem Set 9.3
+1     Multiply the three matrices in equation (3) and compare with F. In which six entries
+      do you need to know that i 2 =-1?
+2     Invert the three factors in equation (3) to find a fast factorization of p- 1 .
+
+3     Fis symmetric. So transpose equation (3) to find a new Fast Fourier Transform!
+4     All entries in the factorization of F6 involve powers of w6 =sixth root of 1:
+
+
+
+
+      Write down these matrices with 1, w6, w� in D and w3 = w� in F3 . Multiply!
+5     If v =(l, 0, 0, 0) and w =(l, 1, 1, 1), show that Fv =wand Fw =4 v. Therefore
+      p- 1 w =v and p- 1 v =
+6     What is F2 and what is F4 for the 4by 4Fourier matrix?
+7     Put the vector c =(1, 0, 1, 0) through the three steps of the FFT to find y =Fe.Do
+      the same for c =(0, 1, 0, 1).
+
+8     Compute y =F8 c by the three FFT steps for c = (1, 0, 1, 0, 1, 0, 1, 0). Repeat the
+      computation for c =(0, 1, 0, 1, 0, 1, 0, 1).
+9.3. The Fast Fourier Transform                                                           451
+
+9     If w = e 27ri /54 then w 2 and -/ware among the __ and __ roots of 1.
+10      (a) Draw all the sixth roots of l on the unit circle. Prove they add to zero.
+        (b) What are the three cube roots of 1? Do they also add to zero?
+11    The columns of the Fourier matrix F are the eigenvectors of the cyclic permutation
+      P (see Section 8.3). Multiply PF to find the eigenvalues ..\ 1, ..\2, ..\3, ..\4:
+
+
+
+
+      This is PF= FA or P = FAF- 1. The eigenvector matrix (usually X) is F.
+                                                                                        J
+12    The equation det (P - ..\I) = 0 is ..\4 = 1. This shows again that the eigenvalues
+      are ..\= __ . Which permutation P has eigenvalues= cube roots of 1?
+13      (a) Two eigenvectors of Care (1, 1, 1, 1) and (1, i, i2 , i3 ). Find the eigenvalues e.
+
+                    Co C1
+                    C3 Co
+                [                                           and
+                    C2   C3
+                    C1   C2
+
+
+        (b) P = FAF- 1 immediately gives P2 = FA2 F- 1 and P3 = FA3 F-1. Then
+            C = cof+c1P+c2 P2 +c3 P3 = F(cof+c1A+c2A2 +c3A3 )F-1 = FEF- 1.
+            That matrix E in parentheses is diagonal. It contains the __ of C.
+14    Find the eigenvalues of the "periodic" -1, 2, -1 matrix from E = 21 - A - A3, with
+      the eigenvalues of P in A. The -1 's in the comers make this matrix periodic:
+
+                   2 -1  0 -1
+                  -1  2 -1  01
+              C= [                            has Co = 2' C1 = -1, C2 = 0' C3 = -1.
+                   0 -1  2 -1
+                  -1  0 -1  2
+
+15    Fast convolution = Fast multiplication by C: To multiply C times a vector x, we
+      can multiply F(E(F- 1 x )) instead. The direct way uses n 2 separate multiplications.
+      Knowing E and F, the second way uses only n log 2 n + n multiplications. How
+      many of those come from E, how many from F, and how many from F- 1 7
+16    Notice. Why is row i of F the same as row N - i of F (numbered Oto N - 1) ?
+17    What is the bit-reversed order of the numbers 0, 1, ..., 7? Write them all in binary
+      (base 2) as 000, 001, ..., 111 and reverse each order. The 8 numbers are now __ .
+

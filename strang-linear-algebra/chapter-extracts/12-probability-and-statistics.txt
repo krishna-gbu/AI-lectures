@@ -1,0 +1,2086 @@
+Chapter 12
+
+Linear Algebra in Probability & Statistics
+
+
+12.1 Mean, Variance, and Probability
+
+We are starting with the three fundamental words of this chapter: mean, variance, and
+probability. Let me give a rough explanation of their meaning before I write any formulas:
+
+   The mean is the average value or expected value
+   The variance o- 2 measures the average squared distance from the mean m
+   The probabilities of n different outcomes are positive numbers p 1, ... , Pn adding to 1.
+
+Certainly the mean is easy to understand. We will start there. But right away we have
+two different situations that you have to keep straight. On the one hand, we may have
+the results (sample values) from a completed trial. On the other hand, we may have the
+expected results (expected values) from future trials. Let me give examples:
+
+   Sample values     Five random freshmen have ages 18, 17, 18, 19, 17
+   Sample mean       g(18 + 17 + 18 + 19 + 17) = 17.8
+   Probabilities     The ages in a freshmen class are 17 (20%), 18 (50%), 19 (30%)
+   A random freshman has expected age E [x] = (0.2) 17 + (0.5) 18 + (0.3) 19 = 18.1
+
+Both numbers 17.8 and 18.1 are correct averages. The sample mean starts with N samples
+x 1, ... , x N from a completed trial. Their mean is the average of the N observed samples:
+
+
+                                               1
+               Sample mean        m =µ=-(xi+ X 2 + • • • + XN)                          (1)
+                                       N
+
+
+                                           535
+536                                        Chapter 12. Linear Algebra in Probability & Statistics
+
+The expected value ofx starts with the probabilities p 1, ... , Pn of the ages x 1, ... , Xn :
+
+
+             Expected value      m = E[x] = P1X1 + P2X2 + · · · + PnXn-                      (2)
+
+
+This is p · x. Notice that m = E[x] tells us what to expect, m = µ tells us what we got.
+     By taking many samples (large N), the sample results will come close to the proba­
+bilities. The "Law of Large Numbers" says that with probability 1, the sample mean will
+converge to its expected value E[x] as the sample size N increases. A fair coin has prob­
+ability p0 = ½ of tails and p 1 = ½ of heads. Then E[x] = ( ½) 0 + ½ (1). The fraction of
+heads in N flips of the coin is the sample mean, expected to approach E[x] =       ½.
+     This does not mean that if we have seen more tails than heads, the next sample is likely
+to be heads. The odds remain 50-50. The first 100 or 1000 flips do affect the sample mean.
+But 1000 flips will not affect its limit-because you are dividing by N --+ oo.
+
+                                                          Variance (around the mean)
+The variance a 2 measures expected distance (squared) from the expected mean E[x].
+The sample variance S 2 measures actual distance (squared) from the sample mean. The
+square root is the standard deviation a or S. After an exam, I emailµ and S to the class.
+I don't know the expected mean and variance because I don't know the probabilities p 1 to
+p 100 for each score. (After teaching for 50 years, I still have no idea what to expect.)
+     The deviation is always deviation from the mean-sample or expected. We are looking
+for the size of the "spread" around the mean value x = m. Start with N samples.
+
+
+       Sample variance          S 2 = --
+                                       1         [2
+                                          (x1 - m) + · · · + (xN - m) 2]                     (3)
+                                      N-1
+
+The sample ages x = 18, 17, 18, 19, 17 have mean m = 17.8. That sample has variance 0.7:
+
+          s2 =   i   [(.2) 2 + (-.8)2 + (.2)2 + (1.2) + (-.8) 2 ] = i(2.8) = 0.1
+                                                     2
+
+
+The minus signs disappear when we compute squares. Please notice ! Statisticians divide
+by N - l = 4 (and not N = 5) so that S 2 is an unbiased estimate of o- 2 . One degree of
+freedom is already accounted for in the sample mean.
+    An important identity comes from splitting each (x - m) 2 into x 2 - 2mx + m 2 :
+            sum of (xi - m) 2 = (sum of x;) - 2m(sum of xi)+ (sum of m 2 )
+                              = (sum of x;) - 2m(Nm) + Nm2
+          sumof(xi - m) 2 = (sumofx;) - Nm2 .                                                (4)
+This is an equivalent way to find (x 1 - m)2 +·· · + (xN - m 2 ) by adding Xi+···+ xJ.,.
+12.1. Mean, Variance, and Probability                                                   537
+
+    Now start with probabilities Pi (never negative!) instead of samples. We find expected
+values instead of sample values. The variance 0" is the crucial number in statistics.
+                                                 2
+
+
+
+
+     Variance o- 2 = E [(x - m) 2] = P1(x1 - m) 2 + · · · + Pn (X n - m) 2.                 (5)
+
+
+We are squaring the distance from the expected value m = E[x]. We don't have samples,
+only expectations. We know probabilities but we don't know experimental outcomes.
+
+Example 1      Find the variance 0" of the ages of college freshmen.
+                                    2
+
+
+
+
+Solution    The probabilities of ages Xi = 17, 18, 19 were Pi = 0.2 and 0.5 and 0.3.
+The expected value was m = L PiXi = 18.1. The variance uses those same probabilities:
+
+          o- 2 = (0.2)(17 - 18.1)2 + (0.5)(18 - 18.1)2 + (0.3)(19 - 18.1)2
+              = (0.2)(1.21) + (0.5)(0.01) + (0.3)(0.81) = 0.49.
+
+   The standard deviation is the square root o- = 0.7.
+This measures the spread of 17, 18, 19 around E[x], weighted by probabilities .2, .5, .3.
+
+
+                                            Continuous Probability Distributions
+Up to now we have allowed for n possible outcomes x 1, ... , Xn- With ages 17, 18, 19,
+we only had n = 3. If we measure age in days instead of years, there will be a thousand
+possible ages (too many). Better to allow every number between 17 and 20-a continuum
+of possible ages. Then the probabilities p1, P 2 , p3 for ages x1, x 2 , X3 have to move to a
+probability distribution p( x) for a whole continuous range of ages 17 ::; x :=; 20.
+    The best way to explain probability distributions is to give you two examples. They
+will be the uniform distribution and the normal distribution. The first (uniform) is easy.
+The normal distribution is all-important.
+Uniform distribution Suppose ages are uniformly distributed between 17.0 and 20.0.
+All ages between those numbers are "equally likely". Of course any one exact age has no
+chance at all. There is zero probability that you will hit the exact number x = 17.1 or
+x = 17 + y'2. What you can truthfully provide (assuming our uniform distribution) is
+the chance F ( x) that a random freshman has age less than x :
+The chance of age less than x = l 7 is F(l 7) = 0          x :=; 17 won't happen
+The chance of age less than x = 20 is F(20) = 1            x :=; 20 will happen
+The chance of age less than xis F( x) = ½ ( x - 17)        F goes from 0 to 1
+That formula F(x) = ½(x - 17) gives F = 0 at x = l 7; then x :=; 17 won't happen. It
+gives F(x) = 1 at x = 20; then x :=; 20 is sure. Between 17 and 20, the graph of the
+cumulative distribution F ( x) increases linearly for this uniform model.
+538                                         Chapter 12. Linear Algebra in Probability & Statistics
+
+Let me draw the graphs of F(x) and its derivative p(x) = "probability density function".
+
+                            cumulative F(x) =                                      "pdf" p (x) =
+                            probability that a                                     probability that a
+                            sample is below x                                      sample is near x
+                         F(x) = ½(x - 17)                                       dF
+                                                                          (x) =
+                                                                  r-----.p      -
+                                                                                d-x
+
+                                                                                   p=½
+                                        X                                                  X
+          17           20                                         17              20
+Figure 12.1: F (x) is the cumulative distribution and its derivative p(x) = dF/ dx is the
+probability density function (pdf). For this uniform distribution, p(x) is constant between
+17 and 20. The total area under the graph of p(x) is the total probability F = 1.
+
+   You could say that p(x) dx is the probability of a sample falling in between x and
+x + dx. This is "infinitesimally true": p(x) dx is F(x + dx) - F(x). Here is the full truth:
+
+                                                          j p(x) dx = F(b) F(a)
+                                                              b
+
+F = integral ofp       Probability of a ::S: x ::S: b =                                -         (6)
+                                                          a
+ F(b) is the probability of x :S b. I subtract F(a) to keep x 2". a. That leaves a :S x :S b.
+
+                                                          Mean and Variance of p( x)
+What are the mean m and variance a 2 for a probability distribution? Previously we added
+PiXi to get the mean (expected value). With a continuous distribution we integrate xp(x):
+
+
+
+                                             j                     j (1)
+                                                                       20
+
+            Mean              m = E[x] =         xp(x) dx =                 (x)        dx = 18.5
+                                                                  m=17
+
+
+For this uniform distribution, the mean m is halfway between 17 and 20. Then the
+probability of a random value x below this halfway point m = 18.5 is F(m) = ½-
+   In MATLAB, x = rand (1) chooses a random number uniformly between O and 1.
+Then the expected mean ism = ½- The interval from Oto x has probability F(x) = x.
+The interval below the mean m always has probability F(m) = ½-
+   The variance is the average squared distance to the mean. With N outcomes, a 2 is the
+sum of Pi (Xi -m) 2 • For a continuous random variable x, the sum changes to an integral.
+
+
+            Variance          o- 2 = E [(x - m) 2 ] =     j p(x) (x         - m) 2 dx            (7)
+12.1. Mean, Variance, and Probability                                                                   539
+
+When ages are uniform between 17 ::; x :=; 20, the integral can shift to 0 ::; x :=; 3 :
+             w
+          = j-(x - 18 5) dx = j- (x - 1 . 5) dx = -(x - 1 . 5)
+                 1                     1                    1                   3               2   3    3
+ 17
+      2                    2                       2
+                                                                                            = -(1 . 5) = -
+             3       .        3 3                 9                                    3      9          4·
+            17                     0                                                lx=
+                                                                                     x=O
+
+That is a typical example, and here is the complete picture for a uniform p(x), 0 to a.
+
+                                                l
+ Uniformdistribution forO S x Sa Density p(x) = - Cumulative F(x) = -
+                                                                    X
+
+                                                a                   a
+
+
+                 Mean m = - halfway        Variance u2 =
+                                                                fa 1 (     a 2     a2
+                                                                     - x - -) dx = -                     (8)
+                          2                                          a     2       12
+                                                                0
+
+
+
+The mean is a multiple of a, the variance is a multiple of a2 . For a = 3, <7 2 = i92 =                      f
+For one random number between 0 and 1 (mean ½) the variance is <7 2 = /2 .
+
+                                           Normal Distribution: Bell-shaped Curve
+The normal distribution is also called the "Gaussian" distribution. It is the most important
+of all probability density functions p(x). The reason for its overwhelming importance
+comes from repeating an experiment and averaging the outcomes. The experiments have
+their own distribution (like heads and tails). The average approaches a normal distribution.
+
+ Central Limit Theorem (informal) The average of N samples of "any" probability
+ distribution approaches a normal distribution as N -+ oo.
+
+    Start with the "standard normal distribution". It is symmetric around x = 0, so its mean
+value ism = 0. It is chosen to have a standard variance <7 = 1. It is called N (0, 1).
+                                                                        2
+
+
+
+
+                                                                1
+                                                        p(x) = -- e-x 2_
+                                                                     2;
+                     Standard normal distribution                                                         (9)
+                                                                       v'2n
+The graph of p(x) is the bell-shaped curve in Figure 12.2. The standard facts are
+
+
+             Total probability = 1            J
+                                              00
+
+
+                                                   p(x)dx= �                J   00
+
+
+                                                                                     e-x 1 2 dx=l
+                                                                                        2
+
+
+
+
+                                                            J
+                                             -00                         -oo
+
+                                                        1
+                                                                00
+
+
+                                             m = --                  xe-x f 2 dx = 0
+                                                                            2
+             MeanE[x] = 0
+                                                       v27r
+                                                            J
+                                                            -00
+                                                              00
+
+
+             VarianceE [x 2] = 1                                     (x - 0)2e-x / dx = l
+                                                                                       2
+                                             u 2 = _l_                                      2
+
+
+                                                       v27r -oo
+540                                          Chapter 12. Linear Algebra in Probability & Statistics
+
+The zero mean was easy because we are integrating an odd function. Changing x to -x
+shows that "integral= - integral". So that integral must be m = 0.
+    The other two integrals apply the idea in Problem 12 to reach 1. Figure 12.2 shows
+a graph of p(x) for the normal distribution N (0, er) and also its cumulative distribution
+F(x) = integral of p(x). From the symmetry of p(x) you see mean= zero. From F(x)
+you see a very important practical approximation for opinion polling :
+The probability that a random sample falls between -er and er is F(a') - F(-a) �                  i,
+                       a                 a                 -a
+   This is because     J p(x) dx equals J p(x) dx - J p(x) dx = F(cr) - F(-cr).
+                     -(j                -(X)              -(X)
+
+   Similarly, the probability that a random x lies between -2cr and 2cr ("less than
+two standard deviations from the mean") is F(2cr) - F(-2cr) � 0.95. If you have an
+experimental result further than 2cr from the mean, it is fairly sure to be not accidental :
+chance = 0.05. Drug tests may look for a tighter confirmation, like probability 0.001.
+Searching for the Higgs boson used a hyper-strict test of 5cr deviation from pure accident.
+
+                                                    .98
+
+
+                                                                    J
+                                                                     X
+
+
+                                                          F(x) =
+                                                    .84
+                                                                          p(x) dx
+                                                                   -ex,
+                                         F(O) = �
+
+
+                                                    .16
+                                                    .02 -=----'----'-----'-----'
+ -2cr     -er      0       CT     2cr                 -2cr   -CT   0     CT    2cr
+
+      Figure 12.2: The standard normal distribution p (x) has mean m = 0 and er = 1.
+
+   The normal distribution with any mean m and standard deviation er comes by shifting
+and stretching the standardN (0, 1). Shift x to x - m. Stretch x - m to (x - m)/a.
+
+
+ Gaussian density p(x)
+                                               p(x) = _1_ e-(x - m) /2a
+                                                                                 2     2
+                                                                                                (10)
+ Normal distribution N ( m, a)                        av'21r
+
+
+The integral of p(x) is F(x)-the probability that a random sample will fall below x.
+The differential p(x) dx = F(x + dx) - F(x) is the probability that a random sample
+                                                                              2
+will fall between x and x + dx. There is no simple formula to integrate e-x 2, so           /
+
+this cumulative distribution F (x) is computed and tabulated very carefully.
+12.1. Mean, Variance, and Probability                                                                              541
+
+                                                                       N Coin Flips and N --+ oo
+
+Example 2      Suppose xis 1 or -1 with equal probabilities p1 = p_ 1 =                               ½.
+The mean value ism= ½(1) + ½(-1) = 0. The variance is u = ½(1)                        2      2
+                                                                                                 + ½(-1)2 = 1.
+The key question is the average A N = (x 1 + · · · + x N ) /N. The independent Xi
+are ±1 and we are dividing their sum by N. The expected mean of A N is still zero.
+The law of large numbers says that this sample average approaches zero with probability 1.
+How fast does A N approach zero? What is its variance u'f..?
+                            (J.2              2
+                                                          CT
+                                                               2
+                                                                        CT
+                                                                             2
+                                                                                   1
+    By linearity   u'fv =           + CT + · · · +                 =N            = N since CT 2 = 1.               (11)
+                            N   2
+                                      N       2
+                                                          N    2
+                                                                        N    2
+
+
+
+Example 3      Change outputs from 1 or -1 to x = 1 or x = 0. Keep p1 = p 0 =                                       ½-
+The new mean value m = ½ falls halfway between 0 and 1. The variance moves to u                                2
+                                                                                                                   = ¼:
+                                                                                 2                2
+            1      1      1                                1     1                    1     1          1
+        m = -(1) + -(0) = - and                    u2 =
+                                                          2 (1 - 2)                  + 2 (0 - )
+            2      2      2                                                                 2          4
+                                  1               1             1        1
+The average A N now has mean - and variance --2 + · · · + --2 = -        N = u'fv. (12)
+                                  2             4N            4N       4
+This CTN is half the size of CTN in Example 2. This must be correct because the new range
+0 to 1 is half as long as -1 to 1. Examples 2-3 are showing a law of linearity.
+    The new 0 - 1 variable xnew is                ½ Xold + ½. So the mean m is increased to ½ and
+the variance is multiplied by (     ½) A shift changes m and the rescaling changes
+                                      2
+                                          .                                                            CT .
+                                                                                                           2
+
+
+
+Linearity     Xnew = aXoJd + b has ffinew = amold + b and u 2 new = a 2 u 2 oJd· (13)
+
+
+  Here are the results from three numerical tests: random 0 or 1 averaged over N trials.
+  [48 l's from N = 100] [5035 l's from N = 10000] [19967 l's from N = 40000].
+  The standardized X = (x - m)/CT = (A N -                         ½) / 2vN was [-.40] [.70] [-.33].
+   The Central Limit Theorem says that the average of many coin flips will approach a
+normal distribution. Let us begin to see how that happens: binomial approaches normal.
+    For each flip, the probability of heads is ½. For N = 3 flips, the probability of heads
+    all three times is ( ½) = ½. The probability of heads twice and tails once is j,
+                           3
+
+    from three sequences HHT and HTH and THH. These numbers ½ and ¾ are pieces of
+             3
+    ( ½ + ½) = ½ + ¾ + ¾ + ½ = 1. The average number of heads in 3 flips is 1.5.
+
+                    1           3          3     3 6 3
+  Mean m = (3 heads) + (2 heads) + (1 head) + 0 = + + = 1.5 heads
+                    8           8          8     8 8 8
+542                                        Chapter 12. Linear Algebra in Probability & Statistics
+
+With N flips, Example 3 (or common sense) gives a mean of rn = :E XiPi = ½ N heads.
+    The variance 0' 2 is based on the squared distance from this mean N/2. With N = 3
+the variance is 0' 2 = ¾ (which is N/4). To find 0' 2 we add (Xi - m ) 2 Pi with m = 1.5 :
+
+              1            3            3            1   9+3+3+9
+u 2 = (3-1.5)2- + (2-1.5)2 - + (1-1.5)2 - + (0-1.5)2 - = ----=   3
+                                                                 -.
+              8            8            8            8      32   4
+
+For any N, the variance is u'f.., = N/4. Then O'N = ,/Fi/2.
+    Figure 12.3 shows how the probabilities of 0, 1, 2, 3, 4 heads in N = 4 flips come
+close to a bell-shaped Gaussian. That Gaussian is centered at the mean value N/2 = 2.
+To reach the standard Gaussian (mean O and variance 1) we shift and rescale that graph.
+If x is the number of heads in N flips-the average of N zero-one outcomes-then x is
+shifted by its mean m = N/2 and rescaled by O' = ,/Fi/2 to produce the standard X :
+
+                              X -rn
+  Shifted and scaled        X=--­                                  (N = 4 has X = x -2)
+                                u                 v'IV/2
+  Subtracting rn is "centering" or "detrending". The mean of Xis zero.
+  Dividing by u is "normalizing" or "standardizing". The variance of Xis 1.
+
+
+                                             PN/ 2 �   J2li'N/'•', \
+              p(x) = 1                                        I
+              uniform                                        -' binomial \,
+                                                           1
+                                                          1 approaches \ M heads
+                                                        I       Gaussian    \ N flips
+               area= 1                1       1
+                   I
+                                      16
+                   I
+       1                       1
+    -2           O             2            M=O                  N/ 2          N
+Figure 12.3: The probabilities p    (l, 4, 6, 4, 1) /16 for the number of heads in 4 flips.
+These Pi approach a Gaussian distribution with variance 0' 2 = N/4 centered at m = N/2.
+For X, the Central Limit Theorem gives convergence to the normal distribution N(O, 1).
+
+    It is fun to see the Central Limit Theorem giving the right answer at the center point
+                                        2
+X = 0. At that point, the factor e-X 2 equals 1. We know that the variance for N coin
+                                       /
+
+flips is 0' 2 = N/4. The center of the bell-shaped curve has height 1/ v'21m 2 = )2 /N1r.
+     What is the height at the center of the coin-flip distribution p 0 to PN (the binomial
+                                                                                      4
+distribution)? For N = 4, the probabilities for 0, 1, 2, 3, 4 heads come from(½+ ½) .
+
+                         6
+      Center probability -
+                         16
+12.1. Mean, Variance, and Probability                                                  543
+
+The binomial theorem in Problem 8 tells us the center probability P N/ 2 for any even N:
+
+                                                               1       N!
+          The center probability ( � heads, � tails) is
+                                                              2 N (N/2)! (N/2)!
+
+
+For N = 4, those factorials produce 4!/2! 2! = 24/4 = 6. For large N, Stirling's formula
+v'21rN(N/e) N is a close approximation to N!. Use Stirling for N and twice for N/2:
+
+      Limit of coin-flip                    1 /2'iN(N/e) N    y'2      1
+                                 P N/2 �                   =       =        .          (14)
+      Center probability                   2 N wN(N/2e) N    ,j;"Fi ,,/'h<J
+
+At that last step we used the variance <J 2 = N/4 for the coin-tossing problem. The result
+1/,,/'h<J matches the center value (above) for the Gaussian. The Central Limit Theorem
+is true: The "binomial distribution" approaches the normal distribution as N --+ oo.
+
+                                                   Monte Carlo Estimation Methods
+Scientific computing has to work with errors in the data. Financial computing has to work
+with unsure numbers and uncertain predictions. All of applied mathematics has moved
+to accepting uncertainty in the inputs and estimating the variance in the outputs.
+    How to estimate that variance? Often probability distributions p(x) are not known.
+W hat we can do is to try different inputs b and compute the outputs x and take an average.
+This is the simplest form of a Monte Carlo method (named after the gambling palace
+on the Riviera, where I once saw a fight about whether the bet was placed in time).
+Monte Carlo approximates an expected value E[x] by a sample average (x 1 + · · · +xN )/ N.
+    Please understand that every X k can be expensive to compute. We are not just flip­
+ping coins. Each sample comes from a set of data bk . Monte Carlo randomly chooses this
+data b k , it computes the outputs X k , and then it averages those x's. Decent accuracy for
+E[x] often requires many samples band huge computing cost. The error in approximating
+E[x] by (x 1 + · · ·+X N )/N is normally of order 1/vN. Slow improvement as N increases.
+    That 1/vN estimate came for coin flips in equation (11). Averaging N independent
+samples x k of variance <J 2 reduces the variance to <J 2 /N.
+    "Quasi-Monte Carlo" can sometimes reduce this variance to <J 2 /N 2 : a big difference!
+The inputs b k are selected very carefully-not just randomly. This QMC approach is
+surveyed in the journal Acta Numerica 2013. The newer idea of "Multilevel Monte Carlo"
+is outlined by Michael Giles in Acta Numerica 2015. Here is how it works.
+  Suppose it is much simpler to simulate another variable y(b) close to x(b). Then use
+N computations of y(b k ) and only N* < N computations of x(b k ) to estimate E[x].
+
+
+   2-level Monte Carlo          E[x] � -
+                                           1
+                                           N
+                                             L y(bk) + - L [x(bk) - y(bk)].
+                                               N
+
+                                               i
+                                                        1
+                                                       N*
+                                                                N*
+
+                                                                 i
+544                                              Chapter 12. Linear Algebra in Probability & Statistics
+
+    The idea is that x - y has a smaller variance CJ* than the original x. Therefore N* can
+be smaller than N, with the same accuracy for E[x]. We do N cheap simulations to find
+the y's. Those cost C each. We only do N* expensive simulations involving x's. Those
+cost C* each. The total computing cost is NC+ N*C*.
+    Calculus minimizes the overall variance for a fixed total cost. The optimal ratio N*/N
+is JC/ C* CJ*/ CJ. Three-level Monte Carlo would simulate x, y, and z :
+
+    E[x] �
+             1 N
+              L z(bk) +
+             N 1
+                        1 N*
+                          L [y(bk) - z(bk)] +
+                        N* 1                  N
+                                               1 N**
+                                                ** 1
+                                                     [x(bk) - y(bk)].       L
+Giles optimizes N, N*, N**, ... to keep E[x] :s; fixed E0 , and provides a MATLAB code.
+
+                  Review : Three Formulas for the Mean and the Variance
+The formulas for m and CJ are the starting point for all of probability and statistics. There
+                           2
+
+
+are three different cases to keep straight: sample values Xi , expected values (discrete Pi ),
+and a range of expected values (continuous p(x) ). Here are the mean and the variance:
+
+                                  X1+···+XN                        (X1-m) 2 +···+(XN-m) 2
+Samples X 1 to XN           m=                              S2 =
+                                      N                                          N-1
+n possible outputs                 n                               n
+
+with probabilities Pi
+                            m=    I::1 PiX   i
+                                                              2
+                                                            a =    I::1 P (X - m)
+                                                                        i   i
+                                                                                    2
+
+
+
+Range of outputs
+                         m=fxp(x)dx                         a 2 = f(x -m) 2p(x)dx
+with probability density
+
+A natural question: Why are there no probabilities p on the first line? How can these
+formulas be parallel? Answer : We expect a fraction Pi of the samples to be X = X i . If
+this is exactly true, X = X i is repeated Pi N times. Then lines 1 and 2 give the same m.
+    When we work with samples, we don't know the Pi · We just include each output X
+as often as it comes. We get the "empirical" mean instead of the expected mean.
+
+Problem Set 12.1
+1     Add 7 to every output x. What happens to the mean and the variance?
+      What are the new sample mean, the new expected mean, and the new variance?
+2                                                                  t
+      We know: ½ of all integers are divisible by 3 and of integers are divisible by 7.
+      What fraction of integers will be divisible by 3 or 7 or both?
+3     Suppose you sample from the numbers 1 to 1000 with equal probabilities 1/1000.
+      What are the probabilities p0 to pg that the last digit of your sample is 0, ... , 9?
+      What is the expected mean m of that last digit? What is its variance CJ ?         2
+
+
+
+
+4     Sample again from 1 to 1000 but look at the last digit of the sample squared. That
+      square could end with x = 0, 1, 4, 5, 6, or 9 . What are the probabilities Po,Pi,p4,p5,
+      p6,pg? What are the (expected) mean m and variance CJ 2 of that number x?
+12.1. Mean, Variance, and Probability                                                          545
+
+5      (a little tricky) Sample again from 1 to 1000 with equal probabilities and let x be the
+      first digit (x = l if the number is 15). What are the probabilities p1 to p9 (adding
+       to 1) of x = l, ... , 9? What are the mean and variance of x?
+6     Suppose you have N = 4 samples 157,312, 6 96 , 6 02 in Problem 5. What are the
+      first digitsx1 to x4 of the squares? What is the sample meanµ? What is the sample
+      variance S 2 ? Remember to divide by N -1 = 3 and not N = 4.
+7     Equation (4) gave a second equivalent form for 8 2 (the variance using samples):
+                         1                   )       1
+               S 2 = -- sum of (xi -m 2 = -- [(sum ofx;) -Nm2].
+                      N-l                          N -1
+      Verify the matching identity for the expected variance u 2 (using m = I; Pi Xi):
+                    o- 2 = sum of p; (x; - rn) = (sum of Pix:} -rn2.
+                                                 2
+
+
+8     If all 24 samples from a population produce the same age x = 20, what are the
+      sample meanµ and the sample variance 8 2 ? What ifx = 20 or 21, 12 times each ?
+
+9     Computer experiment as on page 541: Find the average A 1000000 of a million
+      random 0-1 samples! What is X = (AN - ½) /2vN?
+
+10    The probability Pi to get i heads in N coin flips is the binomial number bi = ( �)
+      divided by 2N . The bi add to(1 + 1 )N = 2N so the probabilities Pi add to l.
+                          1     l)N  1                      .                        N!
+          Po+ ··· + PN = ('.2 +
+                                2 = 2N ( bo + · · · + bN ) with bi                i!(N _ i)!
+                                                                             =
+
+
+
+
+                             24           24                24                   1
+      N= 4 leads tob0 =         , b 1 = ( )( ) = 4 , b2 = ( )( ) = 6 , P i          (1, 4 , 6 , 4 , 1).
+                             24          l 6               2 2                   16
+                                                                             =
+
+
+
+
+      Notice bi   =
+                      bN -i · Problem: Confirm that the mean m = 0p0 +···+NpN equals              If.
+11    For any function f(x) the expected value is E[f] = 'I', Pi f (Xi ) or p(x) f(x)dx
+                                                                                   J
+      (discrete probability or continuous probability). Suppose the mean is E[x] = m and
+                                )
+      the variance is E[(x -m 2 ] = u 2 . Whatis E[x2 ]?
+12                                                                                 J
+      Show that the standard normal distribution p(x) has total probability p(x)dx = l
+                                                     J           J
+      as required. A famous trick multiplies p(x)dx by p(y)dy and computes the
+      integral over allx and ally (-oo to oo). The trick is to replace dxdy in that double
+      integral byrdrd0 (polar coordinates withx2 +y2 = r2 ). Explain each step:
+
+          00            00              00                     27f     00
+
+      21r jp(x)dx j�(y)dy            fje-(x +Y ll 2 dxdy              Je-r 1 rdrd0                2-rr.
+                                                 2                               2 2
+                                                               J
+                                             2
+                                 =                         =                                  =
+
+
+
+        -00           -oo            -oo                    0 = 0 r= 0
+546                                         Chapter 12. Linear Algebra in Probability & Statistics
+
+
+12.2      Covariance Matrices and Joint Probabilities
+Linear algebra enters when we run M different experiments at once. We might measure
+age and height and weight (M = 3 measurements of N people). Each experiment
+has its own mean value. So we have a vector m = (m 1, m2, m 3) containing the M
+mean values. Those could be sample means of age and height and weight. Or m 1, m2, m3
+could be expected values of age, height, weight based on known probabilities.
+     A matrix becomes involved when we look at variances. Each experiment will have a
+sample variance S; or an expected a} = E [(xi - mi) 2 ] based on the squared distance
+from its mean. Those M numbers      O"r, ... ,
+                                             O"i will go on the main diagonal of the matrix.
+So far we have made no connection between the M parallel experiments. They measure
+M different random variables, but the experiments are not necessarily independent!
+     If we measure age and height and weight (a, h, w) for children, the results will be
+strongly correlated. Older children are generally taller and heavier. Suppose the means
+m a , mh, m w are known. Then O"�, O"�, O"! are the separate variances in age, height, weight.
+The new numbers are the covariances like ua h, where age multiplies height.
+
+        Covariance       u a h = E [(age - mean age) (height - mean height)].                 (1)
+
+   This definition needs a close look. To compute O"a h, it is not enough to know the
+probability of each age and the probability of each height. We have to know the joint
+probability of each pair (age and height). This is because age is connected to height.
+Pa h = probability that a random child has age = a and height = h: both at once
+ Pij = probability that experiment 1 produces Xi and experiment 2 produces Yj
+Suppose experiment 1 (age) has mean m 1. Experiment 2 (height) has mean m2. The
+covariance in (1) between experiments 1 and 2 looks at all pairs of ages Xi, heights y1:
+
+
+                Covariance        U12 =    I: I: Pij(Xi - m1)(Yj - m2)                        (2)
+                                           all i, j
+
+To capture this idea of "joint probability Pij" we begin with two small examples.
+Example 1       Flip two coins separately. With 1 for heads and O for tails, the results can be
+(1, 1) or (1, 0) or (0, 1) or (0, 0). Those four outcomes all have probability p 11 = p 1o =
+Poi= Poo = ¼- Independent experiments have Prob of (i, j) = (Prob of i) (Prob of j).
+
+Example 2       Glue the coins together, facing the same way. The only possibilities are
+(1, 1) and (0, 0). Those have probabilities ½ and ½- The probabilities p 10 and p 01 are zero.
+(1, 0) and (0, 1) won't happen because the coins stick together: both heads or both tails.
+
+  Probability matrices
+  for Examples 1 and 2                                                       P=[!         il·
+12.2. Covariance Matrices and Joint Probabilities                                        547
+
+Let me stay longer with P, to show it in good matrix notation. The matrix shows the prob­
+ability Pij of each pair (Xi, Yj)-starting with (x1, Y1) = (heads, heads) and (x1, Y2)
+(heads, tails). Notice the row sums Pi and column sums Pj and the total sum = 1.
+                                        P    P12       Pn + P12 = P1      fir� t
+         Probability matrix p = [ n               ]                     (        )
+                                        P21 P22        P21 + P22 = P2     com
+          (second coin) column sums        P1       P2          4 entries add to 1
+Those numbers p1, P2 and Pi, P2 are called the marginals of the matrix P:
+   Pl = P11 + P12 = chance of heads from coin 1 (coin 2 can be heads or tails)
+   Pi = p11 + p21 = chance of heads from coin 2 (coin 1 can be heads or tails)
+   Example 1 showed independent variables. Every probability Pij equals Pi times Pj
+(½ times ½ gave Pij = ¼ in that example). In this case the covariance u 12 will be zero.
+Heads or tails from the first coin gave no information about the second coin.
+
+    Zero covariance u 12
+                                                      O2   ] = d'iagona1 covariance
+                                                                              .         .
+                                                                                    matrix.
+    for independent trials                           O'2
+
+   Independent experiments have 0'12 = 0 because every Pij = (Pi)(Pj) in equation (2):
+
+
+
+
+   The glued coins show perfect correlation. Heads on one means heads on the other.
+The covariance 0'12 moves from O to 0"10'2 = ¼-this is the largest possible value of 0'12 :
+
+       1
+Means= -
+       2
+                   0'12 = � ( 1 - �)     ( 1 - �) + 0 + 0 + � ( 0 - �) ( 0 - �) =             ¾
+Heads or tails from coin 1 gives complete information about heads or tails from coin 2 :
+
+   Glued coins give largest possible covariances
+   Singular covariance matrix: determinant= 0
+
+ Always Uiu� � ui2 , Thus 0'12 is between -0"10"2 and 0"10"2. The covariance matrix V
+is positive definite (or in this singular case of glued coins, V is positive semidefinite).
+That is an important fact about M by M covariance matrices for M experiments.
+   Note that the sample covariance matrix S from N trials is certainly semidefinite.
+Every new sample X = (age, height, weight) contributes to the sample mean X and to S.
+Each term (Xi - X)(Xi - X)T is positive semidefinite and we just add to reach S:
+
+
+
+x = _x_1_+_·_·_· _+_x_N_ S = (X1 - X)(X1 - X) + · · · + (XN - X)(XN - X) (3)
+                                         -            -T                    -         -T
+
+            N                                  N -1
+548                                         Chapter 12. Linear Algebra in Probability & Statistics
+
+                             The Covariance Matrix V is Positive Semidefinite
+Come back to the expected covariance o-12 between two experiments 1 and 2 (two coins) :
+
+              expected value of [ (output l - mean l) times (output 2 - mean 2)]
+              L L Pij (xi - m1) (yj - m2).                                                    (4)
+              all i, j
+
+  Pij 2". 0 is the probability of seeing output Xi in experiment 1 and y1 in experiment 2.
+Some pair of outputs must appear. Therefore the N 2 probabilities Pij add to 1.
+
+                 Total probability (all pairs) is 1            LLPij = l .                    (5)
+                                                               all i, j
+
+    Here is another fact we need. Fix on one particular output Xi in experiment 1. Allow
+all outputs y1 in experiment 2. Add the probabilities of (xi , Y1), (xi , Y2 ), ... , (xi , Yn ) :
+
+        Row sum Pi of P          L Pij = probability Pi of xi in experiment 1.                (6)
+                               j=l
+Some y1 must happen in experiment 2 ! Whether the two coins are completely separate or
+glued together, we still get ½ for the probability PH =PHH+ PHT that coin 1 is heads:
+
+                                1 1       1                            1           1
+      (separate) PHH+ PHT = - + - = -           (glued) PHH+ PHT = - + 0 = -.
+                                4 4       2                            2           2
+That basic reasoning allows us to write one matrix formula that includes the covariance
+o- 12 along with the separate variances o-f and o-� for experiment 1 and experiment 2.
+We get the whole covariance matrix V by adding the matrices ¼1 for each pair ( i, j) :
+
+  Covariance matrix
+    V = :E :E ¼j
+
+    Off the diagonal, this is equation (2) for the covariance o- 12. On the diagonal, we are
+getting the ordinary variances o-f and d. I will show in detail how we get V11 = o-f by
+using equation (6). Allowing all j just leaves the probability Pi ofxi in experiment 1 :
+
+       V11 =   L LPij(Xi - m1) = L (probability ofxi) (xi - m1) =a-r (8)
+                                      2                                          2
+
+               all i,j                     all i
+Please look at that twice . It is the key to producing the whole covariance matrix by
+one formula (7). The beauty of that formula is that it combines 2 by 2 matrices ¼1 .
+And the matrix ¼1 in (7) for each pair of outcomes i, j is positive semidefinite:
+
+¼1 has diagonal entries Pi 1 (xi-m1)2 2". 0 and Pi 1 (y1-m2 )2 2". 0 and             det(¼1) =0.
+12.2. Covariance Matrices and Joint Probabilities                                    549
+
+That matrix ¼j has rank 1. Equation (7) multiplies Pij times column U times row U T :
+
+
+                                                                                        (9)
+
+Every matrix UUT is positive semidefinite. So the whole matrix V (combining these
+matrices UUT with weights Pij � 0) is at least semidefinite-and probably Vis definite.
+
+ The covariance matrix V is positive definite unless the experiments are dependent.
+
+    Now we move from two variables x and y to M variables like age-height-weight.
+The output from each trial is a vector X with M components. (Each child has an age­
+height-weight vector with 3 components.) The covariance matrix V is now M by M.
+V is created from the output vectors X and their average X = E [X]
+
+                Covariance matrix          V = E [ (X - X) (X - X) T]                (10)
+
+
+
+Remember that XXT and XXT = (column) (row) are M by M matrices.
+    For M = l (one variable) you see that Xis the mean m and Vis 1J (Section 12.1).
+                                                                           2
+
+
+For M = 2 (two coins) you see that Xis (m 1 ,m 2) and V matches equation (10). The
+expectation E always adds up outputs times their probabilities. For age-height-weight
+the output could be X =(5 years, 31 inches, 48 pounds) and its probability is P5,31,48.
+    Now comes a new idea. Take any linear combination c X = c1 X1 + · · · + cMXM.
+                                                           T
+
+
+With c = (6, 2,5) this would be c X =6 (age)+ 2 (height)+ 5 (weight). By linearity
+                                     T
+
+
+we know that its expected value E [c T X] is c T E [X] =c T X :
+E [c T X] =c T E [X] =6 (expected age)+ 2 (expected height)+ 5 (expected weight).
+More than that, we also know the variance 1J of that number c T X:
+                                                    2
+
+
+
+
+                                                                       T
+             Variance of c T X=E [(c T X-c T X)(c T X-c T X) ]
+                                                               T                     (11)
+                                 =c T E [(X-X)(X-X) ]c=c T Vc!
+
+   Now the key point: The variance of c T X can never be negative. So c T Vc 2'. 0.
+The covariance matrix Vis therefore positive semidefinite by the energy test c T Vc 2'. 0.
+   Covariance matrices V open up the link between probability and linear algebra:
+V equals QAQT with eigenvalues A i � 0 and orthonormal eigenvectors q1 to qM.
+
+         Diagonalizing the covariance matrix means finding M independent
+         experiments as combinations of the original M experiments.
+550                                        Chapter 12. Linear Algebra in Probability & Statistics
+
+Confession I am not entirely happy with that proof based on cT V c ;:::: 0. The expectation
+symbol Eis burying the key idea of joint probability. Allow me to show directly that Vis
+positive semidefinite(at least for the age-height-weight example). The proof is simply that
+V is the sum of the joint probability Pahw of each combination (age, height, weight)
+
+
+
+                                                           l [                     l
+times the positive semidefinite matrix UUT . Here U is X - X :
+
+
+                                               age                  mean age
+ V=      L
+       all a,h,w
+                   Pahw u u
+                              T
+                                  with   U = [ hei�ht
+                                               weight
+                                                              -     mean hei�ht
+                                                                    mean weight
+                                                                                            (12)
+
+
+
+This is exactly like the 2 by 2 coin flip matrix V in equation(7). Now M = 3.
+   The value of the expectation symbol E is that it also allows pdf's(probability density
+functions like p(x, y, z) for continuous random variables x and y and z). If we allow all
+numbers as ages and heights and weights, instead of age i = 0, 1, 2, 3 ..., then we need
+p(x, y, z) instead of Pijk.The sums in this section of the book would all change to integrals.
+But we still have V = E [UUT ] :
+
+                                                                             [X -
+Covariance matrix V =         jjj   p(x, y, z) UU dx dy dz with U =
+                                                  T
+                                                                                 -Xi
+                                                                               y �
+                                                                               z-z
+                                                                                         . (13)
+
+
+
+Always   JJJ p = 1.Examples 1-2 emphasized how p can give diagonal Vor singular V:
+   Independent variables x, y, z         p(x, y, z) = P1 (x) P2(Y) p3(z).
+   Dependent variables x, y, z           p(x, y, z) = 0 except when ex+ dy + ez = 0.
+
+                                           The Mean and Variance of z = x + y
+Start with the sample mean. We have N samples of x. Their mean(= average) is mx.
+We also have N samples of y and their mean is my. The sample mean of z = x + y
+is clearly mz = mx + my :
+
+
+      Mean of sum = Sum of means                                                            (14)
+
+
+
+Nice to see something that simple. The expected mean of z = x + y doesn't look so
+simple, but it must come out as E[z] = E[x] + E[y]. Here is one way to see this.
+   The joint probability of the pair (Xi, yj) is Pij.Its value depends on whether the exper­
+iments are independent, which we don't know. But for the mean of the sum z = x + y,
+12.2. Covariance Matrices and Joint Probabilities                                      551
+
+dependence or independence of x and y doesn't matter. Expected values still add:
+
+            E[x + y] =    L LPi (Xi + Y ) = L LPi Xi + L LPi Y ·
+                                        j     j                j             j j       (15)
+                                j                          j             j
+All the sums go from 1 to N. We can add in any order. For the first term on the right side,
+add the Pij along row i of the probability matrix P to get Pi· That double sum gives E[x] :
+               LLPij Xi = L(Pil + · · · + PiN)Xi = LPiXi = E[x].
+                     j
+
+For the last term, add Pij down column j of the matrix to get the probability Pj of Yj.
+Those pairs (x1, Yj ) and (x2, Yj ) and ... and (xN, Yj ) are all the ways to produce Yj :
+               LLPij Yj = L(Pl j + ... + PNj )Yj = L Pj yj = E[y].
+                     j              j                              j
+    Now equation (15) says that E[x + y] = E[x] + E[y].
+    What about the variance of z = x + y? The joint probabilities Pij and the covariance
+CTxy will be involved. Let me separate the variance of x + y into three simple pieces:
+ u; = L LPij (Xi + Yj - m x - my ) 2
+    = L LPij (Xi - mx) 2 + L LPij (Yj - my ) 2 + 2 L LPij (Xi - m x ) (yj - my )
+   The first piece is u;. The second piece is u�. The last piece is 2urey.
+              The variance of z = x + y             is   u; = u; + ui + 2urey •        (16)
+
+                                             The Covariance Matrix for Z = AX
+Here is a good way to see u; when z = x + y. Think of (x, y) as a column vector X.
+Think of the 1 by 2 matrix A = [ 1 1 ] multiplying that vector X. Then AX is the sum
+z = x + y. The variance u; in equation (16) goes into matrix notation as
+
+                                                                       - AV A
+                                                                              T
+                                                          which is u z-
+                                                                     2
+                                                                                       (17)
+
+You can see that u; = AV AT in (17) agrees with u� + u� + 2uxy in (16).
+     Now for the main point. The vector X could have M components corning from M
+experiments (instead of only 2). Those experiments will have an M by M covariance
+matrix Vx. The matrix A could be K by M. Then AX is a vector with K combinations
+of the M outputs (instead of 1 combination x + y of 2 outputs).
+     That vector Z = AX of length K has a K by K covariance matrix V Then the     z.
+great rule for covariance matrices-of which equation (17) was only a 1 by 2 example­
+is this beautiful formula: Covariance matrix of AX is A (covariance matrix of X) AT :
+
+               The covariance matrix of Z = AX is Vz = AVX AT                          (18)
+
+To me, this neat formula shows the beauty of matrix multiplication. I won't prove this
+formula, just admire it. It is constantly used in applications-corning in Section 12.3.
+552                                         Chapter 12. Linear Algebra in Probability & Statistics
+
+                                                                        The Correlation p
+Correlation Pxy is closely related to covariance O"xy· They both measure dependence or
+independence. Start by rescaling or "standardizing" the random variables x and y
+The new X = x /a"' and Y = y / ay have variance ai = a-} = 1. This is just like
+dividing a vector v by its length to produce a unit vector v / I Iv 11 of length 1.
+    The correlation of x and y is the covariance of X and Y. If the original covariance
+of x and y was O"xy, then rescaling to X and Y will divide by O"x and O"y:
+
+                   Ux y                   X      y
+ Correlation Pxy = --     = covariance of - and -                    Always -1 � Pxy � 1
+                   Urr,Uy                 Ux    Uy
+
+Zero covariance gives zero correlation. Independent random variables produce Pxy = 0.
+    We know that always O"�Y     ::;:
+                                    O"�O"� (the covariance matrix V is at least positive
+semidefinite). Then p;,Y � 1. Correlation near p = + l means strong dependence in
+the same direction: often voting the same. Negative correlation means that y tends to be
+below its mean when x is above its mean: Voting in opposite directions.
+Example 3 Suppose that y is just -x. A coin flip has outputs x = 0 or 1. The same flip
+has outputs y = 0 or -1. The mean m x is ½ for a fair coin, and m y is      -½.
+                                                                           The covariance
+is O"xy = -O"xO"y. The correlation divides by O"xO"y to get Pxy = -1. In this case the
+correlation matrix R has determinant zero (singular and only semidefinite):
+
+
+  Correlation matrix    R- [      �
+                                 P y
+                                        P
+                                            ?   ]        R= [      1
+                                                                  -1
+                                                                        -1 ] wheny = -x
+                                                                           1
+
+R always has l's on the diagonal because we normalized to O"x = O"y = l. R is the
+correlation matrix for x and y, and the covariance matrix for X = x /O"x and Y = y/O"y.
+    That number Pxy is also called the Pearson coefficient.
+Example 4     Suppose the random variables x, y, z are independent. What matrix is R?
+Answer R is the identity matrix. All three correlations Pxx, Pyy, Pzz are 1 by definition.
+All three cross-correlations Pxy, Pxz, Pyz are zero by independence.
+   The correlation matrix R comes from the covariance matrix V, when we rescale every
+row and every column. Divide each row i and column i by the ith standard deviation O"i-
+  (a) R = DVD for the diagonal matrix D = diag [1/0" 1, ... , 1/ O"Af].
+  (b) If covariance V is positive definite, correlation R = DVD is also positive definite.
+12.2. Covariance Matrices and Joint Probabilities                                                 553
+
+                            • WORKED EXAMPLES                     •
+
+
+12.2 A    Suppose x and y are independent random variables with mean O and variance 1.
+Then the covariance matrix Vx for X = (x, y) is the 2 by 2 identity matrix. What are the
+mean mz and the covariance matrix Vz for the 3-component vector Z = (x, y, ax+by)?
+
+Solution
+
+
+                                                         l [� :][;]
+                                                    X
+    Z is connected to X by A                   y                                     =    AX.
+                                             ax+by
+The vector mx contains the means of the M components of X. The vector m z contains
+the means of the K components of Z = AX. The matrix connection between the means
+of X and Z has to be linear: mz = A mx. The mean of ax+by is amx + bmy .
+    The covariance matrix for Z is Vz = AAT , when Vx is the 2 by 2 identity matrix:
+
+                                                                                   0
+
+                                                                                                      l
+           covariance matrix for                          0
+ Vz                                                                                1    b
+           Z = (x,y,ax + by)
+      =
+                                                          1
+                                                                                   b a2 +
+                                                                                        a b
+                                                                                            2
+
+
+
+Interpretation: x and y are independent so axy = 0. Then the covariance of x with
+ax + by is a and the covariance of y with ax + by is b. Those just come from the two
+independent parts of ax+by. Finally, equation (18) gives the variance of ax+by:
+
+          Use Vz = AVxAT             aax +by = aax + aby + aax ,by = a + b
+                                       2            2     2   2                2      2
+                                                                                          + 0.
+The 3 by 3 matrix Vz is singular. Its determinant is a 2 + b 2 - a 2 - b 2 = 0. The third
+component z =ax+by is completely dependent on x and y. The rank of Vz is only 2.
+GPS Example The signal from a GPS satellite includes its departure time. The receiver
+clock gives the arrival time. The receiver multiplies the travel time by the speed of light.
+Then it knows the distance from that satellite. Distances from four or more satellites
+pinpoint the receiver position (using least squares !).
+    One problem: The speed of light changes in the ionosphere. But the correction
+will be almost the same for all nearby receivers. If one receiver stays in a known position,
+we can take differences from that position. Differential GPS reduces the error variance:
+
+ Difference matrix
+ A=[l -1]
+                        Covariance matrix
+                        Vz = AVxAT
+                                                    Vz   = [ 1 -1     l [ ar
+                                                                         a12               ][ ]  -�
+                                                         = uf - 2u12 + u�
+Errors in the speed of light are gone. Then centimeter positioning accuracy is achievable.
+(The key ideas are on page 320 of Algorithms for Global Positioning by Borre and Strang.)
+The GPS world is all about time and space and amazing accuracy.
+554                                      Chapter 12. Linear Algebra in Probability & Statistics
+
+
+Problem Set 12.2
+1      (a) Compute the variance a-2 when the coin flip probabilities are p and 1 - p
+           (tails=0, heads= 1).
+       (b) The sum of N independent flips (0 or 1) is the count of heads after N tries.
+           The rule (16-17-18) for the variance of a sum gives a-2 = __ .
+2     What is the covariance O"kz between the results x1, ..., Xn of Experiment 3 and the
+      results y1, ..., Yn of Experiment 5? Your formula will look like a-12 in equation (2).
+      Then the ( 3, 5) and (5, 3) entries of the covariance matrix V are a-35 = a-53.
+3     For M = 3 experiments, the variance-covariance matrix V will be 3 by 3. There
+      will be a probability Pijk that the three outputs are Xi and Yj and Zk- Write down a
+      formula like equation (7) for the matrix V.
+4     What is the covariance matrix V for M = 3 independent experiments with means
+      m1, m2 , m3 and variances a-r, (T�, O"§ ?
+Problems 5-9 are about the conditional probability that Y = y3 when we know X = Xi.
+Notation: Prob (Y = y3 IX = xi) =probability of the outcome Yj given that X= Xi.
+
+Example 1 Coin 1 is glued to coin 2. Then Prob (Y = heads when X = heads) is 1.
+Example 2 Independent coin flips : X gives no information about Y. Useless to know X.
+    ThenProb (Y=heads IX=heads) is the same asProb (Y = heads).
+5     Explain the sum rule of conditional probability :
+            Prob(Y = Yj) = sum over all outputs xi ofProb(Y=YjlX= Xi)-
+6     Then byn matrix P contains joint probabilities Pij =Prob(X=Xi and Y= Yj).
+                                                                          p'·1           Pi1·
+      Explain why the conditionalProb (Y= Yj IX = xi) equals
+                                                                    Pi1 + · · · + Pin    Pi
+7     For this joint probability matrix withProb(x1, y2)=0.3, findProb (Y2 lx1) andProb (x1).
+
+             p = [ P11 P12 ] = [ 0.1 0.3 ]                The entries Pij add to 1.
+                   P21 P22       0.2 0.4                  Some i, j must happen.
+8     Explain the product rule of conditional probability:
+      Pij =Prob(X = Xi and Y=Yj) equalsProb(Y= YjlX= Xi) timesProb(X= Xi)-
+
+9     Derive this Bayes Theorem for Pij from the product rule inProblem 8:
+
+                                  Prob(X=xilY=yj)Prob(Y=yj)
+                          - x,·)_
+                 - y1 andX-
+           Prob(y-.             -
+                                         Prob (X =xi)
+
+      "Bayesians" use prior information. "Frequentists" only use sampling information.
+12.3. Multivariate Gaussian and Weighted Least Squares                                      555
+
+12.3      Multivariate Gaussian and Weighted Least Squares
+The normal probability density p(x) (the Gaussian) depends on only two numbers:
+
+        Mean m and variance a- 2                                                             (1)
+
+The graph of p(x) is a bell-shaped curve centered at x = m. The continuous variable x
+                                                                      i,
+can be anywhere between -oo and oo. With probability close to that random x will lie
+between m - r, and m + r, (less than one standard deviation r, from its mean value m).
+
+
+        J00
+
+              p(x)dx = 1     and        J
+                                      m+u
+                                              p(x)dx = �         J1
+                                                                      e-X 1 2 dX:::::; �-
+                                                                            2
+                                                                                             (2 )
+       -oo                           m-u                        -1
+
+That integral has a change of variables from x to X       ( x - m) / r,. This simplifies the
+exponent to -X / 2 and it simplifies the limits of integration to -1 and 1. Even the 1 / r,
+                 2
+
+
+from p disappears outside the integral because dX equals dx / r,. Every Gaussian turns
+into a standard Gaussian p(X) with mean m = 0 and variance r, = 1 . Just call it p(x):
+                                                                      2
+
+
+
+
+                                                                 1
+                                                     has p(x) = -- e-x / 2.
+                                                                      2
+   The standard normal distribution N(O, 1)                                                  (3)
+                                                                          v'2rr
+Integrating p(x) from -oo to x gives the cumulative distribution F(x): the probability
+that a random sample is below x. That probability will be F = ½ at x = 0 (the mean).
+
+                                                         Two-dimensional Gaussians
+Now we have M = 2 Gaussian random variables x and y. They have means m 1 and m2.
+They have variances <5f and <5§. If they are independent, then their probability density
+p(x, y) is just p 1 ( x) times p 2 (y). Multiply probabilities when variables are independent:
+
+Independent x and y
+
+The covariance of x and y will be a- 12 = 0. The covariance matrix V will be diago­
+nal. The variances <5f and <5§ are always on the main diagonal of V. The exponent in
+p(x, y) is just the sum of the x-exponent and they-exponent. Good to notice that the two
+exponents can be combined into -½ (x - m? v- 1 ( x - m) with v- 1 in the middle:
+
+
+                                                                                             (5)
+556                                        Chapter 12. Linear Algebra in Probability & Statistics
+
+                                                            Non-independent x and y
+We are ready to give up independence. The exponent (5) with v- 1 is still correct when Vis
+no longer a diagonal matrix. Now the Gaussian depends on a vector m and a matrix V.
+     When M = 2, the first variable x may give partial information about the second
+variable y (and vice versa). Maybe part of y is decided by x and part is truly independent.
+It is the M by M covariance matrix V that accounts for dependencies between the M
+variables x = x 1, ... , XM. Its inverse v- 1 goes into p(x):
+
+Multivariate Gaussian
+probability distribution
+
+The vectors x = (x 1, ... , x M) and m = (m 1, ... , mM) contain the random variables and
+their means. The M square roots of 21r and the determinant of V are included to make the
+total probability equal to 1. Let me check that by linear algebra. I use the eigenvalues >. and
+orthonormal eigenvectors q of the symmetric matrix V = QAQT . So v- 1 = QA- 1 Q T :
+      X=x-m
+Notice! The combinations Y = Q T X = QT ( x - m) are statistically independent.
+Their covariance matrix A is diagonal.
+    This step of diagonalizing V by its eigenvector matrix Q is the same as "uncorrelating"
+the random variables. Covariances are zero for the new variables X1, ... Xm. This is the
+point where linear algebra helps calculus to compute multidimensional integrals.
+    The integral of p(x) is not changed when we center the variable x by subtracting m
+to reach X, and rotate that variable to reach Y = Q T X. The matrix A is diagonal!
+
+
+                                      (l                            (l
+So the integral we want splits into M separate one-dimensional integrals that we know:
+
+ j     j e_y r
+            T  1Y
+                 f2dY �                     ,-yl/2>., dy,) ...            e-Y/.,/ 2>.M dyM)
+
+                    = ( �) ... ( J21r>.M) = ( �) M v'detV.                                   (7)
+The determinant of V (also the determinant of A) is the product (>- 1 ) ... (>.M) of
+the eigenvalues. Then (7) gives the correct number to divide by so that p(x 1 , ... , x M)
+in equation (6) has integral= 1 as desired.
+    The mean and variance of p(x) are also M-dimensional integrals. The same idea of
+diagonalizing V by its eigenvectors and introducing Y = Q T X will find those integrals:
+
+         Vector m of means              J ... J   xp(x) dx = (m1,m2,...) = m                 (8)
+
+         Covariance matrix V            J ... J   (x - m)p(x)(x - m) T dx         = V.       (9)
+
+Conclusion: Formula (6) for the probability density p(x) has all the properties we want.
+12.3. Multivariate Gaussian and Weighted Least Squares                                         557
+
+                                                              Weighted Least Squares
+In Chapter 4, least squares started from an unsolvable system Ax = b. We chose to              x
+minimize the error 11 b - Ax I I . That led us to the least squares equation AT Ax = AT b.
+                                2
+
+
+The best Ax is the projection of b onto the column space of A. But is this squared
+distance E = 11 b - Ax11 the right error measure to minimize ?
+                            2
+
+
+
+    If the measurement errors in b are independent random variables, with mean m = 0
+and variance CJ 2 = 1 and a normal distribution, Gauss would say yes: Use least squares.
+If the errors are not independent or their variances are not equal. Gauss would say no :
+Use weighted least squares. This section will show that the good measure of error is
+E = ( b - Ax) Ty-1 ( b - Ax). The equation for the best x uses the covariance matrix V :
+
+
+              Weighted least squares                                                           (10)
+
+
+     The most important examples have m independent errors in b. Those errors have
+variances CJi, ..., CJ;,.By independence, V is a diagonal matrix. The good weights
+             CJ;,
+1/ CJi, ..., 1/   come from v- 1. We are weighting the errors in b to have variance = 1 :
+
+
+           Weighted least squares
+                                           Minimize E =
+                                                             f, (b -:x);                       (11)
+           Independent errors in b                           i=l           (Ji
+
+
+By weighting the errors, we are "whitening" the noise. White noise is a quick description
+of independent errors based on the standard Gaussian N (0, 1) with mean zero and CJ = 1.   2
+
+
+
+    Let me write down the steps to equations (10) and (11) for the best          x:
+Start with Ax = b (m equations, n unknowns, m > n, no solution)
+Each right side bi has mean zero and variance   er;. The bi are independent.
+Divide the ith equation by CJi to have variance = 1 for every bi/ CJi
+That division turns Ax = b into v- 1/2 Ax =     v- 1 ! 2 b with v-   1 2
+                                                                = diag (1/ CJ 1, ... , 1/ Cim )
+                                                                      /
+
+                                                              1 2
+Ordinary least squares on those weighted equations has A--+ v- 1 A and b--+        1 2
+                                                                                      v-
+                                                                                    1 b
+
+
+
+
+Because of 1/ CJ 2 in v- 1, more reliable equations (smaller CI) get heavier weights. This is
+the main point of weighted least squares.
+    Those diagonal weightings (uncoupled equations) are the most frequent and the sim­
+plest. They apply to independent errors in the b i . When these measurement errors are not
+independent, Vis no longer diagonal-but (12) is still the correct weighted equation.
+    In practice, finding all the covariances can be serious work. Diagonal V is simpler.
+558                                          Chapter 12. Linear Algebra in Probability & Statistics
+
+                                                          The Variance in the Estimated             x
+                                                                        x
+One more point: Often the important question is not the best for one particular set of
+measurements b. This is only one sample ! The real goal is to know the reliability of the
+whole experiment. That is measured (as reliability always is) by the variance in the
+estimate    x.
+             First, zero mean in b gives zero mean in            x.
+                                                            Then the formula connecting
+variance V in the inputs b to variance W in the outputs x turns out to be beautiful:
+
+Variance-covariance matrixWforx                E[(x-x)(x-x?] = (A T V- 1A)- 1. (13)
+
+That smallest possible variance comes from the best possible weighting, which is v- 1.
+    This key formula is a perfect application of Section 12.2. If b has covariance matrix
+            x
+ V, then = Lb has covariance matrix LV L T . Equation (12) above tells us that Lis
+(AT v- 1 A)- 1 A T v- 1. Now substitute this into LV LT and watch equation (13) appear:
+
+
+
+   This is the covariance W of the output, our best estimate          x. It is time for examples.
+Example 1           Suppose a doctor measures your heart rate x three times (m = 3, n = 1):
+
+
+
+                         is   Ax = b with   A=
+                                                  [   il
+                                                      1
+                                                              and     V=    [   i
+                                                                                0" 2   0
+                                                                                       a§
+                                                                                       0
+
+The variances could be af - / 9 and a§ = 1 / 4 and a� = 1. You are getting more nervous
+as measurements are taken: ; is less reliable than b2 and b i . All three measurements
+contain some information, so they all go into the best (weighted) estimate             x:
+                                      3x= 3b1
+    v- 1 ! 2 Ax= v- 1! 2 b is         2x = 2b2        leading to AT v- 1 Ax= AT v- 1 b
+                                      Ix= lb3
+
+      [ 1       1                                      [ 1   1
+
+
+
+
+                    X=                      is a weighted average of b 1 , b 2 , b3
+12.3. Multivariate Gaussian and Weighted Least Squares                                        559
+
+Most weight is on b1 since its variance o-1 is smallest. The variance of    x has the beautiful
+formula W = (AT v- 1 A)- 1 = 1/14:
+
+
+
+
+                                 'T ,][:Jr
+                             1
+Variance of   x                             4
+                                                                      1
+                                                                     14
+                                                                            is smaller than
+                                                                                                1
+                                                                                                9
+
+    The BLUE theorem of Gauss (proved on the website) says that our x = Lb is the best
+linear unbiased estimate of the solution to Ax = b. Any other unbiased choice x* = L* b
+has greater variance than x. All unbiased choices have L* A = I so that an exact Ax = b
+will produce the right answer x = L * b = L * Ax.
+Note. I must add that there are reasons not to minimize squared errors in the first place.
+                      x
+One reason : This often has many small components. The squares of small numbers
+are very small, and they appear when we minimize. It is easier to make sense of sparse
+vectors-only a few nonzeros. Statisticians often prefer to minimize unsquared errors:
+the sum of l(b - Ax)il- This error measure is L 1 instead of L 2 . Because of the
+                                     x
+absolute values, the equation for becomes nonlinear (it is actually piecewise linear).
+                                                  x
+    Fast new algorithms are computing a sparse quickly and the future may belong to L 1 .
+
+                                                                         The Kalman Filter
+The "Kalman filter" is the great algorithm in dynamic least squares. That word dynamic
+means that new measurements b k keep coming. So the best estimate Xk keeps changing
+                                                                                         x
+(based on all of bo , ... , b k ). More than that, the matrix A is also changing. So 2 will be
+our best least squares estimate of the latest solution x k to the whole history of observation
+equations and update equations (state equations) up to time 2:
+    A o xo = bo                                                                               (14)
+The Kalman idea is to introduce one equation at a time. There will be errors in each
+equation. With every new equation, we update the best estimate X k for the current X k . But
+history is not forgotten! This new estimate X k uses all the past observations b 0 to b k -I and
+all the state equations X new = Fold X o!d· A large and growing least squares problem.
+     One more important point. Each least squares equation is weighted using the
+covariance matrix Vi for the error in b k . There is even a covariance matrix Ck for
+                                                           x
+errors in the update equations X k +I = Fk X k - The best 2 then depends on b0 , b 1 , b2 and
+Vo , Vi, Vi and C1, C2. The good way to write X k is as an update to the previous X k-l·
+     Let me concentrate on a simplified problem, without the matrices Fk and the covari­
+ances Ck . We are estimating the same true x at every step. How do we get 1 from x0 ?x
+OLD     Ao x o = bo leads to the weighted equation AJ' v0-1 Ao     x = AJ' v0 b .
+                                                                     0              -
+                                                                                     1
+                                                                                         0    (15)
+
+NEW [ ��]      x = [ :�] leads to the following weighted equation for x
+                  1                                                           1 :
+560                                             Chapter 12. Linear Algebra in Probability & Statistics
+
+
+
+
+          [ AJ                                             [ AJ
+
+
+Yes, we could just solve that new problem and forget the old one. But the old solution               x0
+                                        x
+needed work that we hope to reuse in 1. What we look for is an update to 0 :                x
+          Kalman update gives      x from xo
+                                    1                                                               (17)
+
+                                                          x
+   The update correction is the mismatch b1 -A1 0 between the old state 0 and the new       x
+measurements b1 -multiplied by the Kalman gain matrix K1. The formula for K1 comes
+                               x        x
+from comparing the solutions 1 and 0 to (15) and (16). And when we update o to 1                x    x
+based on new data b 1 , we also update the covariance matrix W0 to W1 . Remember
+Wo = (AJ v0-1 Ao)- 1 from equation (13). Update its inverse to w1-1:
+
+
+       Covariance W1 of errors in       x   1        wl- l = Wo- l + AI vl- l A 1                   (18)
+            Kalman gain matrix K1                    Ki = W1       v1- 1
+                                                                  AI                                (19)
+
+This is the heart of the Kalman filter. Notice the importance of the Wk. Those matrices
+measure the reliability of the whole process, where the vector X k estimates the current state
+based on the particular measurements bo to bk.
+   Whole chapters and whole books are written to explain the dynamic Kalman filter,
+when the states Xk are also changing (based on the matrices Fk)- There is a prediction of
+Xk using F, followed by a correction using the new data b. Perhaps best to stop here.
+   This page was about recursive least squares: adding new data bk and updating both
+x and W : the best current estimate based on all the data, and its covariance matrix.
+
+
+Problem Set 12.3
+1     Two measurements of the same variable x give two equations x = b1 and x = b2.
+      Suppose the means are zero and the variances are o-f and o-�, with independent
+      errors: V is diagonal with entries o-f and o-�. Write the two equations as Ax = b
+      (A is 2 by 1). As in the text Example 1, find this best estimate x based on b1 and b2 :
+                                                                                      )-1
+                                                                       1        1
+                                                     E [��T
+                                                        xx ] = (            +   (l�
+                                                                      o-r
+2       (a) In Problem 1, suppose the second measurement b2 becomes super-exact and its
+            variance o-2 -+ 0. What is the best estimate x when o-2 reaches zero?
+       (b) The opposite case has o-2 -+ oo and no information in b2. What is now the best
+                     x
+           estimate based on bi and b2 ?
+12.3. Multivariate Gaussian and Weighted Least Squares                                        561
+
+3    If x and y are independent with probabilities p1 ( x) and p 2 (y), then p(x, y) =
+     p1 ( x) p 2 (y). By separating double integrals into products of single integrals
+     (-oo to oo) show that
+
+
+         jjp(x,y)dxdy=l                 and      jJ +  (x       y)p(x,y)dxdy = rn1 + rn2.
+
+
+4     Continue Problem 3 for independent x, y to show thatp( x, y) = p1 ( x) p 2 (y) has
+
+        JJ   (x - mi)2p(x,y)dxdy =        O"i   jj   (x - m1)(y - m2 )p(x,y)dxdy = 0.
+
+      So the 2 by 2 covariance matrix V is diagonal and its entries are -� .
+5     Show that the inverse of a 2 by 2 covariance matrix V is
+                                    1
+                        0"12                                                 with correlation
+                           2
+                         0'2                                                 p = 0"12 / 0"10"2 ·
+                               l-
+
+
+      This produces the exponent -( x - rn)T v- 1 ( x - rn) in a 2-variable Gaussian.
+
+6     Suppose Xk is the average of b 1, ..., bk. A new measurement bk+l arrives and we
+                               x
+      want the new average k+ 1. The Kalman update equation (17) is
+                      New average         Xk+l = Xk + --- ( bk+l - Xk)
+                                          �        �            1            �
+                                                            k   +1
+      Verify that Xk+l is the correct average of b1 ..., bk+l·
+7     Also check the update equation (18) for the variance Wk+l = 0" 2 /(k + 1) of this
+      average x assuming that Wk = 0' 2 / k and bk+ 1 has variance V = 0' 2 .
+8     (Steady model) Problems 6-7 were static least squares. All the sample averages
+      Xk were estimates of the same x. To make the Kalman filter dynamic, include also
+      a state equation Xk+l = Fxk with its own error variance s2 . The dynamic least
+      squares problem allows x to "drift" as k increases :
+
+
+
+                  [ ) :] [ :: ] [ ! ]                       "°lh variances   [ ;: ]
+      With F = l, divide both sides of those three equations by O", s, and O". Find Xo
+      and Xi by least squares, which gives more weight to the recent b 1. The Kalman
+      filter is developed in Algorithms for Global Positioning (Borre and Strang, Wellesley­
+      Cambridge Press).
+562                                       Chapter 12. Linear Algebra in Probability & Statistics
+
+                                             Change in A-1 from a Change in A
+This final page connects the beginning of the book (inverses and rank one matrices) with
+the end of the book (dynamic least squares and filters). Begin with this basic formula:
+                                                                        uv T
+              The inverse of M = I-uvT is M- 1 =I+
+                                                                       1-vTu
+                                               uv T
+The quickest proof is MM- 1 =I-uv T + (1-uvT)        = I-uvT + uvT =I.
+                                             l-v T u
+M is not invertible ifv Tu=l(thenMu=O).Herev T =u T = [1 1 1):
+
+      Example The inverse of M= I- [       i111i i ] is M- = I+ -1-
+                                                             1    1
+                                                                    - [ i i i ]
+                                                                     3 111
+   But we don't always start from the identity matrix. Many applications need to invert
+M = A-uv T. After we solve Ax =b we expect a rank one change to give My=b.
+The division by1-vTu above will become a division by c =1-vT A- 1u =l-vT z.
+
+                    Step 1 Solve Az= u and compute c=1- v T z.
+                                                                   T
+                                                                 V X
+                    Step 2      If c =/= 0 thenM- 1b is y = x + -- z.
+
+Suppose A is easy to work with. A might already be factored into LU by elimination.
+Then this Sherman-Woodbury-Morrison formula is the fast way to solve My = b.
+Here are three problems to end the book !
+9     TakeStepsl-2tofindywhenA=Jand u T =v T =[ l2 3] andbT=[21 4].
+
+10
+                                                                    v x
+      Step2 in this "update formula" claims that My = (A-uv T ) (x + :                z) =b.
+                           T
+                         uv x
+      Simplify this to          [1- c-v T z]= 0. This is true since c =1-v T z.
+                          C
+
+11     When A has a new row v T , AT A in the least squares equation changes to M :
+           M= [ AT v ] [ :T ] = A TA + vv T= rank one change in AT A.
+      Why is that multiplication correct? The updated Xnew comes from Steps1 and2.
+For reference here are four formulas for M- 1. The first two were given above, when the
+change was uvT . Formulas 3 and 4 go beyond rank one to allow matrices U, V, W.
+   1 M = I-uv T                and M- 1= J + uvT /(1-vTu) (ranklchange)
+   2 M=A-uv         T          and M- 1=A- 1 + A- 1uvT A- 1 /(1-vT A- 1u)
+  3 M = I- UV                  and M- 1 = In + U(Lm- VU)- 1 V
+  4 M =A- uw- v and M- 1=A- 1 + A- 1 U(W- V A- 1 u)- 1 VA- 1
+                         1
+
+
+Formula 4 is the "matrix inversion lemma" in engineering. Not seen until now !
+The Kalman filter for solving block tridiagonal systems uses formula 4 at each step.
+MATRIX FACTORIZATIONS
+
+              I wer tn · an �ularL      _upper triang �lar U
+l. A= LU = ( �                     ) (                        )
+             1 s on the diagona1       pivots on the diagona1
+     Requirements: No row exchanges as Gaussian elimination reduces square A to U.
+
+               l wer trian �ularL     pi:'ot �atrix    u per tn ·an �ular u
+2_ A = LDU = ( �                    (                ( �                    )
+               1 s on the diagona1 ) D 1s diagona1 )   1 s on the diagona1
+     Requirements: No row exchanges. The pivots in D are divided out to leave 1 's on
+     the diagonal of U. If A is symmetric then U isL T and A = LDL T .
+
+3.   PA = LU (permutation matrix P to avoid zeros in the pivot positions).
+     Requirements: A is invertible. Then P, L, U are invertible. P does all of the
+     row exchanges on Ain advance, to allow normalLU. Alternative: A =L 1 PiU1.
+
+4.   EA= R (m by m invertible E) (any m by n matrix A)= rref(A).
+     Requirements: None! The reduced row echelon form R has r pivot rows and pivot
+     columns, containing the identity matrix. The last m - r rows of E are a basis for
+     the left nullspace of A; they multiply A to give m - r zero rows in R. The first r
+     columns of E- 1 are a basis for the column space of A.
+
+5.   S = C T C = (lower triangular) (upper triangular) with v15 on both diagonals
+     Requirements: Sis symmetric and positive definite (all n pivots in Dare positive).
+     This Choleskyfactorization C = chol(S) has c T =Lv15, sos= cT c =LDL T .
+
+6.   A= QR= (orthonormal columns in Q) (upper triangular R).
+     Requirements: A has independent columns. Those are orthogonalized in Q by the
+     Gram-Schmidt or Householder process. If Ais square then Q- 1 = Q T .
+
+7. A = X Ax- 1 = (eigenvectors in X) (eigenvalues in A) (left eigenvectors in x- 1 ).
+     Requirements: Amust have n linearly independent eigenvectors.
+
+8.   S = QAQ T = (orthogonal matrix Q) (real eigenvalue matrix A) (QT is Q-1 ).
+     Requirements: Sis real and symmetric: ST = S. This is the Spectral Theorem.
+
+                                        563
+564                                                                       Matrix Factorizations
+
+ 9.   A= BJ B- 1 = (generalized eigenvectors in B) (Jordan blocks in J) (B-1 ).
+      Requirements: A is any square matrix. This Jordan form J has a block for each
+      independent eigenvector of A. Every block has only one eigenvalue.
+                 or hogonal    mxn singular val�e matrix           ort?ogonal
+ 10. A= U:EVT = ( :         )(                     _            )(            ).
+                 U 1s mxm       o- 1, ... , O-r on its diagonal    V 1s nxn
+      Requirements: None. This Singular Value Decomposition (SVD) has the eigenvec­
+      tors of AAT in U and eigenvectors of AT A in V; o-i= J>.i(AT A)= J>.i(AAT ).
+      Those singular values are o- 1 2: o- 2 2: · · · 2: O-r > 0. By column-row multiplication
+                           A= U:EVT = CJ1U1V1T + · · · + 0-rUrVrT .
+     If S is symmetric positive definite then U= V= Q and I:= A and S= QAQ T.
+ ll. A+= V:E+uT = (orthogonal) ( nxm pseudoinver�e of I: ) (orthogonal).
+                              nxn           1 / o- 1, ... ,1 / o- r on diagonal mxm
+      Requirements: None. The pseudoinverse A + has          = projection onto row space
+      of A and AA + = projection onto column space. A+ = A-1 if A is invertible. The
+      shortest least-squares solution to Ax = b is x +=A + b. This solves AT Ax +=AT b.
+
+ 12. A= QS= (orthogonal matrix Q) (symmetric positive definite matrix S).
+      Requirements: A is invertible. This polar decomposition has S2 = AT A. The
+      factor S is semidefinite if A is singular. The reverse polar decomposition A = K Q
+      has K 2 = AAT . Both have Q = uv T from the SVD.
+
+ 13. A= u Au- 1 = (unitary U) (eigenvalue matrix A)            cu- which is U = U ).
+                                                                   1            H      T
+
+
+      Requirements: A is normal: A H A= AAH . Its orthonormal (and possibly complex)
+      eigenvectors are the columns of U. Complex ,\.'s unless S = S H : Hermitian case.
+
+ 14. A= QTQ-1 = (unitary Q) (triangular T with Xs on diagonal) (Q-1 = QH ).
+      Requirements: Schur triangularization of any square A. There is a matrix Q with
+      orthonormal columns that makes Q-1 AQ triangular: Section 6.4.
+                                                 even-odd                           .
+                                          ] [           . ] = one step of the recursive FFT.
+                                   Fn/2         permutat10n
+      Requirements: Fn = Fourier matrix with entlies wjk where wn = 1: Fn F n = nI.
+      D has 1, w, ... , wn / 2 - 1 on its diagonal. For n = 2 £ the Fast Fourier Transform
+      will compute Fnx with only ½nR= ½n log 2 n multiplications from .e stages of D's.
+Index
+
+A                                     Block determinants,270
+Absolute value,430,433,436            Block elimination,75,117
+Add angles,434                        Block factorization,117
+Add vectors,2,3                       Block matrix,74,96,400,509
+Adjacency matrix,76                   Block multiplication,74,81
+Adjoint,439                           BLUE theorem,559
+Affine,402,410,497,498                BlueGene,509
+All combinations,5,130                Boundary conditions,462
+Angle,11,14,15                        Bowl,361
+Antisymmetric matrix, 122,328,349     Box,278,285
+Applied mathematics,455,468           Breakdown,47,51
+Area,276,277,284                      Butterflies in FFT,449
+Arnoldi iteration,531,533
+                                      C
+Arrow,3,4
+Associative law,61,73,82              Calculus,24,25,122,221,257,270,
+                                                286,404,405
+Augmented matrix,58,63,86,134,150
+                                      Cauchy-Binet,287
+Average value,231,493
+                                      Cayley-Hamilton Theorem,317
+Axes of ellipse,355.392
+                                      Center the data,382,391
+B                                     Centered difference,25,28
+Back substitution,34,46,50            Central Limit Theorem,539,541,542
+Backslash,102                         Change of basis matrix,174,412,419
+Backward difference,325               Change signs,249
+Balance equation,189,455,468          Characteristic polynomial,292
+Band matrix,52,101,102,512            Chebyshev basis,427,428
+Basis,164,168,170,200,403             Chemical engineering,473
+Bayes Theorem,554                     Chemistry,461
+Bell-shaped curve,539,555             Chess matrix,193
+Bidiagonal matrix,377,512             Cholesky,353,360
+Big formula,248,258,260,261,266       Circulant matrix,363,425
+Big Picture,149,184,197,199,222       Civil engineering,462
+Binomial,541,542,545                  Clock,9
+Bit-reversed order,450,451            Closest line,219,223,229,383
+Bits per second,365                   Code,240,245,504
+Black-Scholes,473                     Coefficient matrix,33,36
+
+                                    565
+566                                                                        Index
+
+Cofactor,263,264,267                    Comer submatrix,259
+Cofactor matrix,275,284                 Correlation matrix,384,552
+Coin flip,536,541,543,546,554           Cosine,11,15,16,17,490
+Column at a time,22,38                  Cosine Law,20
+Column picture,31,32,34,36              Cosine matrix,336,344
+Column rank,150,152                     Cost vector,483,484
+Column space,127,156,182                Counting Theorem,142,179,185,404
+Column vector,4,123                     Covariance,383,546,547
+Columns times rows,65,72,140,147        Covariance matrix,230,547,549,553,556
+Combination (linear),9                  Cramer's Rule,273,274,282,283
+Combination of basis vectors,168        Cross product,279,280
+Combination of columns,22,127           Cryptography,502,503,505,507
+Combination of eigenvectors,310,321     Cube,8,10,501
+Commutative law,61                      Cumulative distribution,537,540
+Commuting matrices,317                  Current Law (Kirchhoff),145,455,456
+Companion matrix,301,322                Cyclic,25,30,425
+Complement,197,207                      Cyclic matrix,363
+Complete graph,453,461                  D
+Complete solution,151,153,154,463       Data matrix,382
+Complex conjugate,341,430,432,436       Delta function,492,495
+Complex eigenvalues,341                 Dense matrix,101
+Complex inner product,426               Dependent,27,164,165,175
+Complex number,430,431                  Dependent columns,225,354,396
+Complex plane,431,432                   Derivative,122,404,413
+Complex symmetry,346                    Determinant,84,87,115,247,249,352
+Components,2                            Determinant of A - >.I,292,293
+Compression,365,368                     Determinant of AT and A - l and AB, 252
+Computational science,472,473           Diagonal matrix,84,304,384
+Computer graphics,402,496               Diagonalizable,311,327
+Condition number,379,509,520,521,522    Diagonalization,304,305,339,371
+Conditional probability,554             Diagonally dominant,89,297
+Conductance,458                         Difference coding,365
+Conductance matrix,469                  Difference equation,310,323
+Confounding,385                         Difference matrix,23,90,96,108
+Congruent,349,502                       Differential equation,319,337,422,462
+Conjugate gradient method,509,528,533   Diffusion,473
+Conjugate transpose,438,439             Dimension,141,164,171,181,184,201
+Conservation,455                        Discrete Fourier Transform (DFT),344,
+Constant coefficients,319,322                     424,435,442
+Constant diagonals,425                  Distance to subspace,213
+Constraint, 483                         Domain,402
+Consumption matrix,478,479,480          Dot product,11,15,17,23,71,111
+Convergence,480,525                     Dot product matrix,223,426
+Corner,484,486                          Double angle,415,434
+Index                                                                   567
+
+Dual problem,485,489                  Exponential matrix,326,331
+Duality,485,486                       Exponential series,327,334
+Dynamic least squares,559             Exponential solution,319,320
+E                                     F
+Echelon matrix,138                    Face recognition,386
+Economics,479,482                     Face space,386,387
+Edges,365                             Factorial,113,543
+Eigenfaces,386                        Factorization,97,99,104,121,147,448
+Eigenvalue,248,288,289,292            Failure of elimination,49,53
+Eigenvalue computations,377,530       False proof,346
+Eigenvalue instability,375            Fast Fourier Transform,424,445,448
+Eigenvalue matrix A,304,314           Favorite matrix,86,264,357
+Eigenvalues of A- 1, 299              Feasible set,483,484
+Eigenvalues of AT A,378               Fermat's Last Theorem,502
+Eigenvalues of A2, 289,304            Fibonacci,265,268,271,287,308,315,380
+Eigenvalues of AB, 295,318            Field,502,505,506
+Eigenvalues of e At ,328              Fill-in,513,527
+Eigenvalues of permutation,302        Finite element,473
+Eigenvector,288,289                   First order system,333
+Eigenvector basis,416,421             Fixed-free,466,467,470
+Eigenvector matrix X, 304,314         Flag,366,369,370
+Eigenvector of AT A,380               Flip across diagonal,111
+Eight vector space rules,131          Flows in networks,456
+Eigshow,303,380                       Formula for JT, 493
+Einstein, 59                          Formula for A-1,275
+Elementary matrix,60                  Forward difference,30,463
+Elimination,46,99,149,250,511         Forward Euler,324
+Elimination matrix,28,58,60,61,97     Forward substitution,56
+Ellipse, 354,356,381,392,399,410      Four Fundamental Subspaces,181,184,196,
+Encryption,505                                  371,443
+Energy,351,352                        Four numbers determine A, 400
+Engineering,462,463,465,466,468,470   Four possible ranks,155,161
+Enigma, 504                           Fourier coefficient,427,493
+Entry,37,59,70                        Fourier matrix,421,424,425,442,446
+Equal rows,250,275                    Fourier series,427,429,491,493
+Error, 208,220,525                    Framework for applications,467
+Error equation,520,524,526            Fredholm Alternative,202
+Euler's formula,434,456,460           Free column,137,138,140
+Even permutation,118,248,267          Free variables,48,138,151
+Even-odd permutation,448              Frequency space,445,447
+Exascale,509                          Frobenius,518
+Exchange equations,49,508             Full column rank,153,160,166
+Existence of solution,151,154,200     Full row rank,154
+Expected value,536,544,545,548        Function space,172,178,421,426,491,492
+568                                                                       Index
+
+Functions,122,124                        Hessenberg matrix,265,530,534
+Fundamental Theorem of Algebra,445       Hessian matrix,356
+Fundamental Theorem of Calculus,405      High Definition TV,365
+Fundamental Theorem of Linear Algebra,   Hilbert matrix,95,257,357,368,426,516
+         181,185,198                     Hilbert space,490,492,493
+                                         Hill Cipher,504,505
+G
+                                         HITS algorithm,388
+Gain matrix,560
+                                         Homogeneous coordinates,496,497,500
+Galileo,226
+                                         Homogeneous solution,159
+Gambling,485
+                                         Hooke's Law,467,468
+Gauss,51,557,559
+                                         House matrix,406,409
+Gauss-Jordan,86,87,94,149,161
+                                         Householder,241,513,515
+Gauss-Seidel method,524,526,527,531
+                                         Hypercube,285
+Gaussian,540,542,555
+                                         Hyperplane,33,232
+Gaussian elimination,51,508
+General (complete) solution,159
+Generalized eigenvector,421,422          Identity matrix,37
+Geometric mean,16                        Ill-conditioned,516
+Geometric series,479                     Image processing,364
+Geometry of A = UI;V T ,392              Imaginary eigenvalues,294
+Gershgorin circles,297                   Incidence matrix,186,452,456,459
+Giles,543,544                            Incomplete LU, 524
+Givens rotation,514,517                  Independent columns,153
+Glued coins,546,547,548,554              Independent eigenvectors,305,306
+GMRES, 528                               Independent random variables,555,557
+Golden mean,309                          Independent vectors,27,164,547
+Golub-Van Loan,528                       Infinite dimensions,490
+Google,387,477                           Inner product,11,111,122,426,439,491
+GPS,553                                  Input basis,411,412,421
+GPU, 509                                 Integral,404,413,545
+Gram-Schmidt,232,237,239,240,428,515     Integration by parts,122
+Graph,76,186,187,452                     Interior point method,488
+Graph Laplacian matrix,457               Interlacing,349
+Grayscale,364                            Interpolation,447
+Greece,369                               Intersection,133,179
+Grounded node,458                        Inverse formula,275,284
+Group,121,362                            Inverse matrix,24,83,255,408
+Growth factor,321,327,337,478            Inverse power method,530,532
+                                         Invertible matrix,27,88,89
+H
+                                         Isometric,416
+Hadamard matrix,241,285,313
+                                         Iteration,524
+Half-plane,7,15
+Heat equation,330                        J
+Heisenberg,296,303                       Jacobi's method,524,526,527
+Hermitian matrix,347,430,438,440         Jacobian matrix,279
+Index                                                                      569
+
+Joint probability,546,550,554           Mathematical finance,473
+Jordan form,308,421,423,429,525         Matrix,7,22,37
+Jordan matrix,422,423                   Matrix exponential,326
+JPEG, 344                               Matrix for transformation,413
+                                        Matrix inversion lemma, 562
+K                                       Matrix multiplication,58,62,70,414
+Kalman filter,218,559,560,561           Matrix powers, 74,80
+Kernel,405                              Matrix space,125,126,171,172,178,409
+Kirchhoff's Laws,145,187,189,455        Max = min,485
+Krylov space, 533                       Maximum ratio,376
+L                                       Mean,230,535,538
+Lagrange multiplier,488                 Mean square error,227
+Lanczos method,533,534                  Mechanical engineering,462,463,465,468
+Laplace transform,337                   Median,228
+Largest ratio,393                       Medical genetics, 385
+Law of Inertia,349                      Minimum of function,356,361,381
+                                        Minimum cost,483,485,486
+Law of large numbers,536
+                                        Minor,263
+Lax,317,348
+                                        Model Order Reduction,387
+Leapfrog method, 324,325,336
+                                        Modified Gram-Schmidt,240
+Least squares,220,226,239,240,396
+                                        Modular arithmetic,502,504
+Left eigenvectors,318
+                                        Monte Carlo,543
+Left inverse,83,148,397
+                                        Moore's Law,509
+Left nullspace,181,183,185
+                                        Multigrid,528
+Legendre polynomial,428,494             Multiplication,71,72,74,414
+Length, 11,438,490,491                  Multiplication by rows/ columns,36,37,72
+Line,5                                  Multiplication count,71,82,101
+Line of springs,467                     Multiplicity of eigenvalues,311
+Linear combination,1,3, 9,33            Multiplier,46,47,51,85,97,105,508
+Linear independence,164,165,167,175     Multiply pivots,251
+Linear programming,483,485              Multivariate Gaussian,556
+Linear transformation,401,402,407,411
+Linearity,45,403,411,541                N
+Loadings,390                          Nearest singular matrix,395
+Loop,187,314,453,456                  Network, 76,458,469
+Lower triangular,98                   No solution,26,40,48,220
+Lucas numbers, 312                    Nodes,187,454
+                                      Noise,219,230,427
+M                                     Nondiagonalizable matrix,306,311
+Magic matrix,44                       Nonnegative Factorization,386
+Map of Europe, 385                    Nonnegative matrix,479
+Markov equation,332,481               Nonzero solution,139
+Markov matrix,290,301,387,474,476,480 Norm,393,394,518,519
+Mass matrix,324                       Normal distribution,537,539,540
+Matching signs,342                    Normal equation,211,219
+570                                                                              Index
+
+Normal matrix,348,444                       Pivot matrix,106
+Not diagonalizable,306,312,429              Pivot variables,138,151
+Nullspace,135,147                           Pixel,364,499
+Nullspace of AT A, 203,212,217              Plane,1, 5,128
+                                            Plane rotation,498
+0                                           Polar decomposition,392,394
+Odd permutation,249,261
+                                            Polar form,285,430, 433
+Ohm's Law,189,458
+                                            Population,384,478
+One at a time,376
+                                            Positive definite,350,469,547,549
+Operation count,511                         Positive definite matrix,352,359
+Optimal solution,483
+                                            Positive matrix,474,477
+Order of importance,371
+                                            Positive semidefinite,350,354
+Orthogonal columns,224,447
+                                            Power method,388,529,532
+Orthogonal complement,197,198
+                                            Powers of A,121,305,307,310,315,525
+Orthogonal eigenvectors,340,440
+                                            Preconditioner,524,528
+Orthogonal matrix,234,241,242,295,494
+                                            Primal problem,489
+Orthogonal subspaces,195,196,203
+                                            Prime number,503
+Orthogonal vectors,194,233,430
+                                            Principal axis theorem,339
+Orthonormal basis,371,492
+                                            Principal Component Analysis,382,389
+Orthonormal columns,234,236,441
+                                            Probability,535,538
+Orthonormal eigenvectors,338,348
+                                            Probability density (pdf),538,544,555
+Orthonormal vectors,233,237
+                                            Probability matrix,547,554
+Outer product (see columns times rows),81   Probability vector,475
+Output basis,411,412,413
+                                            Product inequality,393
+p                                           Product of eigenvalues,294,300,342
+P-value,385                                 Product of pivots,248,342
+PageRank,388                                Product rule,252,266,273,554
+Parabola,226,227,464                        Projection,206,208,236,395,496,498
+Paradox,347                                 Projection matrix, 206, 209, 211, 216, 236,
+Parallel plane,41,483                                 291,415,501
+Parallelogram,3,8,277                       Pseudoinverse,198,225,392,395,399,404
+Parentheses,61,73,83                        Pythagoras,13,14,20,194
+Partial pivoting,115,508,510,516
+                                            Q
+Particular solution,151,153,334,462         Quadratic formula,309,437
+Pascal matrix,91,103,271,357                Quantum mechanics,111,296
+PCA, 382,383,389
+Permutation matrix, 49, 62, 63, 109, 113,   R
+           116,179,303,424                  Random matrix,57,541
+Perpendicular,11                            rank(AB),147
+Perpendicular distances,384                 Range,402,405
+Perron-Frobenius theorem,477,482            Rank,139,146,155,171,181,190,366,369
+Pivot, 46,47,88,137,378,508,510             Rank one matrix,140,188,318,372,400
+Pivot columns,137, 138,169                  Rank one update,562
+Pivot formula,258                           Rayleigh quotient,376,519
+Index                                                                      571
+
+Real eigenvalues,339,440                Short wide matrix, 139,171
+Recursive, 214,218,231,449,560          Shortage of eigenvectors,329
+Reduced row echelon form,86,137,138     Shortest solution,225,397,400
+Reflection matrix,235,241,291,499,514   Sigma notation,59
+Repeated eigenvalue,311,327,333         Signal processing,435,445,450
+Rescaling,496,552                       Similar matrix,307,318,416,421,429
+Residual, 224,524                       Simplex method,486
+Reverse order,84,85,110                 Simulation,472
+Right hand rule,278,280                 Sine matrix,344
+Right inverse,83,397,448                Singular matrix,27,88,225,251
+Right triangle,13,14,194,220            Singular value,367,368,371,520 (see SVD)
+Roots of 1,435,442,445                  Singular value matrix,416
+Rotation, 15,392,394,496                Singular vector,367,371,416
+Rotation matrix,294,414                 Skew-symmetric matrix,119,295,334,437
+Roundoff error,510,520                  Slope,19,31
+Row at a time,22,23,38                  Snapshot,387
+Row exchange,49,58,63,115,247,256       SNP,384,385
+Row picture,31,32,34                    Solvable,127,130
+Row rank,150                            SOR,527,532
+Row space,168,182,443                   Span,128,134,164,167,200
+Rules for vector spaces,131             Spanning tree,314
+Rules for determinant,249,254           Sparse matrix,101,508,513,559
+Runge-Kutta,337                         Spatial statistics,385
+s                                       Special solution,135,137,140,149,158
+Saddle point,117,358,361                Spectral radius,522,525,534
+Same eigenvalues,308,318                Spectral Theorem,339,340,343
+Same length,235                         Spiral,323
+Sample covariance matrix,382,547        Splitting,200,222,260,524,531
+Sample mean,535,547,550                 Spread,536
+Sample value,535,544                    Spreadsheet,12,375
+Sample variance,382,536                 Square root matrix,353
+Scalar,2,32,124                         Square wave,492,494
+Schur,343,363                           Squashed,410
+Schur complement,75,96,270,357          Stoichiometric matrix,461
+Schwarz inequality,11,16,20,393,490     Stability,307,319,325,326,375
+Scree plot,389                          Standard basis,169,415,421
+Second derivative matrix,356,361        Standard deviation,536
+Second difference,344,357,464           Standard normal (Gaussian),545,555
+Second eigenvalue,477                   Standardize,541,542,552
+Second order equation,322,333           State equations,559
+Semidefinite matrix,354                 Statistics,38,230,384
+Sensitivity,478,482                     Steady model,561
+Sherman-Woodbury-Morrison,562           Steady state,290,332,474,476
+Shift by Uo,402                         Stiffness matrix,324,462,469
+572                                                                        Index
+
+Stirling's formula,543                  u
+Straight line,223,231                   U.S. Treasury,389
+Stretching,279,392,394                  Uncertainty principle,296,303
+Stripes on flag,369                     Underdamping,337
+Submatrix,38,146,263                    Underdetermined,154
+Subspace,123,125,126,130,132            Uniform distribution,537,539
+Sum matrix,29,90,276                    Unique solution,153,168,200
+Sum of eigenvalues,294,300              Unit circle,432
+Sum of errors,228                       Unit vector,13,14
+Sum of spaces,179                       Unitary matrix,430,441,446
+Sum of squares,353                      Unsquared errors,559
+Super Bowl,387                          Update,214,218,559,560,562
+Supercomputer,509                       Upper left submatrix,259,352
+SVD, 364,370,372,392                    Upper triangular,46,87
+Symmetric factorization,116             V
+Symmetric matrix,87,111,338             Vandermonde,256,269,447
+                                        Variance,230,535,537,539,545,551
+T
+Table of eigenvalues,363                           x,
+                                        Variance in 558
+                                        Vector addition,2,32
+Test, 350,359
+                                        Vector space,123,124
+Test for minimum,356,361
+                                        Vertical distances,220,384
+Three-dimensional space,4
+                                        Voltage,187,454,457
+Tic-tac-toe,193
+                                        Volume,42,278
+Time to maturity,389
+TOP500,509                              w
+Total least squares,384                 Wall,203
+Total variance,383,389                  Wave equation,330
+Trace,294,300,316,325,380,383           Wavelets,245
+Training set, 386                       Web matrix,387
+Transform,236                           Weight function,426
+Transformation,401,402                  Weighted least squares,557
+Translation matrix,496                  White noise,557
+Transpose matrix,109,117,122,417        y
+Transpose of inverse,110                Yield curve,389,390
+Trapezoidal,336
+Tree, 187,314,453                       z
+Trefethen-Bau,528                       Zero determinant,247
+Triangle area,276                       Zero nullspace,138
+Triangle inequality,16,17,20,393,523    Zero vector,2,3,166,167
+Triangular matrix,52,89,100,251
+Tridiagonal matrix,87,107,268,363,377
+Triple product,112,281,286
+Turing,504
+Two-dimensional Gaussian,555
+Index                                                                             573
+
+Index of Symbols and Computer Codes
+A=LDU,99                     (AB)- 1 = B- 1 A-1, 84        chebfun, 428
+A=LU,99,114,378              (AB)C = A(BC), 70             Fortran, 39
+A=QR,239,240,378             [A b] and [A I],149           Julia, 16,38,39
+A=QS and KQ,394              det(A-Al)=0,292,293           LAPACK, 100, 378, 509,
+A=U�V T , 372,378            C(A) and C(AT ),128           515,529
+A=UV T , 140                 N(A) and N(AT ),135           Maple, 38
+A=BCB-1,308                  e n , 430,444                 Mathematica, 38
+A=BJB- 1, 422,423            Rn ,123,430                   MATLAB, 16, 38, 43, 88,
+A=QR,239,513,530,532         SU T, 134                     115,240,303
+A=QTQ- 1, 343                S + T, 134,179                MINRES, 528
+A=XAX-1, 304,310             Sn T, 133,179                 Python, 16,38,39
+A k =XAk x-1,307,310         V _1_, 197,204                R, 38,39
+A + = v�+ u T ,395           z,123,125,137,173
+AT A,112,203,212,372         £ 1 and £ 00 523
+                                       ,
+
+
+AT Ax=A T b,219              i,j,k, 13,169,280             Code Names
+AT CA, 362,459,467           u X v,279                     amd, 513
+p=A(AT A)- 1 AT , 211        x+ =A + b,397                 chol,353
+PA=L U,114                   N(0, 1),555                   eig,293
+QT Q= I, 234                 mod p, 502,503                eigshow,303,380
+R=rref(A), 137               NaN, 225                      lu,103
+S=AT A,352,372               -1, 2,-1 matrix,259,368,      norm,17,392,518
+S=LDLT , 342                         523                   pascal,95
+S=QAQ T , 338,341,353         3 by 3 determinant,271       plot2d,406,410
+e At ,326,328,334                                          qr,241,246
+e At =Xe At x- 1, 327                                      rand, 370
+(A-AI)x=0,292                Computer Packages             rref, 88,137
+(Ax) T y = xT (AT y),111     ARPACK,531                    svd, 378
+(AB)T =BT AT ,110            BLAS,509                      toeplitz, 108
+
+
+
+
+               Linear Algebra Websites and Email Address
+math.mit.edullinearalgebra    Dedicated to readers and teachers working with this book
+ocw.mit.edu MIT's OpenCourseWare site including video lectures in 18.06 and 18.085-6
+web.mit.edu/18.06   Current and past exams and homeworks with extra materials
+wellesleycambridge.com     Ordering information for books by Gilbert Strang
+linearalgebrabook@gmail.com      Direct email contact about this book
+   574                                         Six Great Theorems/ Linear Algebra in a Nutshell
+
+
+   Six Great Theorems of Linear Algebra
+Dimension Theorem All bases for a vector space have the same number of vectors.
+Counting Theorem Dimension of column space + dimension of nullspace = number of columns.
+Rank Theorem Dimension of column space = dimension of row space. This is the rank.
+Fundamental Theorem The row space and nullspace of A are orthogonal complements in Rn .
+SVDThere are orthonormal bases (v's and u's for the row and column spaces) so that Avi = CTiUi.
+Spectral Theorem If AT = A there are orthonormal q's so that Aqi = >..iqi and A = QAQ T .
+
+
+
+
+    LINEAR ALGEBRA IN A NUTSHELL
+                           (( The matrix A is n by n ))
+     Nonsingular                                  Singular
+    A is invertible                               A is not invertible
+    The columns are independent                   The columns are dependent
+    The rows are independent                      The rows are dependent
+    The determinant is not zero                   The determinant is zero
+    Ax= 0 has one solution x = 0                  Ax= 0 has infinitely many solutions
+    Ax=b has one solution x=A- 1 b                Ax= b has no solution or infinitely many
+    A has n (nonzero) pivots                      A has r < n pivots
+    A has full rank r = n                         A has rank r < n
+    The reduced row echelon form is R = I         R has at least one zero row
+    The column space is all of Rn                 The column space has dimension r < n
+    The row space is all of Rn                    The row space has dimension r < n
+    All eigenvalues are nonzero                   Zero is an eigenvalue of A
+    AT A is symmetric positive definite           AT A is only semidefinite
+    A has n (positive) singular values            A has r < n singular values
+
